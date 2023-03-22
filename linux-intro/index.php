@@ -102,7 +102,7 @@ LINUX
 Oncelikle kavramlari kafamizda iyi oturtalim 
 Linux tek basina bir isletim sistemi degildir nedir peki bir kernel-yani cekirdektir
 GNU (Gnu is Not Unix/GNU Unix Değildir), açık kaynak hareketinin doğrultusunda geliştirilen araçların içinde bulunduğu ücretsiz ve herkes için ulaşılabilir bir işletim sistemidir.
-NU için her şey her daim güllük gülistanlık değildi. GNU, içerisinde kendine ait güçlü araçları bulundurmasının yanı sıra kararlı bir çekirdeğe sahip değildi. Çekirdek için denemeler yapılmış ancak kararlı bir çekirdek oluşturulamamıştı.
+GNU için her şey her daim güllük gülistanlık değildi. GNU, içerisinde kendine ait güçlü araçları bulundurmasının yanı sıra kararlı bir çekirdeğe sahip değildi. Çekirdek için denemeler yapılmış ancak kararlı bir çekirdek oluşturulamamıştı.
 
 Tam da bu noktada Linus Torvalds’ın geliştirip topluluğa sunduğu ve topluluk doğrultusunda geliştirdiği çekirdek yazılımı, GNU ile tencere kapak uyumu olacak şekilde bir araya geldi.
 
@@ -126,7 +126,7 @@ SHELL(KABUK)
 Grafiksel arayuzun sunulmamasi demek, bizim windowsdaki gibi maus la karsimiza bir ekran gelmesi ile o ekran da iste dosya tasimasi, vs gibi herseyi maus ile araclar vasistasi ile veya direk icin de buludngumuz grafiksel arac ile yapabilmemizdir ancak iste server yonetim islmeleri gibi islemler  yaparken bize boyle bir grafiksel arayuz verilmeyecektir bu da su demektir ki, biz server islemleri yaparken tamamen komut satirinda islem yapcagiz baska turlu islem yapma olanagimiz yok ondan dolayi da komut satirlarini cok iyi bilmemiz gerekir server ile ilgili islemler yapacaksak eger
 
 
-SHELL(KABUK)-LINUX-KERNEL KULLANICIDAN GELEN EMIRLERI DIREN ANLAYAMAZ ANCAK SHELL(KABUK) SAYESINDE KULLANICIDAN GELEN EMIRLERI ANLAYABILIR YANI KULLANICI ISTER ARAC KULLANSIN ISTER DIREK SHELL DE KOMUT YAZSIN ASLINDA ARKADA KULLANICI EMIRLERI SHELL-KABUK ARACILIGI ILE CEKIRDEGE ULASACAKTIR 
+SHELL(KABUK)-LINUX-KERNEL KULLANICIDAN GELEN EMIRLERI DIREk ANLAYAMAZ ANCAK SHELL(KABUK) SAYESINDE KULLANICIDAN GELEN EMIRLERI ANLAYABILIR YANI KULLANICI ISTER ARAC KULLANSIN ISTER DIREK SHELL DE KOMUT YAZSIN ASLINDA ARKADA KULLANICI EMIRLERI SHELL-KABUK ARACILIGI ILE CEKIRDEGE ULASACAKTIR 
 
 KULLNICI- SHELL-KERNEL
 SHELL-KULLANICI ILE KERNEL ARASINDA ARACI BIR KATMANDIR
@@ -242,16 +242,20 @@ Dikkat edelim sudo nano etc/bash.bashrc dersek gelmez en basa / slash koymamiz g
 sudo nano /etc/bash.bashrc
 Simdi .sh uzantili betik dosyamizin konumunu bu dosyaya uygun sekilde eklemek demektir
 Bu islem icin actimiz dosyanin en altina
-PATH="home/adem/Desktop/adem/adem-zeynep/adem-zeynep-zehra/":$PATH
+COOOOOK ONEMLI DIKKKKAT ETMELIYZ..... 
+PATH="/home/adem/Desktop/adem/adem-zeynep/adem-zeynep-zehra/":$PATH
+COOOK ONEMLI...HOME BASINA / VE EN EON KLASOR ISMI OLAN adem-zeynep-zehra/ sonuna da slash koymayi unutmayalim...yoksa path de veridigmi adresi bulamaz... 
 
 BURDA SUNA DIKKAT EDELIM...EN BAS HOME KOMUTUNDAN ITIBAREN YOLUNU DOGRU YAZMAMIZ VE BULMAMZ GEREKECEKTIR...  COK ONEMLI... 
 dosyanin en altina bunu ekleriz
 ctrl-x e tiklariz ve kaydedilsin mi sorusuna Y-YES diye cevap yazariz
 y ye basinca da dosya ismini ayni isim ile kaydedip kaydetmmeyecegmiizi sorar ayni isimle kaydetmeyiz yoksa dosya yi sistem okuyamayacaktir
+PERMISSION DENIED HATASI  VE SEBEBI....
 Biz ctrl-x ile kaydetmeye calistik permission denied hatasi aldik bunun sebebi sudur 
 Biz nano  yu acarken sudo ile yetkili root kullanici olarak acmadik ondan dolayi onun icin tekrar nano ile dosyamizi acarken bu sefer
 sudo nano /etc/bash.bashrc diye acarak ayni islemi yapip ctrl-x ile kaydedip ayni dosya ismi ile cikariz
 Bu sekilde path-environment variable  a eklenmis oldu yolumuz
+ENVIRONMENT VARIABLE DAKI DEGISIKLIKLERIN TANINMASI ICIN YA OTURUMU YENIDEN BASLAT- YA DA SOURCE KOMUTU KULLAN...
 Ancak yapilan ddegisikliklerin gecerli olmasi icin ya sistemin yeniden baslatilmasi gerekir ya da olustudugmuz degsikikliklerin tekrar source komut ile konfigure edilmesi gerekir
 Bir dosya icinde yapilan degisikligin tekrar konfigure edilip bize yansitilmasi icn source komutu kullanilir
 source /etc/bash.bashrc diyerek yaptigmiz degisikligin tekrar konfigure edilmesini saglayabilirz
@@ -261,11 +265,13 @@ path ortam degiskenine bizim ekledigmiz path- eklenmis mi onu check edecek olurs
 echo $PATH YAZDIGMIZZ ZAMAN KARSIMIZA home/Desktop/adem/adem-zeynep/adem-zeynep-zehra/:.. bu sekilde gelecktir 
 Demekki ekledimgz path environment variable  a eklenmis demektir
 Simdi son bir ayar gerkiyor, bu da yetkilendirme islemi
+PERMISSION DENIED.... HATASI
 Bizim dosya komutunu bulmasinna ragmen permission denied hatasi verecektir ondan dolayi.. 
 bizim bu durumu cozebilmemiz icin komut .sh dosyamizin bulundugu dosya konumuna giderek
 home/adem/Desktop/adem/adem-zeynep/adem-zeynep-zehra chmod +x new-file.sh 
 komutunu girmemiz gerekiyor
 Bu sekilde dosyamiza calistirma izni de vermis olyoruz
+DOSYA EXECUTABLE  YAPMAK
 chmod +x ile executable yapmis oluyoruz o dosyayi
 Dosyayi cagirmak su sekildedir
 ./new-file.sh   ./ demek bu dizin altindaki demektir direk yazarak calistiramayabiliriz mutlaka bu sekilde yazilmasi gerekir, ama biz path de kaydederken PATH="home/adem/Desktop/adem/adem-zeynep/adem-zeynep-zehra/":$PATH  bu sekilde kaydedip en son da / yaazdigimiz icin biz direk calistirabiliyoruz  new-file.sh diyerek 
@@ -290,7 +296,7 @@ hello myfriend        yazacaktir ekrana
 
 cd Desktop yapip Desktop directory ye geliriz 
 Bir.sh dosyasi executable degil iken onu nasil calistiririz 
-bash test.sh diyerek ve de cat test.sh diyerek de icerigini oldugu gibi okyabilriz
+bash test.sh, ./test.sh diyerek ve de cat test.sh diyerek de icerigini oldugu gibi okyabilriz
 
 .SH NEW-FILE.SH DOSYAMIZMI PATH UZERINDE VAR OLAN BIR PATH ENVIRONMENT VARIABLE YOLUNA DA TASIYARAK KULLANABILIRZ
 BU YUKARDA YAPTIGMIZ ILK ISLEME GORE COK DAHA GUVENLI BIR YOLDUR
@@ -516,20 +522,6 @@ Bir dosyanın çalıştırma iznini iptal etmek için:
 Yukarıdaki -x parametresini kullandığınızda bir dosyanın çalışma iznini iptal edersiniz o dosya tekrar izin verilene kadar çalıştırılamaz.
 */
 
-/*
-…or create a new repository on the command line
-echo "# Linux-works" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/Adem54/Linux-works.git
-git push -u origin main
-…or push an existing repository from the command line
-git remote add origin https://github.com/Adem54/Linux-works.git
-git branch -M main
-git push -u origin main
 
-*/
 ?>
 
