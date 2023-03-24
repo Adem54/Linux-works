@@ -415,6 +415,24 @@ oturum acgimizda ssistem burda ypatigimz degisiklikleri her seferinde gorebilsin
 Degisiklikleri yapabilmek icin oncelikle bu .baschrc dosyasini acmamiz gerekiyor
 Biz maus ile home klasorune gideriz ve orda sag ustteki 3 tane alt alta cizgi olan ayarlar ikonundan show hidden files dersek zaten gizli dosyalari gorebilecegiz orda ve orda .baschrc dosyasini gorebiliirz
 Burda ki .bashrc dosyasini  home/adem bu ikisi HOME dur environment variable da ve bu home dan onceki ana yol altinda home un da icinde bulundugu ana yol altinda etc klasoru var onun altinda .bashbashrc dosyasi var bunun ile bizim simdi actimgiz HOME(home/adem) altindaki gizli dosya olan .bashrc nin bir alakasi  yok ikisi birbirnden farkli dosyalardir karisirmayalim..
+COOOOK ONEMLI BUNU BILMEK GEREK
+HOME(home/adem)..BURAYA DIKKAT HOME DENILDIGI ZAMAN HOME=>echo $HOME ciktisi /home/adem dir yani HOME linux-ubuntuda /home/adem demektir
+
+ls / ls -l
+direk ls dersek yanyana listeliyor var olan klasor ve dosyalari ama ls -l dersek alt alta line yani satir olarak listeleyecektir
+
+
+ONEMLI... -ROOT KLASORLERINE GITMEK
+AYRICA HOME YANI (/home/adem) uzerinde iken pwd ile gorebiliriz 
+cd / dersek o zaman iste environment variable da bulunan klasor lerden usr gibi olan klasorlerin bulundugu konuma gelebiliriz...YANI ROOT A GELMIS OLURUZ
+HOME(/home/adem) de iken  cd ../../ dedgmz zaman veya cd / dedigmiz zaman ayni yere yani ROOT a geliyoruz.. 
+HOME(/home/adem) den / yaparak geldigmizde tekrar home/adem e gelmek icin cd /home/adem yapariz
+
+Normalde bu konumu .. yaparak veya cd ile bir yukari klasore giderek bulamiyoruz buraya erismek icin ozellikle 
+HOME(/home/adem) DA IKEN cd / yaparak erisebiliyoruz... 
+
+
+SHOW HIDDEN FILES- ls -a veya ls -all 
 hidden files lari listelemk icin 
 ls -a veya ls -all deriz
 simdi gizli dosya olan ve HOME altindaki dosyalarda bulunan .bashrc dosysasini nano ile acalim 
@@ -422,6 +440,9 @@ sudo nano .bashrc  ile
 burda biz kullanici olarak her oturum actimgzda degisikligin gecerli olmasi icin her oturum baslangicinda okunan bu dosyanin en altina 
 export LANG=C diyerek dilin ingilizce olmasini saglayan degisikligii yapariz
 CTRL-X ile yes deriz ve entere basarak kaydedip cikariz ve artik biz her oturum acildiginda dil seceneginn inglizce olarak gelmesini bekiiyoruz ancak degisikligi hemen alamiyoruz bunun nedeni .bashrc dosyasinin oturum acilirken tekrar okunyyor olmasi, yaptigmiz bu tarz degisikliklerin gecerli olabilmesi icin oncelikle oturum yenilememiz gerekir
+PRATIK BILGI 
+ls -l adem/adem-zeynep ile biz adem-zeynep klasoru altindaki dosyalari ve klasorleri listeleyebiliriz 
+
 (parantez icinde pratik bir bilgi  ls -l adem/adem-zeynep) bu su an uzerinde buludngumuz dizinin altindaki adem klasorunun altindaki adem-zehra dizininin altinda bulunan dosya ve klasorleri bize listeler...
 echo 
 3-SISTEM GENELINDE TUM KULLANICILARI ETKILEYEN BIR DEGISIKLIK YAPMA
@@ -433,9 +454,10 @@ ama dikkat edelim...  sudo nano etc/basch.bashrc bu  yol hatali sudo nano /etc/b
 
 Burda ornegin bir dil degisikligi yapcaksak o zaman sunu yapariz
 export LANG=fr_FR;
+BUU COOOK ONEMLI--ENVIRONMENT VARIABLE DA BIR DEGISIKLIK YAPILDIGI ZAMAN BU DEGISIKLIGIN ALGILANABILMESI ICIN OTURUMUN YENILENMESI GEREKIR---
 BU degiskligi kaydedip ciktiktna sonra ypailan degisikligin algilanmasi icin oturumun yenilenmesi gerekir...cook onemli...
 
-Yapilan degisikliig geri almak icin yapilan degisiklik dosyadan silinir ve sonra dosya kaydedlip oturum tekrar y enilenir ise o zaman yapilmis olan tum degisikler yenilenmis olacak... 
+Yapilan degisikliig geri almak icin yapilan degisiklik dosyadan silinir ve sonra dosya kaydedlip oturum tekrar yenilenir ise o zaman yapilmis olan tum degisikler yenilenmis olacak... 
 
 Konsol, kullanıcı ile Shell arasından yer alarak kullanıcının komut girmesini sağlayan grafiksel ve komut satırı arayüzüne sahip bir araçtır. Biz komutlarımızı bu araç aracılığı ile Shell'e ulaştırırız Shell ise kullanıcıdan gelen girdileri yorumlayarak Kernel'e aktarır.
 
@@ -500,6 +522,7 @@ Grep, metin dosyalarıyla çalışmak için en güçlü yardımcı programlardan
 find Komutu	
 Find komutu, bir regex ifadesine dayalı olarak bir dizin hiyerarşisindeki dosyaları arar. Kullanmak için aşağıdaki sözdizimini izleyin:
 	find ./ -name "uzun_metin_dosyası.txt"
+ARANILAN DOSYA ISMIINDEN KAC TANE VAR ISE HEPSININ UZUN YOLUNU GETIRIR	
 	Bu komutu kullandığınızda aradığınız dosyanın konumu dosya yoluyla beraber sonuç olarak karşınıza çıkacaktır.
 
 ping Komutu	
@@ -520,6 +543,311 @@ chmod +x izini_değiştirilecek_dosya
 Bunu, komutla dosyalarınızı çalıştırılabilir hale getirmek veya tam tersini yapmak için kullanabilirsiniz.
 Bir dosyanın çalıştırma iznini iptal etmek için:
 Yukarıdaki -x parametresini kullandığınızda bir dosyanın çalışma iznini iptal edersiniz o dosya tekrar izin verilene kadar çalıştırılamaz.
+
+YARDIM ALMA KOMUTLARI
+Bu cok onemlidir biz hatirlayamadigmiz her bir komut icin internete gitmemize gerek yok direk linux un bize vermis oldugu yardim komutlarini kullanarak da erisebiliriz
+
+--help komutu--
+
+hakkinda bilgi almak istedimg komut --help
+chmod --help
+help komutunun iki farkli kullanim yontemi vardir
+
+echo gibi komutlar la kullanilamiyor cunku echo kendisi karsiina yazilan degeri ekrna basiyor ondan dolayi da bu durumda helpin 2 .kullanim sekli ile bilgi aliriz 
+
+help echo  sekklinde kullaniriz
+
+Ama genellikle en cok komut --help seklinde kullanmaliyiz
+
+--man komutu -- kilavuz komutu
+Cok genis capli bilgi sunar
+man komut
+man chmod
+space tusuna basarak gelen aciklama sayfalari arasinda gecis yapabilirz
+H tusuna basarak da yine MAN KOMUTU Hakkinda bilgi aliriz 
+Q tusu ile de terminal den cikariz
+NAME:kOMUT ISMI VE ACIKLAMA
+SYNOPSIS:kOMUTUN NASIL KUllanilacagi-kullanim aciklamasi
+DESCRIPTION:Komutun yaptigi is hakkinda aciklama
+EXAMPLES:Komutun kullanimi ile ilgili ornekler
+
+man komutu komutlarla ilgili bilgi sayfalarini /usr/share/man altinda tutuyor
+root altinda yani home/adem de iken cd / yapinca ya da cd ../../ yapinca geldigimz dir root tur orda bulunyor /usr/share/man
+
+MAN-h 
+man sayfasinda iken h tusuna basarak man ile ilgili detayli bilgiyi elde edebiliyoruz
+
+WHATIS KOMUTU
+Bu komut sayesinde hangi komutun hangi man sayfasinda oldugunu bulabiliyoruz 
+/usr/share/man altinda man1, man2,man3 dosyalari var bunlarin her biri belli komut turleri icin var
+whatis  chmod dersek 
+chmod(1) - change file mode bits
+chmod(2) - change permissions of  a file
+seklinde aciklama gelir bu da su demektir demekki chmoda a ait dosyolar man1 ve man2 sayfasinda bulunyor
+Istersekde man1-man2 ye gidip check edebiliriz
+Olur da komut ile ilgili detayli bilgiyi direk dosyasindan okumak istersek de yapabilirz 
+man whatis diyerek de daha detayli bilgi elde edebiliriz 
+
+APROPOS / MAN -K KOMUTLARI
+APROPOS KOMUTU VEYA MAN -K KOMUTLARI  ILE HATIRLAYAMADIMGIZ KOMUT ISIMLERINE HARIKA BIR SEKILDE ERISEBILIYORUZ
+man-h listelenince gelir APROPOS 
+sorguladigi komutun gectigi uygulamalari listeler
+man -k chmod ile approps chmod ayni islemi yapiyor
+man kilavuz sayfalarinda detayli arastirma yapabilmis olyoruz komutun ismini hatirladik ama islevini hatirlamadik veya islevini hatirladik ama ismini hatirlamadik. Boyle durumlarda appropos ile
+
+ornegin bir komut var di silme islemi yapiyordu ne idi ne idi deyip 
+apropos remove yazarsak  veya /  man -k remove
+
+aa-remove-unknown (8) - remove unknown AppArmor profiles
+add-apt-repository (1) - Adds a repository into the /etc/apt/sources.list or /etc/apt/sources.list.d or removes an ex...
+apt-add-repository (1) - Adds a repository into the /etc/apt/sources.list or /etc/apt/sources.list.d or removes an ex...
+byobu-disable-prompt (1) - add and remove a nice color prompt to your shell configuration
+byobu-enable-prompt (1) - add and remove a nice color prompt to your shell configuration
+byobu-prompt (1)     - add and remove a nice color prompt to your shell configuration
+colrm (1)            - remove columns from a file
+cut (1)              - remove sections from each line of files
+delgroup (8)         - remove a user or group from the system
+deluser (8)          - remove a user or group from the system
+git-clean (1)        - Remove untracked files from the working tree
+git-prune-packed (1) - Remove extra objects that are already in pack files
+git-rm (1)           - Remove files from the working tree and from the index
+git-stripspace (1)   - Remove unnecessary whitespace
+ipcrm (1)            - remove certain IPC resources
+kernel-install (8)   - Add and remove kernel and initramfs images to and from /boot
+lvremove (8)         - Remove logical volume(s) from the system
+modprobe (8)         - Add and remove modules from the Linux Kernel
+psfstriptable (1)    - remove the embedded Unicode character table from a console font
+purge-old-kernels (1) - remove old kernel and header packages from the system
+pvremove (8)         - Remove LVM label(s) from physical volume(s)
+py3clean (1)         - removes .pyc and .pyo files
+remove-shell (8)     - remove shells from the list of valid login shells
+rescan-scsi-bus.sh (8) - script to add and remove SCSI devices without rebooting
+rm (1)               - remove files or directories
+rmdir (1)            - remove empty directories
+rmmod (8)            - Simple program to remove a module from the Linux Kernel
+sg_sanitize (8)      - remove all user data from disk with SCSI SANITIZE command
+unlink (1)           - call the unlink function to remove the specified file
+update-rc.d (8)      - install and remove System-V style init script links
+vgreduce (8)         - Remove physical volume(s) from a volume group
+vgremove (8)         - Remove volume group(s)
+
+bize asagidaki gibi aciklama getirir ki bu harika birseydir biz aslinda ihtiyacimz olup da hatirlamadigmiz islevleri anahtar kelimeler uzerinden hangi komutlar var  diye bu sekilde arayabilirz
+
+ORNEGIN KOMUTU
+
+apropos kill / man -k kill
+
+Aradgimiz yardimi bulamazsak man komutunu guncelleyerek bir daha arayabiliriz
+bunu da 
+mandb komutu ile yapariz
+
+chmod --help  komutu ile help chmod  komutunun çıktıları aynı mıdır ?
+Kesinlikle aynı değillerdir. `help chmod`komutu bilgi sayfasını vermez. Çünkü `chmod`komutu istisnai durum oluşturmadığı için bilgi sayfalarına ulaşmak için `chmod --help` komutu kullanılmalıdır. Bu durum tüm komutlar için geçerlidir. Eğer sorguladığınız-bilgi almak istediğiniz komut istisnai durumlara dahil değilse `help komut`şeklinde kullanım sonuç vermez. Özetle: help komutu kullanırken; istisnalar için : `help komut` , diğer komutlar için : `komut --help` şeklinde kullanılmalıdır. İstisnaları bilmek zorunda değilsiniz, gerekli durumda komutu her iki şekilde de deneyerek görebilirsiniz
+help  komutunun iki farklı kullanım şekli olduğunu biliyoruz ( help komut ve komut --help ). Peki ya iki kullanım arasından hangisi öncelikli tercihimiz olmalı ?
+Bazı linux komutlarının kullanım şekilleri nedeniyle bazen `komut --help`şeklinde girilen komut bizlere aradığımız komut hakkında yardım bilgisi vermeyebiliyor. Örneğin konsola `echo --help`yazdığımızda çıktı `--help`ifadesi olacaktır.`echo` komutu için yardım bilgisine ancak`help`komutunu `help echo`şeklinde kullanırsak ulaşabiliriz. Yani bazı istisnai durumların dışında `help` komutunun sağladığı genel olarak en yaygın bilgi içeriği`komut --help`kullanımı geçerlidir. Bu yüzden `help`komutunu kullanırken ilk önceliğiniz her zaman `komut --help`şeklindeki kullanım olmalıdır.
+
+BILGI ALMA KOMUTLARI-SISTEMIMIZDE BULUNAN HERHANGI BIR PROGRAM VS HAKKINDA BILGI ALMAMIZI SAGLAR
+BU KOMUTLARA COK SIKLIKLA BASVURUYORUZ GERCEK HAYATTA
+
+uname komutu
+bize cekirdek hakkinda bilgiler sunar
+man uname dersek uname hakkinda detayli bilgi alabiliriz
+man uname de uname i hangi parametrelerle kullanabilecegmizi gorebiliyoruz 
+
+uname -a  (-all- tum bilgileri sunuyor)
+bu bilgileri ayri ayri yazidirmak istersek
+uname -s kernel ismini verir
+uname de kernel ismini verir
+uname -n host ismini bilgisyar ismin verir
+uname -r derlenme surumu gelir 
+uname -v kernel versiyon
+uname -m veya uname machine ile  islemci-donanim bilgisi gelir - x86_64
+uname -o isletim sistemi ismi verir
+
+HOSTNAME KOMUTU 
+Biz web sitesine request gonderdigimz de arama cubuguna -url-adress cubuguna yazdimgz zaman domain ismin yaziyoruz
+cunku domain isimleri userfriendly dir ama aslinda o adres 127.2.. gibi ip adresini yazmamiz gerekirdi bu isi bizim icin kolaylastiran 
+DNS - DOMAIN NAME SYSTEM YAPISIDIR. Dns yapisi olmasa idi web adreslerine kelimler uzerinden degilde web adresinin ip adresini dogru bir sekilde hatirlamamiz gerekirdi..  
+Bunu ornek olarak telefon rehberinde egerr isim olarak kaydetmese idik direk numaralardan hangi numara kime ait hatirlayamazdik
+Bunyesinde bulunan ip adresleri ile domain isimlerini eslestirerek bizim ip adresini hatirlamamiza gerek kalmadan direk domain ismini girerek web sitelerinin server larina request gonderebilmemizi ve onlardan gelen responsu da client ta local pc mizde goruntuleyebilmmeizi saglaniyor
+DNS-DOMAIN NAME SYSTEM
+172.217.4.132 -  google.com
+77.88.55.80 - yandex.com
+DNS ASLINDA BIR NEVI KAYIT DEFTERI ISLEVI GORUYOR 
+ISTE HOSTNAME DE YEREL AG UZERINDE AYNI SEKILDE CALISIR
+SISTEM UZERINDE CESITLI UYGULAMALAR CALISABILMEK ICIN HOSTNAME E IHTIYAC DUYARLAR
+AYRICA YEREL AG UZERINDE AYGITLARIN ISIMLERI ARACILIGI ILE KOLAYCA AYIRT EDILEBILMESI SAGLANIR
+BU HOSTNAME I BIZ ISTEDIGMIZ GIBI DEGISTIREBILIRIZ 
+sudo hostname newname(istedimgi ismi veririz)
+Bu gecici olarak hostname imizi degistirebilmemizi saglar,sistem yeniden baslayinca tekrar eski hostname ismi gelecektir
+Ama kalicii olarak degistirmek istersek root ta etc klasorune geliriz orda hostname dosyamizi sudo ile acariz 
+sudo nano /etc/hostname ile acip ismi degistirirsek o zaman kalici olarak hostname ismi degistirilmis olacaktir
+Ayrica sorun yasamamak icin hostname ismini bir de etc/hosts isimli dosya icine de eklmememiz gerekir
+etc/hosts un gorevi bir nevi loca-dns gibi davranarark ip adresleri ile hostname bilgilerini eslestirmektedir
+
+hosts dosyasi
+
+127.0.0.1 localhost
+127.0.0.1 adem-HP-EliteOne-800-G1-AiO 
+
+Burda yapacagimz degisiklik sayesinde pc ip adresi ile hostname bilgisini eslestirerek yerel ag genelinde yeni hostname in gecerli olmasii saglayacaktir
+
+127.0.0.1 bu bizim pc mizin ip adresini temsil etmektedir
+Normalde ip adersi sabitlenmedigi surece degisken oldugu icin, her defasinda buraya pc nin yeni ip adresini girmek yerine bu isi bizim icin yapan 127.0.0.1 adres bilgini kullanabiliyoruz..Yani bu adres bizim surekli degisen ip adresimizin yerini tutuyor, ama eger pc de ip adresi sabit ise tabi ki dogrudan o ip adresi de 127.0.0.1 yerine eklenebilir
+Ayrica eger istersek burda birden fazla hostname tanimlamnasi yapabilirz, bu sekilde buraya ekledimgiz hostname lerden istedgimz bir tanesini sorunsuz bir sekilde kullanabiliriz
+
+lsb_release -a komutu
+man lsb_release ile de detyali bilgi elde edilebilir
+Bizim mevcut dagitimizi ilgili bilgileri veriyor
+
+whoami komutu - kimlik sorgu islevini gorur
+
+Mevcut kullanicinin hangi kimlik ile calistigini verir
+whoami komutu benim pc de adem sonucunu veriyor benim root olarak username olarak adem oldugu icin
+username i  veriyor yani
+
+who-komutu 
+sistemde hangi kullanicilarin aktif oldugunu gosterir
+
+w komutu
+Hangi kullanicinin hangi islemi gerceklestirdigini gosterir
+
+uptime komutu 
+Bilgisyarimzin ne kadar suredir acik oldugunu bize bildirir
+10:14:52 up 11 min, 1 user load average: 0,02, 0,07 ,0,08
+11 dakikadir sistemin acik oldugunu gosteriyor. Linux e giris yaptigmiz andaki kismi gosterir
+
+date- komutu tarih saat bilgilerini verir
+
+DIKKATTT--
+cal - yazarak takvim seklinde terminale yazdirabilirz
+cal diyourz hicbirse gelmiyor hemen bulmak icn man -k veya cal --help yaziyoruz ama yine birsey gelmiyoir boyle durumlarda 
+2 sey olabiilir ya guncelleme gelmis komut degismis olablir ki onda da komut islevi ni  yazarak man -k veya apropos ile arariz ya da bu aradigmiz ozellik sudo apt install ile installl edilmesi gereken birseydir ve bizim onu install etmemiz gerekecektir
+Bu linux de cok fazla yasaniyor ondan dolayi da boyle durumlarda once hemen calender
+
+Baska yila ait takvim icin ise 
+cal 1 2002 dersek 2002 nin ocak ayi takvimini getir demis oluyoruz
+
+WHICH KOMUTU 
+kullandimgz komutlarin ilgili dosyalarinin nerde oldugunu gosterir
+
+which date 
+dersek bize
+/usr/bin/date
+seklinde date komutunun dosyasinin bulundugu adresi verecektir
+
+whereis komutu
+Ogrenmek istedgimz komutun daha ayrintili konumunu veriyor
+ornegin uptime komutunun bilgi sayfalari, manuel sayfalari yani kilavuz sayfalarinin adresiini aliyoruz
+whereis uptime 
+uptime: /usr/bin/share/man/man1/uptime.1.gz
+
+locate komutu 
+yazdgimz dosya isminin gectigi tum dosyalari listeliyor bize cok harika efektif bir kullanim sunuyor.. 
+Tam olarak dizin adresini bilmedigimiz ama ismini hatirladigmz bir dosyayi bulmamiza yardimci oluyor 
+sudo apt update 
+sudo apt install mlocate
+During the installation of the mlocate package, a cron job is created that runs the updatedb command every 24 hours. This ensures the database is regularly updated. For more information about the cron job check the /etc/cron.daily/mlocate file.
+The database can be manually updated by running updatedb as root or user with sudo privileges:
+
+sudo updatedb
+
+locate index2.sh
+diye index2.sh dosyasini ararsak  bize dosya yolunu verecektir 
+
+/home/adem/Desktop/adem1/index2.sh 
+seklinde
+
+find komutuna benziyor bu acidan 
+find -name "index2.sh"
+./Desktop/adem1/index2.sh 
+
+dmidecode komutu
+
+Sistemimizde bulunan donanim ile ilgili tum bilesenler le ilgili bilgi almamizi saglayan bir komuttur
+Bios ve sistem ile ilgli detayli bilgileri veriyor 
+DMI- Desktop Manangement Interface
+
+dmidecode -t bios
+sadece bios hakkinda bilgi verir 
+man dmidecode dersek hangi numaralarin hangi sistem bilesenine denk geldigini bulabiilirz ve ordaki numarlar uzerinden de kullanabiliriz 
+
+dmidecode -t 0 -bios ile ilgili detayli bilgi verir 
+dmidecode -t 1  system ile ilgili detayli bilgi verir
+
+fdisk -l komutu 
+Bize sistemimizdeki diskler hakkinda bilgiler veriyor
+
+df komutu
+diskler ile iligli daha ayrintili bilgiler veriyor
+
+du komutu
+bulundugmuz dizindeki dosyalarin boyutlarini veriyor
+ du -h komutu 
+ buludngumuz dosya dizinindeki dosyalarin boyutlarini mg-kb cinsiinden degerlerini verir
+ free komutu 
+ o anlik kullanilan bellek ile ilgili bilgileri veriyor
+ toplam bellek, kullanilan miktar vs gibi bilgileri veriyor ve ne kadar musati yer oldugnu da veriyor
+
+ free -m  
+ ile mb cinsinden o an kullanilan bellek durumunu verir
+  free -g  
+ ile gb cinsinden o an kullanilan bellek durumunu verir
+
+stat komutu 
+stat dosya-yolu 
+seklinde belirlenir
+Bir dosya veya dizin hakkinda bize genel bilgiler veriyor
+Ornegin 
+stat Desktop diyerek Desktop klasoru hakkinda detayli bilgil alabirzi HOME adresinde iken
+Bizde klasor konumu, size i , directory su dosya izinleri, olusturulma tarihi vs herseyi veriyior
+
+vmstat komutu 
+sistemin o anki durumu hakkinda bir takim bilgiler veriyor 
+islemci, hafiza vs gibi... 
+
+vmstat 2 3 (2 yenilenme hizi-2 saniyede ve 3 defa yenilensin demektir)
+
+history komutu 
+
+Bizm linux terminalde calisirken kullandigmz komutlarin hepsini linux bir history de tutuyor onlari hemen silmiyor
+Bu komutta history komutudur ve bizim daha onceden  yapmis oldgumuz kodlari listeli bir sekilde tutuyor ve ihtiyacimiz oldugu zaman bize getirir
+
+Default olarak gecmise donuk 1000 adet komut getiriyor
+Ama bunu biz azaltip artirabiliriz 
+
+echo $HISTSIZE yazarsak 1000 olarak gelir sonuc
+Burdaki default deger olan 1000 i degstirmek icin .bashrc dosyasi icinde degisiklik  yapmamiz gerekir
+
+.bashrc dikkat edersek . ile basliyor yani bu gizli dosya demektir. 
+Gizli dosyalara erismek icin biz 
+ls -a veya ls -all yazariz 
+home/adem/Desktop altinda gelir ve ls -a veya ls -all dersek gizli dosyalar la birlikte karsimiza gelecektir 
+Orda 
+HISTSIZE=1000 Var burayi degistirip sonra oturumu yeniden baslatmamiz gerekkiyor degisiklikleri almak icin 
+tekrar history yazarsak son 100 komutun geldigni gorebilriz
+HISTSIZE=100 yaparsak bize ilk bastaki 1000 komutun son 100 komutunu getirecektir
+
+HARIKA AUTOCOMPLETE ISLEMI LINUX TERMINALDE
+Ornegin cok uzun komut yaziyoruz ve surekli kullaniyorsak  bir kere kullanip sonra
+!stat seklinde komutmuzun baslangic kismini yazmamiz  yeterlidir
+Sadece baslangic kismini bu sekilde yazdimgizda gerisini o bize getirecektir bunun aynisi windows da tab ile yapariz 
+Oncelikle history yazarak en son kullandigimz komutlari aliriz sonra da autocomplete islemi ile
+!stat yazarak en son kullandimgz komutlardan uzun komutlari tekrar yazmak zorunda kalmamiz oluruz
+
+Birde yine history ile en son kullandgimiz komutlari getiririz 
+Komutlarmiz gelirken hem numara hem de isimleri ile birlikte geliyorlar
+Biz o numaralari kullanarak da komutlarmiz getirebiliriz
+
+!1098 yazarsak en son kullandigmz komutlardan stat Desktop/adem1 komutu run edilerek gelecektir 
+
+Birde son yazdgimiz komuta erismek icin ise 
+!! kullaniriz en son hangi komutu kullandi isek onu bize getirecektir
+
+COOK KULLANISLI BESTPRACTISE DIR ASAGIDA YAZDIKLARIM DA
+Ayrica klavyemizden biz daha once kullandgimiz komutlara erismek istersek o zaman yukari ok tusu na basarak sirasi ile yukardaki komutlara dogru gecmiste kullanilan komutlara dogru cikarken alt-ok tusu ile de tekrar eskiden yeniye dogru yukardan asgiya dogru gelebiliriz.
+
+
 */
 
 
