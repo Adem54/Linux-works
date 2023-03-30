@@ -830,9 +830,11 @@ HISTSIZE=100 yaparsak bize ilk bastaki 1000 komutun son 100 komutunu getirecekti
 
 HARIKA AUTOCOMPLETE ISLEMI LINUX TERMINALDE
 Ornegin cok uzun komut yaziyoruz ve surekli kullaniyorsak  bir kere kullanip sonra
+Komutumuz ornegin stat Desktop/adem1/index2.sh ise 
 !stat seklinde komutmuzun baslangic kismini yazmamiz  yeterlidir
 Sadece baslangic kismini bu sekilde yazdimgizda gerisini o bize getirecektir bunun aynisi windows da tab ile yapariz 
 Oncelikle history yazarak en son kullandigimz komutlari aliriz sonra da autocomplete islemi ile
+!stat burda stat herhangi bir kodun ilk kelimesini temsil ediyor..yoksa ekstra dan stat in bir anlami yok onemli olan ! isareti ile bsalamaasidir
 !stat yazarak en son kullandimgz komutlardan uzun komutlari tekrar yazmak zorunda kalmamiz oluruz
 
 Birde yine history ile en son kullandgimiz komutlari getiririz 
@@ -847,7 +849,205 @@ Birde son yazdgimiz komuta erismek icin ise
 COOK KULLANISLI BESTPRACTISE DIR ASAGIDA YAZDIKLARIM DA
 Ayrica klavyemizden biz daha once kullandgimiz komutlara erismek istersek o zaman yukari ok tusu na basarak sirasi ile yukardaki komutlara dogru gecmiste kullanilan komutlara dogru cikarken alt-ok tusu ile de tekrar eskiden yeniye dogru yukardan asgiya dogru gelebiliriz.
 
+LINUX DOSYA SISTEMI HIYERARSISI
+Linux un dosya sistemi windowstan farklidir
+Siniflandirma yapilarak bir hiyearsi olusturulur 
+Tekil hiyerarsi yapisini benimsemistir
+Yani hersey / tek slash root kok dizini ile baslayip asagi dogru iner
+Root klasorunden baslayarak onem sirasina gore siralandirir
+ic ice klasorlerde klasor leri birbirinden ayirmak icin / isareti kullanir
+Herhangi bir dizin veya dosyanin sistemdeki adresi karsimiza gelirken once root-kok(/) diziinden baslar, sonra ulasmak istedigi klasor veya dosya ya kadar gecilmesi gereken hiyearsik klasorlerden tek tek gecilerek ve klasorler arasina / koyarak  elde edilir
+/home/adem/Desktop/adem1/index2.sh
 
+aenetsense@ADEM850:~$ bu sekilde kullanici adi ile gelir bu home yani HOME demektir pc  ye gore olan HOME(/home/aenetsense) ten olusur 
+Yani  root dizininden HOME a kadar otomatik acilmis olarak geliyor
+Yani terminal default olarak acildiginda biz bilemliyiz ki biz HOME dayiz 
+
+/home/aenetsense en bastaki / slash ifadesi bizim root-kok dizinimizi temsil ediyor, diger slash lerde klasorler arasi gecisi temsil eder
+
+Windowsta klasorler arasi gecisi temsil eden slah ters slashtir.. C:\Program Files\Java
+
+LINUX DE 
+echo $PATH yazarsak terminalde 
+/usr/local/sbin:/usr/local/bin: bu sekilde ENVIRONMENT VARIABLES DAKI PATH DE BULUNAN ADRESLER YER ALIR VE HER BIR ADRES ARASINDA COLON BULUNUR :
+
+WINDOWS DA 
+echo %PATH% ile yazdirabiliriz winddows promp ta
+C:\Program Files\ImageMagick-7.1.0-Q16-HDRI;C:\Program Files\Eclipse Adoptium\jdk-11.0.17.8-hotspot\bin;
+Windows da adresler arasinda ; semicolon kullanilir
+
+LINUX DE terminalde yaptimgz tum islemler case-sensitive dir yani buyuk-kucuk harf duyarliligina tabidir
+Yazaagimiz komut un veya yazacagimiz dosyanin buyuk veya kucuk harfler olmasi tamamen farkli seylerdir linux da ayni isim ama buyuk kucuk harf farkliligi olan dosyalari farkli dosya olarak kabul eder LINUX SISTEMLERI
+
+WINDOWSTA ISE CASEINSENSIVE DIR YANI WINDOWSTA BIR DOSYA OLUSTURDUGMUZ ZAMAN O DOSYA TAMAMEN KUCUK HARF ILE OLUSTURULMUS ISE BIZ AYNI DOSYA ISMINI TAMAMEN BUYUK HARF KULLANARAK BIR KEZ DAHA OLUSTURAMIYORUZ CUNKKU WINDOWS KUCUK HARFLE  YAZILMIS KLASOR ILE AYNI ISMIN BUYUK HARFLE YAZILMIS ISE BUNLARI AYNI KABUL EDIYOR 
+
+LINUX ISLETIM SISTEMINDE ki hazir komutlara ait parametrelerdeki harflerde de kucuk harf ve buyuk harflerin farkli islevleri vardir 
+ls -a 
+ls -A
+
+Windows isletim sisteminde sisteme yeni bir program yukledigmiz zaman yukledgimiz programin dosyalari C altinda ProgramFiles altinda yuklenen programin kendi adindaki klasor altina ekleniyordu. Yani windowsta yuklenen programin tum dosyalari ProgramFiles altinda programin isminin yer aldigi klasor altina toplanmistir 
+Ama Linux da bu sekilde degildir, ornegin sistem otomatik olarak yuklenen program dokumanlarini usr/share/doc/yuklenenprogram_di seklinde  yerlestirirken eger var ise info dosyalari da /usr/share/info klasoru icerisina atar
+Kisacasi Linux de yeni bir pgoram kurdugmuzda kurulan programin dosyalari otomatik olarak ilgili klasor  altina dagilacktir windows da oldugu gibi bir klasor altinda tum dosyalar tutulmuuyor
+/usr/share demek root->usr->share demektir bunu bilelim
+Cok kullanicili dagitik bir sistemi guvenli bir sekilde kurup y onetmek amaciyla bu sekilde yapilir
+Dagitik kavrami da ornegn birden cok bilgisayarin oldugu bir agda bilgisayardan birisinin ag dizinine kok dosyalari altindaki dosyalar istenildigi gibi dagitilarak bolunebilir
+
+/bin /boot /dev /etc /home /lib /media /mnt
+
+Ornegin X_Pc /bin klasoru dagitilir
+Y_Pc /home klasoru dagitilir
+
+Bu sayede fiziksel olarak birden cok bilgisayara dagilmis olan sucunu sanki tek bir kok dosya sisteminden sanki tek bir pc gibi yonetilebilir. Bu sayede hem is yuku dagitilarak sistem performansi arttirilir hemde  yetkilendirme ve y onetim kisitlamalari dahilindee sistemin ayri ayri parcalara dagilimi ile sistemde ekstra guvenlik onlemi saglanmis olur
+
+Bu dosya sistemi tekil kullanicilar icinde sagladigi guvenlik sistemi ile gereekli bir sistemdir
+Tum kullanicilar kendi yetkileri dahilinde islemleri guvenli bir sekilde yerine getirirler, bu sekilde yonetim ve gunenli saglama isi kolaylasacaktir
+
+Birseysel kullanici yetkisi yok ise kendi anar HOME(home/username) i nden daha ustteki dosyalara gidemez ya da gitse bile o dosyalari degistirme yetkisine sahip olamaz. Tum kullanicilar islemleri kendi yetkileri dahilinde yaparlar
+
+Biz pc mize birden fazla kullanici olustrabilirz ve root yetkisi olmayan bir kullanici ekleyebilriiz.. o zaman bizim root kullanici olarak ornegin ekledgimz bir dosya yi acabilir okuyabilir ama degistiremez veya silemez
+Kullanicilar sadece kendi  yetikleri dahilinde harekeet ediyorlar ve sizin dosyalariniza mudahele edemiyorlar buda guvenlik icin cok onemldir
+
+HIYERARSIK DUZENDEKI DOSYALARIN ISLEVLERI
+/bin klasoru isletim sistemin i kullanmak icin bircok komut bin klasoru altindadir
+cp,cat,mv,ls,mkdir,m, gibi bircok komut
+sistem boot edildiginde ilk olarak /bin klasoru calistirilir hale getirilir
+Sistemde ne kadar sorun olursa olsun /bin klsaorundeki komutlar calismaya devame eder ki bu sayede sistemimizdeki arizalari da yine /bin klasoru altindkai komutlarla cozebiliriz
+/boot klasoru sistemin yuklenme evresidir sistemin boot edilmesinde kullanilan dosyalar /boot klasorunde bulunur(sistem ilk acildiginda calisacak olan dosyalardir)
+/dev klasoru , linux de hersey bir dosyadir donanim aygitlari da boyledir, USB girisleri seri paralel portlar, depolama ortamlari, CD roomlar ve bunun gibi butum aygitlar /dev klasoru altinda tutulan dosyalardan ibaretttir
+Bunlari normalde programlar vasitasi ile kullaniriz ama dosya olarak da elimizde oldugu icin direk olarak da mudahele etme imkanimizda var 
+/etc klsoru : Isletim sistemini bir vucuda benzetirsek, etc sistemin merkezi, sisteme dair tum ayarlari ve bilgisyaar ozel bir cok yapilanma bilgiis burdadir
+/home klasoru : Burasi kullanicilarin kalesidir. Her bir kullanicinin kendi adinda bir alt klasor bulunur /home klasoru altinda
+/home/adem   /home/zehra
+Kullanicilarin kisisel degisiklik ve ayarlar ,yapilandirmalarin hepsi kendine ait subklasor altinda tutulur
+Ayrica kullanicilar home klasorunu kendine ait belge vs de tutabilir
+
+Tum kullanicilari gormek icin 
+cut -d: -f1 /etc/passwd
+Yeni kullanci eklemek icin sudo adduser new_username or sudo useradd new_username
+Remove  user - sudo userdel username
+modify user - usermod -l new_username old_username
+change username password - sudo passwd username
+
+/lib klasoru- Cekirdek modullleri ve paylasilan kutuphane klasorleri bu klasor altinda bulunur
+Kutuphane dosyalari sistemi baslatmak ve bin ve sbin klasorleri icerisindeki komutlari clistrmak icin gereklidir
+Bunlar windowsda dll klasorlerine karsilik gelir ve linux de lib dosyalari nin uzantisi .so dur
+
+/lib64 lib32 / 64 luk bitlik bilgisyar 32 bitlik pc ye uyumluluk ile ilgili dosylara bu sayede erisebilir
+
+lost/found 
+Eger bir dosyamiz vs kayboldu ise buraya baklamk lazim
+pc yi resetlerken veya aniden elektrik gitme durumunda dosyaslarin silinmesini onler
+Eger duzeltemeye calisip da dosyayi duzeltemezse bu klasorleri veya dosyalari lost/found klasoru altina atar
+
+/media
+kaldirilabilir aygitlarin, 
+
+mnt/
+Donanim aygitlarinin baglanma noktasidir
+windows isletim sistem i kullandigmiz pc mize eger linux-ubuntu kurup da linux e gecis yaptigimzda windowsdaki var olan dosyalara ordan erismek istersek  cd /mnt/c/Users
+
+prox/
+surecler sistembellegi, donanim yapilandirmalari 
+sistem durumuna dair sanal dosyalari barindirir 
+bir nevi bilgi alma merkezi gibi dusunebilriz
+
+cat /proc/swaps 
+sistem ile ilgili bilgiler alabiliriz
+cat /proc/cpuinfo
+islemci ozelliklerini ogreniriz
+sistemde ayarlama yapmak icin de kullanilabilir
+
+root/ 
+root- linux da her turlu yetkisi olan root kullanicilaridir
+Yani root kullanicilar icin home dizini root dizini iken normal root olmayan kullanicilar icin ise bu home/adem seklindedir
+
+home/adem  adem kullancisinin bu sekildedir
+/root  root kullanicisinin bu sekildedir
+
+root hesabi ile sisteme giris yapilmasi linux dagitimlarda pek cogunda default olarak engellenmistir cunku bu bir guvenlik zaafiyetine  yol acacagi icin
+
+/sbin 
+root kullanicisi icin kullanilabilecek onemli komut ve programlar burda bulunurken 
+daha az oneme ve normal kullanicilar tarafindan kullanilacak komutlar ise usr/sbin klasoru altinda tutulmaktadir
+usr/local/sbin  kullandigmiz makineye ozel root tarafindan kullanilacak komutlari barindirir
+
+/usr
+Isletim sisteminde kullandigmiz bircok seyle iliskisi vardir. Kurdugumuz her program usr dizini icerisine atilir
+usr dizini windows daki Program Files a benzer bir islevi vardir
+opt klasoru sistemimize disardan gelen 3.part programlar icindir fakat paket yonetici ile yukledgimiz hersey usr dizini altina atilmaktadir
+
+Tum kulllanicilarla paylasilan verileri iceren dizindir
+usr/local sadece kullandigmiz makineye ozeldir
+
+local ifadesi bunun sadece bizim makinemize ait oldugunu bilmeliyiz
+
+/tmp gecici depolama alanidir. 
+Bircok program /tmp klasorunu gecici depolama alani olarak kullanmaktadir
+
+Genellikle isletim sistemi yeniden baslatildiginda icerisindeki dosyalar silinir
+Bunun altindaki dosyalari kesinlikle silmemeliyz
+
+ROOT-DIR => / yani tekbasina / slash root u temsil eder ki bunu da zaten 
+cd / yaparak gorebiliriz ve de ayrica biz dizin olarak nerde olursak olalim cd /  yaptigmiz zaman hemen root dizinine gelebiliriz
+
+DIZIN ISLEMLERI
+pwd- o anda uzerinde bulundgumuz dizini verir
+
+cd- change directory komutu 
+directory degistirmemizi sagliyor
+cd .. bir onceki diziine doneriz
+cd -- veye sadece cd ile en bas dizine daha dogrusu home dizine doneriz home/adem
+cd - iki dosya arasinda surekli gel - git yapiyorsak cd - ile yapabilirz bunu cunku cd - bir geri alir sonra cd - yaparsak bu seferde bir ileri alir yani gidip geline iki dosya var ise oyle durumlarda cok islevseldir
+
+BURASI COOK ONEMLI BU FARKI BILELIM 
+pwd - /home/adem  dizinindeyiz orgin ve (home/adem/Desktop) Desktop dizini adem dizinin altinda bulunuyor
+biz Desktop dizinine gitmek icin 
+cd /Desktop  dersek bize No such file or directory diyecektir cunku en basa koydugumuz / root u isaret eder ve root a gider ordan sonra Desktop u arar o zaman da zaten Desktop u bulamaycaktir... ama 
+cd Desktop dersek uzerinde bulundugmuz dizin in altinda Desktop var mi ona bakar
+
+KLASORLER ARASI  YAZDIGIMZ / SLASH-ISARETI ILE EN BASA YAZDIGIMZ SLASH-/ ISARETI BIRBIRINDEN TAMAMEN FARKLIDIR
+
+ls -l  satir satir detayli olarak dosya ve dizinleri listeler
+ls satir yapmadan dosya ve dizinleri listeler 
+ls -la ile ayrinitili bir sekilde alabiliriz
+ls -a  dersek gizli dosyalar ile birlikte gelir(Gizli dosyalar basinda . olan dosyalardir)
+ls -A dersek de gelen dosya isimleri arasinda gelen  ., .. isaretlerini getirmez
+
+ls -hl dersek tum dosyalarin boyutlari ile birlikte getirecektir
+h parametresi human-readable demektir.. 
+
+ls -i (inode degeri ile birlikte verir)
+ls -Sl (l ile daha ayrintili listeler)-dosyalar boytularina gore buyukten kucuge siralanir
+
+ls -tl () olusturulma tarihlerine gore listeliyor
+
+ls -rl dosyalari terseten basabilirz(reverse-list)
+
+Dosyalarimzi boyut olarak kucukten buyuge dogru nasil siralariz 
+ls -Srl ile dosyalarimzi kucukten buyuge dogru siralayabiliriz
+
+mkdir-rm ile klasor olusturma ve silme
+make directory demektir 
+mkdir a  a klasoru olusturur 
+mkdir a,b,c,d     tek serferde 4 tnae klsor olusturur
+IC ICE KLASORLER OLSUTRABILME 
+mkdir -p adem1/adem2/adem3  bu sekilde ic ice klsorler de olusturabiliriz
+
+SILME ISLEMI 
+rm normalde dosya silmek icin kullanilir 
+ama klasor silmek icin ise 
+rm -r adem3 diye silebiliriz ancak rm -r ile silemk istedigmz klasor icinde dosya veya klasor var ise  o zaman silme islemini bu sekilde gerceklestiremez, yani rm -r ile biz icerisi bos olan klasoru silebilirz
+Ama klasorun icerisi eger dolu ise o zaman da biz 
+rm -rd adem1 dersek adem1 icindeki adem2 yi ve adem2 icindeki adem3 dosyalarn hepsini sileriz
+
+Klasorun bizden izin alinark silinmesini saglayabilriz
+rm -id a b c d  diyerek a,b,c,d klasorlerinin hepsinin silinmesini bize sorularak gerceklestirilmesini istyioruz ve her bir klasor icin bize soracaktir yes dersek silecektir 
+
+Var olan bir klasor altina da yeni klasor eklemek istersek 
+mkdir -p new/new2 diyerek mevcut new klaoru altina new2 klasoru eklemis oluruz
+
+ls -tlr
+ls -Slr
 */
 
 
