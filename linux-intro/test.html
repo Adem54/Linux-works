@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		main {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			
+		}
+	.income-btn {
+		background-color: aqua;
+		border:none;
+		padding:.2rem 1rem;
+		border-radius: .2rem;
+		cursor: pointer;
+	}
+
+	.income-btn:hover {
+		background-color: blue;
+		color: #fff;
+	}
+	</style>
+</head>
+<body>
+	<main >
+		<h3>Aylik Gider Uygulamasi</h3>
+
+		<section class="income"> 
+			<input oninput="handleInput(this)" onchange="handleOnchange(event)"  type="text" class="income-input" id="income-input">
+			<button class="income-btn" id="income-btn">Insert</button>
+		</section>
+
+		<h3 id="content"></h3>
+	</main>
+
+	<script>
+		let income_input = document.querySelector("#income-input");
+		let income_input2 = document.getElementById("income-input");
+     
+
+
+		console.log("value: ",income_input);
+
+		//oninput
+		function handleInput(input){
+			//console.log("inputttt-value: ", input.value);
+		}
+
+		//onchange event
+		function handleOnchange(evt){
+			console.log("value-ONCHANGE:	", evt.target.value)
+		}	
+
+	
+		income_input.oninput =  function(){
+		//	console.log("value-ONINPUT: ", this.value)
+		}
+
+		income_input.addEventListener("input", function(){
+			console.log("VALUE-ADDEVENT..: ", this.value)
+		})
+
+
+        let income_btn =document.getElementById("income-btn")
+         console.log("selam " , income_btn);
+
+			let htmlContent = "";
+
+		 income_btn.addEventListener("click" ,function (e) {
+
+            console.log("income_btn.value:", income_input.value);
+				//document.getElementById("content").innerHTML = income_input.value;
+				
+				htmlContent += income_input.value +"<br>";
+				document.getElementById("content").innerHTML = htmlContent ;
+
+		 }	 ) 
+	</script>
+</body>
+</html>

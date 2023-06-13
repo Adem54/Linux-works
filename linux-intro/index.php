@@ -359,6 +359,8 @@ Yani ornek senaryo da yazilimci eger desktop konumuma erismek ister ise o zaman
 Once home dizinine eriseiblir (environment variable da da bulunuyyor) 
 home/adem/Desktop
 
+printenv ile tum environment variables a erisebiliriz!!!!!!!!!!!!!!!! 
+
 terminal de printenv yazinca asagida bircok deger siralaniyor
 ve burda biz HOME ortam degiskeni ni sayesinde kullanicinin ismini bilmeden kullanicinin home dizinine kolaylikla erisebilyoruz
 .
@@ -1048,7 +1050,1108 @@ mkdir -p new/new2 diyerek mevcut new klaoru altina new2 klasoru eklemis oluruz
 
 ls -tlr
 ls -Slr
+
+Linux da icinde bir veya birden cok komutlarin oldugu dosya sh dosyasidir ve ./compandroid.sh seklinde calistirilir 
+Windowsda ise icinde bir veya birden cok komutlarin oldugu dosya .bat dosyasidir ve compandroid.bat seklinde calistirilir
+
+htop komutu
+Bu komut windowsdaki taskmanager islevini yerine getirir yani ne bilgisayarin hafizasinin ne kadari hangi uygulamalara kullaniliyor bunu bu komutla anlayabiliriz takip edebiliriz 
+
+node.js i biz apt paket yoneticisi ile kurmamaliyz cunku eski surumu kuruyor..son surumu kurabilmek icin onu diger yontemlerle kuracagiz veya internette arastirip linux da node.js son surumu nasil kurabiliriz diye check ederek bulacagiz.. 
+
+df komutu
+diskler ile iligli daha ayrintili bilgiler veriyor
+Disklerin ne kadar bos ne kadar dolu oldugunu burdan kontrol edebiliriz
+
+uname -a komutu
+kullandigimz linux systemi ile ilgili bilgileri aliriz
+
+Linuxde dosya indirme vs islemlerinde kullanilan curl vs gibi tool lar i once sudo apt ile kurup ondan sonra bu araclari baskaislemler icin kullanmaliyiz
+
+Linux de snap- curl gibi paket indirme islemlerinde kullanacagimz paketler vardir.. 
+
+UBUNTU DA EGER ANDROID STUDIO GIBI WORKBENCH GIBI UYGULAMALARI DIREK DOWNLOAD A TIKLAYARAK DOSYALARINI INDIRIRSEK UBUNTU ICIN..BUNLAR DOSYALARININ ICERISINDE .SH EXECUTE EDILEBILIR .SH DOSYALARI ILE GELECEKTIR...BIZ NORMALDE WINDOWSDA .EXE DOSYALARI ILE GELIR VE DIREK CIFT TIKLAYARAK SETUP I UZERINDEN MANUEL OLARAK ELLE KURARDIK ISTE BU ISLEM LINUX DA SOYLE OLUYOR.... .SH DOSYASNI BULUP ONU CALISTIRIRZ YA DA 
+SUDO APT INSTALL ./MYSQL-WORKBENCH-COMMUNITY
+DOWNLOAD BOLUMUNDEN PAKETLER INDIRILDIKTEN SONRA LINUX DA BUNLARI KURMAK ICIN..
+Downloads bolumune .deb paketi inder										
+Simdi bu paketi terminalden install ederiz										
+Bu inen paket zaten install edilebilecek bir paket… Ve linux de bir paket calistirilrken execute ederken o paketin oldugu dizine gidilir ve ./paketadi.deb dersek paketi install etmis oluruz..	
+sudo apt install ./package_name.deb 
+diyerek burda uzantisi .deb idi mysqlworkbench kurulumunun ama farkli farkli uzantlar da olabilir.. 
+AMA BIR DOSYAYI LINUX-UBUNUTUDA EXECUTE EDERKEN ./packagename.deb seklinde ederiz ama windows da direk gidip setup dosyasina .exe ye cift tiklayarak yapardik bu islemi
+Bir dosyayi download edip sonra da bunu sudo apt ./packagename.deb ile install ettikten sonra linux de sol en altta menu-iconu-(show applications) a tiklariz ve arama kutucugunda indirdigmiz paketi arariz workbench yazariz bu hep bu sekildedir... YANI biz sudo apt install ./packagename.deb yapinca kurulan workbench applications arasina gelmis oluyor
+
+mysql-ile ilgili komutlar
+sudo systemctl status mysql.service -  su an servis aktif mi degil mi check edilir
+sudo systemctl start mysql.service
+sudo systemctl stop mysql.service
+
+
+EGER USER IN SIFRESI VAR ISE BU SEKILDE GIRILIR
+sudo mysql -u root -p;			
+password			
+EGER USER IN SIFRESI YOKISE DE BU SEKILDE GIRILIR
+sudo mysql -u root;
+Enter ile girilir sifresiz
+
+
+LINUX DE TYPESCRIPT KURARKEN ONCELIKLE.
+NODE.JS KURULU OLMALIDIR..VERIYONU ONEMLI SON VERSIYONLAR OLMALIDIR 
+
+sudo npm install -g typescript
+tsc ile versiyon ve yuklenip yuklenmedigini de gorebiliriz
+
+LINUX DE DOWNLOAD ISLEMI.. .ZIP DOSYALARI
+Normalde uzerine tikladigmz zaman download islemini baslatan url e ihtiyacimiz var bizim yani download islemini gerceklestiren endpoint hangisi ise onu aliip linux terminal de 
+wget https://... seklinde terminal uzerinden request gondererek download islemini gerceklestiririz.. 
+Burda suna dikkat edelim..biz download kodlarini terminalde wget https:// nerde run ediyorsak hangi klasor uzerinde run ediyorsak oraya indirecektir ve de ismi bazen direk indirdgimz dosya ismi olmayabilir ismi ornegin download olabiliyor...
+
+LINUX DE DOWLOADED EDILMIS .DEB UZANTILI BIR DOSYAYI NASIL INSTALL EDERIZ 
+
+dpkg command is used for to install package... 
+
+sudo dpkg -i package_name.deb 
+AYRICA SUDO APT INSTALL ILE DE AYNI SEKILDE .DEB  UZANTILI DOSYAYI KURABILIYORUZ
+sudo apt install ./package_name.deb 
+
+Resolve dependencies..If the installation fails due to missing dependencies, you can use the following to fix it: 
+sudo apt-get install -f 
+
+BIR KURULUM DA LINUX DE ORNEGIN JAVA KURULUMU YAPMAK ISTIYORUZ JAVA-VERSION17 KURULUMU 
+geoserver icin java jdk version 17 kurulumu yapacagimz zaman oracle in sitesine biz zaten geoserver kendisi kurulumu anlatirken yonlendirir ve biz orda version 17yi secince asagidaki secenekelri bizim linux icin kullanabilecegimzi goruruz biz boyle durumlarda .deb uzantili dosyalari indirecegiz her zaman unutmayalim
+
+Product/file description	File size	Download
+ARM64 Compressed Archive	172.12 MB	
+https://download.oracle.com/java/17/latest/jdk-17_linux-aarch64_bin.tar.gz ( sha256)
+ARM64 RPM Package	171.87 MB	
+https://download.oracle.com/java/17/latest/jdk-17_linux-aarch64_bin.rpm ( sha256)
+x64 Compressed Archive	173.30 MB	
+https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz ( sha256)
+x64 Debian Package	148.86 MB	
+https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.deb ( sha256)
+x64 RPM Package	173.04 MB	
+https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm ( sha256)
+
+
+
+Biz indirme  yapacagimz dosya nin dir uzerine geliriz 
+cd Downloads 
+sudo wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.deb seklinde bu dosyayi download ederiz 
+Ardindan dosyamiz indigi zaman, bu dosyayi kurmak icin de 
+dpkg .....deb ile installtion i  yapariz.. 
+
+LINUX DE SERVICE LER LE CALISMAK--VERITABANI SERVICE
+POSTGRESQL
+MYSQL
+GEOSERVER
+
+Ornegin bir postgresql kuruldugu zaman, service lerin baslatilmasi gerekir 
+sudo service postgresql start-UBUNTU - SUDO SYSTEMCTL START POSTGRESQL 
+Service nin baslatilip baslatilmadigin i kontrol etmek icin  
+sudo sercive postgresql status - SUDO SYSTEMCTL STATUS POSTGRESQL
+Service yi yeniden baslatmak icin 
+sudo service postgresql restart - SUDO SYSTEMCTL RESTART POSTGRESQL
+Service yi durduracagimiz zaman 
+sudo service postgresql stop - SUDO SYSTEMCTL STOP POSTGRESQL
 */
+
+
+/*
+Once java jdk  11 ya da 17.versiyon kurulumu onu check ederiz				
+				
+java --version ile				
+				
+Kurulu degil ise java jdk-17.versiyonu kurariz				
+				
+Ardindan ise, 				
+				
+To check Ubuntu version:				
+uname -a				
+				
+ubuntu@ip-172-31-42-131:~$ uname -a Linux ip-172-31-42-131 5.15.0-1028-aws #32-Ubuntu SMP Mon Jan 9 12:28:07 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux				
+				
+Step #1:Download and Install Oracle Java 17 on Ubuntu 22.04 LTS				
+				
+This link takes you to the Oracle home website Oracle Java JRE, go to Java SE 17 and Click on Download as shown below.				
+				
+				
+				
+After clicking on Download copy the link address from here				
+Now run the command using wget:				
+				
+wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.deb				
+				
+Finally, install Oracle Java JDK 17 using the dpkg command.				
+				
+sudo dpkg -i jdk-17_linux-x64_bin.deb			
+
+				
+Step #2:Reinstall Oracle Java 17 on Ubuntu 22.04 LTS				
+				
+If the Oracle Java 17 installation was NOT successful, run the following commands				
+				
+sudo apt-get update				
+				
+sudo apt-get clean				
+				
+ sudo apt-get autoremove				
+				
+  sudo apt --fix-broken install				
+				
+Run installation file again:				
+				
+sudo dpkg -i jdk-17_linux-x64_bin.deb				
+				
+Step #3:Update Java alternatives on Ubuntu 22.04 LTS				
+				
+In some cases, you may need to install Oracle JDK 17 on the PATH location.				
+				
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-17/bin/java 1				
+				
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-17/bin/javac 1				
+				
+Step #4:Verify Java Version on Ubuntu 22.04 LTS				
+				
+After installing JDK, use the below command to verify the version				
+				
+java -version				
+				
+java version "17.0.6" 2023-01-17 LTS Java(TM) SE Runtime Environment (build 17.0.6+9-LTS-190) Java HotSpot(TM) 64-Bit Server VM (build 17.0.6+9-LTS-190, mixed mode, sharing)				
+				
+javac -version				
+				
+ubuntu@ip-172-31-42-19:~$ javac -version javac 17.0.6				
+				
+Step #5:Set the Java Environment Variables on Ubuntu				
+				
+ sudo update-alternatives --config java				
+				
+   And copy the path till “jdk-17” (i.e. “/usr/lib/jvm/jdk-17/”)				
+				
+   Open Environment File				
+				
+sudo nano /etc/environment/				
+				
+  Get to the last line and add JAVA_HOME=”/usr/lib/jvm/jdk-17/”)				
+				
+Step #6:Load the Java Environment Variables on Ubuntu				
+				
+Load the Java Environment Variables in Ubuntu 22.04 LTS				
+				
+ source /etc/environment/				
+				
+Check JAVA_HOME and Oracle Java 11 path 				
+				
+echo $JAVA_HOME				
+				
+ubuntu@ip-172-31-42-19:~$ echo $JAVA_HOME				
+/usr/lib/jvm/jdk-17				
+				
+
+ENVIRONMENT VARIABLES 
+
+print env veya 
+echo $JAVA_HOME seklinde environment variable e eklemis olan bir key in value sini okuyabiliriz dogru eklenmis ise eger..  
+
+Environment variable a yeni bir data eklendiginde oturumun da  yenilenmesi gerekeir yapilan degisikligin dogru okunabilmesi icin
+
+1- sudo nano /etc/environment/  diyerek biz environment sayfasini acariz ver orda bizim ornegin projelerimzde direk environment variable dan dogrudan erisilmesini istedigimiz, veritabani bilgileri gibi bilgiler ilk olarak proje ayaga kalkarken burdan alinir bu bilgiler ver burdaki isaret edilen dosyalar araciligi ile okunur ve veritabani baglantilari vs saglanarak islem ilerletilir
+				
+
+
+The main difference between /etc/environment and /etc/bash.bashrc is their scope and purpose:
+
+Scope:
+
+/etc/environment: This file sets system-wide environment variables that are accessible to all users and processes on the system. Changes made here will affect the entire system.
+/etc/bash.bashrc: This file is specific to the Bash shell and is executed for each user when they open a Bash shell. It sets environment variables locally for that user's Bash sessions only.
+Purpose:
+
+/etc/environment: This file is typically used to define global system settings and environment variables that are required by all users and processes on the system. It is commonly used for configuring paths, language settings, and other system-wide variables.
+/etc/bash.bashrc: This file is used to customize the user's Bash shell environment. It allows users to define aliases, functions, and user-specific environment variables for their interactive shell sessions.
+Regarding precedence and the order of preference:
+
+When a user opens a Bash shell, the first file loaded and executed is /etc/profile. This file usually sources the /etc/bash.bashrc file, which means the settings in bash.bashrc will be applied after the global settings from /etc/environment.
+
+If the same environment variable is defined in both files, the value from /etc/bash.bashrc will take precedence for that specific user, overriding the value set in /etc/environment for that user's Bash sessions.
+
+However, it's important to note that the environment variables set in /etc/environment will still be available to other non-Bash processes and system-wide operations, regardless of what is set in bash.bashrc.
+
+Regarding the consequences of making mistakes:
+
+If you make a mistake or introduce incorrect syntax in the /etc/environment file, it can potentially cause system-wide issues since it affects all users and processes. Therefore, it is important to be cautious when modifying this file.
+
+On the other hand, if you make a mistake in the bash.bashrc file, it will only affect the specific user's Bash shell sessions. You can easily undo the changes by restoring the original contents of the bash.bashrc file.
+
+In summary, /etc/environment sets system-wide environment variables for all users and processes, while /etc/bash.bashrc sets environment variables specific to a user's Bash shell sessions. The preference order is /etc/bash.bashrc first and then /etc/environment. Mistakes in /etc/environment can have broader consequences, while mistakes in bash.bashrc affect only the user's Bash sessions and can be easily undone.
+
+Example- /etc/environment icinde biz linux de asagiki islemleri tutarak veritabani vs ilk olarak proje ayaga kalkarken okunacak bilgilier buraya yerlestiririz ki hicbir zaman proje ayaga kalkarken dosyalari bulma sorunu vs yasamayalim..Birde hem windows-hem linux vs kullanirken dosya konumlari ile ilgili bazi degisikliklerden dolayi en ufak bir hata da veritabani vs bilgileri okunmadiginda daha projemizi ayaga bile kaldiramayiz bu tarz seylerden, hatalardan kacinmak icin, environment variable e ekeriz sonra burdaki adres lere php uzerinden direk bir fonkiyon ile kolayca eriserek isimzi saglama ve garantiye almis oluyoruz... 
+TABI DOSYA ERISME VS OLDUGUNDA LINUX DE AKLA DIREK DOSYA IZINLERI GELIR BUNLARA DA DIKKAT ETMEK GEREKIR
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/>					
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"					
+ANDROID_HOME="/home/adem/Android/Sdk"					
+nss_inipath=/home/adem/ini				
+
+
+
+UBUNTU DA KURULUMDAN SONRA PROGRAMLARIN YUKLENMESI
+VSCODE
+CHROME 
+1-Once linux-ubuntuya uyumlu bir sekilde .deb dosyasi download edilir 
+sudo wget https...ile de yapilabilir direk terminal uzerinden eger, download url i biliniyorsa ya da direk ubuntuya gore download linki uzerinden indirilir debian uzantili dosya(.deb demek .exe demektir microsofttaki)
+2-Sonra .deb uzantili indirilen dosya install edilir 
+dpkg -i google-chrome....deb
+3-Sonra da sol alttaki menu butonuna tiklanarak search arama kutucugundan install ettgimz ornegin chrom, vscode aranarak orda uzerine tiklanarak artik kullanabilmemiz saglanmis olur... 
+
+ORNEGIN JAVA-17 YI UBUNTUYA KURDUK KI BUNUN ICIN GIDIP DE .DEB DOSYASINI BULUP DA KURALIM DEMEMIZE HIC GEREK YOK CUNKU ZATEN UBUNTU TERMINAL BUNU DESTEKLIYOR DIREK KENDISININ JAVA YI INDIRME KODUNU YAZABILIRIZ... 
+ARDINDAN JAVA NIN NEREYE KURULDUGUNU GORMEK ICIN  
+SUDO UDPATE-ALTERNATIVES --CONFIG JAVA
+SONRA SUDO NANO /ETC/ENVIRONMENT
+I ACIP 
+JAVA_HOME = /USR/LIB/JVM/JAVA-17-OPENJDK-AMD64 
+
+SONRA DIKKAT EDELIM BURAYA 
+ENVIRONMENT VARIABLE DEGISIKLIGINDE 
+1-YA OTURUMU YENIDEN BASLAT DEGISIKLIGI ALMAK ICIN 
+YA DA 
+2-SOURCE /ETC/ENVIRONMENT YAPARAK... DEGISIKLIGI UYGULA DIYEBILIRIZ..
+
+
+.sh uzantili dosyalari 2 sekilde invoke ederiz, execute ederiz ubuntu da 
+1- ./index.sh 
+2- sh index.sh
+
+BIZ ROOTA GITMEK ISTERSEK 
+1-ROOT => cd / 
+HOME A GITMEK ISTERSEK -HOME DAN KASIT USERNAME ADEM ISE ORNGIN 
+2-HOME - cd /home/adem 
+ya da 
+cd ~/ => /home/adem  demektir yani..  bu sekilde home a gelebilirz.. 
+
+BESTPRACTISE...  
+LINUX UBUNTU TERMINAL SHELL ISLEMLERINDE DOSYA IZINLERI COK ONEMLIDIR... OZELLIKLE ORNEGIN BIR SERVER KURULUMU VS YAPIYORSAK SUNU UNUTMAYALIM KI EGER DOSYA IZINLERI VERILMEMEIS ISE O ZAMAN MUHTEMELEN BIZIM SERVER I CALISTIRMAYA CALISACAGIMZ LOKALHOST E ERISME HATASI ALACAGIZDIR..
+
+GEOSERVER DA ALINAN HATA..VE COZUMU!!!!											
+HTTP ERROR 503 Service Unavailable URI: /geoserver/ STATUS: 503 MESSAGE: Service Unavailable SERVLET: - in ubuntu..I have installed geoserver and I added JAVA_HOME, GEOSERVER_HOME AND GEOSERVER_DATA_DIR											
+																
+COZUM!!!!!!!!!!!					DOSYA IZINLERININ VERILMESI....COOOOK ONEMLI!!!!!!!!!!1						
+1	Make yourself the owner of the 										
+	geoserver										
+	 folder. Type the following command in the terminal window, replacing 										
+	USER_NAME										
+	 with your own username :										
+	sudo chown -R USER_NAME /usr/share/geoserver/
+	
+	IVAR IN TAVSIYESI!!!!!!!
+	Ubuntu da her zaman yeni bir uygulama yuklerken bunu kendi kullanci adimiz olan /home/adem altina yukleyelim burasi cok onemli…..
+
+
+	UBUNTU DA BAZI KURULUMLAR ILE ILGILI BILINMESI GEREKENLER
+
+	nativescript kurulumu							
+Android Studio kurulumu 							
+Jdk kurulumu ve JAVA_HOME ENV.VARIABLE A EKLENMESI							
+ANDROID JDD KURUP ANDROID_HOME EKLENMESI							
+NODE.JS SON SURUM KURULMASI							
+PHP KURULMASI							
+MYSQL KURULMASI							
+APACHE KURULMASI							
+nativescript kurulumu							
+Android Studio kurulumu 							
+Jdk kurulumu ve JAVA_HOME ENV.VARIABLE A EKLENMESI							
+ANDROID JDD KURUP ANDROID_HOME EKLENMESI							
+NODE.JS SON SURUM KURULMASI							
+PHP KURULMASI							
+MYSQL KURULMASI							
+APACHE KURULMASI							
+
+
+Android studio da sdk lokasyonu /opt icine kuruluyor olabilir bunu hemm android studio da hem de opt altinda inceleyelim… yani jdk ile ilgili 2 farkli adres var ama birisi dogru olanbunun birisi home/adem altinda birisi de opt altinda idi bunlari bir arastirip inceleyelim													
+													
+													
+ANDROID JDK BULUNAMADI HATASI…..													
+ANDROID_SDK /ETC/ENVIRONMENT TE YOLU YANLIS VERILMIS DE OLABILIR…DOGRU VERILDI ISE DE O ZAMAN GOREMIYORDUR UYGULAMA ONU YENIDEN BASLATMAK GEREK													
+Sdk ve ANDROID_HOME VE JAVA_HOME U /ETC/ENVIRONMENT E YUKLMEME RAGMEN HALA JDK LAR YOK DIYE HATA ALIRSAK TNS DOCTOR U CALISTIRINCA O ZAMAN SISTEMI ACIP KAPATI ONDAN SONRA ECHO $ANDROID_HOME VE ECHO $JAVA_HOME TEST EDILMELI EGER GELIRSE ZATEN TEKRAR TNS DOCTOR ILEHATASIZ CALISACAKTIR....													
+													
+													
+BIRDE ANDROID STUDIO DA TOOLS DA EN USTTE YUKLENMIS AMA VERSIYONU SON VERSIYON OLMAYABILIYOR ONUN UZERINDEKI - YE TIKLAYIP ONU SON VERSIYONU YUKLENEREK DENENEBILIR													
+													
+MYSQL - PHP-APACHE INSTALLSJON													
+Digital Ocean- how to install Linux, Apache, Mysql, php(lamp)													
+													
+sudo ufw status													
+inactive													
+sudo ufw enable													
+sudo ufw status													
+active													
+													
+MYSQL PASSWORD													
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'admin4334';													
+bu syntaxin dogru olmasi gerekir….root kullanicisinin authenticate sifresi degismi bu sekilde olur													
+													
+CHANGE MYSQL PASSWORD POLICY 													
+SHOW VARIABLES LIKE 'validate_password%';													
+SET GLOBAL validate_password.policy=LOW;													
+													
+sudo mysql -u root -p;													
+password													
+													
+eger password yok ise sudo mysql -u root ile dire girilebiliyor ama password var ise bu sekilde degil bir de -p eklemek gerek ondan dolayi da -p eklemezsek access denied for using password no gibi bir hata veriyor													
+													
+													
+sudo mysql_secure_installation -p yi ALTER ILE YENI PASSWORD ATAMASI YAPTIKTAN SONRA DENEMELIYIZ EGER DENEMEK ISTERSEK YOKSA ILK DEFA PASSWORD AYARLAMAYI GIDIP DE mysql_secure_installtion dan yaparsak endless bir donguye giriyor passwordu 100% secure girsek bile ondan dolayi once ALTER ILE YENI PASSWORD ATAMASI YAP ARDINDAN O PASSWORDU LOW LEVEL SECIP ORDA TEKRAR GIR EGER MYSQL_SECURE INSTALLATION DAN SECURE YAPMAK ISTERSEK AMA ZORUDNDA DEGILIZ MYSQL_SECURE INSTALLATION YAPMAYA DA BILIRIZ...AMA MUHTEMELEN EGER ALTER ILE DEGISTIRIRKEN KONFIGURASYON HATALARI VS ALIRSAK O ZAMAN MYSQL_SECURE_INSTALLTION DENIYORDUK													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+.sql database dosyasini nasil import ederiz linux da buna bakalim simdide….													
+uzak server dan nasil lokale indiririz nereye indigini nasil biliriz ve onu nasil kendi dataabase imize import ederiz													
+nasil database olustururuz linux de													
+nasil workbench indirip kullaniriz ubuntu da 													
+													
+SONRA DA TYPESCRTIP VE MANUEL COMPILE ISLEMI .BAT DOSYASI UZERINDEN..BUNA BAKALIM													
+													
+asagidakileri mysql workbanchi kurarken yapiyor													
+mysql de yeni user olusturmak isterssek													
+mysql> de iken yapilir													
+create user 'abstract-programmer'@'localhost' identified by 'example-password';													
+													
+tum priviliges lerin bu  user icin verilmesi icin													
+													
+mysql>	grant all privileges on *.* to 'abstract-programmer'@'localhost';												
+exit; ile mysql serverddan cikilir													
+													
+mysql in kendi sitesinde footer kisminda downloads bolumunde workbench e tiklariz ordan linux-ubuntu versiyonunu indiririz ardindan da download ile workbench paketini indiririz													
+Downloads bolumune .deb paketi inder													
+Simdi bu paketi terminalden install ederiz													
+Bu inen paket zaten install edilebilecek bir paket… Ve linux de bir paket calistirilrken execute ederken o paketin oldugu dizine gidilir ve ./paketadi.deb dersek paketi install etmis oluruz..													
+/Downloads da iken 													
+sudo apt install ./patketname.deb													
+													
+sudo mysql -u root -p													
+create user 'admin'@'localhost' identified by 'admin1499';													
+grant all privileges on *.* to 'admin'@'localhost';													
+exit ile mysql den cikariz													
+													
+mysql kurunca mysql isminde veritabani var ve onun altinda user isminde tablo var iste burda mysql de bizim olusturdugmuz users lari bulabiliriz ve de root kullanicisinin sifresini kaldirma islemini yapabiliriz													
+Yine linux de unutmamamiz gereken bir durum mysql uzerinde yapilan bu tarz degisiklik sonra si mysql servisi bir acip kapatmak gerekebilir veya guncelllemek gerkeebilir													
+1. Open your terminal.													
+2. sudo mysql -u root.													
+3. use mysql;													
+4. SELECT user, plugin FROM user;													
+5. UPDATE user SET plugin = "mysql_native_password" WHERE user = "root" ;													
+6. SELECT user, plugin FROM user;													
+7. exit.													
+													
+B													
+													
+workbench acildigi zaman mysql Connections '+' ya basarak yeni connectio olusturup username i olusturdugmuz username i girerirz ve artik bu username altinda new query olusturarak workbench de yeni bir veritabani olusturabiliriz													
+													
+Once sql dosyasi uzak server dan indirilir veritabani dir													
+sonra o veritabani dosya ismi ne ise o veritabani workbench de olusturulur													
+ardindan da… 													
+sudo mysql -u admin -p databasename < file.sql													
+password													
+													
+TYPESCRIPT ISLEMLERI													
+													
+LINUX DE TYPESCRIPT KURARKEN ONCELIKLE.													
+NODE.JS KURULU OLMALIDIR..VERIYONU ONEMLI SON VERSIYONLAR OLMALIDIR 													
+Version onemlidir…uygulamamizdaki node.js ve npm versiyonu na uyumlu bir sekilde olmalidir..													
+sudo npm install -g typescript													
+tsc ile versiyon ve yuklenip yuklenmedigini de gorebiliriz													
+													
+how to compile typescript with .bat file													
+how to compile typescript with .sh file													
+													
+linux de .sh dosyasi icine tsc test.ts yi sudo nano test.sh diye acarak yazaraiz ardindan da .sh dosyasi executable yapilir													
+chmod +x test.sh													
+sonra da execute ediliri													
+./test.sh													
+Ve mevcut typescript dosyasindan bir javascript dosyasi olusturmasi beklenir													
+Ve her yapilan degisiklikte .sh veya .bat dosyalari calistirilarak typescriptin compile etmesi beklenir													
+													
+													
+	environment variable e da eklememiz gerekiyor												
+	/etc/environment												
+	nss_inipath=/home/adem/ini				diger etc/environmenttaki path lerden farki bu adresi tirnak isaretleri icerisine almadan koyduk								
+	bunun altina dosyalari ekleyecegiz												
+													
+/home/adem 													
+	altina ini klasoru ve onun da altina veritabani baglanti vs datlarini oldugu dosyalari koymamiz gerekir..Uygulama burdan okuyarak baslyacak												
+													
+	ini												
+	logs 												
+	klasorleri /home/adem altinda olusturulur												
+	logs da 												
+	chomd -R a+rw logs 												
+		ile okunup y azilabilir yapilir											
+													
+How to change default apache "DocumentRoot" directory in linux													
+ile uygulamamizin calisacagi klasoru default apache klasorune gore degistirmis oluruz													
+													
+/etc/apache2/apache2.config													
+/etc/apache2/sites-enabled													
+													
+linux de log klasorunden calistigimz dosya ya ait hata  yi bulabilriiz								BURASI….COOOOOOK ONEMLI…..					
+/var/log/apache2								BUNU LINUX E NOT AL					
+								LOG DOSYALARI AYNI YERDE BULUNUYOR					
+search permissions are missing on a component of the path								LINUX DE DOSYA SISTEMINI IYI BILMEK GEREKIYOR					
+													
+chmod +x adem													
+													
+													
+													
+Birde 													
+NSS-hyttetjenester  git clone y aparken gelen uzantida hyttetjenester in h si kucuk olmali buyuk olmamalidir													
+													
+gitte sifre girmeden de clone y apabiliyoruz kendi git repostory mizden cekiyoruz .git config de passworde girince o ae_netsense:password/ seklinde geliyor													
+
+
+Linux dosya yapisi ekstra incelenmeli aranilan dosyalar nerde bulunur vs bunlari ne kadar bilirsek o kadar linux u iyi kullaniriz														
+														
+Apache ve dosya okuma izinleri ini dosyasinin okunamamsi ve cozumleri burda gorebiliriz														
+														
+https://askubuntu.com/questions/325498/apache-cant-access-folders-in-my-home-directory														
+16														
+Apache runs as user 														
+www-data														
+. If it doesn't have execution permission on your home, apache will not be able to read any file.														
+Change you home's group to 														
+www-data														
+:														
+chgrp www-data /home/dbugger														
+And give it permission only to traverse your home directory:														
+chmod g+x /home/dbugger														
+You can also restrict permisions of 														
+/home/dbugger/html														
+:														
+chgrp www-data /home/dbugger/html														
+chmod 750 /home/dbugger/html														
+														
+https://serverfault.com/questions/514128/allow-subdirectory-with-apache														
+ou should not need to specifically allow access to a directory below one which is already configured within httpd.conf														
+Since /var/www/html is configured with "AllowOverride None" then the problem is not due a .htaccess file changing the access rights.														
+The only remaining reason is that the permissions on the files and directories do not permit the webserver uid to read from this directory. What they are, and what they should be depends on your security model. But as a quick fix you could try:														
+# chmod a+rx /var/www/html/test														
+# chmod a+r /var/www/html/*														
+If this solves the problem then please take time to fix the ownership and permissions of the files to something more appropriate.														
+														
+														
+/var/log/apache2 daki erro_log dosyasi acilarak neden girilemedigi neden forbidden oldugu burdan daha detayli gorulebilir														
+														
+[Tue Apr 04 11:12:00.829769 2023] [php:notice] [pid 55737] [client ::1:59350] Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_>														
+[Tue Apr 04 11:12:07.532071 2023] [autoindex:error] [pid 55738] [client ::1:59362] AH01276: Cannot serve directory /home/adem/utv/NSS-hyttetjenester/: No matching DirectoryIndex (index.html,index.cgi,in>														
+[Tue Apr 04 11:49:32.208127 2023] [autoindex:error] [pid 55740] [client ::1:44742] AH01276: Cannot serve directory /home/adem/utv/NSS-hyttetjenester/: No matching DirectoryIndex (index.html,index.cgi,in>														
+[Tue Apr 04 11:50:28.756902 2023] [autoindex:error] [pid 55742] [client ::1:35758] AH01276: Cannot serve directory /home/adem/utv/NSS-hyttetjenester/: No matching DirectoryIndex (index.html,index.cgi,in>														
+[Tue Apr 04 11:50:29.859484 2023] [autoindex:error] [pid 55742] [client ::1:35758] AH01276: Cannot serve directory /home/adem/utv/NSS-hyttetjenester/: No matching DirectoryIndex (index.html,index.cgi,in>														
+[Tue Apr 04 11:50:31.410718 2023] [autoindex:error] [pid 55742] [client ::1:35758] AH01276: Cannot serve directory /home/adem/utv/NSS-hyttetjenester/: No matching DirectoryIndex (index.html,index.cgi,in>														
+[Tue Apr 04 11:50:35.083837 2023] [php:notice] [pid 55742] [client ::1:35758] Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_>														
+[Tue Apr 04 11:50:55.543585 2023] [mpm_prefork:notice] [pid 55736] AH00170: caught SIGWINCH, shutting down gracefully														
+														
+That seems like a standard .htaccess file. Is the index file also present in the directory?														
+														
+The error message "access to /index.php denied because search permission" suggests that the user or process attempting to access the "index.php" file does not have sufficient permissions to search for it in the directory.												
+To resolve this issue, you can try the following steps:												
+1	Check the file permissions: Make sure that the file permissions for the "index.php" file and the directory containing it are set correctly. The file should have read and execute permissions, while the directory should have execute permissions.											
+2	Check the ownership of the file and directory: Ensure that the user or process attempting to access the file has the necessary ownership and permissions to do so.											
+3	Check the location of the file: Make sure that the file is located in the correct directory and that the path to the file is correct.											
+4	Check for any access control rules: There may be access control rules in place that are preventing access to the file. Check any applicable configuration files, such as Apache's .htaccess file, for any such rules.											
+By following these steps, you should be able to resolve the "access to /index.php denied because search permission" error and gain access to the file.												
+												
+												
+Tue Apr 04 12:44:16.340037 2023] [mpm_prefork:notice] [pid 58908] AH00163: Apache/2.4.52 (Ubuntu) configured -- resuming normal operations												
+[Tue Apr 04 12:44:16.340087 2023] [core:notice] [pid 58908] AH00094: Command line: '/usr/sbin/apache2'												
+[Tue Apr 04 12:44:22.415143 2023] [core:error] [pid 58909] (13)Permission denied: [client ::1:50444] AH00035: access to /NSS-hyttetjenester/web/front.php denied (filesystem path '/home/adem/utv') becaus>												
+[Tue Apr 04 12:48:38.968644 2023] [core:error] [pid 58911] (13)Permission denied: [client ::1:42876] AH00035: access to /NSS-hyttetjenester/web/front.php denied (filesystem path '/home/adem/utv/NSS-hytt>												
+[Tue Apr 04 12:48:40.244806 2023] [core:error] [pid 58911] (13)Permission denied: [client ::1:42876] AH00035: access to /NSS-hyttetjenester/web/front.php denied (filesystem path '/home/adem/utv/NSS-hytt>												
+[Tue Apr 04 12:48:44.691041 2023] [core:error] [pid 58911] (13)Permission denied: [client ::1:42876] AH00035: access to /NSS-hyttetjenester/ denied (filesystem path '/home/adem/utv/NSS-hyttetjenester') >												
+[Tue Apr 04 12:48:50.607567 2023] [core:error] [pid 58912] (13)Permission denied: [client ::1:42888] AH00035: access to /NSS-hyttetjenester/web/ denied (filesystem path '/home/adem/utv/NSS-hyttetjeneste>												
+[Tue Apr 04 12:48:59.471138 2023] [core:error] [pid 58913] (13)Permission denied: [client ::1:46144] AH00035: access to /NSS-hyttetjenester/web/front denied (filesystem path '/home/adem/utv/NSS-hyttetje>												
+[Tue Apr 04 12:49:07.539938 2023] [core:error] [pid 58925] (13)Permission denied: [client ::1:46234] AH00035: access to /NSS-hyttetjenester/web/front.php denied (filesystem path '/home/adem/utv/NSS-hytt>												
+												
+adem@adem-HP-EliteOne-800-G1-AiO:/home$ sudo chmod +x adem/utv												
+adem@adem-HP-EliteOne-800-G1-AiO:/home$ sudo chmod +x adem/utv												
+												
+chmod -R 777 /home/user/xxx												
+												
+eOne-800-G1-AiO:~$ sudo chmod +x /home/												
+adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod +x /home/adem/												
+adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod +x /home/adem/NSS-hyttetjenester/												
+chmod: cannot access '/home/adem/NSS-hyttetjenester/': No such file or directory												
+adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod +x /home/adem/utv/												
+adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo service apache2 restart												
+												
+linux de loglardaki mesajlari okuyarak ancak apache2 deki forbidden problemlerinin tam olarak ne oldugunu bulup cozebiliriz															
+															
+linux da loglari /var/log altindaki klasorde bulup log mesajlarini okuyarak hatalari bulabiliriz															
+															
+Eger apahce de not found vs  soruunu yasiyorsak 															
+1-	gidp log dosyasinda hatayi okuyalim														
+	/var/log/apache2/error.log														
+2-	Ya DocumentRoot da allgranted veya url i yanlis yazmisizdir														
+	bunu var sayilan olarak 														
+	/etc/epache2/sites-enabled/000-default.conf					Ama bunun yerini veya ismii degistirdi isek de nerye yerlestirdi isek orda olacak..ki benim kendi pc mde  yer i degismisti									
+															
+	<VirtualHost *:80>														
+	   ServerAdmin webmaster@localhost														
+	        DocumentRoot /home/adem/utv														
+															
+	        <Directory /home/adem/utv>														
+	        														
+	          Require all granted														
+	                														
+	         </Directory>														
+	ErrorLog ${APACHE_LOG_DIR}/error.log														
+	        CustomLog ${APACHE_LOG_DIR}/access.log combined														
+															
+	</VirtualHost>														
+															
+															
+															
+3	Dosya izinlerinin verilmesi...bu cok onemli..hangi dosya altinda calistiracaksak uygualmayi onun hem kendi hem de subfolder ina dosya izni vermemiz gerekir														
+	eOne-800-G1-AiO:~$ sudo chmod +x /home/														
+	adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod +x /home/adem/														
+	adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod +x /home/adem/NSS-hyttetjenester/														
+	chmod: cannot access '/home/adem/NSS-hyttetjenester/': No such file or directory														
+	adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod +x /home/adem/utv/														
+	adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo service apache2 restart														
+															
+															
+4	.htaccess dosyasindan dolayi calismiyor da olabilir..														
+															
+5	apache server i le ilgili herhangi bir degisiklik  yaptigimz zaman server i mutlaka restart yapmak gerek..bazen apache2 baslatilmamis da olabiliyor bunlari goz ardi etmemek gerek														
+															
+	ini dosyasini  okuyamama sorunu ve cozumu...														
+	dosya okuyamama sorunu ve cozumu...														
+	/home/adem/ini/cottageservice.ini dosyasini okuyamama sorunu ve cozumu....														
+	adem@adem-HP-EliteOne-800-G1-AiO:/home$ chmod 777 /home/adem/ini/cottageservice.ini														
+	chmod: changing permissions of '/home/adem/ini/cottageservice.ini': Operation not permitted														
+	adem@adem-HP-EliteOne-800-G1-AiO:/home$ sudo chmod 777 /home/adem/ini/cottageservice.ini 														
+	[sudo] password for adem: 														
+															
+															
+												
+UBUNTU DA HERHANGI BIR UYGULAMANIN GUNCELLENMESI GEREKIYOR ISE 
+ORNEGIN CHROME ICIN ESKI KURULAN VERSIYONUN GUNCELLENMESI GEREKTIGI MESAJ I GELIYORSA BIZE 
+
+sudo apt update
+sudo apt upgrade 
+ yapmamiz chrome un yeni surumunun kurulmasi icin yeterlidir
+
+
+ POSTGRESQL - INSTALLATION
+ sudo apt install postgresql postgresql-contrib
+
+ Bu kurulumu yaptiktan sonra postgresql nereye geliyor bakacak olursak 
+ ls /etc/postgresql/14/main yaparsak  asagidaki dosylarin listelendigini gorecegiz 
+ conf.d pg_ctl.conf pg_ident.conf start.conf environment pg_hba.conf pstgresql.conf
+ main configuration file is postgresql.conf 
+ POSTGRESQL SERVICE I BSLATMAK ICIN HANGI KOMUTLARI KULLANACAGIMZI GORMEK ISTERSEK 
+ service postgresql 
+ Usage: /etc/init.d/postgresql {start|stop|restart|reload|force-reload|status} [version ..] 
+ service postgresql status
+
+ postgre nin default user i postgres dir..Yani ilk defa kullanirken postgres user i uzerinden kullaniriz
+
+ sudo systemctl start postgresql
+ VEYA
+ sudo systemctl start postgresql.service
+
+ Ornegin bir postgresql kuruldugu zaman, service lerin baslatilmasi gerekir 
+sudo service postgresql start-UBUNTU - SUDO SYSTEMCTL START POSTGRESQL 
+Service nin baslatilip baslatilmadigin i kontrol etmek icin  
+sudo sercive postgresql status - SUDO SYSTEMCTL STATUS POSTGRESQL
+Service yi yeniden baslatmak icin 
+sudo service postgresql restart - SUDO SYSTEMCTL RESTART POSTGRESQL
+Service yi durduracagimiz zaman 
+sudo service postgresql stop - SUDO SYSTEMCTL STOP POSTGRESQL
+SUDO SYSTEMCTL ENABLE POSTGRESQL
+
+SUDO -I -U POSTGRES
+ sudo -i -u postgres: This command is used to switch to the "postgres" user with administrative privileges. It allows you to execute subsequent commands as the "postgres" user, which is typically used for managing the PostgreSQL server and databases.
+
+psql: This command opens the PostgreSQL interactive terminal, where you can run SQL commands to interact with the database server.
+
+Bu user imizin sql komut satirina girmek icin psql kullaniriz, tabi ki sudo -i -u postgres diyerek, postgres kullanicisi uzerinden postgres e giris yaptigimz zaman
+
+DATABASE LERI GORUNTULEMEK ICIN 
+\l(database leri goruntulemek icin)
+\du (user lari goruntulemek icin)
+
+Default user olan postgres user inin passwordunu nasil degistririz
+
+ALTER USER postgres WITH PASSWORD  'test123'; SONUN ; U UNUTMAYALIM
+ALTER ROLE(Boyle bir sonuc aldi isek o zaman password degismis demektir)
+
+postgres=# CREATE USER user_1 WITH PASSWORD 'admin'; 											
+CREATE ROLE											
+postgres=#\du											
+											
+ admin        | Superuser, Create role, Create DB                          | {}											
+ gis_database |                                                            | {}											
+ myUser       | Superuser, Create role, Create DB                          | {}											
+ postgres     | Superuser, Create role, Create DB, Replication, Bypass RLS | {}											
+ testUser     | Superuser, Create role, Create DB                          | {}											
+ user_1       |   					Bu olusturuldu ama herhangi bir priviligies verilmedigi icin rolunun superuser mi yoksa iste diger rolller mi onu bilmiuyoruz onu da ayrica vermemiz gerekiyor....	
+ 
+ postgres=# ALTER USER user_1 WITH SUPERUSER;						
+ALTER ROLE						
+postgres=# \du						
+						
+  Role name   |                         Attributes                         | Member of 						
+--------------+------------------------------------------------------------+-----------						
+ admin        | Superuser, Create role, Create DB                          | {}						
+ gis_database |                                                            | {}						
+ myUser       | Superuser, Create role, Create DB                          | {}						
+ postgres     | Superuser, Create role, Create DB, Replication, Bypass RLS | {}						
+ testUser     | Superuser, Create role, Create DB                          | {}						
+ user_1       | Superuser   (PRIVILIGES VERMIS OLDUK..)                                               | {}						
+						
+(END)						
+
+REMOVE-USER
+
+postgres-# DROP USER user_1;
+DROP ROLE 
+
+USER SILERKEN KARSILASTIGIMZ HATA VE COZUMU!				
+				
+postgres=# DROP USER myUser;				
+ERROR:  role "myuser" does not exist(bulamiyor cunku isimlendirme de buyuk harf kullandik isimlendirme hatasi var ..)				
+postgres=# DROP USER testUser;				
+ERROR:  role "testuser" does not exist				
+postgres=# DROP USER myUser 'myUser';				
+ERROR:  syntax error at or near "'myUser'"				
+LINE 1: DROP USER myUser 'myUser';				
+                         ^				
+postgres=# DROP USER myUser "myUser";				
+ERROR:  syntax error at or near ""myUser""				
+LINE 1: DROP USER myUser "myUser";				
+                         ^				
+postgres=# DROP USER "myUser";				
+DROP ROLE            				
+postgres=# 			
+
+YENI DATABASE OLUSTURURKEN ALDIGIMZ HATA... VE COZUMU!
+
+postgres=#  createdb gis_db;			
+ERROR:  syntax error at or near "createdb"			
+LINE 1: createdb gis_db;			
+        ^			
+postgres=# \q			
+postgres@adem-ThinkPad-13-2nd-Gen:~$ createdb gis_db;			
+postgres@adem-ThinkPad-13-2nd-Gen:~$ \l			
+l: command not found			
+postgres@adem-ThinkPad-13-2nd-Gen:~$ psql			
+psql (14.8 (Ubuntu 14.8-0ubuntu0.22.04.1))			
+Type "help" for help.			
+
+				
+NEDEN BIZ myUser ve testUser KULLANICILARINI TIRNAK ICINDE YAZMADIGMZDA SILMIYOR ONA BAKALIM SIMDI 
+
+The error message suggests that the roles myUser and testUser do not exist in the PostgreSQL database. 
+To drop a user, it is important to use the correct case-sensitive spelling of the user name.
+In your case, it seems that the user names are not correctly capitalized. By default, PostgreSQL treats unquoted identifiers as case-insensitive, so when you create a user with a specific casing, you need to use the same casing when referencing the user later.
+
+To resolve the issue, try the following:
+Connect to the PostgreSQL database as the postgres user:
+sudo -u postgres psql
+List the existing roles to verify the correct spelling and casing of the user names:
+	\du
+	Ensure that you are using the exact casing of the user names in the DROP USER command.
+	Drop the user using the correct casing:
+Drop the user using the correct casing:
+
+DROP USER "myUser";
+DROP USER "testUser";
+
+By enclosing the user names in double quotes, you ensure that the casing is preserved and matched correctly.
+
+Please note that if you created the users using single quotes (') instead of double quotes ("), you should use single quotes in the DROP USER command as well.
+
+psql in tam olarak ne oldgunu anlamak icin ubuntu da 
+man psql yazarak psql in islevlerini ve ne oldugunu anlayabilriz
+
+						
+sudo -i -u postgres: This command is used to switch to the "postgres" user. The sudo command is used to execute a command with administrative privileges, and the -i flag opens an interactive shell session as the specified user, which in this case is "postgres". This is typically done because the "postgres" user is created during the PostgreSQL installation and is used for managing the PostgreSQL server and databases.
+
+createuser --interactive: This command is used to create a new PostgreSQL user. The --interactive flag prompts you for information interactively, allowing you to specify the username, password, and other options for the new user. This command is useful when you want to create a user with specific privileges and settings.
+
+By combining these two commands, you can switch to the "postgres" user and then use the createuser --interactive command to create a new PostgreSQL user interactively.
+
+Using these commands helps ensure that the necessary permissions and configurations are properly set up when working with PostgreSQL on Ubuntu.
+
+
+DATABASE VE TABLO OLUSTURMA
+
+ sudo -i -u postgres
+postges@dhani-ubuntu:~$ createuser --interactive
+
+createdb gis_database: This command creates a new PostgreSQL database named "gis_database". The createdb command is used to create a new database, and "gis_database" is the name given to this particular database.
+
+$ sudo -i -u postgres: This command is used to switch to the "postgres" user with administrative privileges. It allows you to execute subsequent commands as the "postgres" user, which is typically used for managing the PostgreSQL server and databases.
+
+psql: This command opens the PostgreSQL interactive terminal, where you can run SQL commands to interact with the database server.
+
+postgres=# CREATE USER gis_database with password '12345';: This command creates a new PostgreSQL user named "gis_database" with the password '12345'. The CREATE USER statement is used to create a new user in PostgreSQL, and here we specify the username and password for the new user.
+
+postgres=# CREATE DATABASE gis_database;: This command creates a new database named "gis_database" in PostgreSQL. The CREATE DATABASE statement is used to create a new database, and here we specify the name of the database.
+
+postgres=# GRANT ALL PRIVILEGES ON DATABASE gis_database TO gis_database;: This command grants all privileges on the "gis_database" database to the "gis_database" user. The GRANT ALL PRIVILEGES statement is used to give specific privileges (in this case, all privileges) to a user on a particular database.
+
+INSTALL POSTGIS
+
+sudo apt install postgis
+
+sudo -i -u postgres psql
+postgres=#\CONNECT gis_database;
+You are now connected to database "gis_database" as user "postgres".
+postgres=#CREATE EXTENSION postgis;
+CREATE EXTENSION
+
+YENI USER OLUSTURURKEN AYNI ISIMDE DATABASE DE OLUSTURURUZ BUNLARI TABI POSTGRES USER I ICINE GIREREK  YAPTIK SONRA DA EXIT ILE POSTGRES USER INDAN CIKARAK sudo adduser gis_database diye bu user i eklememiz gerekir ancak ornegin sudo adduser myUser gibi bir isim postgresql icin dogru bir adlandirma olmadigi icin sorun cikaracaktir bize hepsi kucuk harf olmasi gerekiyor ama bunu da illa boyle yapmak istersek 
+sudo adduser --force-badname myUser diyerek ekleyebilirz ve ardindan da zaten sudo -i -u myUser diyerek giris yapabilirz
+
+ sudo -i -u postgres
+postges@dhani-ubuntu:~$ createuser --interactive
+
+createdb gis_database:
+
+BIR USER IMIZA YENI BIR DATABASE OLUSTURURKEN ISE 
+
+sudo -i -u postgres
+psql
+CREATE DATABASE new_database;
+GRANT ALL PRIVILEGES ON DATABASE new_database TO myUser;
+\q
+exit
+
+Step 4. Install PostGIS
+Bu sudo ile bslayan kodu bizim herhangi bir veritabanina girerek degil de direk disarda yapmamiz gerekir yoksa hata aliriz zaten
+
+sudo -i -u myUser - myUser a giris yaptik 
+sudo apt install postgis--myUser is not in the sudoers file. This incident will be reported... uyari mesaji aliriz ondan dolayi exit diyerek bu user dan cikariz oncelikle
+
+sudo apt install postgis 
+i kurduiktan sonra 
+
+Once the installation is completed, we need to enable the PostGIS extension on the database. We should enable the PostGIS extension on each database we want. Now we are going to enable the extension to the gis_database we created earlier.
+
+sudo apt install postgis 
+psql 
+
+postgis kullanicisi altindan baska bir databas e baglaniyoruz 
+\c gis_database
+Your are connected to database "gis_database" as user "postgres" via socket in "/.... 
+gis_database-# CREATE EXTENSION postgis;
+CREATE EXTENSION(bu geliyorsa olusturulmus demektir)
+
+PGADMIN4 KURULUMU 
+Oncelikle curl i kullanacagimz icin eger curl yuklu degil ise curl yuklenir 
+sudo apt install curl
+
+Add the PostgreSQL repository key to your system:
+curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
+Add the PostgreSQL repository to the package manager:
+sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list'
+Update the package lists:
+sudo apt update
+Install pgAdmin:
+sudo apt install pgadmin4
+During the installation, you may be prompted to configure the web server. Choose the appropriate option based on your preference (Apache2 or pgAdmin's built-in web server).
+kurulum sorunsuz gerceklestikten sonra
+sudo /usr/pgadmin4/bin/setup-web.sh
+Email address:adem5434e@gmail.com
+Password:
+Email ve passwordumuzu girereiz ve ardindan da bu email ve password uzerinden biz pgadmin kullaniriz...
+
+BURASI DA DIREK PGADMIN SITESINDEN ALINTI- Y UKARDAKININAYNISI 
+# Setup the repository
+#
+
+# Install the public key for the repository (if not done previously):
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+
+# Create the repository configuration file:
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+
+#
+# Install pgAdmin
+#
+
+# Install for both desktop and web modes:
+sudo apt install pgadmin4
+
+# Install for desktop mode only:
+sudo apt install pgadmin4-desktop
+
+# Install for web mode only: 
+sudo apt install pgadmin4-web 
+
+# Configure the webserver, if you installed pgadmin4-web:
+sudo /usr/pgadmin4/bin/setup-web.sh
+
+Install qgis Using apt 
+Update apt database with apt using the following command.
+
+sudo apt update
+After updating apt database, We can install qgis using apt by running the following command:
+sudo apt -y install qgis
+
+
+COK ONEMLI...POSTGREDE CALISIRKEN ROOT KULLANICI YA ERISMEK ICN 
+sudo su -  komutu kullanilir..administrative islemlerde root kullanici olarak yapmamaiz gerekir ondan dolayi buna cok ihtiyacimiz oluyor
+
+
+SHAPE FILE I NASIL UBUNTU DA POSTGRESQL E IMPORT EDERIZ..
+
+1-Open a terminal and switch to the postgres user by running the following command:
+sudo -u postgres -i
+2-Once you are logged in as the postgres user, navigate to the directory that contains the shapefile.
+Ama burda bir sorun var cunku postgres user ina girdigmz zaman ordan biz direk Downloads ve onun altindakki indirdigmiz shapefile a erisemiyourz bu onemli... Problem permission denied hatasi aliyoruz sudo keywordunu kullanmaiza ragemen... 
+Yani bu su demek oluyor biz dosyz izinleri hatasi aliyoruz..KI UBUNTU DA BIR DOSYA YI LOCALHOST VEYA HERHANGI BIR YERDE GOSTERME OKUMA VS ISLEMI VAR ISE KESINLIKLE DOSYA IZINLERI ISLEMLERI KARSIMZA CIKACAKTIR BURDA DA CIKTIGI GIBI...
+Bu problemi nasil cozecegiz ona bakalim simdi
+COZUM YOLU-1
+Copy the shapefiles to a location accessible by the postgres user
+
+sudo su -
+
+Create a directory in a location accessible by the postgres user. For example, you can create a directory in the /var/lib/postgresql directory:
+mkdir /var/lib/postgresql/shape1
+Change the ownership of the newly created directory to the postgres user:
+chown -R postgres:postgres /var/lib/postgresql/shape1
+Copy the shapefiles from the original location to the new directory:
+cp -R /home/adem/Downloads/shape1/* /var/lib/postgresql/shape1/
+Adjust the paths accordingly if your actual locations differ.
+Exit the root user shell by typing exit.
+Switch to the postgres user again by running the following command:
+sudo -u postgres -i
+cd /var/lib/postgresql/shape1
+Now you should be able to access the shapefiles directory as the postgres user.
+
+YA BU SEKILDE COZERIZ DOSYA IZIN PROBLEMINI YA DA DOGRUDAN DOWNLOADS ALTINDA BULUNAN SHAPE FILES LARA DOSYA IZNI VEREREK COZMEYE CALISIRIZ..
+Option 1: Change the permissions of the shapefiles directory
+Open a terminal and switch to the root user by running the following command:
+	sudo su -
+	Change the ownership of the shapefiles directory to the postgres user by running the following command:
+chown -R postgres:postgres /home/adem/Downloads/shape1
+Exit the root user shell by typing exit.
+Switch to the postgres user again by running the following command:
+sudo -u postgres -i
+Navigate to the shapefiles directory:
+cd /home/adem/Downloads/shape1
+Now you should be able to access the shapefiles directory as the postgres user.
+
+SHAPE FILE A ERISME PROBLEMIMIZI COZDUGUGMUZU VARSAYARAK--SIMDI DE AUTHENTICATION PROBLEMI  YASAYABILIORUZ ONU NASIL COZERIZ VE NASIL SHAPEFILE I YUKLERIZ ONA BAKALIM
+
+Option 1: Switch to the postgres user before running the command
+Open a terminal and switch to the postgres user by running the following command:
+sudo -u postgres -i
+Once you are logged in as the postgres user, navigate to the directory that contains the shapefile.
+Run the shp2pgsql command to import the shapefile data into the database, specifying the database name with the -d option:
+shp2pgsql -s 4326 -I NOR_adm1.shp NOR_adm1 | psql -d gis_db
+.shp file dan sonra biz hangi ismi verirsek o isim ile veritabanina kaydedecek
+Make sure to replace gis_db with the name of your target database.
+
+ Modify the authentication method in PostgreSQL configuration
+
+ Open the PostgreSQL configuration file for editing. In Ubuntu, it is located at /etc/postgresql/<version>/main/pg_hba.conf. Replace <version> with the actual PostgreSQL version installed on your system.
+
+Look for the lines that specify the authentication rules, and locate the line that corresponds to the postgres user. It should look similar to this:
+	local   all             postgres                                peer
+	Change peer to md5, which will enable password authentication. After the modification, the line should look like this:
+		local   all             postgres                                md5
+		Save the changes and exit the editor.
+Restart PostgreSQL for the changes to take effect by running the following command
+sudo service postgresql restart
+Now you should be able to run the shp2pgsql command with the postgres user as before:
+shp2pgsql -s 4326 -I NOR_adm1.shp NOR_adm | psql -d gis_db -U postgres
+
+
+
+
+SHAPE FILE YUKLENDIKTEN SONRA O SHAPE FILE I VERITABANINDA NASIL LISTELIYORUZ...							
+postgres@adem-ThinkPad-13-2nd-Gen:~/shape2$ psql -d gis_db -U postgres							
+psql (14.8 (Ubuntu 14.8-0ubuntu0.22.04.1))							
+Type "help" for help.							
+							
+gis_db=# \d							
+                List of relations							
+ Schema |       Name        |   Type   |  Owner   							
+--------+-------------------+----------+----------							
+ public | geography_columns | view     | postgres							
+ public | geometry_columns  | view     | postgres							
+ public | nor_adm0          | table    | postgres							
+ public | nor_adm0_gid_seq  | sequence | postgres							
+ public | nor_roads         | table    | postgres							
+ public | nor_roads_gid_seq | sequence | postgres							
+ public | redlining         | table    | postgres							
+ public | redlining_gid_seq | sequence | postgres							
+ public | spatial_ref_sys   | table    | postgres							
+(9 rows)							
+							
+gis_db=# \nor_roads							
+invalid command \nor_roads							
+Try \? for help.							
+gis_db=# \d nor_roads							
+gis_db=# SELECT * FROM nor_roads 10;							
+ERROR:  syntax error at or near "10"							
+LINE 1: SELECT * FROM nor_roads 10;							
+                                ^							
+gis_db=# SELECT * FROM nor_roads LIMIT 10;							
+
+
+DOSYA IZINLERI ILE ILGILI ALDIGMIZ HATA VE COZUMU!! 
+postgres@adem-ThinkPad-13-2nd-Gen:~$ shp2pgsql -s 4326 -I NOR_adm0.shp nor_adm0 | psql -d gis_db -U postgres
+Unable to open NOR_adm0.shp or NOR_adm0.SHP.
+NOR_adm0.shp: dbf file (.dbf) can not be opened.
+
+The error message indicates that the shp2pgsql command is unable to open the shapefile (NOR_adm0.shp) or the associated .dbf file. This could be due to various reasons, such as incorrect file paths or file permissions.
+To resolve this issue, please double-check the following:
+
+1-Ensure that you are running the shp2pgsql command from the correct directory where the shapefile is located. You can use the ls command to verify the presence of the shapefile and its associated files (NOR_adm0.dbf, NOR_adm0.shx, etc.) in the same directory.
+2-Confirm that the shapefile files (NOR_adm0.shp, NOR_adm0.dbf, NOR_adm0.shx, etc.) have the necessary read permissions. You can use the ls -l command to check the permissions. If needed, you can modify the permissions using the chmod command. For example, to grant read permissions to everyone, you can run:
+	chmod a+r NOR_adm0.*
+	3-Ensure that the shapefile files have not been corrupted. Try opening the shapefile using a GIS software like QGIS to verify its integrity.
+4-Double-check the file names and extensions. Make sure they are correct and match the actual names of the shapefile and associated files.
+Double-check the file names and extensions. Make sure they are correct and match the actual names of the shapefile and associated files.
+
+
+
+what is chmod a+r NOR_adm0.*
+
+1-chmod a+r NOR_adm0.*: This command changes the permissions of all files matching the pattern NOR_adm0.* in the current directory. Here, a+r grants read (r) permission to all users (a stands for "all"). This ensures that all users on the system, including the postgres user, have read access to the shapefile files (NOR_adm0.shp, NOR_adm0.dbf, etc.). It allows the postgres user to read and access the shapefile files during the import process.
+
+2-chown -R postgres:postgres /home/adem/Downloads/shape1: This command changes the ownership (chown) of the directory /home/adem/Downloads/shape1 and all its contents recursively (-R) to the user postgres and the group postgres. By changing the ownership, it ensures that the postgres user has full ownership and control over the shapefile files in that directory. This is useful to ensure that the postgres user can access and manipulate the files.
+
+3-'chown -R postgres:postgres /var/lib/postgresql/shape1: This command is similar to the previous one but targets a different directory (/var/lib/postgresql/shape1). It changes the ownership of this directory and its contents to the postgres user and the postgres group. This step is useful if you chose to copy the shapefile files to this directory to make them accessible to the postgres user.
+
+By using the chmod and chown commands as mentioned, you are adjusting the permissions and ownership of the shapefile files and directories, allowing the postgres user to access and import them successfully. These commands ensure that the required read permissions are granted to the shapefile files and that the postgres user has the necessary ownership to access and manipulate the files during the import process.
+
+WHAT IS chmod 777
+The number value corresponds to the sum of specific permission values:
+
+4 represents "read" permission.
+2 represents "write" permission.
+1 represents "execute" permission.
+Therefore, when you set the permission to 777, it means that the owner, group, and others all have full permissions, which includes read, write, and execute permissions.
+In summary, chmod 777 sets full permissions for the owner, group, and others, allowing unrestricted access to the file or directory.
+
+SIMDI DE KURULUMUNU YAPTIGMIZ PGADMIN-4 E BAGLANTI YAPIP POSTGRESQL E TERMINAL UZERINDEN IMPORT ETTGIMZ SHAPE FILE LARI BURDA GORUNTULEMEK!!!
+http://127.0.0.1/pgadmin4/browser/
+
+NEW SERVER GROUP OLUSTURUYORUZ 
+ARDINDAN USERNAME - E POSTGRES DIYOURUZ 
+PASSWORD E POSTGRES DIYORUZ NEDEN PASSWORD E POSTGRES DIYORUZ CUNKU...BURASI COK ONEMLI EGER PASSWORD SUREKLI YANLIS GERLIRSE DE BU SEKILDE COZECEGIZ...
+
+I tried to create server and server connection on pgadmin on ubuntu. And I used to default user as postgres for username , but I don't know which password I must use, because when I use the postgres user on ubuntu terminal I did not need to use password... I got this error message.. Unable to connect to server : connection failed: FATAL:password authentication failed for user "postgres" connection to server at "localhost"(127.0.0.1), port 5432 failed: FATAL:password authentication failed for user "postgres"
+The error message you encountered suggests that the password authentication for the PostgreSQL user "postgres" failed when attempting to connect through pgAdmin.
+
+By default, PostgreSQL uses the "peer" authentication method on Ubuntu, which allows the system user with the same name to log in as the corresponding PostgreSQL user without requiring a password. However, when connecting through pgAdmin, it may require a password for authentication.
+To resolve this issue, you can try the following steps:
+
+Open a terminal and switch to the PostgreSQL user by running the command:
+	sudo -u postgres psql
+	Once you are in the PostgreSQL interactive terminal, set a password for the "postgres" user by executing the following SQL command:
+ALTER USER postgres PASSWORD 'new_password';
+Replace 'new_password' with the password you wish to set. Make sure to remember this password as you will need it to connect through pgAdmin.
+Now, in pgAdmin, when creating the server connection, use the following credentials:
+
+Username: postgres
+Password: the password you set in step 2
+By setting a password for the "postgres" user, you will be able to authenticate using that password when connecting through pgAdmin.
+
+Yukardaki sekilde biz postgres default user ina yeni bir password atamasi yapariz ve bunu da pgadmin  baglantisinda user e postgres olarak veririz password e de burda hangi password verirsek onu verecegiz 
+host : localhost yazacagiz
+Name:
+Description a biz kendimiz birseyler veririz...
+
+
+
+GEOSERVER KURULUMU!
+
+1-Make sure you have a Java Runtime Environment (JRE) installed on your system. GeoServer requires a Java 11 or Java 17 environment, available from OpenJDK, Adoptium, or provided by your OS distribution.
+
+sudo apt update
+Install the desired Java version. For example, to install OpenJDK 11:
+sudo apt install openjdk-11-jdk
+Once the installation is complete, you can verify the Java version by running:
+java -version
+
+ARDINDAN DA JAVA_HOME UN ADRES YOLUNU   ENVIRONMENT VARIABLE DA YANI  ETC/ENVIRONMENT TA KAYDEDERIZ 
+
+sudo nano /etc/environment
+
+jAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+
+Bu arada biz java dosyamizi bulmak icin de 
+cd /usr/lib/jvm ye gelerek orda ls -l yaparsak bizim jdk larimizdan burda olanlardan java-11-openjdk-amd64 u environment variabel de belirtiriz
+
+VE DE ENVIRONMENT VARIABEL DA KAYDETGIMIZ JAVA_HOME ADRES YOLUNU OKUNUP OKUNMADIGINI TEST ETMEK ICIN DE 
+
+echo $JAVA_HOME
+BU SEKILDE CHECK EDERIZ...  
+COOOK ONEMLI...ENVIRONMENT VARIABLE DEGISIKLIKLERINDE MUTLAKA LOGOUT- YAPIP TEKRAR LOGIN YAPMALIYZ KI DEGISIKLIKLER TANINSIN...BAZEN HERSEY DOGRU OLMASINA RAGMEN GEOSERVER KURULUMUNDA JAVA HATASI VS ALABILIYORUZ BUNUN NEDENLERINDEN BIRISI DE ENVIRONMENT VARIABLE DEGISIKLIKLERININ SISTEM TARAFINDAN TANINMIYOR OLMASIDIR
+
+2-Navigate to the GeoServer Download page.
+https://geoserver.org/download/
+bURAYA TIKLAYARAK 
+geldgimiz sayfa nin menu elemanlarindan en sagdaki Archive ye tiklariz ve ordan 2.20.1 i seceriz ve tiklairz.. ve de ardindan... 
+Platform Independent Binary ye tikladgimizda bizi https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.1/geoserver-2.20.1-bin.zip/download bu url e goturecektir bu url zaten eger biz bu isi pc uzerinde yapiyorsak direk download edecektir browser uzerinden ama biz her zaman pc uzerinden yapmayacagiz ornegin server uzerinde islem yaparken bu download islemni bizim yapmamiz gerekecek
+
+download islemini yapan url-endpoint i biz artik nereye indirmek istersek geoserver.zip dosyasini o direction a geliriz ve 
+
+sudo wget https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.1/geoserver-2.20.1-bin.zip/download seklinde geoserver zip dosyasini indiririz sonra da 
+
+Biz geoserver i home-username olan /home/adem altina sudo mkdir /home/adem/geoserver diyerek geoserver klasoru olsuturuyoz /home/adem e ve de 
+Sonra geoserver.zip dosyasini download ettikten sonra da 
+/home/adem/Downloads sudo mv geoserver.zip ~/geoserver(/home/adem/geoserver) diyerek geoserver klsorumuz icerisine tasiriz 
+Sonra /home/adem/geoserver  sudo unzip geoserver.zip diyerek zip icindeki klsorleri buraya acariz 
+Sonra 
+Add an environment variable to save the location of GeoServer by typing the following command:
+echo "export GEOSERVER_HOME=/usr/share/geoserver" >> ~/.profile
+. ~/.profile
+
+Yeni bir terminal acariz 
+sudo nano ~/.profile
+This will open the .profile file in the nano text editor. Move the cursor to the end of the file.
+Kodlarin en sonuna en alt satira
+GEOSERVER_HOME=/home/adem/geoserver
+
+Press Ctrl + X to exit nano. It will prompt you to save the changes. Press Y to confirm and Enter to save the file.
+To make the changes take effect in the current terminal session, run the following command:
+. ~/.profile
+This will reload the .profile file and apply the new environment variable.
+
+COOK ONEMLI BIR NOKTA DAHA 
+
+Make yourself the owner of the geoserver folder. Type the following command in the terminal window, replacing USER_NAME with your own username :
+
+sudo chown -R USER_NAME /home/adem/geoserver/(BU COOOK ONEMLIDIR..BIZIM KULLANACAGIMZ HER TURLU DISARDAN GELEN YENI DOSYA ICIN BU DOSYA IZINLERI MUTLAKA VERILMELIDIR YOKSA..GEOSERVER I LOCALHOSTTA YAYINLADIGMIZDA UNACCESSIABEL-IKKE TILGJENGELIG HATALARI ALIRIZ..)
+
+Start GeoServer by changing into the directory geoserver/bin and executing the startup.sh script:
+
+cd geoserver/bin
+sh startup.sh
+
+In a web browser, navigate to http://localhost:8080/geoserver.
+If you see the GeoServer Welcome page, then GeoServer is successfully installed.
+
+To shut down GeoServer, either close the persistent command-line window, or run the shutdown.sh file inside the bin directory.
+
+Uninstallation
+Stop GeoServer (if it is running).
+Delete the directory where GeoServer is installed.
+*/
+
+
+
 
 
 ?>
