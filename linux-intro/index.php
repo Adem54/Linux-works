@@ -1489,7 +1489,7 @@ Ve her yapilan degisiklikte .sh veya .bat dosyalari calistirilarak typescriptin 
 	logs 												
 	klasorleri /home/adem altinda olusturulur												
 	logs da 												
-	chomd -R a+rw logs 												
+	chmod -R a+rw logs 												
 		ile okunup y azilabilir yapilir											
 													
 How to change default apache "DocumentRoot" directory in linux													
@@ -2148,6 +2148,160 @@ To shut down GeoServer, either close the persistent command-line window, or run 
 Uninstallation
 Stop GeoServer (if it is running).
 Delete the directory where GeoServer is installed.
+
+
+Windows uzerinden WSL veya window marketten.. ubntu  yu da indirip window uzerinden linux kullanabiliyoruz
+
+BOLUM 9: KABUK GENISLETILMESI - JOKER KARAKTERLER
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo Hello
+Hello 
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo *
+linux-intro test1 
+dikkat edelim... * bash kabugunda ozel bir anlami var
+echo yu calistirmak yerine ondan once * i uzerinde bulundgumz dizindeki tum dosya ve dizinlerin isimleri ni getirmek icin konuldugunu zannnediyor ve onlari getiriyor...
+  * karakterini uzerinde bulundgumz dizindeki dosya ve klasor isimleri olarak genisletiyor
+echo nun onune de dosya ve dizinler geldigi icin dosya ve dizin isimleri yazdirilmis, konsola bastirilmis oluyor
+Bash kabugumuz tamaen metinsel ifadeler olarak girdi yapiyoruz...BUNU DIKKAT EDELIMM.. 
+KABUK GIRILEN STRING METINSEL IFADELERIN KABUGA GORE DEGERLENDIRILIP UYGUN DEGERLERE DONUSTURULMESI, YANI GENISLETILMESI DEMEKTIR..YANI KABUK ICIN OZEL ANLAM IFADE EDEN KARAKTERLERI KABUK DEGERLENDIRIP ONDAN SONRA CIKTI VERIYOR
+
+SUSLU PARANTEZ GENISLETMESI-BRACE EXPANSION
+Bu sayede sayi-karakter i kullanarakihtiyacimiza uygun tanimlar yaparak, kabuk tarafindan otomatik olarak uretilmesi saglanir
+mkdir 1 2 3 4 5 yaparsak 1 2 3 4 5 ismnde klasorler olusturu
+Burda basch-kernel soyle calisiyor mkdir bir fonksiyondur mkdir 1 2 3 denildiginde 1 2 3 mkdir e argumen olarak verilmis oluyor ve makedir komutu bu argumanlari gordgunde hemen gidip 1 2 3 isminde klasorleri olusturur
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ mkdir {1..5}
+kabuk-bash {1..5} gorunce 1 den 5 e kadar sayi uretmesi gerektigini anliyor ve onlari da mkdir e argument olarak gonderiyor
+1 den 5 e kadar klasorler olusturuyor...HARIKA BESTPRACTISE..
+Yani aslinda her bir komut un karsina yazdigmz dosya isimleri klasor isimleri vs bunlar argumanlaridir onlarin ve bu sekilde calisan bash-kernel de bu sekilde calian hersey genisletilebilme ozellgine sahiptir
+
+echo  a{d,l,t}a  yaparsak 
+ada ala ata      ciktisini verir
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{d,l,t}a
+ada ala ata
+
+parantez disindaki onundeki ve arkasindaki harf ile birlestirilip, istedgimz gibi argumanlar uretebiliyoruz
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{bbb,dd,l,tttt}a
+abbba adda ala atttta
+
+Suslu parantezler icindeki argumanlar arasi bosluk karakteri olmamai aksi takdirde bash-kabugu yorumlayamaz
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{b bb,dd,l,tttt}a
+a{b bb,dd,l,tttt}a
+Bunun sebeb i sudur bash bu islemi suslu parantez icinde oldugunun yerine sanki a{b  bir karaketre bb bir karakter. seklinde degerlendiriyor bosluktan dolayi, ama biz o boslugun bosluk oldugnun bash tarafindan anlasilmasin istersek o zaman da kacis karaketri olan \ karakteri kullaniriz
+Kacis karakteri(Ters slash)- \	
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{b\ bb,dd,l,tttt}a
+ab bba adda ala atttta
+
+Ne zaman biz bir karakterin, bash tarafindan gormezden gelinmesini istersek o zaman o karakter den once kacis karakteri yani \-ters slash karaketrini kullanabliriz
+
+echo {a..z}
+a b c d  den z ye kadar ekrana basacaktik
+
+LInux da buyuk kucuk harf duyarliligi vardir ondan dolayi 
+
+echo {A..Z}
+A B C ...Z 
+echo {1..20} 
+1 2 3 ...20 ye kadar yazar 
+echo {1..20..2}  2 ser araliklar ile bastiriliyor  
+1  3 5 7 ... 19
+echo {a..z..2}  2 ser sira ile ekrana basar
+a c e g ....w y
+Bu genisletme elemanlarin heps arguman oalrak echo ya iletiliyor...iste bash in calisma mantigi budur aslinda
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo test{1..9}
+test1 test2 test3 test4 test5 test6 test7 test8 test9
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo test {1..9}
+test 1 2 3 4 5 6 7 8 9
+cunku bash kabuk bosluklara gore paraclaara ayirdigindan dolayi bu sekilde oluyor demekki bash-kabugu bosluklari dikkat e alarak, bosluiklara gore bolerek ondan sonra yorumluyor
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo {1..3}{a..c}
+1a 1b 1c 2a 2b 2c 3a 3b 3c
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo {1..3}{a..c}{A..C}
+1aA 1aB 1aC 1bA 1bB 1bC 1cA 1cB 1cC 2aA 2aB 2aC 2bA 2bB 2bC 2cA 2cB 2cC 3aA 3aB 3aC 3bA 3bB 3bC 3cA 3cB 3cC
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo {1..3} {a..c} {A..C}
+1 2 3 a b c A B C
+suslu parantezlerin arasina bosluklar birakinca, bash- bu genisletmeleri ayri ayri olarak algiliyor ve her birisini ayri ayri yazdirmis oluyor!!!
+
+Dosya Ismi Genisletilmesi- Filename expansion
+
+Bash kabugu girmis oldugumuz her bir argumana bakip *,? veya [] var mi diye kontrol ediyor
+Bu karaketerlerden birini gorurse bu arguman dosya ismi genisletmesi olarak kabul ediliyor
+Ve bu kalip ile eslesen dosya ve klasor isimleri alfabetik olarak genisletiliyor
+Var olan dosya ve klasor isimleri ile eslesecek kalip lar olusturmamizi saglayan bir yapidir
+Bu cok kullanisli ve cok ihtiyacimiz olacaktir 
+Ornegin a ile baslayan ve sonu .txt ile biten tum dosyalari sil, getir vs demek istersek
+Dosya genisletmesini yapabilmek icin de *,?,[] karakterlerinden uygun olan bir tanesini kullaniriz
+Bu karaketerlere biz joker karakterler diyoruz-wildcards...     
+* karakteri sifir veya sifirdan daha fazla sayida herhangi bir karakterle eslesebiliyor
+? ise sadece herhangi tek bir karakter ile eslesebilioyr
+[] karakter ise koseli parantez ile belirtilmis olan karakterler ile eslesebiliyor
+Bu joker karakter olan *,?,[]  bunlar dosya ismi genisletmesi yalnizca var olan dosya ve dizin isimlerine genisletiliyor
+Yani dosya ve klasor olusturmak gibi islemlerde kullanamayiz 
+Sadece dosya ve klasor isimlerini secerken kullanabiliyorz, bunlar yalnizca var olan dosya ve klasor isimleri uzerinde islem yapilyor
+Pattern matching - Desen-Oruntu eslesme olark da geciyor
+Var olan dosya ve dizin isimleri ile eslesecek karakter desenler i olusturmamizi sagliyor
+
+* Yildiz- ASterix karakteri 
+cd /etc ye geliriz, burda bircok farkli turde dosya ve klasor mevcut oldugundan dolayi pratik yapmak cok daha kolaydir
+echo *   dersek /etc altindaki gizli olmayan tum dosyalarin isimlerini consol a basacaktir
+* bize gizli olmayan dosya lar ve dizin ler haric diger tum dosya ve dizin isimlerini arguman olarak echo ya verdigi icin o da console a o isimlerin basiyor
+* karakteri gizli olan dosya ve klasorleri kapsamiyor..Yani ismini basinda . bulunan dosya ve klasorler gizli dosyalardir bunlari normalde ls -a dersek gorebilriiz...
+
+echo * gizli olmayan tum dosya ve dizin isimleri(Cunku yanlislikla gizli dosyalarda degisiklik yapmamaiz icindir..bazi dosyalar gizlidir cunku bu dosyalar da yapilacak degisiklikler ciddi sonuclari oldugu icin bunlarda yanlislikla kolayca degisiklik yapilmamasi icindir.Ornegin .bashrc dosyasi cok kritiktir..bu dosya zarar gorurse kendi kullanici hesabimizdaki bazi etkilesimli kabuklari kullanma sorunu yasayabiliriz..Cunku configurasyonn dosyalaridir... )
+echo .*  gizli olan tum dosya ve dizin isimleri
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo .*
+. .. .java .pwd.lock
+
+. tek nokta mevcut dizini temsil eden klasor veya dosyalar iken
+ya da ./file.sh deyince uzerinde bulundgumz dizin altndaki dosya calistirilabilyordu.  
+.Tek nokta kabuga-bash kabuguna tam uzerinde bulundugmz dizin adresini veriyor
+.. 2 nokta ise bir ust dizini temsil eden klasor ve dosyalardir 
+Hatirlarsak cd .. deyince bir ust dizine gidebilyoruz 
+Yani soyle anlyalimm... biz nerece olursak olalim...Her dizin de mutlaka , 1 tane tek nokta(.) ve 1 tane 2 nokta(..) karakteri olacaktir cunku bash de bunlar tanimlanmistir ve bunlar uzerinden bash tek nokta ile uzerinde bulundugumuz dizin oldugunu anliyor ornegin ./file.sh ayni sekilde de cd .. deyince de bir ust dizine gitmesi gerektigini biliyor...
+ASAGIDAKI ORNEKLERE BAKARSAK BASH DE OLUSTURULAN HER BIR KLASOR ALTINDA OTOMAIK OLARAK . VE .. KARAKTERLERI NIN GELDGINI GOREBILIRZ...
+
+ORNEGE DIKKAT HANGI DIZINDE OLURSAK OLALIM HER DIZIIMIZDE MUTLAKA . VE .. MEVCUTTUR--START
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo .*
+. .. .java .pwd.lock
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ cd ..
+adem@adem-ThinkPad-13-2nd-Gen:/$ echo .*
+. ..
+adem@adem-ThinkPad-13-2nd-Gen:/$ cd home
+adem@adem-ThinkPad-13-2nd-Gen:/home$ echo .*
+. ..
+adem@adem-ThinkPad-13-2nd-Gen:/home$ cd adem
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo .*
+. .. .android .bash_history .bash_logout .bashrc .cache .config .dotnet .emulator_console_auth_token .gitconfig .gnome .gnupg .gradle .grass7 .java .jdks .lesshst .local .m2 .mozilla .node-gyp .npm .nvm .pki .profile .quokka .ssh .sudo_as_admin_successful .thunderbird .tnsrc .vscode .wallaby .wget-hsts .zoom .zshrc
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+Android                demo1         Documents  Groceries   Linux-works       Pictures  snap       web
+android-studio         demo1-server  Downloads  groceryapp  Music             projects  Templates
+AndroidStudioProjects  Desktop       geoserver  index.html  nativescript-app  Public    Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ cd demo1
+adem@adem-ThinkPad-13-2nd-Gen:~/demo1$ echo .*
+. .. .editorconfig .git .gitignore .vscode
+adem@adem-ThinkPad-13-2nd-Gen:~/demo1$ 
+ORNEGE DIKKAT HANGI DIZINDE OLURSAK OLALIM HER DIZIIMIZDE MUTLAKA . VE .. MEVCUTTUR--END
+
+echo .* demek baslangici . nokta olan ve devaminda herhangi bir karakter bulunan tum dosya ve dizinleri getir demektir
+
+echo host* demek ismi host ile bsalayan dosyalari echo ya arguman olarak ver demektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo host*
+host.conf hostid hostname hosts hosts.allow hosts.deny
+ismi host ile baslayan tum dosya ve dizinleri getir demektir, getiriyor ve echo aracina arguman olarak veriyor echo da onalri konsole a basmis oluyor
+COK FAYDALI..OZELLIKLE VAR OLAN DOSYALARDAN KOPYALAMAK, KESMEK, SILMEK...VEYA HERHANGI BIR ISLEM YAPMAK ISTGEDGIMZ DE...BIR SURU DOSYA ICINDEN SECERKEN...COOOK FAYDALIDIR
+
+echo *.conf  SONU .conf ile biten dosyalar i echo ya arguman olarak verecektir.. 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo *.conf
+adduser.conf apg.conf appstream.conf brltty.conf ca-certificates.conf debconf.conf deluser.conf e2scrub.conf fprintd.conf fuse.conf gai.conf hdparm.conf host.conf kernel-img.conf kerneloops.conf ld.so.conf libao.conf libaudit.conf logrotate.conf mke2fs.conf nftables.conf nsswitch.conf pam.conf pnm2ppa.conf resolv.conf rsyslog.conf rygel.conf sensors3.conf slim.conf sudo.conf sudo_logsrvd.conf sysctl.conf ucf.conf updatedb.conf usb_modeswitch.conf xattr.conf
+
+OZELLIKLE GUNLUK HAYATTA BU SEKILDE KULLANIMLAR COK YAYGINDIR
+scp exampleserver.com:*.jpg .  =>Bu su demektir git exampleserver.com a baglan orda ilk ana klasor altinda buluna butun sonu .jpg ile biten dosyaolari sen su an ki local pc de uzerinde bulundugmz dizin e kopyala indir demektir
+
+
+
 */
 
 
