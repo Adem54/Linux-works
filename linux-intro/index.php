@@ -1539,7 +1539,7 @@ Ve her yapilan degisiklikte .sh veya .bat dosyalari calistirilarak typescriptin 
 	logs 												
 	klasorleri /home/adem altinda olusturulur												
 	logs da 												
-	chomd -R a+rw logs 												
+	chmod -R a+rw logs 												
 		ile okunup y azilabilir yapilir											
 													
 How to change default apache "DocumentRoot" directory in linux													
@@ -2229,451 +2229,449 @@ Uninstallation
 Stop GeoServer (if it is running).
 Delete the directory where GeoServer is installed.
 
-POSTGRESQL USER KULLANICISI ICINDE OLUSTRUDGUMUZ GIS_DB VERITABANINA SHAPE FILE YUKLERKEN ALDIMGZ BAZI HATA VE COZUMLERI!
 
-SHAPE FILE A CHOWND YETKISINI DIREK /home/adem/Downloads altindakilerin hepsinne verdikten sonra biz, direk burdan postgresql e shape file i eklemeye calisiyoruz 
-ALDIGMIZ HATA 
+Windows uzerinden WSL veya window marketten.. ubntu  yu da indirip window uzerinden linux kullanabiliyoruz
+
+BOLUM 9: KABUK GENISLETILMESI - JOKER KARAKTERLER
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo Hello
+Hello 
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo *
+linux-intro test1 
+dikkat edelim... * bash kabugunda ozel bir anlami var
+echo yu calistirmak yerine ondan once * i uzerinde bulundgumz dizindeki tum dosya ve dizinlerin isimleri ni getirmek icin konuldugunu zannnediyor ve onlari getiriyor...
+  * karakterini uzerinde bulundgumz dizindeki dosya ve klasor isimleri olarak genisletiyor
+echo nun onune de dosya ve dizinler geldigi icin dosya ve dizin isimleri yazdirilmis, konsola bastirilmis oluyor
+Bash kabugumuz tamaen metinsel ifadeler olarak girdi yapiyoruz...BUNU DIKKAT EDELIMM.. 
+KABUK GIRILEN STRING METINSEL IFADELERIN KABUGA GORE DEGERLENDIRILIP UYGUN DEGERLERE DONUSTURULMESI, YANI GENISLETILMESI DEMEKTIR..YANI KABUK ICIN OZEL ANLAM IFADE EDEN KARAKTERLERI KABUK DEGERLENDIRIP ONDAN SONRA CIKTI VERIYOR
+
+SUSLU PARANTEZ GENISLETMESI-BRACE EXPANSION
+Bu sayede sayi-karakter i kullanarakihtiyacimiza uygun tanimlar yaparak, kabuk tarafindan otomatik olarak uretilmesi saglanir
+mkdir 1 2 3 4 5 yaparsak 1 2 3 4 5 ismnde klasorler olusturu
+Burda basch-kernel soyle calisiyor mkdir bir fonksiyondur mkdir 1 2 3 denildiginde 1 2 3 mkdir e argumen olarak verilmis oluyor ve makedir komutu bu argumanlari gordgunde hemen gidip 1 2 3 isminde klasorleri olusturur
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ mkdir {1..5}
+kabuk-bash {1..5} gorunce 1 den 5 e kadar sayi uretmesi gerektigini anliyor ve onlari da mkdir e argument olarak gonderiyor
+1 den 5 e kadar klasorler olusturuyor...HARIKA BESTPRACTISE..
+Yani aslinda her bir komut un karsina yazdigmz dosya isimleri klasor isimleri vs bunlar argumanlaridir onlarin ve bu sekilde calisan bash-kernel de bu sekilde calian hersey genisletilebilme ozellgine sahiptir
+
+echo  a{d,l,t}a  yaparsak 
+ada ala ata      ciktisini verir
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{d,l,t}a
+ada ala ata
+
+parantez disindaki onundeki ve arkasindaki harf ile birlestirilip, istedgimz gibi argumanlar uretebiliyoruz
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{bbb,dd,l,tttt}a
+abbba adda ala atttta
+
+Suslu parantezler icindeki argumanlar arasi bosluk karakteri olmamai aksi takdirde bash-kabugu yorumlayamaz
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{b bb,dd,l,tttt}a
+a{b bb,dd,l,tttt}a
+Bunun sebeb i sudur bash bu islemi suslu parantez icinde oldugunun yerine sanki a{b  bir karaketre bb bir karakter. seklinde degerlendiriyor bosluktan dolayi, ama biz o boslugun bosluk oldugnun bash tarafindan anlasilmasin istersek o zaman da kacis karaketri olan \ karakteri kullaniriz
+Kacis karakteri(Ters slash)- \	
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo a{b\ bb,dd,l,tttt}a
+ab bba adda ala atttta
+
+Ne zaman biz bir karakterin, bash tarafindan gormezden gelinmesini istersek o zaman o karakter den once kacis karakteri yani \-ters slash karaketrini kullanabliriz
+
+echo {a..z}
+a b c d  den z ye kadar ekrana basacaktik
+
+LInux da buyuk kucuk harf duyarliligi vardir ondan dolayi 
+
+echo {A..Z}
+A B C ...Z 
+echo {1..20} 
+1 2 3 ...20 ye kadar yazar 
+echo {1..20..2}  2 ser araliklar ile bastiriliyor  
+1  3 5 7 ... 19
+echo {a..z..2}  2 ser sira ile ekrana basar
+a c e g ....w y
+Bu genisletme elemanlarin heps arguman oalrak echo ya iletiliyor...iste bash in calisma mantigi budur aslinda
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo test{1..9}
+test1 test2 test3 test4 test5 test6 test7 test8 test9
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo test {1..9}
+test 1 2 3 4 5 6 7 8 9
+cunku bash kabuk bosluklara gore paraclaara ayirdigindan dolayi bu sekilde oluyor demekki bash-kabugu bosluklari dikkat e alarak, bosluiklara gore bolerek ondan sonra yorumluyor
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo {1..3}{a..c}
+1a 1b 1c 2a 2b 2c 3a 3b 3c
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo {1..3}{a..c}{A..C}
+1aA 1aB 1aC 1bA 1bB 1bC 1cA 1cB 1cC 2aA 2aB 2aC 2bA 2bB 2bC 2cA 2cB 2cC 3aA 3aB 3aC 3bA 3bB 3bC 3cA 3cB 3cC
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo {1..3} {a..c} {A..C}
+1 2 3 a b c A B C
+suslu parantezlerin arasina bosluklar birakinca, bash- bu genisletmeleri ayri ayri olarak algiliyor ve her birisini ayri ayri yazdirmis oluyor!!!
+
+Dosya Ismi Genisletilmesi- Filename expansion
+
+Bash kabugu girmis oldugumuz her bir argumana bakip *,? veya [] var mi diye kontrol ediyor
+Bu karaketerlerden birini gorurse bu arguman dosya ismi genisletmesi olarak kabul ediliyor
+Ve bu kalip ile eslesen dosya ve klasor isimleri alfabetik olarak genisletiliyor
+Var olan dosya ve klasor isimleri ile eslesecek kalip lar olusturmamizi saglayan bir yapidir
+Bu cok kullanisli ve cok ihtiyacimiz olacaktir 
+Ornegin a ile baslayan ve sonu .txt ile biten tum dosyalari sil, getir vs demek istersek
+Dosya genisletmesini yapabilmek icin de *,?,[] karakterlerinden uygun olan bir tanesini kullaniriz
+Bu karaketerlere biz joker karakterler diyoruz-wildcards...     
+* karakteri sifir veya sifirdan daha fazla sayida herhangi bir karakterle eslesebiliyor
+? ise sadece herhangi tek bir karakter ile eslesebilioyr
+[] karakter ise koseli parantez ile belirtilmis olan karakterler ile eslesebiliyor
+Bu joker karakter olan *,?,[]  bunlar dosya ismi genisletmesi yalnizca var olan dosya ve dizin isimlerine genisletiliyor
+Yani dosya ve klasor olusturmak gibi islemlerde kullanamayiz 
+Sadece dosya ve klasor isimlerini secerken kullanabiliyorz, bunlar yalnizca var olan dosya ve klasor isimleri uzerinde islem yapilyor
+Pattern matching - Desen-Oruntu eslesme olark da geciyor
+Var olan dosya ve dizin isimleri ile eslesecek karakter desenler i olusturmamizi sagliyor
+
+* Yildiz- ASterix karakteri 
+cd /etc ye geliriz, burda bircok farkli turde dosya ve klasor mevcut oldugundan dolayi pratik yapmak cok daha kolaydir
+echo *   dersek /etc altindaki gizli olmayan tum dosyalarin isimlerini consol a basacaktir
+* bize gizli olmayan dosya lar ve dizin ler haric diger tum dosya ve dizin isimlerini arguman olarak echo ya verdigi icin o da console a o isimlerin basiyor
+* karakteri gizli olan dosya ve klasorleri kapsamiyor..Yani ismini basinda . bulunan dosya ve klasorler gizli dosyalardir bunlari normalde ls -a dersek gorebilriiz...
+
+echo * gizli olmayan tum dosya ve dizin isimleri(Cunku yanlislikla gizli dosyalarda degisiklik yapmamaiz icindir..bazi dosyalar gizlidir cunku bu dosyalar da yapilacak degisiklikler ciddi sonuclari oldugu icin bunlarda yanlislikla kolayca degisiklik yapilmamasi icindir.Ornegin .bashrc dosyasi cok kritiktir..bu dosya zarar gorurse kendi kullanici hesabimizdaki bazi etkilesimli kabuklari kullanma sorunu yasayabiliriz..Cunku configurasyonn dosyalaridir... )
+echo .*  gizli olan tum dosya ve dizin isimleri
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo .*
+. .. .java .pwd.lock
+
+. tek nokta mevcut dizini temsil eden klasor veya dosyalar iken
+ya da ./file.sh deyince uzerinde bulundgumz dizin altndaki dosya calistirilabilyordu.  
+.Tek nokta kabuga-bash kabuguna tam uzerinde bulundugmz dizin adresini veriyor
+.. 2 nokta ise bir ust dizini temsil eden klasor ve dosyalardir 
+Hatirlarsak cd .. deyince bir ust dizine gidebilyoruz 
+Yani soyle anlyalimm... biz nerece olursak olalim...Her dizin de mutlaka , 1 tane tek nokta(.) ve 1 tane 2 nokta(..) karakteri olacaktir cunku bash de bunlar tanimlanmistir ve bunlar uzerinden bash tek nokta ile uzerinde bulundugumuz dizin oldugunu anliyor ornegin ./file.sh ayni sekilde de cd .. deyince de bir ust dizine gitmesi gerektigini biliyor...
+ASAGIDAKI ORNEKLERE BAKARSAK BASH DE OLUSTURULAN HER BIR KLASOR ALTINDA OTOMAIK OLARAK . VE .. KARAKTERLERI NIN GELDGINI GOREBILIRZ...
+
+ORNEGE DIKKAT HANGI DIZINDE OLURSAK OLALIM HER DIZIIMIZDE MUTLAKA . VE .. MEVCUTTUR--START
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo .*
+. .. .java .pwd.lock
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ cd ..
+adem@adem-ThinkPad-13-2nd-Gen:/$ echo .*
+. ..
+adem@adem-ThinkPad-13-2nd-Gen:/$ cd home
+adem@adem-ThinkPad-13-2nd-Gen:/home$ echo .*
+. ..
+adem@adem-ThinkPad-13-2nd-Gen:/home$ cd adem
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo .*
+. .. .android .bash_history .bash_logout .bashrc .cache .config .dotnet .emulator_console_auth_token .gitconfig .gnome .gnupg .gradle .grass7 .java .jdks .lesshst .local .m2 .mozilla .node-gyp .npm .nvm .pki .profile .quokka .ssh .sudo_as_admin_successful .thunderbird .tnsrc .vscode .wallaby .wget-hsts .zoom .zshrc
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+Android                demo1         Documents  Groceries   Linux-works       Pictures  snap       web
+android-studio         demo1-server  Downloads  groceryapp  Music             projects  Templates
+AndroidStudioProjects  Desktop       geoserver  index.html  nativescript-app  Public    Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ cd demo1
+adem@adem-ThinkPad-13-2nd-Gen:~/demo1$ echo .*
+. .. .editorconfig .git .gitignore .vscode
+adem@adem-ThinkPad-13-2nd-Gen:~/demo1$ 
+ORNEGE DIKKAT HANGI DIZINDE OLURSAK OLALIM HER DIZIIMIZDE MUTLAKA . VE .. MEVCUTTUR--END
+
+echo .* demek baslangici . nokta olan ve devaminda herhangi bir karakter bulunan tum dosya ve dizinleri getir demektir
+
+echo host* demek ismi host ile bsalayan dosyalari echo ya arguman olarak ver demektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo host*
+host.conf hostid hostname hosts hosts.allow hosts.deny
+ismi host ile baslayan tum dosya ve dizinleri getir demektir, getiriyor ve echo aracina arguman olarak veriyor echo da onalri konsole a basmis oluyor
+COK FAYDALI..OZELLIKLE VAR OLAN DOSYALARDAN KOPYALAMAK, KESMEK, SILMEK...VEYA HERHANGI BIR ISLEM YAPMAK ISTGEDGIMZ DE...BIR SURU DOSYA ICINDEN SECERKEN...COOOK FAYDALIDIR
+
+echo *.conf  SONU .conf ile biten dosyalar i echo ya arguman olarak verecektir.. 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo *.conf
+adduser.conf apg.conf appstream.conf brltty.conf ca-certificates.conf debconf.conf deluser.conf e2scrub.conf fprintd.conf fuse.conf gai.conf hdparm.conf host.conf kernel-img.conf kerneloops.conf ld.so.conf libao.conf libaudit.conf logrotate.conf mke2fs.conf nftables.conf nsswitch.conf pam.conf pnm2ppa.conf resolv.conf rsyslog.conf rygel.conf sensors3.conf slim.conf sudo.conf sudo_logsrvd.conf sysctl.conf ucf.conf updatedb.conf usb_modeswitch.conf xattr.conf
+
+OZELLIKLE GUNLUK HAYATTA BU SEKILDE KULLANIMLAR COK YAYGINDIR
+scp exampleserver.com:*.jpg .  =>Bu su demektir git exampleserver.com a baglan orda ilk ana klasor altinda buluna butun sonu .jpg ile biten dosyaolari sen su an ki local pc de uzerinde bulundugmz dizin e kopyala indir demektir
+
+echo rc*.d Baslangici rc ile baslayan sonu .d  ile biten tum dosya ve dizin isimlerini echo ya arguman olarak ver demektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo rc*.d
+rc0.d rc1.d rc2.d rc3.d rc4.d rc5.d rc6.d rcS.d
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+echo *date* icerisinde herhangi bir yerinde date ifadesi gecen tum dosya ve dizinleri getir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo *date*
+updatedb.conf update-manager update-motd.d update-notifier
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+? KARAKTERI - 
+Her zaman yalnizca tek bir karakteri temsil ediyor..dikkat edelim 0 degil
+
+Baslangici ss olan ancak devamindaki karakterin herhangi bir karakte oldugu dosyalari echo aracina arguman olark vermek istersek
+Bunun icin
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo ss?
+ssh ssl
+Yani soru isareti yalnizca tek bir karakteri kapsiyor, bu karakter herhangi bir karakteri kapsiyor ama yalnizca tek bir karakter
+
+/etc$ echo rm?  demek rm ile baslayan ve sonrasin da sadece 1 karakter daha olan dosya ve dizinleri getir demektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo rm?
+rmt
+
+echo s??  s ile baslayan ve sonrasinda 2 tane daha karakter olan dosya ve dizin isimlerini arguman olarak echo  ya ver diyoruz
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo s??
+ssh ssl
+
+Kac soruisareti var ise yalnizca o sayi adedince karakter ile eslesme yapiliyor
+NOT:? bosluk karakteri ile eslesmiyor, yani bosluk karakteri ile eslesmiyor o zaman oyle olsa idi o zaman ornegin echo s?? dedgmiz de sv isminde bir dosya var ise onu da almsi gerekirdi ama tabi ki bosluk karakteri ile "" eslesmediginden dolayi tabi ki oyle olmuyor
+
+echo rc?.d isminin baslangicinde rc olan ama sonu .d ile biten ama ? nin bulundugu nokta da herhangi bir karakter olan(bosluk karakteri degil tabi ki) tum dosya ve dizin leri echo ya arguman olarak ver demis oluyor 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo rc?.d
+rc0.d rc1.d rc2.d rc3.d rc4.d rc5.d rc6.d rcS.d
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+echo ??? Ismi 3 karakterli olan tum dosya ve idizn isimleri listelemek istedgimz de bu sekilde yapariz
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo ???
+apm apt gdb gss opt php pki ppp rmt rpc ssh ssl ufw vim X11 xdg xml
+
+[] GENISLETMESI-[] EXPANSION
+Eger [] icerisine soldan saga dogru bazi karakterler yazarsak bu karakterler, genisletilecek olan karakterler olarak kullaniliyor
+
+echo [aczd]*  ismi a,c,z,d karakterlerinden biri ile baslayan ve devaminda herhangi karakter veya karakterler bulunan dosya veya dizin isimlerini echo ya arguman olarak veriyor
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [aczd]*
+acpi adduser.conf alsa alternatives anacrontab apache2 apg.conf apm apparmor apparmor.d apport appstream.conf apt avahi ca-certificates ca-certificates.conf ca-certificates.conf.dpkg-old chatscripts console-setup cracklib cron.d cron.daily cron.hourly cron.monthly crontab cron.weekly cups cupshelpers dbus-1 dconf debconf.conf debian_version default deluser.conf depmod.d dhcp dictionaries-common dpkg zsh_command_not_found
+
+echo [a-d]*  baslangic harfleri a dan d ye kadar olan harf ile baslayan (yani a,b,c,d den birisi olan) ve sonrasinda herhangi karakter veya karakterler olan tum dosya ve dizinleri echo ya argument olarak verir
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [a-d]*
+acpi adduser.conf alsa alternatives anacrontab apache2 apg.conf apm apparmor apparmor.d apport appstream.conf apt avahi bash.bashrc bash_completion bash_completion.d bindresvport.blacklist binfmt.d bluetooth brlapi.key brltty brltty.conf ca-certificates ca-certificates.conf ca-certificates.conf.dpkg-old chatscripts console-setup cracklib cron.d cron.daily cron.hourly cron.monthly crontab cron.weekly cups cupshelpers dbus-1 dconf debconf.conf debian_version default deluser.conf depmod.d dhcp dictionaries-common dpkg
+
+
+Isminin icinde 1 den 5 e kadar herhangi bir rakam olan dosya isimlerini listelemek istersek 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo *[1-5]*
+apache2 dbus-1 e2scrub.conf gdm3 gtk-2.0 gtk-3.0 iproute2 java-11-openjdk java-17-openjdk libnl-3 mke2fs.conf pnm2ppa.conf polkit-1 python2.7 python3 python3.10 rc1.d rc2.d rc3.d rc4.d rc5.d sensors3.conf udisks2 X11
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+a dan l ye kadar olan karakterlerden herhangi bir tanesi ile baslayan devaminda da 2 tane rastgele herhangi bir karakter bulunan tum dosya isimlerini getir 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [a-l]??
+apm apt gdb gss
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+LINUX DE BUYUK KUCUK HARF DUYARLILIGI OLDUGUNDAN DOLAYI..EGER DOSYA ISMI BUYUK HARF OLACAK DOSYALAR VEYA DIZINLER ARAYACAKSAK BUNLARI OZELLIKLE BUYUK HARF OLARAK BELIRTMEMIZ GEREKIYOR
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo N*
+NetworkManager
+
+Baslangic harfi buyuk olan tum dosya ve klasor isimlerini listelemek  istersek
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [A-Z]*
+ModemManager NetworkManager ODBCDataSources PackageKit UPower X11
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [A-z]*  Ama eger boyle yaparsak o zaman soyle demis oluyoruz.. Baslangicinda buyuk veya kucuk karakterle baslayan  sonrasinda ise rastgele bir veya daha fazla herhangi karakterlerden olusan tum dosya ve dizinleri getir demis oluyoruz
+
+[] JOKER KARAKERI ILE HARIC TUTULMASI GEREKEN DOSYA VE DIZIN ISIMLERININ TANIMLAMA
+
+echo [!a-y]* baslangicinda a dan y ye kadar olan karakterler haricindeki tum diger karakter ler ile baslayan ve sonrasinda da rastgele bir veya birden cok karakter barindirian tum dosya ve dizin isimlerini getirecektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [!a-y]*
+ModemManager NetworkManager ODBCDataSources PackageKit UPower X11 zsh_command_not_found
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+
+SONU .txt ile biten tum dizin(klasor) ve dosyalari silmek icin
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo rm -rf *.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo touch {a..d}.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+a.txt  b.txt  c.txt  d.txt  git-works
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo rm *.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+git-works
+
+Ornegn sadece sonu .txt ile biten dosyalari listelemek istersek de 
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls *.txt
+a.txt  b.txt  c.txt  d.txt
+
+
+REGEX
+Spesifik olarak belirli bir karakter kalibi ile eslesecek desenler olustrmamiza izin veren ozel karakterlerdir
+Dogru sekilde kullanildiginda her turlu metinsel karakterin aranmasi, bulunmasi ve ayristirilmasi konusunda bize muthis kolayliklar sagliyor...Ve cok guclu dir
+
+Regex de sadece var olan dosya ve dizin isimleri ile sinirli degiliz(joker karakterlerde oldugundan farkli olarak)
+Metinsel veriyi girdi olarak verip, bu verilerin istedigmz sekilde ayristirilmasini saglayabiliyoruz
+
+Regex ile kabuk genisletme yi birbirine karistirmayalim...
+REGEX ICIN OZEL ANLAM IFADE EDEN KARAKTERLER 
++ * ? ^ $ () [] {} | \ 
+bu karakterler kullanilarak, regex sayesinde metinsel veriler istenildigi gibi filtrelenebiliyor
+Muthis esnek, kullanisli ve guclu yapidir
+Burda farketmemiz gerkeen nokta su...Bash tarafindan kullanilan bazi genisletme karakterleri regex tarafindan da kullaliyor
+BASH KABUGU TARAFINDAN KULLANILAN EXPANSION - GENISLETME KARAKTERLERI 
+* ? [] {}
+Regex te de kullanilan bu karakterler Regex icinde sanki bash kabugnda calistiklari gibi calismiyorlar(oyle calisiyor gibi gozukseler bile)
+Bash-?- Yalnizca 1 karakteri kapsamak icn kullanilir(bosluk karakteri dahil degildir)
+Regex-? 0 veya 1 karkeri kapsamak icn kullanilir(Yani bosluk karakteri dahildir)
+COOK ONEMLI BIR FARKDIR!!!!!BUNU IYI FARKEDELIM!!!!
+REGEX ILE BASH EXPANSION-GENISLETME KARAKTERLERI AYNI SEKILDE CALISMIYORLAR BUNU IYI BILELIM...COK ONEMLI KARISTIRIMAYALIM...
+
+BASH KABUGU NORMALDE REGEX I DESTEKLEMIYOR ONDAN DOLAYI DA 
+DOSYA ISMI GENISLETMESI(GLOBBING)* ? [] - BASH KABUGU BUNU KULLANIYOR
+AMA BASH ILE REGEX I KULLANMAK ISTEDIGMZ DE sed, awk, grep gibi araclar ile regex i bash kabugunda da kullanabiliyoruz
+
+Dosya Ismi Genisletmesi(* ? [])-Bash Kabugun kendisine ait gomulut-inbuilt ozelliklerididir 
+Dolayisi ile biz dogrudan *?[] karakterleri kullandgimzda bash bunlari her zaman icin dosya genisletme karakteri olarak algiliyor. Eger harici olarak regex i kullanmak isteiyorsak, o zaman sed, awk, grep gibi regexi destekleyen araclari kullanarak metinsel verileri istedgimz gibi isleyebiliriz
+Zaten bash-kabugunun amaci bize komut satirinda calisma ortami saglamaktir
+Dolayisi ile bash in kendi icinde dogrudan regex i desteklemesi gerekmiyor cunku
+BAsh in regex i desteklemiyor olmasi bir eksiklik veya unutulmus birsey degil, o bash in yapisinin bir parcasidir
+Bash bize gerekli olan calisma ortamlari bize sagliyor.. Regex islemleri icin sed-awk-grep araclari ile kullaniriz
+
+ALINTI KARAKTERLERI- TEK TIRNAK VE CIFT TIRNAK
+Bash icin ozel anlami olan bazi karakterlerin var olduguni ifade etmistik
+Ornegin *,?,[] ama biz bu karakterlerin kabuk-bash tarafindan normal karakter olarak, algilanmasini istersek o zaman da bu karakterleri tirnak icinde yazariz
+mkdir newfolder   - newfolder isminde bir klasor olusturur
+mkdir new folder - new ve folder isimlerinde 2 ayri klasor olusturur.. 
+Aralarinda bosluk oldugui icin bash 2 ayri klasor olarak algiliyor
+Bash bosluk karakterini komutu argumanlara ayirmak icin koydugmuz dusunuyyor
+Bu durumu cozmek icin yani hem klasor olusturmak istiyoruz ama klasor ismimiz new folder olsun ama 1 klasor olsun istersek o zaman ne yapiyoruz tek tirnak icerisinde yazariz...
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo mkdir new folder
+[sudo] password for adem: 
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+a.txt  b.txt  c.txt  d.txt  folder  git-works  new
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo mkdir 'new folder'
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+ a.txt   b.txt   c.txt   d.txt   folder   git-works   new  'new folder'
+ Iste bu durum tek tirnak icinde 'new folder' yazarak tanimlamaya alintilama diyoruz...
+Bash kabugu icinde tek tirnak icindeki hicbir karakter ozel anlami ile ele alinmaz, siradan bir karakter olarak gozukecektir
+
+Bash kabugunda degiskenlerin basina $ isareti koyarak genisletiliyor
+$SHELL - SHELL DEGISKENINE NE ATANDI ISE O NU VERECEKTIR
+~ tilde isareti de home..yani /home/adem i isaret ediyor
+
+NORMALDE TEK TIRNAK OLMADAN KULLANIRSAK ASAGIDAKI GIBI SONUC VERECEKTIR
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo {1..5} ~ $SHELL *
+AMA TEK TIRNAK KULLANILARAK YAPARSAK AYNI ISLEMI O ZAMAN ISE... 
+1 2 3 4 5 /home/adem /bin/bash a.txt b.txt c.txt d.txt folder git-works new new folder
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo '{1..5} ~ $SHELL *'
+{1..5} ~ $SHELL *
+AYNI ORNEGIN CIFT TIRNAK ICINDE DENEDGIMZ ZAMAN ISE
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo "{1..5} ~ $SHELL *"
+{1..5} ~ /bin/bash *
+Sadece degisken genisletmesi olan $SHELL uygulaniyor cift tirnak icinde , ama diger ozel karakterlerin hicbirisi uygulanmiyor
+$SHELL =/bin/bash
+Ayrica bir te \ ter slash(ESCAPE-KACIS KAREKTERI) isaretini de bash kabugu cift tirnak isareti icindfe kullanildiginda ozel islevlerinde kullaniliyor olarak algiliyor ayni degisken tanimlama islevi olan $SHELL deki gibi..
+\-ESCAPE-KACIS KARAKTERI- KEDNISINDEN ONCE KULLANILDIGI KARAKTERIN OZEL ANLAMININ GECERSIZ OLMASINI SAGLAR 
+ORNEGIN $SHELL IFADESININ ONUNE EGER KI \ KOYARSAK O ZAMAN CIFT TIRNAK ICINDE $ ISARETI DE OZEL ISLEVINI YITIRMIS OLARAK, NORMAL SIRADAN BIR $-DOLARAK KARAKTERI OLARAK ALGILANACAKTI
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo "$SHELL"
+/bin/bash
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo "\$SHELL"
+$SHELL
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ 
+
+Yani kisacasi regex i kullanabilmek icin, bash in kendi genisletmelerinden ozel anlam ifade eden karakterlerin, siradan karakterler olarak algilandigi '' veya "" icerisinde kullanilmasi gerekir..
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo  mkdir a{b..e}a > text1.txt
+> demek output.. yani sen echo ile gelen ciktiyi getir text1.txt ye yazdir diyor...Yani gelen output
+> bu output redirection demektir - kendinden once olusturulan icerigin kendinden sonra verilen dosya icine 
+It is used to redirect the output of a command (in this case, the output of the echo command) into a file. In this case, it will create a new file called "text1.txt" or overwrite it if it already exists, and the contents of the file will be the string generated by the echo command.
+
+Sudo mysql –u admin –p cottageservice < cottageservice.sql 
+< input redirection dir
+< cottageservice.sql: The < symbol is used for input redirection in the command line. It tells the shell to take the contents of the file cottageservice.sql and use it as input for the command. In this case, it's using the SQL commands in cottageservice.sql to populate the cottageservice database within MySQL.
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat text1.txt
+aba aca ada aea
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo a{f..k}a > text2.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat text2.txt
+afa aga aha aia aja aka
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep "a*a" text*.txt
+text1.txt:aba aca ada aea
+text2.txt:afa aga aha aia aja aka
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep a*a text*.txt
+text1.txt:aba aca ada aea
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads   index.html        Pictures  Templates  web
+Android                demo1-server  geoserver   Linux-works       projects  text1.txt
+android-studio         Desktop       Groceries   Music             Public    text2.txt
+AndroidStudioProjects  Documents     groceryapp  nativescript-app  snap      Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep ada text1.txt
+
+Bash kabugu grep aracina komutu aktarmadan once, anlamlandirilp ondan sonra grep aracina aktariliyor BUNU UNUTMYALIM
+Iste bundan dolayi 
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep a*a text*.txt - ilk olarak bash tarafindan anlamlandirilirarak 
+grep ada text*.txt haline gelir...  cunku a*a yi gorunce dosya genislemesi olarak algilar ve dizinde bulunan dosya-dizinlerden a ile baslayip a ile biten leri alir o ada zaten 1 tane ada vardir , Ondan sonra grep araci calisir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep "a*a" text*.txt 
+Burda ise cift tirnak icerisinde oldugundan dolayi "a*a" yi oldugu gibi bu sekilde anlamlandiracktir ve de grep aracina da "a*a" olarak gelecektir, arguman olarak
+
+KABUK GREP ARACINI CALISTIRMADAN ONCE KENDI UZERINE DUSEN BIRSEY VAR ISE DOSYA GENISLETMESI VS BUNLARI UYGULAYACAKTIR..
+
+dikkat edelim kacis karakteri olan \ -tersslah ile asterix-* karakterinin ozel anlamini yok say, siradan karakter hali ile tani diyerek aslinda tirnak icinde yazdigmiz durum daki ile ayni sonucu alabilmis oluyoruz
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep a\*a text*.txt
+text1.txt:aba aca ada aea
+text2.txt:afa aga aha aia aja aka
+
+\(Terssslah) Escape char- Ozel anlama gelen karakterlerin, ozel anlamlarinin gormezden gelinip, onlarin siradan character olarak ele alinmasini saglar
+
+KOMUT IKAMESI GENISLETMESI!!!
+Komutlarin uretmis oldugu sonuclarin, genisletmenin kullanildigi tanimlamann yerini almasidir
+Komut ikamesi daha cok bash-programlama da kullanilyor
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "mevcut dizin $(pwd)"  //pwd bulundugmz dizini veriyordu..Komut ikmasinden faydalandik
+mevcut dizin /home/adem
+
+test11
+test12
+test13
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       Videos
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  web
+android-studio         Desktop       geoserver    Linux-works  projects          text1.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            text2.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ mkdir $(cat folders.txt)
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       test13     web
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  text1.txt
+android-studio         Desktop       geoserver    Linux-works  projects          test11     text2.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            test12     Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat folders.txt
+test11
+test12
+test13
+
+folders.txt dosyasi icerisine yazdigmz ifadeler yeni olusturdugmz klasorlerin isimleri olarak kullanilmis!!!
+mkdir aracina $(cat folders.txt) sonucu uzerinden is yaptirmis olduk
+Normalde mkdri araci bu sekilde kendisi bir dosyadan icerik okuyup o icerik uzerinden klasor olusturmayi desteklemiyor ancak komut ikamesi sayesinde dosya icerigini cat araci ile okuyup mkdir e argument olarak iletilmesin saglamis olyyoruz..
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ rmdir $(cat folders.txt)
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       Videos
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  web
+android-studio         Desktop       geoserver    Linux-works  projects          text1.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            text2.txt
+
+rmdir $(cat folders.txt) //folders.txt nin icerigi olan test11,test12,test13 ismindeki klasorler kaldirilacaktir  
+
+$(cat folders.txt) test11 test12 test13   bu ciktilar komut ikamesinin yerine genisletilip rmdir aracina argument olarak verilecektir
+
+Normalde mkdir ve rmdir komutlari bu sekilde bir dosya icerigini okuyarak okudug icerige karsilk gelen isimlerden klasor olusturma veya o isimlerdeki klasorleri silme gibi bir islem yapmiyorlar ama biz arac ikame yardimi ile bunu yapabiliyoruz
+
+`` TERS TIRNAK ISARETI ICINE YAZILAN KODLAR DA KOMUT IKAMESI OLARAK GORULEBILIYORLAR
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "mevcut dizin `pwd` dir"
+mevcut dizin /home/adem dir
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat folders.txt
+test11
+test12
+test13
+adem@adem-ThinkPad-13-2nd-Gen:~$ mkdir `cat folders.txt`
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       test13     web
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  text1.txt
+android-studio         Desktop       geoserver    Linux-works  projects          test11     text2.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            test12     Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ rmdir `cat folders.txt`
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       Videos
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  web
+android-studio         Desktop       geoserver    Linux-works  projects          text1.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            text2.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+
+ORNEK:Başlangıcı sıfır veya birden fazla karakter olan “a” karakterini barındıran ve “a” karakterinden sonra tek bir karakter içeren dosya ismi genişletmesini nasıl tanımlarsınız ?
+echo *a?  - Baslangicinda hic a karakteri de olmayabilir birden fazla a karakteri de olabilir, bu tanimlama *-asterix karakteridir..
+
+METINSEL VERILERI ISLEMEK 
+LINUX TEMEL MIMARISI 
+Linux temel mimarisi herseyi bir dosya gibi ele aliyor
+Bu sayede sistem uzerindeki tum yapilari son derece basit bir sekilde ele alma ve bu yapilar arasinda iletisim kurma imkani da sagliyor
+Ornegin isletim sistemimize bir aygit bagladigimizda, bu aygit hakkinda bilgi almak icin
 
-
-postgres@adem-HP-EliteOne-800-G1-AiO:/home/adem/Downloads/norge_roads$ shp2pgsql -s 4326 -I NOR_roads.shp nor_roads | psql -d gis_db -U postgres Shapefile type: Arc Postgis type: MULTILINESTRING[2] SET SET BEGIN CREATE TABLE ALTER TABLE ERROR: function addgeometrycolumn(unknown, unknown, unknown, unknown, unknown, integer) does not exist LINE 1: SELECT AddGeometryColumn('','nor_roads','geom','4326','MULTI... ^ HINT: No function matches the given name and argument types. You might need to add explicit type casts. ERROR: current transaction is aborted, commands ignored until end of transaction block ROLLBACK ERROR: relation "nor_roads" does not exist
-
-HATAMIZ POSTGIS EKLENTIISNI SHAPE FILE Y UKLEMEYE CALISTIGMZ VERITABANINA KURMADIMGIZI GOSTERIYOR 
-The error message you encountered indicates that there is an issue with the				
-AddGeometryColumn				
-function, which is used to add a geometry column to the				
-nor_roads				
-table during the import process.				
-This error can occur if the PostGIS extension is not properly installed or if the required functions are not available.				
-To resolve this issue, you can try the following steps:		
-
-1-Ensure that the PostGIS extension is installed in your PostgreSQL database. You can do this by connecting to your database using psql:
-				
-psql -d gis_db -U postgres
-
-Bu arada burda da dikkat edilmesi gerken bir nokta var.. Authentication ile ilgili bir hata aliyoruz bu sekkilde baglanmaya calisinca 
-HATA-ERROR 
-
-adem@adem-HP-EliteOne-800-G1-AiO:~$ psql -d gis_db U postgres
-psql: warning: extra command-line argument "postgres" ignored
-psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  Peer authentication failed for user "U"
-
-COZUM-
-This error typically occurs when the PostgreSQL server is configured to use peer authentication and requires the operating system user to match the PostgreSQL user. However, in this case, it seems that the authentication method is not working as expected.
-To resolve this issue, you can try one of the following approaches:
-
-sudo -u postgres psql -d gis_db  BU SEKILDE BAGLANACAGIZ gis_db VERITABANIMZA YUKARDAKI GIBI BAGLNMAK YERIN
-
-This command switches to the "postgres" user and then connects to the "gis_db" database. It bypasses the peer authentication issue because you're directly connecting as the "postgres" user.
-
-YA BU SEKIDLE COZERIZZZ YA DA 2.SIDE
-
-Update the PostgreSQL authentication method:
-Open the PostgreSQL configuration file using a text editor:
-sudo nano /etc/postgresql/<version>/main/pg_hba.conf
-Replace <version> with the actual version number of PostgreSQL installed on your system.
-Look for the line that corresponds to local connections and peer authentication. It will look something like:
-local   all             all                                     peer
-Change "peer" to "md5" to enable password-based authentication. The line should now look like:
-local   all             all                                     md5
-Save the changes and exit the text editor.
-
-Restart the PostgreSQL service for the changes to take effect:
-	sudo service postgresql restart
-	After restarting, try connecting to the database again:
-	psql -d gis_db -U postgres
-
-	This time, you should be prompted to enter the password for the "postgres" user, and the connection should succeed.
-By using either of these methods, you should be able to connect to the "gis_db" database as the "postgres" user without encountering the "peer authentication failed" error.
-
-Tamam gis_db veritabanimza girdikk...artik 
-
-gis_db=#SELECT postgis_full_version();
-ERROR:function postgis_full_version is does not exist diye bir sonuc aliyoruz 
-Bu arada bizim postgis eklentisini direk veritabanina kurmadan once  normalde terminalde postgis kurulumu yapilmalidir bunu unutmayalim...LINUX E KURMALIYYIZ ONCE 
-
-EN BASTA BU SEKILDE POSTGIS INSTALL EDILMELIDR KI SONRA VERITABANINDA EKLENTIYI OLUSTURABILELIM
-
-sudo apt install postgis
-
-sudo -i -u postgres psql
-postgres=#\CONNECT gis_database;
-You are now connected to database "gis_database" as user "postgres".
-postgres=#CREATE EXTENSION postgis;
-CREATE EXTENSION
-
-gis_db=#CREATE EXTENSION postgis;
-CREATE EXTENSION(BOYLE BIR SONUC VAR ISE KURULMUS DEMEKTIR)
-
-EGER POSTGIS EKLENTISI ZATEN KURULMU ISE VE BIZ YINE POSTGISDEN KAYNAKLI BIR HATA ALIRSAK O ZAMAN DA 
-If the PostGIS extension is already installed, make sure it is properly enabled in your database. You can check this by running the following command in psql:
-
-gis_db=#SELECT * FROM pg_extension WHERE extname='postgis';
-BURDA DA extname='postgis' BURANIN TEK TIRNAK ICINDE YAZILDIGINA DIKKAT ETMLELIYIZ CIFT TIRNAK KULLANMAMALIYIZ...
-
-If the installed column for PostGIS is false, you can enable it by running the following command:
-gis_db=#	CREATE EXTENSION postgis;
-
-POSTGIS EKLENTISINI DE KURDUKTAN SONRA ARTIK SHAPE FILE IMIZI IMPORT EDECEK KOMUTLARI CALISTIRABILIRIZ
-icin de bulundugmuz gis_db=# den cikariz \q ile 
-sonra da postgres user inden exit ile cikariz 
-
-sudo -i -u postgres deriz sonra shape file lerimizin oldugu directiona geliriz 
-postgres@adem-HP...~$ cd /home/adem/Downloads/norge_roads shp2pgsql -s 4326 -I NOR_roads.shp nor_roads | psql -d gis_db -U postgres
-ARTIK SHAPFILE IMIZIN EKLENDIGINI GOREBILIRIZ.. TERMINALDE GELEN MESAJ VS LERDEN 
-
-SIMDI DE CHECK EDELIM EKLEDIGMIZ SHAPE FILE I
-
-psql gis_db diyerek de postgres in gis_db veritabani na geliriz 
-
-gis_db=#\d
-gis_db=# SELECT * FROM nor_roads LIMIT 10;
-
-CHOWN-OWNER LIK PROBLEMI  VE COZUMU 
-Biz shape file imizi yukleyebilmek icin shape file leri indirdigmiz Downloads klasorune /home/adem/Downloas klasorune postgresql deki postgres user i tarafindan owner lik vermistik
-
-sudo chown -R postgres:postgres /home/adem/Downloads
-
-seklinde , ama bu neye sebep oldu bizim ana kullanici olarak adem kullanicisi olarak login olduktan sonra Downloads a gitmeye calistigmzda Permission denied hatasi aldik ve bildigmz kendi Downloads klasorumuze erisemedik... 
-OWNSERSHIP KONTROLU YAPAARIZ ONCE DOWNLOADS KLASORU ICIN 
-ls -ld ~/Downloads 
-ardindan eger biz owner listesinde kendi linux e login oldugmuz kullanici olarak owner lar arasinda owner listesi icinde var isek ve  yine de Downloads a erisemiyuor isek o zaman 
-chmod u+rwx ~/Downloads yapariz
-Yok biz hic owner listesinde  yok isk o zaman da 
-sudo chmod a+rwx ~/Downloads ile 
-This command grants read, write and execute permissions to all users on the system.. 
-Tekrardan cd ~/Downloads ile artik kendi kullanicimiz u zerinden Downloads a erisebilirizls
-
-DOSYA IZINLERI..ILE ILGILI ASAGIDAKI FARKI OGRENELIM... VE DIKKAT EDELIM BU ASAGIDAKI KOMUTLAR LINUX DE COOK AMA COK IHTIYACIMIZ OLACAK OLAN KOMUTLARDIR BIR LINUX KULLANICISININ BUNLARI BILEMEMESI DUSUNUELEMEZ!!!!!!!
-
-what is the different from sudo chmod a+rwx ~/Downloads and sudo chmod 777 ~/Downloads
-
-Both sudo chmod a+rwx ~/Downloads and sudo chmod 777 ~/Downloads commands grant read, write, and execute permissions to the "Downloads" directory for all users. However, there is a slight difference in the way the permissions are expressed.
-In the sudo chmod a+rwx ~/Downloads command:
-a represents all users, including the owner, group, and others.
-+rwx grants read (r), write (w), and execute (x) permissions.
-In the sudo chmod 777 ~/Downloads command:
-
-777 is an octal representation of permissions, where each digit represents the permission for a specific user category.
-The first digit (7) represents the owner's permissions (read, write, and execute).
-The second digit (7) represents the group's permissions (read, write, and execute).
-The third digit (7) represents others' permissions (read, write, and execute).
-
-Essentially, both commands achieve the same result of granting full permissions to all users for the "Downloads" directory. The difference lies in how the permissions are specified: in symbolic notation (a+rwx) or in octal notation (777).
-
-SH DOSYALARININ EXECUTE EDILMESI ICIN CHMOD +X UYGULANARAK EXECUTABLE YAPILMALARI GEREKIR  YOKSA PERMISSION DENIED HATASI ALIRIZ
-SUDO CHMOD +X test.sh
-
-GIZLI DOSYALAR VE KLASORLER VE GIZLI DOSYALARI GOREBILMEK 
-GIZLI DOSYA VE KLASORLER
-GIZLI DOSYA=> .file_name
-GIZI KLASOR=> .folder_name
-
-GIZLI DOSYALARI NASIL GOREBILIRIZ
-1-bir klasor veya directory altindaki gizli dosyalari gormek icin  /home/adem ls -all   veya /home/adem ls -a yapariz
-Biz maus ile home klasorune gideriz ve orda sag ustteki 3 tane alt alta cizgi olan ayarlar ikonundan show hidden files dersek zaten gizli dosyalari gorebilecegiz orda ve orda .baschrc dosyasini gorebiliirz
-Burda ki .bashrc dosyasini  home/adem bu ikisi HOME dur environment variable da ve bu home dan onceki ana yol altinda home un da icinde bulundugu ana yol altinda etc klasoru var onun altinda .bashbashrc dosyasi var bunun ile bizim simdi actimgiz HOME(home/adem) altindaki gizli dosya olan .bashrc nin bir alakasi  yok ikisi birbirnden farkli dosyalardir karisirmayalim..
-
-COOOOK ONEMLI BUNU BILMEK GEREK
-HOME(home/adem)..BURAYA DIKKAT HOME DENILDIGI ZAMAN HOME=>echo $HOME ciktisi /home/adem dir yani HOME linux-ubuntuda /home/adem demektir
-
-ROOT KLASORUNE GELMEK 
-cd /
-HOME - ANA DIRECTORYE KISA YOLDAN GELMEK
-cd ~/  => /home/adem
-Eger HOME UN UZANTISNIN GORMEK ISTERSEK ZATEN 
-echo $HOME YAZARAK BUNUN /home/adem oldugunu gorebiliriz
-
-PRATIK BILGI 
-ls -l adem/adem-zeynep ile biz adem-zeynep klasoru altindaki dosyalari ve klasorleri listeleyebiliriz 
-
-Konsol, kullanıcı ile Shell arasından yer alarak kullanıcının komut girmesini sağlayan grafiksel ve komut satırı arayüzüne sahip bir araçtır. Biz komutlarımızı bu araç aracılığı ile Shell'e ulaştırırız Shell ise kullanıcıdan gelen girdileri yorumlayarak Kernel'e aktarır.
-UYGULAMALAR-BIZIM COMMAND BASH-PROGRAMINA YAZDIMGIZ TERMINAL KODLARI=>SHELL=>KERNEL=>CPU-RAM-AYGITLAR(DONANIM)
-
-KOMUTLARI AYNI ANDA YANYANA KULLANMAK
-&& KULLANARAK YAPARIZ
-echo $PATH && echo $TERM AYNI ANDA HER IKI KODU BIRLIKTE CALISITRABILIYORUZ
-AYNI SEKILDE ; KULLANARAK DA CALISTIRABILIRZ IKI KODU DA
-echo $PATH ; echo $TERM
-
-NEDEN .SH VEYA .BAT DOSYALARINA IHTIYAC DUYARIZ VE BU DOSYALAR NE IS YAPAR?
-
-Oncelikle .sh dosyasi linux icin .bat dosyasi ise windows da kullanilan dosyalardir ve her iki dosya icerisinde biz birden fazla execute islemi yapabilioyruz...ORNEGIN BIR SERVER I BASLATMAMIZ GEREKEBILIOYR, VEYA ELIMIZDE VAR OLAN BIRDEN FAZLA TYPESCITIP DOSYASINI COMPILE EDERKEN HER BIRISINI AYRI AYRI YAPMAK YERINE 1 KERE DE TUM TYPESCRIPT DOSYALARIMZI COMPILE EDIYOR..NETICE DE BIZIM TERMINAL UZERINDEN EXECUTE EDEREK ORNEGIN BIR PROJEYI AYAGA KALDIRMAK VEYA BASLATMAK GIBI ISLEMLERIMIZI, BU .SH VEYA .BAT UZANTILI EXECUTE DOSYALARI SAYESINDE 1 KERE DE HALLEDEBILIYORUZ..
-
-tail
-head
-cat
-grep
-find
-locate
-apropos
-man
-! 
-!! 
-history
-
-tail Komutu
-cat’e benzer şekilde, tail bir dosyanın içeriğini tek bir önemli uyarıyla yazdırır: Yalnızca son satırları verir. Varsayılan olarak, son 10 satırı yazdırır, ancak bu sayıyı -n ile değiştirebilirsiniz.
-Örneğin, büyük bir metin dosyasının son satırlarını yazdırmak için şunları kullanırsınız:
-
-tail uzun_metin_dosyası.txt
-Yalnızca son dört satırı görüntülemek için:
-tail -n 4 uzun_metin_dosyası.txt
-
-head Komutu 
-
-Head komutu, tail komutunun tamamlayıcısıdır. head komutu, bir metin dosyasının ilk 10 satırını hızlıca göstermek içindir, ancak -n bayrağıyla görüntülemek istediğiniz satır sayısını ayarlayabilirsiniz:
-head uzun_metin_dosyası.txt
-head -n 5 uzun_metin_dosyası.txt
-
-grep Komutu
-
-Grep, metin dosyalarıyla çalışmak için en güçlü yardımcı programlardan biridir. Normal bir dizindeki dosyalar içinde grep komutuyla belirttiğiniz ifadeyle eşleşen satırları arar ve bunları gösterir:
-	grep "linux" uzun_metin_dosyası.txt
-	–c bayrağını kullanarak kalıbın kaç kez tekrarlandığını sayabilirsiniz:
-	grep -c "linux" uzun.txt
-	
-	grep "Syntax" test2.txt  seklinde test2.txt dosyasi iceriisnde "Syntax" kelimesini ariyoruz
-
-find Komutu	
-Find komutu, bir regex ifadesine dayalı olarak bir dizin hiyerarşisindeki dosyaları arar. Kullanmak için aşağıdaki sözdizimini izleyin:
-	find ./ -name "uzun_metin_dosyası.txt"
-ARANILAN DOSYA ISMIINDEN KAC TANE VAR ISE HEPSININ UZUN YOLUNU GETIRIR	
-	Bu komutu kullandığınızda aradığınız dosyanın konumu dosya yoluyla beraber sonuç olarak karşınıza çıkacaktır.
-
-
-	FIND KOMUTUNU ANLAMAK
-	find komutunu daha iyi anlayalim ve nasil calistigni iyi bilelim..COK IHTIYACMIZ OLACAK KOMUTLARDANDIR
-
-	find komutu ile biz test2 ismindeki dosyalari aramak istiyoruz ornegin 
-
-	adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"
-find: ‘/home/adem/Downloads/xdebug-3.2.1’: Permission denied
-find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied
-find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied
-/home/adem/Desktop/test2
-adem@adem-HP-EliteOne-800-G1-AiO:~$ 
-
-Ve yukardaki gibi bir netice aldik ama kafamizi karistiran nokta su burda biz test2 dosyasini ariyoruz ama find komutu gidip alakasiz dosyalari armaya calisip, ordan da persmission denied hatalari ortaya cikiyor nedir bu durum?
-Can you explain what happened this code and why I got the lines I did not search, and permission denied?
-
-In summary, the "Permission denied" errors occur when the find command encounters directories for which the user running the command does not have sufficient permissions. These errors are expected and are part of the normal behavior of the find command when searching through directories.
-CEVABIMIZ BURDA ZATEN..FIND KOMUTU BIZIM BELIIRTTIMIZ DOSYA YOLU PATH I ICERISINDE TEK TEK TUM KLASOR LERIN ALTINDA KI DOSYA ISIMLERINI OKUMAYA CALISIYOR ILK ONCE KI ORDAN CHECK EDECEK VE BIZIM ARADIGMZ DOSYA ISMI VAR MI ONU ANLAYACAK, BUNUN ICIN DOSYALARI OKUMASI GERERKIYOR ISTE BOYLE BIR DURUMDA DOSYA OKUMA IZNI OLMAYAN DOSYALAR ICIN PERMISSION DENIED SORUNU VEYA UYARISI ALIYOROUZ...
-
-DOSYA IZINLERI ICIN HARIKA BIR ORNEK!!!! 
-find isleminde verdigmiz test2 dosyasini bulmaya calisirken biz de dosya iznine takildigi klasorlerden bazilarinin dosya izinlerini herkesin erisebilecegi duruma getirip tekrar arama yapiyoruz ve sunu goruyoruz ku tekrar arama y apinca, artik find bir oncekinde permission denied error aldigi dosyalarda ayni  hatayi almiyor
-
-adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"								
-find: ‘/home/adem/Downloads/xdebug-3.2.1’: Permission denied								
-find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied								
-find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied								
-/home/adem/Desktop/test2								
-adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod a+rwx ~/Downloads/xdebug-3.2.1								
-[sudo] password for adem: 								
-adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/contrib’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/include’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/m4’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/build’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/autom4te.cache’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/.libs’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/modules’: Permission denied								
-find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied								
-find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied								
-/home/adem/Desktop/test2								
-adem@adem-HP-EliteOne-800-G1-AiO:~$ 								
-								
-adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod 777 ~/Downloads/xdebug-3.2.1/src								
-adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/develop’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/lib’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/gcstats’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/profiler’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/tracing’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/debugger’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/base’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/src/coverage’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/contrib’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/include’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/m4’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/build’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/autom4te.cache’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/.libs’: Permission denied								
-find: ‘/home/adem/Downloads/xdebug-3.2.1/modules’: Permission denied								
-find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied								
-find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied								
-/home/adem/Desktop/test2								
-								
-DOSYA IZINLERININ KONTROL EDILMESI!!!!COOK OHTIYACIMIZ OLACAK 
-You can use the ls -l command to check the permissions.			
-
-Biz home da iken yani /home/adem veya ~/ iken ls -l yapiyoruz..ve asagidaki gibi sonuclar geliyor simdi buna bakalim bu ne demek tam olarak
-drwxr-xr-x 4 root root 4096 juni 12 08:19 boot
-drwxr-xr-x: This represents the file permissions of the "boot" directory. Each character in this section represents the permission for a specific entity (owner, group, and others). 
-The first character (d) indicates that it is a directory.
-The next three characters (rwx) represent the permissions for the owner (root). In this case, the owner has read, write, and execute permissions.
-The following three characters (r-x) represent the permissions for the group (root). In this case, the group has read and execute permissions but no write permissions.
-The last three characters (r-x) represent the permissions for others (users who are not the owner or in the group). In this case, others have read and execute permissions but no write permissions.
-PERIMISSION- 1-OWNER 2-GROUP 3-OTHERS
-
-4: This indicates the number of links to the "boot" directory.
-The "boot" directory is a directory in the root of the file system that contains essential files for booting the operating system. It typically holds files related to the system's bootloader, kernel, initial ramdisk (initrd), and other boot-related configuration files.
-"Önyükleme" dizini, işletim sistemini başlatmak için gerekli dosyaları içeren, dosya sisteminin kök dizinindeki bir dizindir. Genellikle sistemin önyükleyicisi, çekirdeği, ilk ram diski (initrd) ve diğer önyükleme ile ilgili yapılandırma dosyaları ile ilgili dosyaları tutar.
-In the context of the output you provided, the number 4 indicates the number of links to the "boot" directory.
-Sağladığınız çıktı bağlamında, 4 rakamı "boot" dizinine giden bağlantıların sayısını gösterir.
-The number 4 in your output indicates that there are four such links to the "boot" directory.
-Çıktınızdaki 4 rakamı, "önyükleme" dizinine bu tür dört bağlantı olduğunu gösterir.
-
-In summary, the output drwxr-xr-x 4 root root 4096 juni 12 08:19 boot indicates that the "boot" directory is owned by the user "root" and the group "root". The owner has read, write, and execute permissions, while the group and others have read and execute permissions. The directory has a size of 4096 bytes and was last modified on June 12th at 08:19.
-
- ls -l / bu sekilde root klasoru icin yapilirsa asagidaki gibi satirlarda geliyor basinda d ile baslayanlarin yaninda, l ile baslayanlar nelerdir onlara bakacak olursak
-lrwxrwxrwx 1 root root 7 mars 31 14:11 bin -> usr/bin
-lrwxrwxrwx   1 root root          7 mars  31 14:11 bin -> usr/bin
-lrwxrwxrwx   1 root root          9 mars  31 14:11 lib32 -> usr/lib32
-lrwxrwxrwx   1 root root          9 mars  31 14:11 lib64 -> usr/lib64
-lrwxrwxrwx   1 root root         10 mars  31 14:11 libx32 -> usr/libx32
-
-A symbolic link, denoted by the letter 'l' at the beginning of the file permissions, is a special type of file that serves as a reference or pointer to another file or directory. It is similar to a shortcut or alias in other operating systems.
-Bu su demektir biz ornegin /home/adem directory sunde iken /bin de  yazarsak bu aslinda /usr/bin i isaret ediyor yani /usr/bin klasoru demektir ama muhtemelen ilk baslarken belki kullanilmasi gerektiginden de olabilir veya baska sebeplerden direk root altina bir link olusturulmus, symbolic link ondan dolayi da satir basina l ile basliyor, bu link demektir
-
-
-PING KOMUTU-LINUX DE 
-The ping command is a network diagnostic tool used to test connectivity between two devices on a network. It sends a small packet of data called an ICMP Echo Request to a specific IP address or hostname and waits for a response, known as an ICMP Echo Reply. Here's how to use the ping command on Ubuntu
-
-1-Open a terminal: You can open a terminal by pressing Ctrl + Alt + T on your keyboard or by searching for "Terminal" in the application launcher.
-2-Execute the ping command: The basic syntax of the ping command is ping [options] <IP address or hostname>. Here are a few examples:
-
-To ping an IP address: ping 192.168.0.1
-To ping a hostname: ping example.com
-
-Observe the output: The ping command will start sending ICMP Echo Requests to the specified IP address or hostname. It will display the round-trip time (RTT) for each packet and report if the packets were received successfully. You can press Ctrl + C to stop the ping command.
-The ping command is useful in various scenarios
-
-Ozellikle server imiz linux ise orda bizim serverimizla baglanti halinde olan domain ler ile server imzin baglanti durumunu ogrenmek istedigimz senaryolar olabiliyor 
-
-Testing network connectivity: You can use ping to check if your Ubuntu system can reach another device or server on the network.
-Troubleshooting network issues: By analyzing the output of ping, you can determine if there are delays, packet loss, or connectivity problems between your system and the target.
-Verifying DNS resolution: By pinging a hostname, you can check if the DNS resolution is working correctly and translating the hostname to an IP address.
-Checking network latency: The round-trip time (RTT) reported by ping can give you an indication of the network latency between your system and the target.
-
-Please note that some systems or networks may have ICMP Echo Request/Reply packets blocked, which could result in no response or blocked pings.
-
-It's important to use ping responsibly and only on devices or networks you have permission to access, as excessive or unauthorized use of ping can be considered network abuse.
-
-chmod Komutu
-chmod komutu, bir dosyanın izinlerini (modunu) hızlı bir şekilde değiştirmenizi sağlar. Ayrıca bir çok seçeneğe sahiptir.
-Bir dosyanın sahip olabileceği temel izinler şunlardır:
-
-r (okuma)
-w (yazma)
-x (çalıştırma)
-
-Chmod için en yaygın kullanım durumlarından biri, bir dosyayı kullanıcı tarafından çalıştırılabilir hale getirmektir. Bunu yapmak için, chmod ve +x işaretini ve ardından izinlerini değiştirmek istediğiniz dosyayı yazın:
-
-chmod +x izini_değiştirilecek_dosya
-Bunu, komutla dosyalarınızı çalıştırılabilir hale getirmek veya tam tersini yapmak için kullanabilirsiniz.
-Bir dosyanın çalıştırma iznini iptal etmek için:
-Yukarıdaki -x parametresini kullandığınızda bir dosyanın çalışma iznini iptal edersiniz o dosya tekrar izin verilene kadar çalıştırılamaz.
-
-chmod a+rwx ~/Downloads 
-chmod 777 ~/Downloads
-
-Downloads klasorunu tum kullanicilar tarafindan  a(all) + ve read-write-executable(rwx) yapiyoruz ve bundan sonra permission denied hatasi almamiz oalcaktir..
-
-MAN-h 
-man sayfasinda iken h tusuna basarak man ile ilgili detayli bilgiyi elde edebiliyoruz
-
-WHATIS KOMUTU
-Bu komut sayesinde hangi komutun hangi man sayfasinda oldugunu bulabiliyoruz 
-
-APROPOS / MAN -K KOMUTLARI
-APROPOS KOMUTU VEYA MAN -K KOMUTLARI  ILE HATIRLAYAMADIMGIZ KOMUT ISIMLERINE HARIKA BIR SEKILDE ERISEBILIYORUZ
-man-h listelenince gelir APROPOS 
-sorguladigi komutun gectigi uygulamalari listeler
-man -k chmod ile aprops chmod ayni islemi yapiyor
-man kilavuz sayfalarinda detayli arastirma yapabilmis olyoruz komutun ismini hatirladik ama islevini hatirlamadik veya islevini hatirladik ama ismini hatirlamadik. Boyle durumlarda appropos ile
-
-ornegin bir komut var di silme islemi yapiyordu ne idi ne idi deyip 
-apropos remove yazarsak  veya /  man -k remove
-
-uname komutu
-bize cekirdek hakkinda bilgiler sunar
-man uname dersek uname hakkinda detayli bilgi alabiliriz
-man uname de uname i hangi parametrelerle kullanabilecegmizi gorebiliyoruz 
-
-uname -a  (-all- tum bilgileri sunuyor)
-bu bilgileri ayri ayri yazidirmak istersek
-uname -s kernel ismini verir
-uname de kernel ismini verir
-uname -n host ismini bilgisyar ismin verir
-uname -r derlenme surumu gelir 
-uname -v kernel versiyon
-uname -m veya uname machine ile  islemci-donanim bilgisi gelir - x86_64
-uname -o isletim sistemi ismi verir
-
-lsb_release -a komutu-Mevcut dagitim ile ilgili bilgileri verir
-
-whoami komutu - kimlik sorgu islevini gorur
-
-Mevcut kullanicinin hangi kimlik ile calistigini verir
-whoami komutu benim pc de adem sonucunu veriyor benim root olarak username olarak adem oldugu icin
-username i  veriyor yani
-
-who-komutu 
-sistemde hangi kullanicilarin aktif oldugunu gosterir
-
-w komutu
-Hangi kullanicinin hangi islemi gerceklestirdigini gosterir
-
-uptime komutu 
-Bilgisyarimzin ne kadar suredir acik oldugunu bize bildirir
-10:14:52 up 11 min, 1 user load average: 0,02, 0,07 ,0,08
-11 dakikadir sistemin acik oldugunu gosteriyor. Linux e giris yaptigmiz andaki kismi gosterir
-
-date- komutu tarih saat bilgilerini verir
-
-locate komutu 
-sudo apt install plocate
-locate test2 dersek test2 nin gectigi tum dosyalari getiriyor
-yazdgimz dosya isminin gectigi tum dosyalari listeliyor bize cok harika efektif bir kullanim sunuyor.. 
-Tam olarak dizin adresini bilmedigimiz ama ismini hatirladigmz bir dosyayi bulmamiza yardimci oluyor 
-sudo apt update 
-sudo apt install mlocate
-During the installation of the mlocate package, a cron job is created that runs the updatedb command every 24 hours. This ensures the database is regularly updated. For more information about the cron job check the /etc/cron.daily/mlocate file.
-The database can be manually updated by running updatedb as root or user with sudo privileges:
-
-sudo updatedb
-
-locate index2.sh
-diye index2.sh dosyasini ararsak  bize dosya yolunu verecektir 
-
-/home/adem/Desktop/adem1/index2.sh 
-seklinde
-
-find komutuna benziyor bu acidan 
-find -name "index2.sh"
-./Desktop/adem1/index2.sh 
-
-HARIKA AUTOCOMPLETE ISLEMI LINUX TERMINALDE
-Ornegin cok uzun komut yaziyoruz ve surekli kullaniyorsak  bir kere kullanip sonra
-Komutumuz ornegin stat Desktop/adem1/index2.sh ise 
-!stat seklinde komutmuzun baslangic kismini yazmamiz  yeterlidir
-Sadece baslangic kismini bu sekilde yazdimgizda gerisini o bize getirecektir bunun aynisi windows da tab ile yapariz 
-Oncelikle history yazarak en son kullandigimz komutlari aliriz sonra da autocomplete islemi ile
-!stat burda stat herhangi bir kodun ilk kelimesini temsil ediyor..yoksa ekstra dan stat in bir anlami yok onemli olan ! isareti ile bsalamaasidir
-!stat yazarak en son kullandimgz komutlardan uzun komutlari tekrar yazmak zorunda kalmamiz oluruz
-
-Birde yine history ile en son kullandgimiz komutlari getiririz 
-Komutlarmiz gelirken hem numara hem de isimleri ile birlikte geliyorlar
-Biz o numaralari kullanarak da komutlarmiz getirebiliriz
-
-!1098 yazarsak en son kullandigmz komutlardan stat Desktop/adem1 komutu run edilerek gelecektir 
-
-Birde son yazdgimiz komuta erismek icin ise 
-!! kullaniriz en son hangi komutu kullandi isek onu bize getirecektir
-
-EN BASTAKI /(ROOT) ILE ARALARA KONAN /(KLASOR HIYERARSISI) ARASINDAKI FARKLI MUTLAKA BILMELIYIZ
-/home/aenetsense en bastaki / slash ifadesi bizim root-kok dizinimizi temsil ediyor, diger slash lerde klasorler arasi gecisi temsil eder
 */
 
 
