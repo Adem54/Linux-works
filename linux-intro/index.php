@@ -118,6 +118,7 @@ YAZILIM ILE DONANIMIN HABERLESMESINI SAGLAR.
 YAZILIM TARAFINDA ARACLAR ILE VERILEN KOMUTLARIN DONANIM TARAFINDAN ANLASILIP YERINE GETIRMESINI SAGLAR
 
 LINUX KERNEL- SHELL(KABUK)
+
 Biz ornegin bir dosyayi masaustunden alip baska bir klasor iceriisne tasiyoruz bunu surukle birak isleminin kullanilmasi ile(grafiksel arayuz sunuldugu icin boyle bir islem yapabiliriz) de yapaiblirz ya da bunu shell komutlari ile de yapaibliriz hangisi ile yaparsak yapalim arkada gerceklesen islem aslinda aynidir yani arka plan da bizim dosya ile ilgili  yaptgimiz islemin komutlarinin yorumlanarak, donanim(ram-cpu-vb) tafindan bu komutlarin anlasilip yerine getirilmesi ile gerceklesmektedir
 Bu islemi gerceklestirmekle gorevli olan linux kernel-cekirdek kullanicidan gelen girdiler le birlitkte yani girdi-orneign bir dosya tasima isi ise bu bir emir dir input dur yani girdir  iste kernel bu girdiyi alir, bu emri alir ve sistemin, isleyebilmesi icin verilen emrin uygulanmasi icin donanima(ram-cpu..) bu emirleri  uygulattirmak ile gorevlidir linux kernel, ancak direk olarak kullanicidan alinan komutlar linux-kernele gecmez bundan once komutu satiri dedigmiz(lede-text-veya cmd) shell-kabuk programini temel alarak calisan bir yapi, kullanici ile cekirdek arasinda bir araci katman gorevi gorur...ANLAMAK COOOK ONEMLIDIR 
 SHELL(KABUK)
@@ -245,6 +246,7 @@ Bu islem icin actimiz dosyanin en altina
 COOOOOK ONEMLI DIKKKKAT ETMELIYZ..... 
 PATH="/home/adem/Desktop/adem/adem-zeynep/adem-zeynep-zehra/":$PATH
 COOOK ONEMLI...HOME BASINA / VE EN EON KLASOR ISMI OLAN adem-zeynep-zehra/ sonuna da slash koymayi unutmayalim...yoksa path de veridigmi adresi bulamaz... 
+Biz burda path i yaziyoruz, dosyayi degil dikkat yani /home/adem/Desktop/adem/adem-zeynep/adem-zeynep-zehra/ burasi klaro path adresidir, burda herhangi bir dosya ismi vs yoktur zaten dosya ismi olsa idi uzantiis olmasi gerekirdi....
 
 BURDA SUNA DIKKAT EDELIM...EN BAS HOME KOMUTUNDAN ITIBAREN YOLUNU DOGRU YAZMAMIZ VE BULMAMZ GEREKECEKTIR...  COK ONEMLI... 
 dosyanin en altina bunu ekleriz
@@ -260,7 +262,7 @@ Ancak yapilan ddegisikliklerin gecerli olmasi icin ya sistemin yeniden baslatilm
 Bir dosya icinde yapilan degisikligin tekrar konfigure edilip bize yansitilmasi icn source komutu kullanilir
 source /etc/bash.bashrc diyerek yaptigmiz degisikligin tekrar konfigure edilmesini saglayabilirz
 isetrsek oturumu kapatip tekrar acadab ilriz...
-Sonucta path-environment varibable la bir dosya yolumuzu giri p yapilan degisikligin sistem tarafindan taninacak hale gelmesini saglamis oluyorz
+Sonucta path-environment varibable la bir dosya yolumuzu girip yapilan degisikligin sistem tarafindan taninacak hale gelmesini saglamis oluyorz
 path ortam degiskenine bizim ekledigmiz path- eklenmis mi onu check edecek olursak 
 echo $PATH YAZDIGMIZZ ZAMAN KARSIMIZA home/Desktop/adem/adem-zeynep/adem-zeynep-zehra/:.. bu sekilde gelecktir 
 Demekki ekledimgz path environment variable  a eklenmis demektir
@@ -297,6 +299,25 @@ hello myfriend        yazacaktir ekrana
 cd Desktop yapip Desktop directory ye geliriz 
 Bir.sh dosyasi executable degil iken onu nasil calistiririz 
 bash test.sh, ./test.sh diyerek ve de cat test.sh diyerek de icerigini oldugu gibi okyabilriz
+
+KIsacasi :Dosyanin ./demo2.sh denildiginde run edilmesini , execute edilmesi ni saglayan sudo chmod +x demo2.sh    komutudur, yoksa dosyamiz hicbir zamaan calistirilamaz 
+
+ 
+adem@adem:~/test/demo2$ sudo ./demo2.sh 
+
+sudo: ./demo2.sh: command not found 
+
+adem@adem:~/test/demo2$ sudo chmod +x demo2.sh 
+
+adem@adem:~/test/demo2$ ./demo2.sh 
+
+ 
+
+Ama bu dosyamizi eger istedgimz her yerden calistirabilmek istersek ..ne demek istiyoruz..Normalde biz ornegin ~/test/demo/demo1.sh dosyasini executable yaptiktan sonra onu execute edebilmek icin o dosya yoluna gideriz...  ve   
+
+~/test/demo/  ./demo2.sh deriz...ama yanlis dosya yolunda bunu yaparsak bize oyle bir dosya bulunamadi diyecektir...Iste environment path e eklersek /etc/bash.bashrc icinde o zaman bizim artik hangi dosya yolunda oldugmuz onemli degill istedgimz her yerden dogrudan demo2.sh yazarak execute edebiliriz...Tabi ki oncesinden chmod +x ile executable  yapilmis ise ve de /etc/bash.bashrc ye eklemmis ve de pc yeniden baslatilmis ise....BUNLARI UNUTMAYALIM!!!! 
+
+
 
 .SH NEW-FILE.SH DOSYAMIZMI PATH UZERINDE VAR OLAN BIR PATH ENVIRONMENT VARIABLE YOLUNA DA TASIYARAK KULLANABILIRZ
 BU YUKARDA YAPTIGMIZ ILK ISLEME GORE COK DAHA GUVENLI BIR YOLDUR
@@ -415,8 +436,11 @@ Onunce nokta bulunan dosya ve dizin adlari gizli dosya gorevi gorurler
 Bizim mevcut oturumumuzda ortam degiskenlerinde -environment variable da kalici bir degisiklik yapabilmemiz icin yapmak istedigimiz degisiklikleri her oturum acildiginda okunan ve ona gore baslangic degerleri alinan .bashrc isimli dosyaya eklememiz gerekiyor ki
 oturum acgimizda ssistem burda ypatigimz degisiklikleri her seferinde gorebilsin
 Degisiklikleri yapabilmek icin oncelikle bu .baschrc dosyasini acmamiz gerekiyor
+GIZLI DOSYALARI NASIL GOREBILIRIZ
+1-bir klasor veya directory altindaki gizli dosyalari gormek icin  /home/adem ls -all   veya /home/adem ls -a yapariz
 Biz maus ile home klasorune gideriz ve orda sag ustteki 3 tane alt alta cizgi olan ayarlar ikonundan show hidden files dersek zaten gizli dosyalari gorebilecegiz orda ve orda .baschrc dosyasini gorebiliirz
 Burda ki .bashrc dosyasini  home/adem bu ikisi HOME dur environment variable da ve bu home dan onceki ana yol altinda home un da icinde bulundugu ana yol altinda etc klasoru var onun altinda .bashbashrc dosyasi var bunun ile bizim simdi actimgiz HOME(home/adem) altindaki gizli dosya olan .bashrc nin bir alakasi  yok ikisi birbirnden farkli dosyalardir karisirmayalim..
+
 COOOOK ONEMLI BUNU BILMEK GEREK
 HOME(home/adem)..BURAYA DIKKAT HOME DENILDIGI ZAMAN HOME=>echo $HOME ciktisi /home/adem dir yani HOME linux-ubuntuda /home/adem demektir
 
@@ -521,6 +545,7 @@ Grep, metin dosyalarıyla çalışmak için en güçlü yardımcı programlardan
 	–c bayrağını kullanarak kalıbın kaç kez tekrarlandığını sayabilirsiniz:
 	grep -c "linux" uzun.txt
 
+
 find Komutu	
 Find komutu, bir regex ifadesine dayalı olarak bir dizin hiyerarşisindeki dosyaları arar. Kullanmak için aşağıdaki sözdizimini izleyin:
 	find ./ -name "uzun_metin_dosyası.txt"
@@ -594,7 +619,7 @@ APROPOS / MAN -K KOMUTLARI
 APROPOS KOMUTU VEYA MAN -K KOMUTLARI  ILE HATIRLAYAMADIMGIZ KOMUT ISIMLERINE HARIKA BIR SEKILDE ERISEBILIYORUZ
 man-h listelenince gelir APROPOS 
 sorguladigi komutun gectigi uygulamalari listeler
-man -k chmod ile approps chmod ayni islemi yapiyor
+man -k chmod ile aprops chmod ayni islemi yapiyor
 man kilavuz sayfalarinda detayli arastirma yapabilmis olyoruz komutun ismini hatirladik ama islevini hatirlamadik veya islevini hatirladik ama ismini hatirlamadik. Boyle durumlarda appropos ile
 
 ornegin bir komut var di silme islemi yapiyordu ne idi ne idi deyip 
@@ -636,6 +661,7 @@ vgremove (8)         - Remove volume group(s)
 bize asagidaki gibi aciklama getirir ki bu harika birseydir biz aslinda ihtiyacimz olup da hatirlamadigmiz islevleri anahtar kelimeler uzerinden hangi komutlar var  diye bu sekilde arayabilirz
 
 ORNEGIN KOMUTU
+
 
 apropos kill / man -k kill
 
@@ -722,6 +748,7 @@ Bilgisyarimzin ne kadar suredir acik oldugunu bize bildirir
 date- komutu tarih saat bilgilerini verir
 
 DIKKATTT--
+sudo apt install ncal ile once cal comutunu kullanabilmek icin kurariz
 cal - yazarak takvim seklinde terminale yazdirabilirz
 cal diyourz hicbirse gelmiyor hemen bulmak icn man -k veya cal --help yaziyoruz ama yine birsey gelmiyoir boyle durumlarda 
 2 sey olabiilir ya guncelleme gelmis komut degismis olablir ki onda da komut islevi ni  yazarak man -k veya apropos ile arariz ya da bu aradigmiz ozellik sudo apt install ile installl edilmesi gereken birseydir ve bizim onu install etmemiz gerekecektir
@@ -745,6 +772,8 @@ whereis uptime
 uptime: /usr/bin/share/man/man1/uptime.1.gz
 
 locate komutu 
+sudo apt install plocate
+locate test2 dersek test2 nin gectigi tum dosyalari getiriyor
 yazdgimz dosya isminin gectigi tum dosyalari listeliyor bize cok harika efektif bir kullanim sunuyor.. 
 Tam olarak dizin adresini bilmedigimiz ama ismini hatirladigmz bir dosyayi bulmamiza yardimci oluyor 
 sudo apt update 
@@ -899,7 +928,7 @@ Dagitik kavrami da ornegn birden cok bilgisayarin oldugu bir agda bilgisayardan 
 Ornegin X_Pc /bin klasoru dagitilir
 Y_Pc /home klasoru dagitilir
 
-Bu sayede fiziksel olarak birden cok bilgisayara dagilmis olan sucunu sanki tek bir kok dosya sisteminden sanki tek bir pc gibi yonetilebilir. Bu sayede hem is yuku dagitilarak sistem performansi arttirilir hemde  yetkilendirme ve y onetim kisitlamalari dahilindee sistemin ayri ayri parcalara dagilimi ile sistemde ekstra guvenlik onlemi saglanmis olur
+Bu sayede fiziksel olarak birden cok bilgisayara dagilmis olan sunucu sanki tek bir kok dosya sisteminden sanki tek bir pc gibi yonetilebilir. Bu sayede hem is yuku dagitilarak sistem performansi arttirilir hemde  yetkilendirme ve y onetim kisitlamalari dahilindee sistemin ayri ayri parcalara dagilimi ile sistemde ekstra guvenlik onlemi saglanmis olur
 
 Bu dosya sistemi tekil kullanicilar icinde sagladigi guvenlik sistemi ile gereekli bir sistemdir
 Tum kullanicilar kendi yetkileri dahilinde islemleri guvenli bir sekilde yerine getirirler, bu sekilde yonetim ve gunenli saglama isi kolaylasacaktir
@@ -917,7 +946,7 @@ Sistemde ne kadar sorun olursa olsun /bin klsaorundeki komutlar calismaya devame
 /boot klasoru sistemin yuklenme evresidir sistemin boot edilmesinde kullanilan dosyalar /boot klasorunde bulunur(sistem ilk acildiginda calisacak olan dosyalardir)
 /dev klasoru , linux de hersey bir dosyadir donanim aygitlari da boyledir, USB girisleri seri paralel portlar, depolama ortamlari, CD roomlar ve bunun gibi butum aygitlar /dev klasoru altinda tutulan dosyalardan ibaretttir
 Bunlari normalde programlar vasitasi ile kullaniriz ama dosya olarak da elimizde oldugu icin direk olarak da mudahele etme imkanimizda var 
-/etc klsoru : Isletim sistemini bir vucuda benzetirsek, etc sistemin merkezi, sisteme dair tum ayarlari ve bilgisyaar ozel bir cok yapilanma bilgiis burdadir
+/etc klsoru : Isletim sistemini bir vucuda benzetirsek, etc sistemin merkezi, sisteme dair tum ayarlari ve bilgisyaar ozel bir cok yapilanma bilgiis burdadir, environment variables lari duzenledigmz environment dosyasi da burdadir
 /home klasoru : Burasi kullanicilarin kalesidir. Her bir kullanicinin kendi adinda bir alt klasor bulunur /home klasoru altinda
 /home/adem   /home/zehra
 Kullanicilarin kisisel degisiklik ve ayarlar ,yapilandirmalarin hepsi kendine ait subklasor altinda tutulur
@@ -1292,7 +1321,34 @@ JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 ANDROID_HOME="/home/adem/Android/Sdk"					
 nss_inipath=/home/adem/ini				
 
+ANDROID STUDIO O YU YUKLEDIKTEN SONRA BAZI PROBLEMLER CIKMASI MUHTEMELDIR 
+ORNEGIN EGER BIRDEN FAZLA KONUMDA JAVA JDK VAR ISE BU PROBLEM CIKARABILIR
+Multiple Gradle daemons might be spawned because the Gradle JDK and JAVA_HOME locations are different. Project 'My Application' is using the following JDK location when running Gradle: '/home/adem/android-studio/jbr' The system environment variable JAVA_HOME is: '/usr/lib/jvm/java-11-openjdk-amd64' If you dont need to use different paths (or if JAVA_HOME is undefined), youcan avoid spawning multiple daemons by setting JAVA_HOME and the JDK locationto the same path. More info... Select the Gradle JDK location Do not show this warning again
 
+BU TARZ HATALAR ALABILIRIZ...BUNLARI TEST ETMEK ICN ZATEN TSC DOCTOR YAZARAK TEST EDERIZ ... YUKARDAKI PROBLEMI COZMEK ICIN 
+
+The warning message you received indicates that the Gradle JDK location and the system environment variable JAVA_HOME have different values. This can potentially result in multiple Gradle daemons being spawned.
+
+To resolve this issue, you can set the Gradle JDK location to match the JAVA_HOME value. Here's how you can do it in Android Studio:
+
+Open the settings for your project by navigating to "File" -> "Project Structure" in the Android Studio menu.
+
+In the left sidebar, click on "SDK Location".
+
+Under "JDK Location", you will see the current Gradle JDK location. Click on the "..." button next to it.
+
+In the JDK selection dialog, navigate to the location specified in the system environment variable JAVA_HOME ("/usr/lib/jvm/java-11-openjdk-amd64" in your case).
+
+Select the JDK location and click "OK" to confirm the change.
+
+After setting the JDK location to match JAVA_HOME, Gradle should no longer spawn multiple daemons due to the mismatch.
+
+Additionally, if you don't want to see this warning message again, you can check the "Do not show this warning again" checkbox.
+
+By ensuring that the Gradle JDK location and JAVA_HOME are set to the same path, you should be able to avoid the issue of multiple Gradle daemons being spawned.
+
+DIKKAT EDELIM BUTUN BUNMLARI YAPIP DIREK TSC DOCTOR YAZARSAK HATALAR DUZELMEMIS OLACAKTIR. ONDAN DOLAYI... PC YI OTURUMU YENIDEN BASLATTIKTEN SONRA TEST ETMEK DAHA MANTIKLIDIR... 
+BIRDE ANDROID_STUDIO NUN TAM OLARAK DOGRU BIR SEKKILDE TUM KURULUMLARININ SONUNA KADAR BEKLENILMESI GEREKIR..
 
 UBUNTU DA KURULUMDAN SONRA PROGRAMLARIN YUKLENMESI
 VSCODE
@@ -1348,7 +1404,7 @@ COZUM!!!!!!!!!!!					DOSYA IZINLERININ VERILMESI....COOOOK ONEMLI!!!!!!!!!!1
 
 	UBUNTU DA BAZI KURULUMLAR ILE ILGILI BILINMESI GEREKENLER
 
-	nativescript kurulumu							
+nativescript kurulumu							
 Android Studio kurulumu 							
 Jdk kurulumu ve JAVA_HOME ENV.VARIABLE A EKLENMESI							
 ANDROID JDD KURUP ANDROID_HOME EKLENMESI							
@@ -1402,13 +1458,7 @@ eger password yok ise sudo mysql -u root ile dire girilebiliyor ama password var
 sudo mysql_secure_installation -p yi ALTER ILE YENI PASSWORD ATAMASI YAPTIKTAN SONRA DENEMELIYIZ EGER DENEMEK ISTERSEK YOKSA ILK DEFA PASSWORD AYARLAMAYI GIDIP DE mysql_secure_installtion dan yaparsak endless bir donguye giriyor passwordu 100% secure girsek bile ondan dolayi once ALTER ILE YENI PASSWORD ATAMASI YAP ARDINDAN O PASSWORDU LOW LEVEL SECIP ORDA TEKRAR GIR EGER MYSQL_SECURE INSTALLATION DAN SECURE YAPMAK ISTERSEK AMA ZORUDNDA DEGILIZ MYSQL_SECURE INSTALLATION YAPMAYA DA BILIRIZ...AMA MUHTEMELEN EGER ALTER ILE DEGISTIRIRKEN KONFIGURASYON HATALARI VS ALIRSAK O ZAMAN MYSQL_SECURE_INSTALLTION DENIYORDUK													
 													
 													
-													
-													
-													
-													
-													
-													
-													
+																						
 .sql database dosyasini nasil import ederiz linux da buna bakalim simdide….													
 uzak server dan nasil lokale indiririz nereye indigini nasil biliriz ve onu nasil kendi dataabase imize import ederiz													
 nasil database olustururuz linux de													
@@ -1745,7 +1795,11 @@ ERROR:  syntax error at or near "createdb"
 LINE 1: createdb gis_db;			
         ^			
 postgres=# \q			
-postgres@adem-ThinkPad-13-2nd-Gen:~$ createdb gis_db;			
+postgres@adem-ThinkPad-13-2nd-Gen:~$ createdb gis_db;
+
+HATA VE COZUMU!!!
+\l bu komut postgresql in internal command i icinde calisiyor, postgresql in internal command
+ina girebilmek icinde sudo -u postgres psql
 postgres@adem-ThinkPad-13-2nd-Gen:~$ \l			
 l: command not found			
 postgres@adem-ThinkPad-13-2nd-Gen:~$ psql			
@@ -1757,7 +1811,7 @@ NEDEN BIZ myUser ve testUser KULLANICILARINI TIRNAK ICINDE YAZMADIGMZDA SILMIYOR
 
 The error message suggests that the roles myUser and testUser do not exist in the PostgreSQL database. 
 To drop a user, it is important to use the correct case-sensitive spelling of the user name.
-In your case, it seems that the user names are not correctly capitalized. By default, PostgreSQL treats unquoted identifiers as case-insensitive, so when you create a user with a specific casing, you need to use the same casing when referencing the user later.
+In your case, it seems that the user names are not correctly capitalized. By default, PostgreSQL treats unquoted identifiers as case-insensitive(yani tirnak icinde yazdigin), so when you create a user with a specific casing, you need to use the same casing when referencing the user later.
 
 To resolve the issue, try the following:
 Connect to the PostgreSQL database as the postgres user:
@@ -1790,11 +1844,31 @@ Using these commands helps ensure that the necessary permissions and configurati
 
 DATABASE VE TABLO OLUSTURMA
 
- sudo -i -u postgres
+sudo -i -u postgres
 postges@dhani-ubuntu:~$ createuser --interactive
-
+CREATEDB YI DIREK sudo -i -u postgres ISLEMDEN SONRA YAPARIZ YANI PSQL  YAZMADAN ONCE.. 
 createdb gis_database: This command creates a new PostgreSQL database named "gis_database". The createdb command is used to create a new database, and "gis_database" is the name given to this particular database.
 
+VERITABANI OLUSTURUKEN ALABILECEGIMZ HATA VE COZUMU!!
+
+postgres@adem-HP-EliteOne-800-G1-AiO:/home/adem/Downloads/norge_roads$ psql     psql (14.8 (Ubuntu 14.8-0ubuntu0.22.04.1))                       											
+Type "help" for help.											
+											
+postgres=# \du											
+postgres=# \l											
+postgres=# createdb gis_db											
+postgres-# \l											
+postgres-# psql											
+postgres-# createdb gis_db;											
+ERROR:  syntax error at or near "createdb"											
+LINE 1: createdb gis_db											
+        ^		
+postgres=# \q											
+postgres@adem-HP-EliteOne-800-G1-AiO:/home/adem/Downloads/norge_roads$ createdb gis_db		
+
+COZUM-- \q ile psql ile oldugumz yerden cikarz yani 	 sudo -i -u postgres yapiinca geldigimiz seviyeye geliriz.. Sonra createdb gis_db diye yeni veritabani olusturuuz ya da psql yapip girersek o zaman da asagidaki gibi veritabani olusturabiliriz CREATE DATABASE gis_db;	CREATE DATABASE new_database;
+GRANT ALL PRIVILEGES ON DATABASE new_database TO myUser;
+									
 $ sudo -i -u postgres: This command is used to switch to the "postgres" user with administrative privileges. It allows you to execute subsequent commands as the "postgres" user, which is typically used for managing the PostgreSQL server and databases.
 
 psql: This command opens the PostgreSQL interactive terminal, where you can run SQL commands to interact with the database server.
@@ -1974,8 +2048,6 @@ Now you should be able to run the shp2pgsql command with the postgres user as be
 shp2pgsql -s 4326 -I NOR_adm1.shp NOR_adm | psql -d gis_db -U postgres
 
 
-
-
 SHAPE FILE YUKLENDIKTEN SONRA O SHAPE FILE I VERITABANINDA NASIL LISTELIYORUZ...							
 postgres@adem-ThinkPad-13-2nd-Gen:~/shape2$ psql -d gis_db -U postgres							
 psql (14.8 (Ubuntu 14.8-0ubuntu0.22.04.1))							
@@ -2008,6 +2080,14 @@ gis_db=# SELECT * FROM nor_roads LIMIT 10;
 
 
 DOSYA IZINLERI ILE ILGILI ALDIGMIZ HATA VE COZUMU!! 
+
+BIZ BU PROBLEMI YA POSTGRESQL IN LINUX ICINDE BULUNDUGU DOSYA ALTINDA KLASOR OLSUTURARAK MEVCUT SHAPEFILE LERIMZI TABI YANINDAKI BIRLIKTE OLDUGU .PRJ GIBI TUM DOSYALAR LA BIRLIKTE POSTGRESQL DOSYALARININ ALTINA TASIRIZ VE SONRA DA O TASIDGIMZ KLASOR E CHOWN -R ILE POSTGRES USER A HER TURLU SAHPLIK KULLANIM YETKISI VERIRIZ... 
+
+'chown -R postgres:postgres /var/lib/postgresql/shape1: This command is similar to the previous one but targets a different directory (/var/lib/postgresql/shape1). It changes the ownership of this directory and its contents to the postgres user and the postgres group. This step is useful if you chose to copy the shapefile files to this directory to make them accessible to the postgres user.
+
+YA DA BU KULLANIM  YETKISINI DIREKT OLARAK DOSYAYI INDIRDIMIGZ KLASOR OLAN DOWNLLOADS A VERIRIZ
+chown -R postgres:postgres /home/adem/Downloads/: This command changes the ownership (chown) of the directory /home/adem/Downloads/ and all its contents recursively (-R) to the user postgres and the group postgres. By changing the ownership, it ensures that the postgres user has full ownership and control over the shapefile files in that directory. This is useful to ensure that the postgres user can access and manipulate the files.
+
 postgres@adem-ThinkPad-13-2nd-Gen:~$ shp2pgsql -s 4326 -I NOR_adm0.shp nor_adm0 | psql -d gis_db -U postgres
 Unable to open NOR_adm0.shp or NOR_adm0.SHP.
 NOR_adm0.shp: dbf file (.dbf) can not be opened.
@@ -2148,6 +2228,452 @@ To shut down GeoServer, either close the persistent command-line window, or run 
 Uninstallation
 Stop GeoServer (if it is running).
 Delete the directory where GeoServer is installed.
+
+POSTGRESQL USER KULLANICISI ICINDE OLUSTRUDGUMUZ GIS_DB VERITABANINA SHAPE FILE YUKLERKEN ALDIMGZ BAZI HATA VE COZUMLERI!
+
+SHAPE FILE A CHOWND YETKISINI DIREK /home/adem/Downloads altindakilerin hepsinne verdikten sonra biz, direk burdan postgresql e shape file i eklemeye calisiyoruz 
+ALDIGMIZ HATA 
+
+
+postgres@adem-HP-EliteOne-800-G1-AiO:/home/adem/Downloads/norge_roads$ shp2pgsql -s 4326 -I NOR_roads.shp nor_roads | psql -d gis_db -U postgres Shapefile type: Arc Postgis type: MULTILINESTRING[2] SET SET BEGIN CREATE TABLE ALTER TABLE ERROR: function addgeometrycolumn(unknown, unknown, unknown, unknown, unknown, integer) does not exist LINE 1: SELECT AddGeometryColumn('','nor_roads','geom','4326','MULTI... ^ HINT: No function matches the given name and argument types. You might need to add explicit type casts. ERROR: current transaction is aborted, commands ignored until end of transaction block ROLLBACK ERROR: relation "nor_roads" does not exist
+
+HATAMIZ POSTGIS EKLENTIISNI SHAPE FILE Y UKLEMEYE CALISTIGMZ VERITABANINA KURMADIMGIZI GOSTERIYOR 
+The error message you encountered indicates that there is an issue with the				
+AddGeometryColumn				
+function, which is used to add a geometry column to the				
+nor_roads				
+table during the import process.				
+This error can occur if the PostGIS extension is not properly installed or if the required functions are not available.				
+To resolve this issue, you can try the following steps:		
+
+1-Ensure that the PostGIS extension is installed in your PostgreSQL database. You can do this by connecting to your database using psql:
+				
+psql -d gis_db -U postgres
+
+Bu arada burda da dikkat edilmesi gerken bir nokta var.. Authentication ile ilgili bir hata aliyoruz bu sekkilde baglanmaya calisinca 
+HATA-ERROR 
+
+adem@adem-HP-EliteOne-800-G1-AiO:~$ psql -d gis_db U postgres
+psql: warning: extra command-line argument "postgres" ignored
+psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  Peer authentication failed for user "U"
+
+COZUM-
+This error typically occurs when the PostgreSQL server is configured to use peer authentication and requires the operating system user to match the PostgreSQL user. However, in this case, it seems that the authentication method is not working as expected.
+To resolve this issue, you can try one of the following approaches:
+
+sudo -u postgres psql -d gis_db  BU SEKILDE BAGLANACAGIZ gis_db VERITABANIMZA YUKARDAKI GIBI BAGLNMAK YERIN
+
+This command switches to the "postgres" user and then connects to the "gis_db" database. It bypasses the peer authentication issue because you're directly connecting as the "postgres" user.
+
+YA BU SEKIDLE COZERIZZZ YA DA 2.SIDE
+
+Update the PostgreSQL authentication method:
+Open the PostgreSQL configuration file using a text editor:
+sudo nano /etc/postgresql/<version>/main/pg_hba.conf
+Replace <version> with the actual version number of PostgreSQL installed on your system.
+Look for the line that corresponds to local connections and peer authentication. It will look something like:
+local   all             all                                     peer
+Change "peer" to "md5" to enable password-based authentication. The line should now look like:
+local   all             all                                     md5
+Save the changes and exit the text editor.
+
+Restart the PostgreSQL service for the changes to take effect:
+	sudo service postgresql restart
+	After restarting, try connecting to the database again:
+	psql -d gis_db -U postgres
+
+	This time, you should be prompted to enter the password for the "postgres" user, and the connection should succeed.
+By using either of these methods, you should be able to connect to the "gis_db" database as the "postgres" user without encountering the "peer authentication failed" error.
+
+Tamam gis_db veritabanimza girdikk...artik 
+
+gis_db=#SELECT postgis_full_version();
+ERROR:function postgis_full_version is does not exist diye bir sonuc aliyoruz 
+Bu arada bizim postgis eklentisini direk veritabanina kurmadan once  normalde terminalde postgis kurulumu yapilmalidir bunu unutmayalim...LINUX E KURMALIYYIZ ONCE 
+
+EN BASTA BU SEKILDE POSTGIS INSTALL EDILMELIDR KI SONRA VERITABANINDA EKLENTIYI OLUSTURABILELIM
+
+sudo apt install postgis
+
+sudo -i -u postgres psql
+postgres=#\CONNECT gis_database;
+You are now connected to database "gis_database" as user "postgres".
+postgres=#CREATE EXTENSION postgis;
+CREATE EXTENSION
+
+gis_db=#CREATE EXTENSION postgis;
+CREATE EXTENSION(BOYLE BIR SONUC VAR ISE KURULMUS DEMEKTIR)
+
+EGER POSTGIS EKLENTISI ZATEN KURULMU ISE VE BIZ YINE POSTGISDEN KAYNAKLI BIR HATA ALIRSAK O ZAMAN DA 
+If the PostGIS extension is already installed, make sure it is properly enabled in your database. You can check this by running the following command in psql:
+
+gis_db=#SELECT * FROM pg_extension WHERE extname='postgis';
+BURDA DA extname='postgis' BURANIN TEK TIRNAK ICINDE YAZILDIGINA DIKKAT ETMLELIYIZ CIFT TIRNAK KULLANMAMALIYIZ...
+
+If the installed column for PostGIS is false, you can enable it by running the following command:
+gis_db=#	CREATE EXTENSION postgis;
+
+POSTGIS EKLENTISINI DE KURDUKTAN SONRA ARTIK SHAPE FILE IMIZI IMPORT EDECEK KOMUTLARI CALISTIRABILIRIZ
+icin de bulundugmuz gis_db=# den cikariz \q ile 
+sonra da postgres user inden exit ile cikariz 
+
+sudo -i -u postgres deriz sonra shape file lerimizin oldugu directiona geliriz 
+postgres@adem-HP...~$ cd /home/adem/Downloads/norge_roads shp2pgsql -s 4326 -I NOR_roads.shp nor_roads | psql -d gis_db -U postgres
+ARTIK SHAPFILE IMIZIN EKLENDIGINI GOREBILIRIZ.. TERMINALDE GELEN MESAJ VS LERDEN 
+
+SIMDI DE CHECK EDELIM EKLEDIGMIZ SHAPE FILE I
+
+psql gis_db diyerek de postgres in gis_db veritabani na geliriz 
+
+gis_db=#\d
+gis_db=# SELECT * FROM nor_roads LIMIT 10;
+
+CHOWN-OWNER LIK PROBLEMI  VE COZUMU 
+Biz shape file imizi yukleyebilmek icin shape file leri indirdigmiz Downloads klasorune /home/adem/Downloas klasorune postgresql deki postgres user i tarafindan owner lik vermistik
+
+sudo chown -R postgres:postgres /home/adem/Downloads
+
+seklinde , ama bu neye sebep oldu bizim ana kullanici olarak adem kullanicisi olarak login olduktan sonra Downloads a gitmeye calistigmzda Permission denied hatasi aldik ve bildigmz kendi Downloads klasorumuze erisemedik... 
+OWNSERSHIP KONTROLU YAPAARIZ ONCE DOWNLOADS KLASORU ICIN 
+ls -ld ~/Downloads 
+ardindan eger biz owner listesinde kendi linux e login oldugmuz kullanici olarak owner lar arasinda owner listesi icinde var isek ve  yine de Downloads a erisemiyuor isek o zaman 
+chmod u+rwx ~/Downloads yapariz
+Yok biz hic owner listesinde  yok isk o zaman da 
+sudo chmod a+rwx ~/Downloads ile 
+This command grants read, write and execute permissions to all users on the system.. 
+Tekrardan cd ~/Downloads ile artik kendi kullanicimiz u zerinden Downloads a erisebilirizls
+
+DOSYA IZINLERI..ILE ILGILI ASAGIDAKI FARKI OGRENELIM... VE DIKKAT EDELIM BU ASAGIDAKI KOMUTLAR LINUX DE COOK AMA COK IHTIYACIMIZ OLACAK OLAN KOMUTLARDIR BIR LINUX KULLANICISININ BUNLARI BILEMEMESI DUSUNUELEMEZ!!!!!!!
+
+what is the different from sudo chmod a+rwx ~/Downloads and sudo chmod 777 ~/Downloads
+
+Both sudo chmod a+rwx ~/Downloads and sudo chmod 777 ~/Downloads commands grant read, write, and execute permissions to the "Downloads" directory for all users. However, there is a slight difference in the way the permissions are expressed.
+In the sudo chmod a+rwx ~/Downloads command:
+a represents all users, including the owner, group, and others.
++rwx grants read (r), write (w), and execute (x) permissions.
+In the sudo chmod 777 ~/Downloads command:
+
+777 is an octal representation of permissions, where each digit represents the permission for a specific user category.
+The first digit (7) represents the owner's permissions (read, write, and execute).
+The second digit (7) represents the group's permissions (read, write, and execute).
+The third digit (7) represents others' permissions (read, write, and execute).
+
+Essentially, both commands achieve the same result of granting full permissions to all users for the "Downloads" directory. The difference lies in how the permissions are specified: in symbolic notation (a+rwx) or in octal notation (777).
+
+SH DOSYALARININ EXECUTE EDILMESI ICIN CHMOD +X UYGULANARAK EXECUTABLE YAPILMALARI GEREKIR  YOKSA PERMISSION DENIED HATASI ALIRIZ
+SUDO CHMOD +X test.sh
+
+GIZLI DOSYALAR VE KLASORLER VE GIZLI DOSYALARI GOREBILMEK 
+GIZLI DOSYA VE KLASORLER
+GIZLI DOSYA=> .file_name
+GIZI KLASOR=> .folder_name
+
+GIZLI DOSYALARI NASIL GOREBILIRIZ
+1-bir klasor veya directory altindaki gizli dosyalari gormek icin  /home/adem ls -all   veya /home/adem ls -a yapariz
+Biz maus ile home klasorune gideriz ve orda sag ustteki 3 tane alt alta cizgi olan ayarlar ikonundan show hidden files dersek zaten gizli dosyalari gorebilecegiz orda ve orda .baschrc dosyasini gorebiliirz
+Burda ki .bashrc dosyasini  home/adem bu ikisi HOME dur environment variable da ve bu home dan onceki ana yol altinda home un da icinde bulundugu ana yol altinda etc klasoru var onun altinda .bashbashrc dosyasi var bunun ile bizim simdi actimgiz HOME(home/adem) altindaki gizli dosya olan .bashrc nin bir alakasi  yok ikisi birbirnden farkli dosyalardir karisirmayalim..
+
+COOOOK ONEMLI BUNU BILMEK GEREK
+HOME(home/adem)..BURAYA DIKKAT HOME DENILDIGI ZAMAN HOME=>echo $HOME ciktisi /home/adem dir yani HOME linux-ubuntuda /home/adem demektir
+
+ROOT KLASORUNE GELMEK 
+cd /
+HOME - ANA DIRECTORYE KISA YOLDAN GELMEK
+cd ~/  => /home/adem
+Eger HOME UN UZANTISNIN GORMEK ISTERSEK ZATEN 
+echo $HOME YAZARAK BUNUN /home/adem oldugunu gorebiliriz
+
+PRATIK BILGI 
+ls -l adem/adem-zeynep ile biz adem-zeynep klasoru altindaki dosyalari ve klasorleri listeleyebiliriz 
+
+Konsol, kullanıcı ile Shell arasından yer alarak kullanıcının komut girmesini sağlayan grafiksel ve komut satırı arayüzüne sahip bir araçtır. Biz komutlarımızı bu araç aracılığı ile Shell'e ulaştırırız Shell ise kullanıcıdan gelen girdileri yorumlayarak Kernel'e aktarır.
+UYGULAMALAR-BIZIM COMMAND BASH-PROGRAMINA YAZDIMGIZ TERMINAL KODLARI=>SHELL=>KERNEL=>CPU-RAM-AYGITLAR(DONANIM)
+
+KOMUTLARI AYNI ANDA YANYANA KULLANMAK
+&& KULLANARAK YAPARIZ
+echo $PATH && echo $TERM AYNI ANDA HER IKI KODU BIRLIKTE CALISITRABILIYORUZ
+AYNI SEKILDE ; KULLANARAK DA CALISTIRABILIRZ IKI KODU DA
+echo $PATH ; echo $TERM
+
+NEDEN .SH VEYA .BAT DOSYALARINA IHTIYAC DUYARIZ VE BU DOSYALAR NE IS YAPAR?
+
+Oncelikle .sh dosyasi linux icin .bat dosyasi ise windows da kullanilan dosyalardir ve her iki dosya icerisinde biz birden fazla execute islemi yapabilioyruz...ORNEGIN BIR SERVER I BASLATMAMIZ GEREKEBILIOYR, VEYA ELIMIZDE VAR OLAN BIRDEN FAZLA TYPESCITIP DOSYASINI COMPILE EDERKEN HER BIRISINI AYRI AYRI YAPMAK YERINE 1 KERE DE TUM TYPESCRIPT DOSYALARIMZI COMPILE EDIYOR..NETICE DE BIZIM TERMINAL UZERINDEN EXECUTE EDEREK ORNEGIN BIR PROJEYI AYAGA KALDIRMAK VEYA BASLATMAK GIBI ISLEMLERIMIZI, BU .SH VEYA .BAT UZANTILI EXECUTE DOSYALARI SAYESINDE 1 KERE DE HALLEDEBILIYORUZ..
+
+tail
+head
+cat
+grep
+find
+locate
+apropos
+man
+! 
+!! 
+history
+
+tail Komutu
+cat’e benzer şekilde, tail bir dosyanın içeriğini tek bir önemli uyarıyla yazdırır: Yalnızca son satırları verir. Varsayılan olarak, son 10 satırı yazdırır, ancak bu sayıyı -n ile değiştirebilirsiniz.
+Örneğin, büyük bir metin dosyasının son satırlarını yazdırmak için şunları kullanırsınız:
+
+tail uzun_metin_dosyası.txt
+Yalnızca son dört satırı görüntülemek için:
+tail -n 4 uzun_metin_dosyası.txt
+
+head Komutu 
+
+Head komutu, tail komutunun tamamlayıcısıdır. head komutu, bir metin dosyasının ilk 10 satırını hızlıca göstermek içindir, ancak -n bayrağıyla görüntülemek istediğiniz satır sayısını ayarlayabilirsiniz:
+head uzun_metin_dosyası.txt
+head -n 5 uzun_metin_dosyası.txt
+
+grep Komutu
+
+Grep, metin dosyalarıyla çalışmak için en güçlü yardımcı programlardan biridir. Normal bir dizindeki dosyalar içinde grep komutuyla belirttiğiniz ifadeyle eşleşen satırları arar ve bunları gösterir:
+	grep "linux" uzun_metin_dosyası.txt
+	–c bayrağını kullanarak kalıbın kaç kez tekrarlandığını sayabilirsiniz:
+	grep -c "linux" uzun.txt
+	
+	grep "Syntax" test2.txt  seklinde test2.txt dosyasi iceriisnde "Syntax" kelimesini ariyoruz
+
+find Komutu	
+Find komutu, bir regex ifadesine dayalı olarak bir dizin hiyerarşisindeki dosyaları arar. Kullanmak için aşağıdaki sözdizimini izleyin:
+	find ./ -name "uzun_metin_dosyası.txt"
+ARANILAN DOSYA ISMIINDEN KAC TANE VAR ISE HEPSININ UZUN YOLUNU GETIRIR	
+	Bu komutu kullandığınızda aradığınız dosyanın konumu dosya yoluyla beraber sonuç olarak karşınıza çıkacaktır.
+
+
+	FIND KOMUTUNU ANLAMAK
+	find komutunu daha iyi anlayalim ve nasil calistigni iyi bilelim..COK IHTIYACMIZ OLACAK KOMUTLARDANDIR
+
+	find komutu ile biz test2 ismindeki dosyalari aramak istiyoruz ornegin 
+
+	adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"
+find: ‘/home/adem/Downloads/xdebug-3.2.1’: Permission denied
+find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied
+find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied
+/home/adem/Desktop/test2
+adem@adem-HP-EliteOne-800-G1-AiO:~$ 
+
+Ve yukardaki gibi bir netice aldik ama kafamizi karistiran nokta su burda biz test2 dosyasini ariyoruz ama find komutu gidip alakasiz dosyalari armaya calisip, ordan da persmission denied hatalari ortaya cikiyor nedir bu durum?
+Can you explain what happened this code and why I got the lines I did not search, and permission denied?
+
+In summary, the "Permission denied" errors occur when the find command encounters directories for which the user running the command does not have sufficient permissions. These errors are expected and are part of the normal behavior of the find command when searching through directories.
+CEVABIMIZ BURDA ZATEN..FIND KOMUTU BIZIM BELIIRTTIMIZ DOSYA YOLU PATH I ICERISINDE TEK TEK TUM KLASOR LERIN ALTINDA KI DOSYA ISIMLERINI OKUMAYA CALISIYOR ILK ONCE KI ORDAN CHECK EDECEK VE BIZIM ARADIGMZ DOSYA ISMI VAR MI ONU ANLAYACAK, BUNUN ICIN DOSYALARI OKUMASI GERERKIYOR ISTE BOYLE BIR DURUMDA DOSYA OKUMA IZNI OLMAYAN DOSYALAR ICIN PERMISSION DENIED SORUNU VEYA UYARISI ALIYOROUZ...
+
+DOSYA IZINLERI ICIN HARIKA BIR ORNEK!!!! 
+find isleminde verdigmiz test2 dosyasini bulmaya calisirken biz de dosya iznine takildigi klasorlerden bazilarinin dosya izinlerini herkesin erisebilecegi duruma getirip tekrar arama yapiyoruz ve sunu goruyoruz ku tekrar arama y apinca, artik find bir oncekinde permission denied error aldigi dosyalarda ayni  hatayi almiyor
+
+adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"								
+find: ‘/home/adem/Downloads/xdebug-3.2.1’: Permission denied								
+find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied								
+find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied								
+/home/adem/Desktop/test2								
+adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod a+rwx ~/Downloads/xdebug-3.2.1								
+[sudo] password for adem: 								
+adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/contrib’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/include’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/m4’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/build’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/autom4te.cache’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/.libs’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/modules’: Permission denied								
+find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied								
+find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied								
+/home/adem/Desktop/test2								
+adem@adem-HP-EliteOne-800-G1-AiO:~$ 								
+								
+adem@adem-HP-EliteOne-800-G1-AiO:~$ sudo chmod 777 ~/Downloads/xdebug-3.2.1/src								
+adem@adem-HP-EliteOne-800-G1-AiO:~$ find /home/adem -name "test2"								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/develop’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/lib’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/gcstats’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/profiler’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/tracing’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/debugger’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/base’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/src/coverage’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/contrib’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/include’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/m4’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/build’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/autom4te.cache’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/.libs’: Permission denied								
+find: ‘/home/adem/Downloads/xdebug-3.2.1/modules’: Permission denied								
+find: ‘/home/adem/Downloads/android-studio-2022.1.1 (1).21-linux’: Permission denied								
+find: ‘/home/adem/Downloads/android-studio-2022.1.1.21-linux’: Permission denied								
+/home/adem/Desktop/test2								
+								
+DOSYA IZINLERININ KONTROL EDILMESI!!!!COOK OHTIYACIMIZ OLACAK 
+You can use the ls -l command to check the permissions.			
+
+Biz home da iken yani /home/adem veya ~/ iken ls -l yapiyoruz..ve asagidaki gibi sonuclar geliyor simdi buna bakalim bu ne demek tam olarak
+drwxr-xr-x 4 root root 4096 juni 12 08:19 boot
+drwxr-xr-x: This represents the file permissions of the "boot" directory. Each character in this section represents the permission for a specific entity (owner, group, and others). 
+The first character (d) indicates that it is a directory.
+The next three characters (rwx) represent the permissions for the owner (root). In this case, the owner has read, write, and execute permissions.
+The following three characters (r-x) represent the permissions for the group (root). In this case, the group has read and execute permissions but no write permissions.
+The last three characters (r-x) represent the permissions for others (users who are not the owner or in the group). In this case, others have read and execute permissions but no write permissions.
+PERIMISSION- 1-OWNER 2-GROUP 3-OTHERS
+
+4: This indicates the number of links to the "boot" directory.
+The "boot" directory is a directory in the root of the file system that contains essential files for booting the operating system. It typically holds files related to the system's bootloader, kernel, initial ramdisk (initrd), and other boot-related configuration files.
+"Önyükleme" dizini, işletim sistemini başlatmak için gerekli dosyaları içeren, dosya sisteminin kök dizinindeki bir dizindir. Genellikle sistemin önyükleyicisi, çekirdeği, ilk ram diski (initrd) ve diğer önyükleme ile ilgili yapılandırma dosyaları ile ilgili dosyaları tutar.
+In the context of the output you provided, the number 4 indicates the number of links to the "boot" directory.
+Sağladığınız çıktı bağlamında, 4 rakamı "boot" dizinine giden bağlantıların sayısını gösterir.
+The number 4 in your output indicates that there are four such links to the "boot" directory.
+Çıktınızdaki 4 rakamı, "önyükleme" dizinine bu tür dört bağlantı olduğunu gösterir.
+
+In summary, the output drwxr-xr-x 4 root root 4096 juni 12 08:19 boot indicates that the "boot" directory is owned by the user "root" and the group "root". The owner has read, write, and execute permissions, while the group and others have read and execute permissions. The directory has a size of 4096 bytes and was last modified on June 12th at 08:19.
+
+ ls -l / bu sekilde root klasoru icin yapilirsa asagidaki gibi satirlarda geliyor basinda d ile baslayanlarin yaninda, l ile baslayanlar nelerdir onlara bakacak olursak
+lrwxrwxrwx 1 root root 7 mars 31 14:11 bin -> usr/bin
+lrwxrwxrwx   1 root root          7 mars  31 14:11 bin -> usr/bin
+lrwxrwxrwx   1 root root          9 mars  31 14:11 lib32 -> usr/lib32
+lrwxrwxrwx   1 root root          9 mars  31 14:11 lib64 -> usr/lib64
+lrwxrwxrwx   1 root root         10 mars  31 14:11 libx32 -> usr/libx32
+
+A symbolic link, denoted by the letter 'l' at the beginning of the file permissions, is a special type of file that serves as a reference or pointer to another file or directory. It is similar to a shortcut or alias in other operating systems.
+Bu su demektir biz ornegin /home/adem directory sunde iken /bin de  yazarsak bu aslinda /usr/bin i isaret ediyor yani /usr/bin klasoru demektir ama muhtemelen ilk baslarken belki kullanilmasi gerektiginden de olabilir veya baska sebeplerden direk root altina bir link olusturulmus, symbolic link ondan dolayi da satir basina l ile basliyor, bu link demektir
+
+
+PING KOMUTU-LINUX DE 
+The ping command is a network diagnostic tool used to test connectivity between two devices on a network. It sends a small packet of data called an ICMP Echo Request to a specific IP address or hostname and waits for a response, known as an ICMP Echo Reply. Here's how to use the ping command on Ubuntu
+
+1-Open a terminal: You can open a terminal by pressing Ctrl + Alt + T on your keyboard or by searching for "Terminal" in the application launcher.
+2-Execute the ping command: The basic syntax of the ping command is ping [options] <IP address or hostname>. Here are a few examples:
+
+To ping an IP address: ping 192.168.0.1
+To ping a hostname: ping example.com
+
+Observe the output: The ping command will start sending ICMP Echo Requests to the specified IP address or hostname. It will display the round-trip time (RTT) for each packet and report if the packets were received successfully. You can press Ctrl + C to stop the ping command.
+The ping command is useful in various scenarios
+
+Ozellikle server imiz linux ise orda bizim serverimizla baglanti halinde olan domain ler ile server imzin baglanti durumunu ogrenmek istedigimz senaryolar olabiliyor 
+
+Testing network connectivity: You can use ping to check if your Ubuntu system can reach another device or server on the network.
+Troubleshooting network issues: By analyzing the output of ping, you can determine if there are delays, packet loss, or connectivity problems between your system and the target.
+Verifying DNS resolution: By pinging a hostname, you can check if the DNS resolution is working correctly and translating the hostname to an IP address.
+Checking network latency: The round-trip time (RTT) reported by ping can give you an indication of the network latency between your system and the target.
+
+Please note that some systems or networks may have ICMP Echo Request/Reply packets blocked, which could result in no response or blocked pings.
+
+It's important to use ping responsibly and only on devices or networks you have permission to access, as excessive or unauthorized use of ping can be considered network abuse.
+
+chmod Komutu
+chmod komutu, bir dosyanın izinlerini (modunu) hızlı bir şekilde değiştirmenizi sağlar. Ayrıca bir çok seçeneğe sahiptir.
+Bir dosyanın sahip olabileceği temel izinler şunlardır:
+
+r (okuma)
+w (yazma)
+x (çalıştırma)
+
+Chmod için en yaygın kullanım durumlarından biri, bir dosyayı kullanıcı tarafından çalıştırılabilir hale getirmektir. Bunu yapmak için, chmod ve +x işaretini ve ardından izinlerini değiştirmek istediğiniz dosyayı yazın:
+
+chmod +x izini_değiştirilecek_dosya
+Bunu, komutla dosyalarınızı çalıştırılabilir hale getirmek veya tam tersini yapmak için kullanabilirsiniz.
+Bir dosyanın çalıştırma iznini iptal etmek için:
+Yukarıdaki -x parametresini kullandığınızda bir dosyanın çalışma iznini iptal edersiniz o dosya tekrar izin verilene kadar çalıştırılamaz.
+
+chmod a+rwx ~/Downloads 
+chmod 777 ~/Downloads
+
+Downloads klasorunu tum kullanicilar tarafindan  a(all) + ve read-write-executable(rwx) yapiyoruz ve bundan sonra permission denied hatasi almamiz oalcaktir..
+
+MAN-h 
+man sayfasinda iken h tusuna basarak man ile ilgili detayli bilgiyi elde edebiliyoruz
+
+WHATIS KOMUTU
+Bu komut sayesinde hangi komutun hangi man sayfasinda oldugunu bulabiliyoruz 
+
+APROPOS / MAN -K KOMUTLARI
+APROPOS KOMUTU VEYA MAN -K KOMUTLARI  ILE HATIRLAYAMADIMGIZ KOMUT ISIMLERINE HARIKA BIR SEKILDE ERISEBILIYORUZ
+man-h listelenince gelir APROPOS 
+sorguladigi komutun gectigi uygulamalari listeler
+man -k chmod ile aprops chmod ayni islemi yapiyor
+man kilavuz sayfalarinda detayli arastirma yapabilmis olyoruz komutun ismini hatirladik ama islevini hatirlamadik veya islevini hatirladik ama ismini hatirlamadik. Boyle durumlarda appropos ile
+
+ornegin bir komut var di silme islemi yapiyordu ne idi ne idi deyip 
+apropos remove yazarsak  veya /  man -k remove
+
+uname komutu
+bize cekirdek hakkinda bilgiler sunar
+man uname dersek uname hakkinda detayli bilgi alabiliriz
+man uname de uname i hangi parametrelerle kullanabilecegmizi gorebiliyoruz 
+
+uname -a  (-all- tum bilgileri sunuyor)
+bu bilgileri ayri ayri yazidirmak istersek
+uname -s kernel ismini verir
+uname de kernel ismini verir
+uname -n host ismini bilgisyar ismin verir
+uname -r derlenme surumu gelir 
+uname -v kernel versiyon
+uname -m veya uname machine ile  islemci-donanim bilgisi gelir - x86_64
+uname -o isletim sistemi ismi verir
+
+lsb_release -a komutu-Mevcut dagitim ile ilgili bilgileri verir
+
+whoami komutu - kimlik sorgu islevini gorur
+
+Mevcut kullanicinin hangi kimlik ile calistigini verir
+whoami komutu benim pc de adem sonucunu veriyor benim root olarak username olarak adem oldugu icin
+username i  veriyor yani
+
+who-komutu 
+sistemde hangi kullanicilarin aktif oldugunu gosterir
+
+w komutu
+Hangi kullanicinin hangi islemi gerceklestirdigini gosterir
+
+uptime komutu 
+Bilgisyarimzin ne kadar suredir acik oldugunu bize bildirir
+10:14:52 up 11 min, 1 user load average: 0,02, 0,07 ,0,08
+11 dakikadir sistemin acik oldugunu gosteriyor. Linux e giris yaptigmiz andaki kismi gosterir
+
+date- komutu tarih saat bilgilerini verir
+
+locate komutu 
+sudo apt install plocate
+locate test2 dersek test2 nin gectigi tum dosyalari getiriyor
+yazdgimz dosya isminin gectigi tum dosyalari listeliyor bize cok harika efektif bir kullanim sunuyor.. 
+Tam olarak dizin adresini bilmedigimiz ama ismini hatirladigmz bir dosyayi bulmamiza yardimci oluyor 
+sudo apt update 
+sudo apt install mlocate
+During the installation of the mlocate package, a cron job is created that runs the updatedb command every 24 hours. This ensures the database is regularly updated. For more information about the cron job check the /etc/cron.daily/mlocate file.
+The database can be manually updated by running updatedb as root or user with sudo privileges:
+
+sudo updatedb
+
+locate index2.sh
+diye index2.sh dosyasini ararsak  bize dosya yolunu verecektir 
+
+/home/adem/Desktop/adem1/index2.sh 
+seklinde
+
+find komutuna benziyor bu acidan 
+find -name "index2.sh"
+./Desktop/adem1/index2.sh 
+
+HARIKA AUTOCOMPLETE ISLEMI LINUX TERMINALDE
+Ornegin cok uzun komut yaziyoruz ve surekli kullaniyorsak  bir kere kullanip sonra
+Komutumuz ornegin stat Desktop/adem1/index2.sh ise 
+!stat seklinde komutmuzun baslangic kismini yazmamiz  yeterlidir
+Sadece baslangic kismini bu sekilde yazdimgizda gerisini o bize getirecektir bunun aynisi windows da tab ile yapariz 
+Oncelikle history yazarak en son kullandigimz komutlari aliriz sonra da autocomplete islemi ile
+!stat burda stat herhangi bir kodun ilk kelimesini temsil ediyor..yoksa ekstra dan stat in bir anlami yok onemli olan ! isareti ile bsalamaasidir
+!stat yazarak en son kullandimgz komutlardan uzun komutlari tekrar yazmak zorunda kalmamiz oluruz
+
+Birde yine history ile en son kullandgimiz komutlari getiririz 
+Komutlarmiz gelirken hem numara hem de isimleri ile birlikte geliyorlar
+Biz o numaralari kullanarak da komutlarmiz getirebiliriz
+
+!1098 yazarsak en son kullandigmz komutlardan stat Desktop/adem1 komutu run edilerek gelecektir 
+
+Birde son yazdgimiz komuta erismek icin ise 
+!! kullaniriz en son hangi komutu kullandi isek onu bize getirecektir
+
+EN BASTAKI /(ROOT) ILE ARALARA KONAN /(KLASOR HIYERARSISI) ARASINDAKI FARKLI MUTLAKA BILMELIYIZ
+/home/aenetsense en bastaki / slash ifadesi bizim root-kok dizinimizi temsil ediyor, diger slash lerde klasorler arasi gecisi temsil eder
 */
 
 
