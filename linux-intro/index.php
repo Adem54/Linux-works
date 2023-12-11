@@ -2826,7 +2826,68 @@ yapildiginda ise su sekilde islem gerceklesiyor
 
 betik.sh  0 -> /dev/tty
 betik.sh  1 -> /dev/tty
-betik.sh  2 -> hatasiz.txt
+betik.sh  2 -> hatali.txt
+
+/dev/null  SANAL DOSYASI 
+/dev/null isimli bir sanal dosyamiz var ve kendisine gondeirlen tum dosyalari yutuyor, tamamen yok ediyor, yani bosluga gonderiyor bizde artik islem yapmak istemedgimz dosyalari buraya gonderebiliyoruz 
+Dolayisi ile istemedgimz ciktilar var ise ki bu genellikle hata ciktilari oluyor bunlari /dev/null dosyasin a yonlendirebiliyoruz 
+
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ ./betik.sh 2> /dev/null
+hatasiz
+adem@adem:~$ cat /dev/null
+adem@adem:~$ 
+
+AYRICA Hem hatali hem de hatasiz ciktilari tek bir dosya ya yonlendirebiliriz
+Bu mantik olarak soyle calisir, once hatali olan ciktilar hatasiz olan ciktilara yonlendirirz sonra hata ordan 2 sini birden bir adrese yonlendiririz
+Bunun icin bir kisa yol bulunyor 
+./betik.sh 2&>   2 numarali ciktilari al 1 numarali dosya tanimlayicisina gonder demis oluyoruz 
+Aslinda normalde adem@adem:~$ ./betik.sh 1> hatasiz.txt biz boyle yapinca da standart hatasiz ciktilar hatasiz.txt ye yonlendirilir ayni sekilde 1 i hic kullanmazsak da yonlendiriiliyor ondan dolayi da 
+adem@adem:~$ ./betik.sh > hatasiz.txt 
+adem@adem:~$ ./betik.sh > hatasiz.txt
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ cat hatasiz.txt
+hatasiz
+
+Asagidaki gibi 2 numarali ciktialri alip 1 numarali dosya tanimlayicsina gonderip sonra her ikisinid e result.txt isimli dosyaya yazdiriyoruz
+
+./betik.sh 2&> result.txt
+./betik.sh 2&1> result.txt
+
+adem@adem:~$ ./betik.sh 2&>result.txt
+adem@adem:~$ cat result.txt
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ 
+
+BURASI ARA BIR KONUDUR--YANI ARAYA SKISTIRILMISTIR--START
+Bash-kabugunun DAHILI VE HARICI KOMUTLARI 
+compgen -b  komutu ile bash kabugunun tum dahili komutlarini gorebiliriz
+adem@adem:~$ compgen -b
+Dahili olarak bulunan araclari temsil eden komutlar gelecektir
+Her bir araca, her bir komuta ait bir dosya bulunmaktadir LINUX de
+Ama harici komutlar ise, bash kabugu icinde gomulu olan araclar degildir dolayisi ile bu araclari kullanabilmek icin bash kabuguna install edilmeleri gerekir, install edilmeden eger kullanmaya calisirsak aracin yuklu olmadigi geri donusum mesajini aliriz, ne gibi mesela nano komutu gibi veya curl gibi bunlari kullanabilmemiz icin once bunlari bash de sudo apt install ile install etmemiz gerekiyor
+Dahili komutlar genellikle sistem yonetimi icin kullanilan en temel araclari temsil ediyor.Bu komutlar sayesinde bash kabugunun oldugu her yerde temel sistem gorevimizi yerine getirebiliyoruz
+Ornegin sistemiimiz coktugund sistemi kurtarmak icin bash kabugu icinde gomulu gelen dahili komutlardan faydalanabiliyoruz
+Tum kabuklarda ki dahili komutlar birbrine cok yakindir, temel olarak bircok komut benzerdir
+Linux icinde Bash,Zsh,Fish,Dash gibi cok farkli shell-kabuklar mevcuttur. Biz ubuntu da Bash kabugunu kullaniyoruz
+Bash kabugu linux sistemlerinde yuklu geldigi icin biz default olarak bash kabugu kullanilmasini  kendimiz ayarlayabilyoruz
+ya da zsh 
+bash-zsh..shell(kabuklari) ile biz arkada calisan mekanizma yi ayarlamis oluyorz yani bizim kullandigmz ayni terminal veya console ama console a y azdigmz komutlar sonucta arkada bir mekanizma tarafindan input olarak aliniyor yorumlaniyor ve bir return-result olarak donduruluyor.Iste bu mekanizma dir aslinda bash kabugu..Yani bir nevi console programlamasi
+Neden tum sistemler bash kabugunu kullanmiyor
+Sebebi dagitim ozelinde neden bash degil de farkli shell ler kullanildigi icin, macos lisans kosularrina uymadiigndan dolayi zsh shell i kullaniyor 
+kali linux dagitimi da zsh shell i daha etkilesimli kullanim icin.. kullaniyor
+BURASI ARA BIR KONUDUR--YANI ARAYA SKISTIRILMISTIR--END
+
+PEKI VERI GIRISIN NASIL YAPABILIRIZ
+cat araci ile dosya icerigini goruntuleyebiliyoruz normalde 
+adem@adem:~$ cat hatasiz.txt
+hatasiz
+Biz  yonlendirme araci olan <(kucuktur-input-redirction) aracini kullanarak bir dosya icerigini
+
+/usr/bin/cat  < isareti  cat aracini temsil eden dosyanin standart girdisi olan 0 numarali dosya tanimlayicisina, sagdaki verilerin yonlendirilmesini sagliyor
+
+
 */
 
 
