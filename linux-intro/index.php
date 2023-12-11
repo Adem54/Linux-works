@@ -2300,7 +2300,297 @@ adduser.conf apg.conf appstream.conf brltty.conf ca-certificates.conf debconf.co
 OZELLIKLE GUNLUK HAYATTA BU SEKILDE KULLANIMLAR COK YAYGINDIR
 scp exampleserver.com:*.jpg .  =>Bu su demektir git exampleserver.com a baglan orda ilk ana klasor altinda buluna butun sonu .jpg ile biten dosyaolari sen su an ki local pc de uzerinde bulundugmz dizin e kopyala indir demektir
 
+echo rc*.d Baslangici rc ile baslayan sonu .d  ile biten tum dosya ve dizin isimlerini echo ya arguman olarak ver demektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo rc*.d
+rc0.d rc1.d rc2.d rc3.d rc4.d rc5.d rc6.d rcS.d
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
 
+echo *date* icerisinde herhangi bir yerinde date ifadesi gecen tum dosya ve dizinleri getir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo *date*
+updatedb.conf update-manager update-motd.d update-notifier
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+? KARAKTERI - 
+Her zaman yalnizca tek bir karakteri temsil ediyor..dikkat edelim 0 degil
+
+Baslangici ss olan ancak devamindaki karakterin herhangi bir karakte oldugu dosyalari echo aracina arguman olark vermek istersek
+Bunun icin
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo ss?
+ssh ssl
+Yani soru isareti yalnizca tek bir karakteri kapsiyor, bu karakter herhangi bir karakteri kapsiyor ama yalnizca tek bir karakter
+
+/etc$ echo rm?  demek rm ile baslayan ve sonrasin da sadece 1 karakter daha olan dosya ve dizinleri getir demektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo rm?
+rmt
+
+echo s??  s ile baslayan ve sonrasinda 2 tane daha karakter olan dosya ve dizin isimlerini arguman olarak echo  ya ver diyoruz
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo s??
+ssh ssl
+
+Kac soruisareti var ise yalnizca o sayi adedince karakter ile eslesme yapiliyor
+NOT:? bosluk karakteri ile eslesmiyor, yani bosluk karakteri ile eslesmiyor o zaman oyle olsa idi o zaman ornegin echo s?? dedgmiz de sv isminde bir dosya var ise onu da almsi gerekirdi ama tabi ki bosluk karakteri ile "" eslesmediginden dolayi tabi ki oyle olmuyor
+
+echo rc?.d isminin baslangicinde rc olan ama sonu .d ile biten ama ? nin bulundugu nokta da herhangi bir karakter olan(bosluk karakteri degil tabi ki) tum dosya ve dizin leri echo ya arguman olarak ver demis oluyor 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo rc?.d
+rc0.d rc1.d rc2.d rc3.d rc4.d rc5.d rc6.d rcS.d
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+echo ??? Ismi 3 karakterli olan tum dosya ve idizn isimleri listelemek istedgimz de bu sekilde yapariz
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo ???
+apm apt gdb gss opt php pki ppp rmt rpc ssh ssl ufw vim X11 xdg xml
+
+[] GENISLETMESI-[] EXPANSION
+Eger [] icerisine soldan saga dogru bazi karakterler yazarsak bu karakterler, genisletilecek olan karakterler olarak kullaniliyor
+
+echo [aczd]*  ismi a,c,z,d karakterlerinden biri ile baslayan ve devaminda herhangi karakter veya karakterler bulunan dosya veya dizin isimlerini echo ya arguman olarak veriyor
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [aczd]*
+acpi adduser.conf alsa alternatives anacrontab apache2 apg.conf apm apparmor apparmor.d apport appstream.conf apt avahi ca-certificates ca-certificates.conf ca-certificates.conf.dpkg-old chatscripts console-setup cracklib cron.d cron.daily cron.hourly cron.monthly crontab cron.weekly cups cupshelpers dbus-1 dconf debconf.conf debian_version default deluser.conf depmod.d dhcp dictionaries-common dpkg zsh_command_not_found
+
+echo [a-d]*  baslangic harfleri a dan d ye kadar olan harf ile baslayan (yani a,b,c,d den birisi olan) ve sonrasinda herhangi karakter veya karakterler olan tum dosya ve dizinleri echo ya argument olarak verir
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [a-d]*
+acpi adduser.conf alsa alternatives anacrontab apache2 apg.conf apm apparmor apparmor.d apport appstream.conf apt avahi bash.bashrc bash_completion bash_completion.d bindresvport.blacklist binfmt.d bluetooth brlapi.key brltty brltty.conf ca-certificates ca-certificates.conf ca-certificates.conf.dpkg-old chatscripts console-setup cracklib cron.d cron.daily cron.hourly cron.monthly crontab cron.weekly cups cupshelpers dbus-1 dconf debconf.conf debian_version default deluser.conf depmod.d dhcp dictionaries-common dpkg
+
+
+Isminin icinde 1 den 5 e kadar herhangi bir rakam olan dosya isimlerini listelemek istersek 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo *[1-5]*
+apache2 dbus-1 e2scrub.conf gdm3 gtk-2.0 gtk-3.0 iproute2 java-11-openjdk java-17-openjdk libnl-3 mke2fs.conf pnm2ppa.conf polkit-1 python2.7 python3 python3.10 rc1.d rc2.d rc3.d rc4.d rc5.d sensors3.conf udisks2 X11
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+a dan l ye kadar olan karakterlerden herhangi bir tanesi ile baslayan devaminda da 2 tane rastgele herhangi bir karakter bulunan tum dosya isimlerini getir 
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [a-l]??
+apm apt gdb gss
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+LINUX DE BUYUK KUCUK HARF DUYARLILIGI OLDUGUNDAN DOLAYI..EGER DOSYA ISMI BUYUK HARF OLACAK DOSYALAR VEYA DIZINLER ARAYACAKSAK BUNLARI OZELLIKLE BUYUK HARF OLARAK BELIRTMEMIZ GEREKIYOR
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo N*
+NetworkManager
+
+Baslangic harfi buyuk olan tum dosya ve klasor isimlerini listelemek  istersek
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [A-Z]*
+ModemManager NetworkManager ODBCDataSources PackageKit UPower X11
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [A-z]*  Ama eger boyle yaparsak o zaman soyle demis oluyoruz.. Baslangicinda buyuk veya kucuk karakterle baslayan  sonrasinda ise rastgele bir veya daha fazla herhangi karakterlerden olusan tum dosya ve dizinleri getir demis oluyoruz
+
+[] JOKER KARAKERI ILE HARIC TUTULMASI GEREKEN DOSYA VE DIZIN ISIMLERININ TANIMLAMA
+
+echo [!a-y]* baslangicinda a dan y ye kadar olan karakterler haricindeki tum diger karakter ler ile baslayan ve sonrasinda da rastgele bir veya birden cok karakter barindirian tum dosya ve dizin isimlerini getirecektir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo [!a-y]*
+ModemManager NetworkManager ODBCDataSources PackageKit UPower X11 zsh_command_not_found
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ 
+
+
+SONU .txt ile biten tum dizin(klasor) ve dosyalari silmek icin
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo rm -rf *.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo touch {a..d}.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+a.txt  b.txt  c.txt  d.txt  git-works
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo rm *.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+git-works
+
+Ornegn sadece sonu .txt ile biten dosyalari listelemek istersek de 
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls *.txt
+a.txt  b.txt  c.txt  d.txt
+
+
+REGEX
+Spesifik olarak belirli bir karakter kalibi ile eslesecek desenler olustrmamiza izin veren ozel karakterlerdir
+Dogru sekilde kullanildiginda her turlu metinsel karakterin aranmasi, bulunmasi ve ayristirilmasi konusunda bize muthis kolayliklar sagliyor...Ve cok guclu dir
+
+Regex de sadece var olan dosya ve dizin isimleri ile sinirli degiliz(joker karakterlerde oldugundan farkli olarak)
+Metinsel veriyi girdi olarak verip, bu verilerin istedigmz sekilde ayristirilmasini saglayabiliyoruz
+
+Regex ile kabuk genisletme yi birbirine karistirmayalim...
+REGEX ICIN OZEL ANLAM IFADE EDEN KARAKTERLER 
++ * ? ^ $ () [] {} | \ 
+bu karakterler kullanilarak, regex sayesinde metinsel veriler istenildigi gibi filtrelenebiliyor
+Muthis esnek, kullanisli ve guclu yapidir
+Burda farketmemiz gerkeen nokta su...Bash tarafindan kullanilan bazi genisletme karakterleri regex tarafindan da kullaliyor
+BASH KABUGU TARAFINDAN KULLANILAN EXPANSION - GENISLETME KARAKTERLERI 
+* ? [] {}
+Regex te de kullanilan bu karakterler Regex icinde sanki bash kabugnda calistiklari gibi calismiyorlar(oyle calisiyor gibi gozukseler bile)
+Bash-?- Yalnizca 1 karakteri kapsamak icn kullanilir(bosluk karakteri dahil degildir)
+Regex-? 0 veya 1 karkeri kapsamak icn kullanilir(Yani bosluk karakteri dahildir)
+COOK ONEMLI BIR FARKDIR!!!!!BUNU IYI FARKEDELIM!!!!
+REGEX ILE BASH EXPANSION-GENISLETME KARAKTERLERI AYNI SEKILDE CALISMIYORLAR BUNU IYI BILELIM...COK ONEMLI KARISTIRIMAYALIM...
+
+BASH KABUGU NORMALDE REGEX I DESTEKLEMIYOR ONDAN DOLAYI DA 
+DOSYA ISMI GENISLETMESI(GLOBBING)* ? [] - BASH KABUGU BUNU KULLANIYOR
+AMA BASH ILE REGEX I KULLANMAK ISTEDIGMZ DE sed, awk, grep gibi araclar ile regex i bash kabugunda da kullanabiliyoruz
+
+Dosya Ismi Genisletmesi(* ? [])-Bash Kabugun kendisine ait gomulut-inbuilt ozelliklerididir 
+Dolayisi ile biz dogrudan *?[] karakterleri kullandgimzda bash bunlari her zaman icin dosya genisletme karakteri olarak algiliyor. Eger harici olarak regex i kullanmak isteiyorsak, o zaman sed, awk, grep gibi regexi destekleyen araclari kullanarak metinsel verileri istedgimz gibi isleyebiliriz
+Zaten bash-kabugunun amaci bize komut satirinda calisma ortami saglamaktir
+Dolayisi ile bash in kendi icinde dogrudan regex i desteklemesi gerekmiyor cunku
+BAsh in regex i desteklemiyor olmasi bir eksiklik veya unutulmus birsey degil, o bash in yapisinin bir parcasidir
+Bash bize gerekli olan calisma ortamlari bize sagliyor.. Regex islemleri icin sed-awk-grep araclari ile kullaniriz
+
+ALINTI KARAKTERLERI- TEK TIRNAK VE CIFT TIRNAK
+Bash icin ozel anlami olan bazi karakterlerin var olduguni ifade etmistik
+Ornegin *,?,[] ama biz bu karakterlerin kabuk-bash tarafindan normal karakter olarak, algilanmasini istersek o zaman da bu karakterleri tirnak icinde yazariz
+mkdir newfolder   - newfolder isminde bir klasor olusturur
+mkdir new folder - new ve folder isimlerinde 2 ayri klasor olusturur.. 
+Aralarinda bosluk oldugui icin bash 2 ayri klasor olarak algiliyor
+Bash bosluk karakterini komutu argumanlara ayirmak icin koydugmuz dusunuyyor
+Bu durumu cozmek icin yani hem klasor olusturmak istiyoruz ama klasor ismimiz new folder olsun ama 1 klasor olsun istersek o zaman ne yapiyoruz tek tirnak icerisinde yazariz...
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo mkdir new folder
+[sudo] password for adem: 
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+a.txt  b.txt  c.txt  d.txt  folder  git-works  new
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ sudo mkdir 'new folder'
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ ls
+ a.txt   b.txt   c.txt   d.txt   folder   git-works   new  'new folder'
+ Iste bu durum tek tirnak icinde 'new folder' yazarak tanimlamaya alintilama diyoruz...
+Bash kabugu icinde tek tirnak icindeki hicbir karakter ozel anlami ile ele alinmaz, siradan bir karakter olarak gozukecektir
+
+Bash kabugunda degiskenlerin basina $ isareti koyarak genisletiliyor
+$SHELL - SHELL DEGISKENINE NE ATANDI ISE O NU VERECEKTIR
+~ tilde isareti de home..yani /home/adem i isaret ediyor
+
+NORMALDE TEK TIRNAK OLMADAN KULLANIRSAK ASAGIDAKI GIBI SONUC VERECEKTIR
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo {1..5} ~ $SHELL *
+AMA TEK TIRNAK KULLANILARAK YAPARSAK AYNI ISLEMI O ZAMAN ISE... 
+1 2 3 4 5 /home/adem /bin/bash a.txt b.txt c.txt d.txt folder git-works new new folder
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo '{1..5} ~ $SHELL *'
+{1..5} ~ $SHELL *
+AYNI ORNEGIN CIFT TIRNAK ICINDE DENEDGIMZ ZAMAN ISE
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo "{1..5} ~ $SHELL *"
+{1..5} ~ /bin/bash *
+Sadece degisken genisletmesi olan $SHELL uygulaniyor cift tirnak icinde , ama diger ozel karakterlerin hicbirisi uygulanmiyor
+$SHELL =/bin/bash
+Ayrica bir te \ ter slash(ESCAPE-KACIS KAREKTERI) isaretini de bash kabugu cift tirnak isareti icindfe kullanildiginda ozel islevlerinde kullaniliyor olarak algiliyor ayni degisken tanimlama islevi olan $SHELL deki gibi..
+\-ESCAPE-KACIS KARAKTERI- KEDNISINDEN ONCE KULLANILDIGI KARAKTERIN OZEL ANLAMININ GECERSIZ OLMASINI SAGLAR 
+ORNEGIN $SHELL IFADESININ ONUNE EGER KI \ KOYARSAK O ZAMAN CIFT TIRNAK ICINDE $ ISARETI DE OZEL ISLEVINI YITIRMIS OLARAK, NORMAL SIRADAN BIR $-DOLARAK KARAKTERI OLARAK ALGILANACAKTI
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo "$SHELL"
+/bin/bash
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ echo "\$SHELL"
+$SHELL
+adem@adem-ThinkPad-13-2nd-Gen:~/Desktop/adem$ 
+
+Yani kisacasi regex i kullanabilmek icin, bash in kendi genisletmelerinden ozel anlam ifade eden karakterlerin, siradan karakterler olarak algilandigi '' veya "" icerisinde kullanilmasi gerekir..
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo  mkdir a{b..e}a > text1.txt
+> demek output.. yani sen echo ile gelen ciktiyi getir text1.txt ye yazdir diyor...Yani gelen output
+> bu output redirection demektir - kendinden once olusturulan icerigin kendinden sonra verilen dosya icine 
+It is used to redirect the output of a command (in this case, the output of the echo command) into a file. In this case, it will create a new file called "text1.txt" or overwrite it if it already exists, and the contents of the file will be the string generated by the echo command.
+
+Sudo mysql –u admin –p cottageservice < cottageservice.sql 
+< input redirection dir
+< cottageservice.sql: The < symbol is used for input redirection in the command line. It tells the shell to take the contents of the file cottageservice.sql and use it as input for the command. In this case, it's using the SQL commands in cottageservice.sql to populate the cottageservice database within MySQL.
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat text1.txt
+aba aca ada aea
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo a{f..k}a > text2.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat text2.txt
+afa aga aha aia aja aka
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep "a*a" text*.txt
+text1.txt:aba aca ada aea
+text2.txt:afa aga aha aia aja aka
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep a*a text*.txt
+text1.txt:aba aca ada aea
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads   index.html        Pictures  Templates  web
+Android                demo1-server  geoserver   Linux-works       projects  text1.txt
+android-studio         Desktop       Groceries   Music             Public    text2.txt
+AndroidStudioProjects  Documents     groceryapp  nativescript-app  snap      Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep ada text1.txt
+
+Bash kabugu grep aracina komutu aktarmadan once, anlamlandirilp ondan sonra grep aracina aktariliyor BUNU UNUTMYALIM
+Iste bundan dolayi 
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep a*a text*.txt - ilk olarak bash tarafindan anlamlandirilirarak 
+grep ada text*.txt haline gelir...  cunku a*a yi gorunce dosya genislemesi olarak algilar ve dizinde bulunan dosya-dizinlerden a ile baslayip a ile biten leri alir o ada zaten 1 tane ada vardir , Ondan sonra grep araci calisir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep "a*a" text*.txt 
+Burda ise cift tirnak icerisinde oldugundan dolayi "a*a" yi oldugu gibi bu sekilde anlamlandiracktir ve de grep aracina da "a*a" olarak gelecektir, arguman olarak
+
+KABUK GREP ARACINI CALISTIRMADAN ONCE KENDI UZERINE DUSEN BIRSEY VAR ISE DOSYA GENISLETMESI VS BUNLARI UYGULAYACAKTIR..
+
+dikkat edelim kacis karakteri olan \ -tersslah ile asterix-* karakterinin ozel anlamini yok say, siradan karakter hali ile tani diyerek aslinda tirnak icinde yazdigmiz durum daki ile ayni sonucu alabilmis oluyoruz
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep a\*a text*.txt
+text1.txt:aba aca ada aea
+text2.txt:afa aga aha aia aja aka
+
+\(Terssslah) Escape char- Ozel anlama gelen karakterlerin, ozel anlamlarinin gormezden gelinip, onlarin siradan character olarak ele alinmasini saglar
+
+KOMUT IKAMESI GENISLETMESI!!!
+Komutlarin uretmis oldugu sonuclarin, genisletmenin kullanildigi tanimlamann yerini almasidir
+Komut ikamesi daha cok bash-programlama da kullanilyor
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "mevcut dizin $(pwd)"  //pwd bulundugmz dizini veriyordu..Komut ikmasinden faydalandik
+mevcut dizin /home/adem
+
+test11
+test12
+test13
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       Videos
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  web
+android-studio         Desktop       geoserver    Linux-works  projects          text1.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            text2.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ mkdir $(cat folders.txt)
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       test13     web
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  text1.txt
+android-studio         Desktop       geoserver    Linux-works  projects          test11     text2.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            test12     Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat folders.txt
+test11
+test12
+test13
+
+folders.txt dosyasi icerisine yazdigmz ifadeler yeni olusturdugmz klasorlerin isimleri olarak kullanilmis!!!
+mkdir aracina $(cat folders.txt) sonucu uzerinden is yaptirmis olduk
+Normalde mkdri araci bu sekilde kendisi bir dosyadan icerik okuyup o icerik uzerinden klasor olusturmayi desteklemiyor ancak komut ikamesi sayesinde dosya icerigini cat araci ile okuyup mkdir e argument olarak iletilmesin saglamis olyyoruz..
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ rmdir $(cat folders.txt)
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       Videos
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  web
+android-studio         Desktop       geoserver    Linux-works  projects          text1.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            text2.txt
+
+rmdir $(cat folders.txt) //folders.txt nin icerigi olan test11,test12,test13 ismindeki klasorler kaldirilacaktir  
+
+$(cat folders.txt) test11 test12 test13   bu ciktilar komut ikamesinin yerine genisletilip rmdir aracina argument olarak verilecektir
+
+Normalde mkdir ve rmdir komutlari bu sekilde bir dosya icerigini okuyarak okudug icerige karsilk gelen isimlerden klasor olusturma veya o isimlerdeki klasorleri silme gibi bir islem yapmiyorlar ama biz arac ikame yardimi ile bunu yapabiliyoruz
+
+`` TERS TIRNAK ISARETI ICINE YAZILAN KODLAR DA KOMUT IKAMESI OLARAK GORULEBILIYORLAR
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "mevcut dizin `pwd` dir"
+mevcut dizin /home/adem dir
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat folders.txt
+test11
+test12
+test13
+adem@adem-ThinkPad-13-2nd-Gen:~$ mkdir `cat folders.txt`
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       test13     web
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  text1.txt
+android-studio         Desktop       geoserver    Linux-works  projects          test11     text2.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            test12     Videos
+adem@adem-ThinkPad-13-2nd-Gen:~$ rmdir `cat folders.txt`
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls
+ada                    demo1         Downloads    groceryapp   nativescript-app  snap       Videos
+Android                demo1-server  folders.txt  index.html   Pictures          Templates  web
+android-studio         Desktop       geoserver    Linux-works  projects          text1.txt
+AndroidStudioProjects  Documents     Groceries    Music        Public            text2.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+
+ORNEK:Başlangıcı sıfır veya birden fazla karakter olan “a” karakterini barındıran ve “a” karakterinden sonra tek bir karakter içeren dosya ismi genişletmesini nasıl tanımlarsınız ?
+echo *a?  - Baslangicinda hic a karakteri de olmayabilir birden fazla a karakteri de olabilir, bu tanimlama *-asterix karakteridir..
+
+METINSEL VERILERI ISLEMEK 
+LINUX TEMEL MIMARISI 
+Linux temel mimarisi herseyi bir dosya gibi ele aliyor
+Bu sayede sistem uzerindeki tum yapilari son derece basit bir sekilde ele alma ve bu yapilar arasinda iletisim kurma imkani da sagliyor
+Ornegin isletim sistemimize bir aygit bagladigimizda, bu aygit hakkinda bilgi almak icin
 
 */
 
