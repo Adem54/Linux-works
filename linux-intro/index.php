@@ -2670,8 +2670,163 @@ METINSEL VERILERI ISLEMEK
 LINUX TEMEL MIMARISI 
 Linux temel mimarisi herseyi bir dosya gibi ele aliyor
 Bu sayede sistem uzerindeki tum yapilari son derece basit bir sekilde ele alma ve bu yapilar arasinda iletisim kurma imkani da sagliyor
-Ornegin isletim sistemimize bir aygit bagladigimizda, bu aygit hakkinda bilgi almak icin
+Ornegin isletim sistemimize bir aygit bagladigimizda, bu aygit hakkinda bilgi almak icin ozel bir program kullanmamiza gerek kalmiyor, eger hangi dosyaya bakacagimzi biliyorsak cekirdek sanal olarak bu aygitin bir dosyasini sunuyor, ve bu dosyayi okuyarak o aygit hakkinda bilgi alabiliyoruz..
+Burdan da sunu anliyoruz LInux de dosya yapisini bilmek, hangi dosya larin nerde bulundugnu ve ne ise yaradigini bilmek karsilastigimiz problemleri cozmek adina cok kritik ve ciddi onemlidir
+Herseyi dosya olarak ele almasi ile isletim sistemi icindeki tum yapilar hakkinda ortak bir iletisim, haberlesme yolu gelistirilmis oluyor
 
+ORNEGIN bir araci kullanarak, yani bir aracin dosyasini calistirarak bu aracin uretmis oldugu ciktilari baska bir araca baglayarak, cok spesifik gorevlerimizi cozebiliriz 
+Simdi mesela grep komutunu kullaniyoruz, grep aslinda bir aractir ve ona ait bir dosya vardir...
+Ornegin bir aracimiz bir dizin altindaki dosya ve klasorleri listeliyor baska bir aracimzda dosya ve klasor ler arasinda filtrleme yapiyor biz ilk aracimiz da listelen dosya lari 2. aracimiza arguman olarak vererek 2.aracimzin gelen dosya ve dizin isimleri icerisinden filtreleme yapabilmesini saglamis oluyoruz
+LINUX ISLETIM SISTEMINDE HERSEY BIR DOSYA GIBI ELE ALINIYOR
+DOLAYISI ILE DOSYALAR UZERINDE CALISIRKEN BIZ METINSEL VERILERLE CALISTIGIMZ ICIN ASLINDA TUM MESELE, METINSEL VERILERI ISLEMEK VE BYTE AKISINI KONTROL ETMEK..VE BYTE AKISINI NERDEN NEREYE, HANGI BICIMDE GONDERILECEGINI KONTROL ETTGIMZ ZAMAN, LINUX ISLETIM SISTEMINI ISTEDGIMIZ HER ANLAMDA KULLANABILIYORUZ
+DOLAYISI ILE LINUX UZERINDE HERSEYIN BIR DOSYA OLARAK SUNULUYOR OLMASI ISLETIM SISTEMINDEKI ORTAK DILI TEMSIL EDIYOR
+BIR ARACIN(KOMUTLARIN HER BIRISI ARACTIR ASLINDA) URETTIGI CIKTILARI BASKA BIR ARACA ARGUMAN OLARAK VEREBILIYORUZ VE BASKA BIR ARACTA CALISABILIYOR
+ORNEGIN BIR AYGIT HAKKINDA BILGI ALMAK ISTIYORUZ, O ARACIN ILGILI DOSYASINI OKUYORAK VE BU CIKTILARI BIR ARACA YONLENDIREREK COK SPESIFIK BIR SORUNU COZEBILIRIZ... 
+HARIKA..YAKLASIM  
+OUTPUT REDIRECTION  > (SOLDAKI CIKTIIYI SAGDAKI NE GONDER) 
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo  a{b..e}a > text1.txt
+> demek output.. yani sen echo ile gelen ciktiyi getir text1.txt ye yazdir diyor...Yani gelen output
+INPUT REDIRECTION < (SAGDAKI CIKTIYI-ICERIGI SOLDAKINE GONDER)
+Sudo mysql –u admin –p cottageservice < cottageservice.sql 
+
+LINUX ICINDE HER SEY BIR DOSYADIR..ASLINDA LINUX UZERINDE HERSEYIN BIR BYTE AKISI OLARAK ELE ALINMASINI TEMSIL EDIYOR. HERSEY METINSEL VERI OLARAK ELE ALINIP ISLENDIGI ICIN ASLINDA LINUX ISLETIM SISTEMINI YONETMEK DEMEK TAMAMEN BYTE AKISINI KONTROL ETMEK DEMEKTIR..
+
+BYTE AKISINI KONTROL ETMENIN EN TEMEL NOKTASI BIR VERIYI BIR NOKTADAN BASKA BIR NOKTAYA YONLENDIRMEKTIR...YANI BIR YERDEN BIR CIKTIYI ALIP BASKA BIR YERDE KULLANMAK..
+
+-YONLENDIRMELER-REDIRECTIONS
+Linux uzerinde uretilmis olan ciktilari-bytleri bir noktadan baska bir noktaya iletmedir
+Yonlendirmeler linux da en cok kullanacagmz islemlerden bir tanesidir
+
+Linux uzerinde tum yapilar bir dosya gibi ele alindigi icin ornegin biz bir programi calistirdgmiz zaman, da bu program linux uzerinde bir dosya gibi ele alindigi icin ve linux uzerinde her bir dosyanin standart girdi, standart cikti ve standart hata olmak uzere 3 adet veri girisi ve cikis noktasi oldugunu bilmemiz yeterlidir. Bu noktalara da aslinda dosya tanimlayici deniyor.LInux uzerinde her bir yapi dosya olarak ele alindigi icin bu dosyalara ait olan 3 nokta da dosya tanimlayicisi tanimi ile ifade ediliyor
+
+Ornegin biz bir x aracini calistirdigmz zaman, bu aracin alabilecegi ciktilar, yani bu araca gonderilebilecek ciktilar, isletiim sistemi uzerinde bu aracin temsil edildigi dosya uzerinde 0 numarali dosya tanimlayicisi ile temsil ediliyor. Dolayisi ile herhangi bir yapi veya arac bu araca bir cikti yonlendirmesi yapacagi zaman bu aracin 0 numarali dosya tanimlayicisina veriyi gondermesi gerekir
+Benzer sekilde eger bu x aracinin uretmis oldugu hatasiz ciktilari baska bir yere yonlendirmemiz gerekirse o zaman da bu aracin 1 numarali dosya tanimlayicisini kullanmamzi gerekyor
+Eger yalnizca hatali olan ciktilari iletmek istiyorsak o zaman da 2 numarali dosya tnaimlayisini kullanmamiz gerekiyor
+
+Yani calisitrmis oldugmz bir arac var ve bu arac isletim sistemi uzerinde dosya gibi ele aliniyor ve bu arac in 3 noktaya sahip oluyor
+0-> /dev/tty Araca disardan gelen verileri alir
+1-> /dev/tty Bu aracin urettigi hatasiz ciktilar ise burdan gonderilir
+2-> /dev/tty Bu aracin uretmis oldugu hatali ciktilar burdan gonderilir
+
+Bu sayede girdi ciktilari(input-output) lari istedgimz noktadan istedigmz noktaya tasiyabiliyoruz
+
+Ornegin biz echo "test"  yazdgimz da 
+biz bir input veri girisi yapmis oluyoruz
+echo "test" console a girdgimz bir text verisidir
+Biz enter a basinca bu text veri girisi arka da calismakta olan bash kabuguna iletilecek
+Nasil iletiliyor, bash kabugunun standart 0 numarali dosya tanimlayicisina gonderilmis olacak
+Normalde biz ekstra bir yonlendirme yapmadigmz zaman komut satiri uzerinde calistirmis oldugmuz araclar default olarak, otomatik olarak console a bagli oluyor, console un temsil edildigi dosyaya bagli oluyor, dolayisi ile arka tarafta calismakta olan bash kabuguna console bagli oluyor, Console a yani komut satirina girilen komut 0 numarali dosya tanimlayicis uzerinden bash kabuguna iletiliyor.Bash kabugu da aldigi text komutlarini yorumluyor daha sonra standart hata ciktilarini 1 numarali dosya tanimlayicisi uzerinden yine /dev/tty dosyasina yani console u temsil eden dosyaya bu ciktiyi gonderiyor, bu sayede biz console da ciktimizi goruntuleyebiliyoruz
+Eger hatali bir komut girse idik o zaman mesela biz 
+adf isimli bir komut girdi ki boyle bir komut yok yani hatali komut sirasi ile islemler soyle gerceklesir 
+adf->0 numarali dosya tanimlayicis i ile arka tarafta calisan bash kabuguna yonlendirilecek
+Cunk bash kabugunun 0 numarali dosya tanimlayici /dev/tty konsoluna baglidir, dolayisi ile tty console undan gelecek olan veri girislerini bekliyor 
+/dev/tty console u temsil eden dosyadir
+Dolayisi ile adf isminde bir komut olmadigi icin asagidaki gibi sonuc aliyorz nasil oluyor bu sonuc, bash kabugunun hatali ciktilari ileten  2 numarali dosya tanimlayici uzeirnden, sonucu consola yonlendirilmis oldu, bu sayede biz bu hatali girdi sonucunu komut satirimzda goruntulemis olduk
+
+adem@adem:/$ adf
+Command 'adf' not found, did you mean:
+  command 'kdf' from snap kdf (23.08.4)
+  command 'aof' from snap aof (0.3.1)
+  command 'adb' from deb adb (1:10.0.0+r36-9)
+  command 'apf' from deb apf-firewall (9.7+rev1-6)
+  command 'df' from deb coreutils (8.32-4.1ubuntu1)
+  command 'alf' from deb seqan-apps (2.4.0+dfsg-14ubuntu1)
+  command 'sadf' from deb sysstat (12.5.2-2ubuntu0.2)
+  command 'adsf' from deb ruby-adsf (1.4.5+dfsg1-2)
+  command 'wdf' from deb wit (3.01a-4)
+  command 'kdf' from deb kdf (4:21.12.3-0ubuntu1)
+  command 'adr' from deb adr-tools (3.0.0-2)
+  command 'ad' from deb netatalk (3.1.12~ds-9ubuntu0.22.04.1)
+  command 'sdf' from deb sdf (2.001+1-8)
+See 'snap info <snapname>' for additional versions.
+adem@adem:/$ 
+
+KISACASI HER BIR DOSYA STANDART OLARAK 3 ADET DOSYA TANIMLAYICISINA SAHIPTIR
+
+0->Veri girisi -veri alinmasini saglar-input
+1->Standart hatasiz ciktilari iletir
+2->Hatali ciktilari iletir-
+
+
+cat > betik.sk
+Burda cat araciginin benden alacagi ciktilari >(buyuktur) isareti araciligi ile betik.sk dosyasina yonlendirmesi gerektigni belirtiyorum
+cat > betik.sk 
+Biz boyle bir komut girince, cat araci dinlemey basliyor ve bizim veri girmemizi bekliyor ne zamana kadar biz CTRL-D ye basana kadar
+Biz de bir hatasiz komut echo "hatasiz" diyerek bir de hatali komut yani olmayan asdf isminde bir komut giriyoruz ve CTRL-D ye  basarak kaydediyor
+Bu arada once betik.sh dosyasi var mi ona bakar var ise daha onceki icerigin uzerine override eder,eger boyle bir dosya yok ise o zaman yeni bir dosya olusturur bu isimde
+
+adem@adem:~$ cat > betik.sh
+echo "hatasiz"
+asdf
+adem@adem:~$ 
+CTRL-D ye  basarak kaydediyor ve bu sekilde bizden aldigi girdileri >(buyuktur-yonlendirme operatoru) sayesinde bizden aldigi verileri betik.sh dosyaisina yonlendirmss oldu
+Simdi betik.sh dosyasini okuyacak olursak icerigini 
+
+adem@adem:~$ cat betik.sh
+echo "hatasiz"
+asdf
+
+echo "hatasiz" bu bize "hatasiz" ciktisiini verir 
+asdf komutu ise boyle bir komut olmadigndan bize boyle bir komut bulunmadini sonucunu verecek
+
+COOK ONEMLI BUNU BILMELIYUIZ
+Oncelikle biz betik.sh dosyamizi calistirmak istiyoruz yani execute etmek istiyoruz 
+Yani .sh dosyalarinin icerisine yazdigz komutlari biz .sh dosyalarini executable yaparak onlarin icindeki komutlarin execute edilebilmesini saglayabiliyoruz
+betik.sh dosyamizin yetk i durumun gormek icin 
+betik.sh in bulundugu dosya dizininde 
+ls -l yaparak betik.sh dosyasini bulundugu satira bakariz 
+ya da stat.betik.sh ile gorebiliriz 
+
+betik.sh dosymizi executable yapmak cunku calistirmak istiyoruz
+chmod +x betik.sh
+
+Simdi artik betik.sh i calisitrabiliriz 
+.sh dosyalarini linux de ./betik.sh diye calistiririz ki dosya konumunu belirtmis olmamiz gerekir, linux de ... 
+./betik.sh diye calistiririsak
+
+adem@adem:~$ ./betik.sh
+hatasiz - 1 numarali dosya tanimlayici tarafindan gonderildi 
+./betik.sh: line 2: asdf: command not found - 2 numarali hatali ciktilari vermek le gorevli dosya tanimlayicisi tarafindan gonderildi
+adem@adem:~$ 
+
+Bizim aldgimz tum sonuclar komut-satirimz yani console umz (/dev/tty) uzerinden gozukecektir
+Cunku otomatik olarak /dev/tty dosyalarina bagli idi
+
+Peki biz komutlarimizdan yalnizca hatasiz olan ciktilari bir dosyaya yonlendirmek istersek(Bir dosyaya yazmak gibi veya aktarmak)
+./betik.sh i calstirinca biz aksini belirtmezsek kendisi otomatik olarak console a hem hatali hem de hatasiz sonuclari bastiriyordu
+Ama biz yalnizca hatasiz ciktilari bir dosyaya yonlendirmesini istiyoruz
+
+
+adem@adem:~$ ./betik.sh 1> hatasiz.txt
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ cat hatasiz.txt
+hatasiz
+adem@adem:~$ 
+
+DIKKAT EDELIM - /betik.sh 1> hatasiz.txt DIYOURZ KI 1 NUMARALI  YANI HATASIZ OLAN CIKTILARI SEN hatasiz.txt dosyasi varsa onun ustune yaz yok ise bu dosyayi olustur ve bu dosyaya yaz diyoruz..Ve ne yapiyor devaminda sadece hatali olan ciktiyi veriyor ./betik.sh cunku hatasiz olan ciktiyi hatasiz.txt dosyasina aktardi
+
+adem@adem:~$ ./betik.sh 2> hatali.txt
+hatasiz
+adem@adem:~$ cat hatali.txt
+./betik.sh: line 2: asdf: command not found
+
+./betik.sh 2> hatali.txt -  BURDA DA 2 NUMARALI YANI HATALI CIKTIYI hatali.txt ye aktardigi icin ./betik.sh o zaman da sadece hatasiz olan komut ciktisni veriyor, otomatik olarak console a yonlendirildigi icin sonuc..
+ 
+
+./betik.sh 1> hatasiz.txt
+yapildiginde su sekilde islem gerceklesiyor 
+
+betik.sh  0 -> /dev/tty
+betik.sh  1 -> hatasiz.txt
+betik.sh  2 -> /dev/tty
+
+
+adem@adem:~$ ./betik.sh 2> hatali.txt
+yapildiginda ise su sekilde islem gerceklesiyor 
+
+betik.sh  0 -> /dev/tty
+betik.sh  1 -> /dev/tty
+betik.sh  2 -> hatasiz.txt
 */
 
 
