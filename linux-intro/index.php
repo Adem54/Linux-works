@@ -2685,7 +2685,7 @@ ORNEGIN BIR AYGIT HAKKINDA BILGI ALMAK ISTIYORUZ, O ARACIN ILGILI DOSYASINI OKUY
 HARIKA..YAKLASIM  
 OUTPUT REDIRECTION  > (SOLDAKI CIKTIIYI SAGDAKI NE GONDER) 
 adem@adem-ThinkPad-13-2nd-Gen:~$ echo  a{b..e}a > text1.txt
-> demek output.. yani sen echo ile gelen ciktiyi getir text1.txt ye yazdir diyor...Yani gelen output
+> demek output.. yani sen echo ile gelen ciktiyi getir text1.txt ye (UZERINDE YAZDIR, BIR ONCEKI VERIYI SIL)yazdirdiyor...Yani gelen output
 INPUT REDIRECTION < (SAGDAKI CIKTIYI-ICERIGI SOLDAKINE GONDER)
 Sudo mysql –u admin –p cottageservice < cottageservice.sql 
 
@@ -2886,6 +2886,362 @@ hatasiz
 Biz  yonlendirme araci olan <(kucuktur-input-redirction) aracini kullanarak bir dosya icerigini
 
 /usr/bin/cat  < isareti  cat aracini temsil eden dosyanin standart girdisi olan 0 numarali dosya tanimlayicisina, sagdaki verilerin yonlendirilmesini sagliyor
+adem@adem:~$ cat result.txt
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ cat < result.txt //Bu sekilde result.txt nin icerigin cat aracina yonlendirmis oluyorz
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ 
+
+ONEMLI BIR DETAY!!!
+Sistem uzerinde kullandgimz her arac standart girdi olan 0 numarali dosya tanimlayicisindan veriyi okumuyor olabilir
+Yani kullanmakta oldugumz arac, standart girdiden veri kabul etmiyor olabilir
+Bu duruma ornek olarak echo yu verebiliriz. Echo standart girdiden veri kabul eden bir arac degildir. Echo yalnizca kendisine arguman olarak verilmis(yani pesi sira verilen ifadeler) ifadeleri yankilamak icin tekrar komut satirina bastirmak icin kullanilir
+Dolayis i ile 
+echo merhaba - ekrana merhaba basar 
+Ama
+echo < result.txt dersek herhangi bir cikti alamayiz, cunku echo araci standart girdiden gelen verileri kabul etmiyor
+Dolayisi ile biz < result.txt i echo aracina yonlendirsek bile bu result.txt dosyasi nin 0 numarali dosya tanimlayicisi echo araci tarafindan islenmiyor
+Buna benzer durumlarin bilincinde olarak, veri girisini kabul eden araclar uzerinden veri girisi yapabiliyoruz 
+
+DIKKAT ETMELIYIZ!!! - TEK BUYUKTUR ISARETI KULLANIRSAK ESKI VERILER SILINIR YENI VERILER UZERINE YAZILIR
+Biz yonlendirmlerimizi > veya < ile yaptik, fakat dikkat etti isek ornegin
+./betik.sh 2> hatali.txt
+Boyle yaptigmiz zaman eger hatali.txt dosyasi var ve icerisinde veri var ise betik.sh 2 den gelen output- hatali.txt ye redirct edilerek, yani veri aktarilarak, hatali.txt icersinde daha onceden bulunan veriyi override ederek, uzerine yaziliyordu
+Uzerine yazildigini gorebiliriz
+adem@adem:~$ cat result.txt
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ cat < result.txt
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ ./betik.sh 2>result.txt
+hatasiz
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ 
+
+EGER ESKI VERILER SILINMESIN, YENI VERILER DE EN SONDAN ITIBAREN EKLENEMEYE BASLASIN ISTERSEK CIFT BUYUKTUR(>>) ISARETI KULLANMAMIZ GEREKIYOR!!!
+
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ ./betik.sh 2>>result.txt
+hatasiz
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ 
+adem@adem:~$ ./betik.sh 2>>result.txt
+hatasiz
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ 
+HATASIZ CIKTILARI GONDERMEK IICN(1) HICBIRSEY YAZMASSAK DEFUALT OLARAK 1 OLARAK OKUYOR
+adem@adem:~$ ./betik.sh >> result.txt
+./betik.sh: line 2: asdf: command not found
+
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+hatasiz
+adem@adem:~$
+HEM HATALI HEM HATASIZ CIKTILARI GONDERMEK ICINDE KULLANIRIZ
+
+adem@adem:~$ ./betik 2>>result.txt
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+hatasiz
+bash: ./betik: No such file or directory
+adem@adem:~$ 
+
+CONCATENATE-CAT (BAGLMAK,BIRLESTIRMEK)
+CAT ARACI
+Bu arac sayesinde istedigmz dosya iceriklerini birlestirip tek bir cikti elde edebiliyoruz
+En temel kullanimi:Herhangi bir dosya icerigini goruntulemektir
+
+adem@adem:~$ cat result.txt
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+./betik.sh: line 2: asdf: command not found
+hatasiz
+bash: ./betik: No
+Burda cat araci kendisine arguman olarak verilmis result.txt sini tek bir  yone, yani standart ciktiya birlestirip yonlendirmis oluyor.
+
+adem@adem:~$ cat hatali.txt hatasiz.txt
+./betik.sh: line 2: asdf: command not found
+hatasiz
+adem@adem:~$ 
+
+Hem  hatali.txt hem de hatasiz.txt iceriklerin pes pese console a bastirmis oldu
+Yani 2 farkli dosya icerigini okudu ve bize tek bir standart cikti olarak sunuuyor
+Cat araci ile tek bir dosya yi da okuyabiliyoruz, birden fazla dosyayi da okuyarak, tek bir cikti olarak bize veriyor
+
+BIRDEN FAZLA DOSYA ICERIGI OKUYUP BUNLARI TEK BIR DOSYA ICINDE BARINDIRABILIRIZ
+adem@adem:~$ cat hatali.txt hatasiz.txt > result2.txt
+adem@adem:~$ cat result2.txt
+./betik.sh: line 2: asdf: command not found
+hatasiz
+
+hatali.txt ile hatasiz.txt dosya iceriklerini result2.txt dosyasinda birlestiriyor 
+
+KENDIMIZ MANUELLE GIRDGIMZ VERILERI BIRLESTIRIP BIR DOSYA ICINE YAZABILIRI 
+
+adem@adem:~$ cat > betik2.sh
+echo "hatasiz2"
+asdf2
+(Bu verileri girdikten sonra artik girilen verileri kaydetmek ve sonlandirmak icin CTRL-D ye basariz)
+adem@adem:~$ cat betik2.sh
+echo "hatasiz2"
+asdf2
+
+CAT ARACI ILE OKUDGUMZ DOSYANIN BIR KOPYASINI ALABILIRZ 
+
+adem@adem:~$ cat betik2.sh > betik2copy.sh
+adem@adem:~$ cat betik2copy.sh
+echo "hatasiz2"
+asdf2
+adem@adem:~$ cat betik2.sh
+echo "hatasiz2"
+asdf2
+adem@adem:~$ 
+
+cat araci ile betik2copy.sh isimli dosya ile betik2.sh dosyasinin bir kopyasini aldik
+cat --help diyerek cat i daha detayli ogrenebiliriz                                                                                                                                                                                   
+
+REV(REVERSE) ARACI
+Eger verilermizi satir duzeyinde tersine cevirmek istersek reverse ifadesinin kisaltmsi olan rev komutunu kullanabilirz
+
+adem@adem:~$ cat > newtext.txt
+this is a test text
+adem@adem:~$ cat newtext.txt
+this is a test text
+adem@adem:~$ rev newtext.txt
+txet tset a si siht
+adem@adem:~$ cat >>newtext.txt
+Hello, this is Adem.
+How are you?
+God evening
+adem@adem:~$ cat newtext.txt
+this is a test text
+Hello, this is Adem.
+How are you?
+God evening
+adem@adem:~$ rev newtext.txt
+txet tset a si siht
+.medA si siht ,olleH
+?uoy era woH
+gnineve doG
+adem@adem:~$ 
+
+Eger 1 den 9 a kadar olan sayilari ters cevrilisin gormek istersk, echo ile 1 den 9 a kadar olan ciktiyi bir dosyaya yazdirip sonra rev komutu ile tersine cevirebiliriz
+adem@adem:~$ echo {1..9}
+1 2 3 4 5 6 7 8 9
+adem@adem:~$ echo {1..9} > number1.txt
+adem@adem:~$ cat number1.txt
+1 2 3 4 5 6 7 8 9
+adem@adem:~$ rev number1.txt
+9 8 7 6 5 4 3 2 1
+adem@adem:~$ 
+
+TOUCH-STAT ARACLARI
+
+touch araci normalde yeni dosya olusturmak icin kullaniyoruz ama tek isi bu degil tabi ki
+touch ile biz iligli dosyalarin duzenlenme tarihlerini degistirebiliyoruz
+Oncelikle bunu test edelim
+Ama bunu test edebilmek icin biz oncelike ornegin number.txt dosyamizin bilgilerini gormemiz gerekiyor
+boyutu
+duzenlenme tarihi
+erisim yetkileri vs gibi tum bilgileri bilmek istersek 
+1-stat number.txt
+2-ls -l number.txt 
+ile gorebiliriz-adem@adem:~$ ls -l
+-rw-rw-r--  1 adem     adem             18 des.  12 11:53 number1.txt
+
+STAT KOMUTU MUTHIS ONEMLI BIR KOMUTTUR
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem) //owner bilgisin vermis
+Access: 2023-12-12 11:53:16.734732574 +0100//Burasi ara ara degistirilir genellikle sabit kalir, cunku dosya ya erisim cok fazla oalcaktir her erisimde burayi degistirmek bir yuk olacagi icin daha az sklikla degisir
+Modify: 2023-12-12 11:53:09.330639289 +0100//modify edilme, duzenlenme tarihi-Dosyaya birsey eklenme ve silinme durumunda degisir
+Change: 2023-12-12 11:53:09.330639289 +0100//Dosyanin oz niteliiklerinin(isminin, boyutunun) degismesi durumunda duzenlenen tarihdir.
+ Birth: 2023-12-12 11:53:09.330639289 +0100//olusturulma tarihi
+
+ Iste touch komutu sayesinde burdaki bilgilileri duzenleme imkanina sahip oluyoruz
+Ornegin Access tarih verisini su an komutu girdgimz tarih ile degistirmek icin : adem@adem:~$ touch -a number1.txt
+$ touch -a number1.txt // burdaki -a stat number1.txt yapinca gelen access ifadesinin kisaltilmis halidir
+
+
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 11:53:16.734732574 +0100
+Modify: 2023-12-12 11:53:09.330639289 +0100
+Change: 2023-12-12 11:53:09.330639289 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ touch -a number1.txt
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 14:39:09.082571877 +0100
+Modify: 2023-12-12 11:53:09.330639289 +0100
+Change: 2023-12-12 14:39:09.082571877 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+
+Modify oz nitelik degerini degistirmek icin ise:touch -m number1.txt
+
+touch -m number1.txt / -m demek modify demektir
+
+adem@adem:~$ touch -m number1.txt
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 14:39:09.082571877 +0100
+Modify: 2023-12-12 14:42:28.609087450 +0100
+Change: 2023-12-12 14:42:28.609087450 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+touch -m number1.txt//change bilgisini komutu gidrdigmz tarih bilgsi ile degistirdi
+
+Change date bilgsini degistirmek icin ise : 
+
+adem@adem:~$ touch -c number1.txt
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 14:44:29.674609488 +0100
+Modify: 2023-12-12 14:44:29.674609488 +0100
+Change: 2023-12-12 14:44:29.674609488 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+
+Dosyanin birth tarihini duzenlemek istersek
+adem@adem:~$ touch -b number1.txt
+touch: invalid option -- 'b'
+Try 'touch --help' for more information.
+Dosyanin birth tarihini degistiremedik..Hemen tam olarak anlamk icin touch --help ile inceleyebiliriz
+Peki illa ki ben dosyamin olusturulma-birth tarihini de degistirmem gerek dersek o zamanda yeni bir dosya olusturup, bu mevcut dosya icerigini yeni dosyamiza  tasiyarak, yeni olustrudgumuz dosyanin birth-olusturlma tarihi artik guncel olmus olacaktir
+
+EGER MODIFY DATE I SPESIFIK BIR TARIH ILE DEGISTIRMEK ISTERSEK DE 
+
+adem@adem:~$ touch -md '2023-09-19 00:00:00' number1.txt
+touch -md(modify date)
+
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 14:44:29.674609488 +0100
+Modify: 2023-09-19 00:00:00.000000000 +0200
+Change: 2023-12-12 15:13:11.027439714 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+
+adem@adem:~$ touch -ma '2023-09-19 00:00:00' number1.txt - Access date spesifik bir date ile  degistirmek icin
+adem@adem:~$ touch -mc '2023-09-19 00:00:00' number1.txt - Change date spesifik bir date ile  degistirmek icin
+
+DOSYA PROPERTIES(OZNITELIKLERI-OZELLIKLERI) DOGAL OLARAK NASIL-NE ZAMAN DEGISIR?
+
+adem@adem:~$ cat number1.txt
+1 2 3 4 5 6 7 8 9
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 15:17:34.022637553 +0100
+Modify: 2023-09-19 00:00:00.000000000 +0200
+Change: 2023-12-12 15:13:11.027439714 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ date
+ti. 12. des. 15:18:50 +0100 2023
+adem@adem:~$ date
+ti. 12. des. 15:19:02 +0100 2023
+adem@adem:~$ cat number1.txt
+1 2 3 4 5 6 7 8 9
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 18        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 15:17:34.022637553 +0100
+Modify: 2023-09-19 00:00:00.000000000 +0200
+Change: 2023-12-12 15:13:11.027439714 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+
+Dikkat edersek ilk cat number1.txt ile icerigi okuyunca Access date degisti ama sonraki cat number1.txt ile icerigi okudugumzda Access tarihi, oz niteligi degismedi
+Access bilgisi surekli olarak guncellenmiyor cunku cok dosyayi COK SIK OKUYUP ISLEM YAPTIMGZ ICIN VE BUSEKILDE DE GEREKSIZ YERE DISK UZERINDE READ-WRITE YAPILMAMIS OLUYOR!!!
+TABI KI BIR DOSYA ICINDE KI TARIH DEGISINCE ARKA TARAFTA ONCE O DOSYA OKUNUR SONRA WRITE ILE ICINE YAZILACAK VEYA  GUNCELLENEK BILGI DEGISTIRILIR...
+Modify-ozniteligi ozelligi ise dosya icerigine yeni bir veri eklendiginde veya cikartildiginda gerceklesiyor!
+
+Dosyamize yeni veri ekleyerek MOdify tarihinin degistigini gorecek olursak 
+
+adem@adem:~$ cat >> number1.txt
+10
+11
+CTRL-D ile kaydederiz
+adem@adem:~$ cat number1.txt
+1 2 3 4 5 6 7 8 9
+10
+11
+adem@adem:~$ stat number1.txt
+  File: number1.txt
+  Size: 24        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 15:33:18.862311046 +0100
+Modify: 2023-12-12 15:33:11.402215357 +0100
+Change: 2023-12-12 15:33:11.402215357 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+Gordgumz gibi dosya duzenlenme tariihi de degisiyor
+Change degisim tarihi de dosyanin oz nitelik bilgisidr cunku dosya da ornegin herhaangi bir sey degistiginde change tarihi de guncellendiginden anlayabiliriz bunu!!!!
+BUNU DA GORELIM-CHANGE OZ NITELIGI DOSYA UZERINDE HERHANGI BIR OZELLIK DEGISIRSE O DEGISIM TARIHI ILE DEGISECEKTIR 
+
+DOSYAMIZIN ISMINI DEGISTIRELIM ONCE-MV KOMUTU ILE DEGISTIRIZ DOSYA ISMINI!!! 
+
+adem@adem:~$ mv number1.txt number2.txt
+adem@adem:~$ cat number1.txt
+adem@adem:~$ cat number2.txt
+1 2 3 4 5 6 7 8 9
+10
+11
+adem@adem:~$ stat number2.txt
+  File: number2.txt
+  Size: 24        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690253     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-12 15:38:57.686613437 +0100
+Modify: 2023-12-12 15:33:11.402215357 +0100
+Change: 2023-12-12 15:38:40.414395783 +0100
+ Birth: 2023-12-12 11:53:09.330639289 +0100
+adem@adem:~$ 
+
+Yani ozetle CHANGE bilgisi dosya nin herhangi size,name degisirse CHANGE date degisir
+Dosyanin birth-olusturulma tarihi degismez, ancak o dosyayi baska bir doasyaya kopyalayarak o tarihi yeniden olusturmus oluruz
+Modify date- dosya icine veri ekleme veya veri silme durumunda degisecektir
+Access ise bu dosyaya herhangi bir arac yardmii ile erisildginde ornegin cat number2.txt o zaman degisiyor ama surekli olarak degismiyor, read-write yukunden kurtulmak icin surekli olarak degismiyor.Bu durum tabi degistirilebilir eger istenirse, sistemde konfigurasyon yaparak, dosya ya her erisildiginde date Access date degistirilebilir eger sistem konfigurasyonda ayarlanirsa(onerilmez-spesifik durumlar haric)
+
+
+
 
 
 */
