@@ -3240,9 +3240,189 @@ Dosyanin birth-olusturulma tarihi degismez, ancak o dosyayi baska bir doasyaya k
 Modify date- dosya icine veri ekleme veya veri silme durumunda degisecektir
 Access ise bu dosyaya herhangi bir arac yardmii ile erisildginde ornegin cat number2.txt o zaman degisiyor ama surekli olarak degismiyor, read-write yukunden kurtulmak icin surekli olarak degismiyor.Bu durum tabi degistirilebilir eger istenirse, sistemde konfigurasyon yaparak, dosya ya her erisildiginde date Access date degistirilebilir eger sistem konfigurasyonda ayarlanirsa(onerilmez-spesifik durumlar haric)
 
+ECHO KOMUTU
+Kendisine arguman olarak verilen, onune gelen ifadeyi ekrana bastirmak icin kullanilan bir aractir
+adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo argument
+argument
+echo-yankilamak demek yani ona verilen datayi ekrana yankiliyor
+echo --help  dersek , ekrana --help yazdiracagi icin biz ya help echo ile ya da man echo ile echo nun tum islevlerini gorebilirz
+
+echo standart input almiyor kesinlikle...Sadece standart verilen argumenti output olarak ekrkana basiyor.. 
+Yani biz echo yu <(input-direction ) ile kullanamayiz 
+echo < result.txt dersek herhangi bir cikti alamayiz, cunku echo araci standart girdiden gelen verileri kabul etmiyor
+Dolayisi ile biz < result.txt i echo aracina yonlendirsek bile bu result.txt dosyasi nin 0 numarali dosya tanimlayicisi echo araci tarafindan islenmiyor
+
+BIR DOSYA ICERISINE ASAGIDAKI SEKILLERDE VERI GIREBILIYORDUK..UNUTMAYALIM!!!!
+Bir dosya icerisine echo yu kullanarak veri girebiliyoruz
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo a{f..k}a > text2.txt
+Ayni sekilde biz bir dosya icerisine veriyi cat ile direk manuel olarak yazarak veri gidip en son CTRL-D yapiyorduk ya da herhangi bir dosya icerigini alip diger dosya ya aktrabiliyorduk, ya da 2-3 veya daha fazla dosyayi birlestirip, y eni bir dosya icine yazabiliyorduk
+Mevcut dosya nin devamina da yazabiliyorduk, mevcut icerigin silip de y azabiliyorduk
+Yeni bir dosya olusturarak icerik girebiliyorduk
+Ya da mevcut dosya yi kopyalabiliyorduk...
+
+Biz  yonlendirme araci olan <(kucuktur-input-redirction) aracini kullanarak bir dosya icerigini
+
+/usr/bin/cat  < isareti  cat aracini temsil eden dosyanin standart girdisi olan 0 numarali dosya tanimlayicisina, sagdaki verilerin yonlendirilmesini sagliyor
+adem@adem:~$ cat result.txt
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ cat < result.txt //Bu sekilde result.txt nin icerigin cat aracina yonlendirmis oluyorz
+hatasiz
+./betik.sh: line 2: asdf: command not found
 
 
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo *
+ada ad.txt ae.txt af.txt ag.txt Android android-studio AndroidStudioProjects bd.txt be.txt bf.txt bg.txt cd.txt ce.txt cf.txt cg.txt demo1 demo1-server Desktop Documents Downloads folders.txt geoserver Groceries groceryapp index.html Linux-works Music nativescript-app Pictures projects Public snap Templates text1.txt text2.txt Videos web
 
+
+Tum dosya ve klasor isimlerini ekrana basacaktir, cunku * isareti bir dosya ismi genisletme karakteri islevi joker karakter olarak taniyor bash-shell * ilk olarak 
+Ama asgidaki gibi y aparak , bash-shell e sen * i siradan bir karakter olarak tani da diyebiliriz
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo \*
+*
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo '*'
+*
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "*"
+*
+
+echo ozellikle bash-programlama yaparken cok kullanilyor $ ile variable tanimlayarak, bash-shell in icinde dahili olarak gelen gomulu olarak gelen pwd gibi komutlarin basina echo $(pwd) koyarak ve bu cikti ya da alip ornegin, bir dosya icerisine vs bastirrarak...yapmak istenilen islevler yapilabiliyor
+
+echo yu nerelerde kullanacagimzi iyice anlamak icin help echo  ya ada man echo yazarak diger islevlerini okuyup kullanabiliriz 
+Bu sekilde kullanmaya alismaliuyiz..cunku herseyi ogrenemeyiz kendi basimiza
+
+dem@adem-ThinkPad-13-2nd-Gen:~$ help echo
+echo: echo [-neE] [arg ...]
+    Write arguments to the standard output.
+    
+    Display the ARGs, separated by a single space character and followed by a
+    newline, on the standard output.
+    
+	HELP-MAN KOMUTUNDAN YARDIM ALARAK, ARACLARIN DIGER OZELLIKLERINI DE BULUP ONLARDAN FAYDALANABILMEK!!!!!!!
+    Options:
+      -n	do not append a newline
+      -e	enable interpretation of the following backslash escapes
+      -E	explicitly suppress interpretation of backslash escapes
+
+	  echo onune girilen argumen in sonuna default olarak yeni satira gecme komutu ekliyor 
+	        -n	do not append a newline bu ifade ile diyor ki istersen bunu kaldirabilirsin diyor!!!
+
+	Yani esasinda biz, komutlarin bizim icin ayarlanmis default ozelliklerini kendi ihtiyaclarimza gore fleksibel olarak, kullanabilme imkanina sahibiz..		
+	ASAGIDAKI GIBI -n ile kullanirsak artik bir satir bosluk birakmayacaktir
+	adem@adem-ThinkPad-13-2nd-Gen:~$ echo hello
+	hello
+	adem@adem-ThinkPad-13-2nd-Gen:~$ echo -n hello
+	helloadem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+	YANI KISACASI DIYOR KI SEN ECHO YU GEL ONUNE echo -n, echo -e, echo -E seklinde yazdiktan sonra argumen i girerek kullanrsan aciklamada ne diyorsa o sekilde sonuc alirsin diyor...ISTE BIZ BUNLARI KULLANMAYI DA OGRENMEMIZ GEREKIYOR KI KENDI IHTIYACLARIMZA GORE ECHO ARACI GIBI ARACLARI SEKILLENDIREBILELIM...BUNU YAPABILMEK COK CIDDI BIR SEVIYE YUKSELTECEKTIR
+	-n	do not append a newline
+      -e	enable interpretation of the following backslash escapes
+      -E	explicitly suppress interpretation of backslash escapes
+
+
+	  Simdi biz shell-bash kabugu uzerinde calisiyoruz bash-shell in de nasil calisgini neyi nasil taniyabildgini anlamamiz gerekiyor 
+	  help echo yazinca gelen bilgi veri sinde biz \n  i oraya bakarak kullanmak istiyoruz ornegin 
+
+	     `echo' interprets the following backslash-escaped characters:
+      \a	alert (bell)
+      \b	backspace
+      \c	suppress further output
+      \e	escape character
+      \E	escape character
+      \f	form feed
+      \n	new line
+      \r	carriage return
+      \t	horizontal tab
+
+	  Peki bu dokumana bakarak nasil kullanacagiz
+
+	  adem@adem-ThinkPad-13-2nd-Gen:~$ echo -e hello \n world
+	  hello n world
+	  Bu sekilde calismayacaktir goruldugu gibi ama 
+	  adem@adem-ThinkPad-13-2nd-Gen:~$ echo -e "This is the first line.\nThis is the second line."
+		This is the first line.
+		This is the second line.
+	Bu sekilde calisacaktir neden boyle oldu CUNKU:	
+	Bosluklar tirnak icinde kullanilmadiginda bosluklari echo araci her bir argumenti ayirmak icin kullanarak, her bir bosluktan sonraki ifadeyi bir argumen olarak kabul ediyor.. 
+	The issue is that the backslash escape sequence \n is not being interpreted as a newline character because you used a space between hello and \n. In the shell, spaces are used to separate arguments, so the \n is treated as a literal string and not as an escape sequence.
+	ONUN TAM OLARAK CALISMASI ICIN ASAGIDAKI GIBI KULLANMALI IDIK
+	echo -e "hello\nworld"
+
+	adem@adem-ThinkPad-13-2nd-Gen:~$ echo -e hello\nworld
+	hellonworld
+	Bu sekilde de \n new line characteri olarak yorumlanmayacaktir bash tarafindan cunku bash default oilarak \ ters-slash i escape-kacis karakteri olarak kullaniyor, neyden default olarak tanidi ozel dosya tanimlayici joker karatkerleri n bash icin ozel anlamlari var ornegin *,?,[] bunmlari siradan karakter olarak tanimasi icin biz \*, ya da \? seklinde kullaniyrduk..Ondan dolayi new line olarak taninmasi icin cift-tirnak icinde yazilmasi gerekiyor
+
+	COMMON-PRACTISE LERI DE BILMEK GEREKIYOR!!!
+	So, even though the documentation doesn't explicitly mention double quotes, it's a common practice to use them when working with escape sequences to ensure predictable behavior. This practice is not specific to the echo command but is a general best practice when dealing with command-line arguments that contain special characters or spaces.
+
+	help echo ile gelen echo nun farkli sekillerde kullanim araclari daha cok bash-shlell programlama da ciktilari duzenlemek ve istenilen formatta cikti almak icin kulllaniliyor biz cok fazla kullanmayacagiz
+
+	PEKI ECHO ILE ALT ALTA HER BIR SATIRA FARKLI IFADELER GIRMEK ISTERSEK NASIL YAPARIZ 
+	adem@adem-ThinkPad-13-2nd-Gen:~$ echo "deneme
+	> test
+	> new
+	> come
+	> hello
+	> world"
+	deneme
+	test
+	new
+	come
+	hello
+	world
+	adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+	Bunlari istersek var olan veya yeniden bir dosya olusturarak onun icine de yazabiliriz 
+	adem@adem-ThinkPad-13-2nd-Gen:~$ echo "
+	> hello
+	> world
+	> today
+	> tomorrow" > newTest.txt
+	adem@adem-ThinkPad-13-2nd-Gen:~$ cat newTest.txt
+
+	hello
+	world
+	today
+	tomorrow
+
+	PASTE ARACI
+	Paste araci sayesinde dosya iceriklerini yanyana bastirabiliyoruz
+	Bu sayede yanyana kiyaslamak istedgimz dosya iceriklerini rahatlikla kiyaslayabiliyoruz!!!ONEMLI!!
+	Bu aracin kullanimi cat aracina benziyor ama cat ile yanyana basamiyoruz
+	KIYASLAMAK ICIN YANYANA ALMAK ISTERSEK PASTE KOMUTU ILE YAPARIZ
+
+	adem@adem-ThinkPad-13-2nd-Gen:~$ cat text1.txt text2.txt
+	aba aca ada aea
+	afa aga aha aia aja aka
+	adem@adem-ThinkPad-13-2nd-Gen:~$ paste text1.txt text2.txt
+	aba aca ada aea	afa aga aha aia aja aka
+	adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+	Yani dosya iceriklerini satir satir karsilastirabiliyoruz!!!!DOGRU ANLAYALIM
+	ISTERSEK DAHA FAZLA 3-4 FARKLI DOSYA ICERIGINI SATIR SATIR YANYAN YAZDIRABILIYORUZ
+
+	adem@adem-ThinkPad-13-2nd-Gen:~$ paste text1.txt text2.txt text1.txt text2.txt
+	aba aca ada aea	afa aga aha aia aja aka	aba aca ada aea	afa aga aha aia aja aka
+
+	VE ISTERSEK KARSILASTIRIDGIMZ HALINI DE BIR DOSYA ICINE OUTPUT-REDIRECTION > YAPABILIRIZ
+	adem@adem-ThinkPad-13-2nd-Gen:~$ paste text1.txt text2.txt text1.txt text2.txt > compare.txt
+	adem@adem-ThinkPad-13-2nd-Gen:~$ cat compare.txt
+	aba aca ada aea	afa aga aha aia aja aka	aba aca ada aea	afa aga aha aia aja aka
+
+	Aralarina delimeter koyabilirz ornegin - isarti 
+
+	adem@adem-ThinkPad-13-2nd-Gen:~$ paste -d "-" text1.txt text2.txt 
+	aba aca ada aea-afa aga aha aia aja aka
+	adem@adem-ThinkPad-13-2nd-Gen:~$ paste -d "|" text1.txt text2.txt 
+	aba aca ada aea|afa aga aha aia aja aka
+
+
+	aste -d "-|" yaparsak birden fazla delimeter-ayirici karakter kullanirsak sira ile bosliklara 1 -, sonra | kullanilir 
+
+	Tum icerikleri birlestirmek icinde delimter yerine ayirici yerine cift tirnak icin bosluk birakiriz
+Istersek alt alta da karsilastirmak icn alt alta da bastirabiliriz 
+adem@adem-ThinkPad-13-2nd-Gen:~$ paste -s text1.txt text2.txt
+aba aca ada aea
+afa aga aha aia aja aka
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
 
 */
 
