@@ -3424,11 +3424,753 @@ aba aca ada aea
 afa aga aha aia aja aka
 adem@adem-ThinkPad-13-2nd-Gen:~$ 
 
-*/
+SORT ARACI
+Ozellikle duzensiz buyuk veriler uzerinde calisirken verileri duzenlemek icin bu arac kullanilabiliyor
+Bir dosya icerigindeki verileri siniflandirip, siralayarak daha duzenli hale getirebiliyoruz
+
+adem@adem:~$ cat test1.txt
+b3
+ba
+B3
+3B
+a2
+A1
+a1
+2a
+1b
+3b
+adem@adem:~$ sort test1.txt
+1b
+2a
+3b
+3B
+a1
+A1
+a2
+b3
+B3
+ba
+adem@adem:~$ 
+
+Siralama mantigina gelince
+Oncelikle ilk sutun-colondan baslar siralarken 
+Ardindan siralam da her sort araci rakamlari harflerden once siralar
+rakamlari kucukten buyuge dogru siralar
+Ayni olan karakterlerden kucuk karakterler buyuk karakterlerden once geliyor harfleri de a-z ye dogru siraliyor
+a1 A1 den once gelir ama A1 de a2 den once gelir cunku 2.sutun da 1 2 den once geliyor
+Her bir sutundaki degerleri siraliyor ve bunlara bir agirlik degeri tanimliyor, daha sonra tum verileri agirlik degerine gore siraliyor
+
+adem@adem:~$ cat > number1.txt
+10
+4
+6
+2
+21
+95
+3
+3
+75
+8
+1
+01
+40
+adem@adem:~$ cat > letter.txt
+a
+g
+F
+z
+D
+g
+O 
+p
+l
+k
+S
+C
+E
+n
+M
+h
+t
+N
+
+number1.txt ve letter.txt yi birlikte siralayacak olursak eger:
+adem@adem:~$ sort number1.txt letter.txt
+
+01
+1
+10
+2
+21
+3
+3
+4
+40
+6
+75
+8
+95
+a
+C
+D
+E
+F
+g
+g
+h
+k
+l
+M
+n
+N
+O
+p
+S
+t
+z
 
 
+Dikkat edelim sort  aracina gore 10 2 den once gelir cunku sort araci 10 un 1.satirda olan rakami olan 1 ile 2 yi kiyaslayarak 10 u 2 den onceya aliyor.Sort araci default oalrak bu sekilde siraliyor ama biz sort aracina ozellikle matematiksel siralama yap diye komutu ayarlarsak o zaman da matematiksel olarak siralayabilir
+
+Siralamayi matematiksel olarak yapmak  istersek eger o zaman da:
+Bu tarz durumlari gormek icin, yani bizim bu komutu hangi alternatif lerle kullanabilecegimzi gormek icin asagidaki gibi yardim komutlarindan faydalanmaliyiz.Biz tum komutlari ezberleyemeyiz..ondan dolayi yardim komutlarini herzaman aktif olarak kullanmasini cok iyi bilmeliyiz ve nasil kullanabilecegimizi de cok iyi bilmeliyiz
+
+sort --help
+help sort
+man sort
+
+ -n, --numeric-sort          compare according to string numerical value
+
+adem@adem:~$ sort -n number1.txt
+01
+1
+2
+3
+3
+4
+6
+8
+10
+21
+40
+75
+95
+adem@adem:~$ 
+
+sort --help
+ -k, --key=KEYDEF          sort via a key; KEYDEF gives location and type
+ -k ve kac numarali sutun-colon dikkat e alinmasini istersek onu yazarak sadece o sutunun siralanmasin saglayabiliriz
+
+ adem@adem:~$ cat data1.txt
+Ahmet Yaz 33
+hasan mert 19
+aylin uzun 24
+32 mehmet KARA
+naz 29 sabah
+adem@adem:~$ 
+
+adem@adem:~$ sort -k 3 data1.txt
+hasan mert 19
+aylin uzun 24
+Ahmet Yaz 33
+32 mehmet KARA
+naz 29 sabah
+
+2.sutundaki karakterlere gore siralama yapar
+
+adem@adem:~$ sort -k 2 data1.txt
+naz 29 sabah
+32 mehmet KARA
+hasan mert 19
+aylin uzun 24
+Ahmet Yaz 33
+adem@adem:~$ 
+
+SORT ARACININ AYRICA BENZERSIZ-UNIQ OLAN CIKTILARI ELDE ETMEK!
+YANI OZELLIKLE AYNI ISIMDEN 2 TANE VAR ISE, AYNI DATA BIRDEN FAZLA KEZ KULLANILIYOR VE BIZ HER DEGER DEN 1 TANE UNIQ OLSUN ISTERSEK
+
+adem@adem:~$ cat > names.txt
+OZKAN
+BERIL GULUS
+Evren
+yucel
+Alisan
+Tuba
+Tevfik ozgun
+
+SAADET
+ELIF NUR
+Cagdas
+Vedan 
+c KORKMAZ
+Can Ahmet Polat
+Canan Kahraman
+Ahmet Can Yazar
+ahmet can durmus
+can ahmet furkan
+Tevfik ozgun
+BERIL GULUS
+ELIF NUR
+adem@adem:~$ sort -u names.txt
+
+ahmet can durmus
+Ahmet Can Yazar
+Alisan
+BERIL GULUS
+Cagdas
+can ahmet furkan
+Can Ahmet Polat
+Canan Kahraman
+c KORKMAZ
+ELIF NUR
+Evren
+OZKAN
+SAADET
+Tevfik ozgun
+Tuba
+Vedan 
+yucel
+adem@adem:~$ 
+
+SHUF ARACI -YER DEGISTIRME-KATIP KARISTIRMA ANLAMINA GELIR
+Kendisine verilmis olan verilerin sirlamaasini rastgelen olacak sekilde degistiriyor
+
+adem@adem:~$ cat > number2.txt
+1
+2
+3
+4
+5
+6
+10
+14
+23
+45
+51
+65
+adem@adem:~$ shuf number2.txt
+10
+65
+14
+1
+6
+23
+2
+51
+3
+45
+4
+5
+adem@adem:~$ 
+
+Her kullandgimizda rastgele olan siralmayi degistiriyor
+Istersek karistirdigmz listeyi yeni bir dosya olusturup icine veya var olan bir dosya icerigin silip ustune yazabilirz ya da var olan dosya iceriginin sonuna da yazabiliriz 
+
+shuf number2.txt > newfile.txt
+
+Dosya icerigini karistirdiktan sonra icerigin belirli satirlari rastgel bize vermesin de soyleyebiliriz
+
+adem@adem:~$ shuf -n 3 number2.txt
+2
+1
+45
+adem@adem:~$ 
 
 
+NL(NUMBERLINE) ARACI
+Verilen satirlarin tek tek numarlandirilmasini saglar
 
-?>
+adem@adem:~$ cat names.txt
+OZKAN
+BERIL GULUS
+Evren
+yucel
+Alisan
+Tuba
+Tevfik ozgun
+
+SAADET
+ELIF NUR
+Cagdas
+Vedan 
+c KORKMAZ
+Can Ahmet Polat
+Canan Kahraman
+Ahmet Can Yazar
+ahmet can durmus
+can ahmet furkan
+Tevfik ozgun
+BERIL GULUS
+ELIF NUR
+adem@adem:~$ nl names.txt
+     1	OZKAN
+     2	BERIL GULUS
+     3	Evren
+     4	yucel
+     5	Alisan
+     6	Tuba
+     7	Tevfik ozgun
+       
+     8	SAADET
+     9	ELIF NUR
+    10	Cagdas
+    11	Vedan 
+    12	c KORKMAZ
+    13	Can Ahmet Polat
+    14	Canan Kahraman
+    15	Ahmet Can Yazar
+    16	ahmet can durmus
+    17	can ahmet furkan
+    18	Tevfik ozgun
+    19	BERIL GULUS
+    20	ELIF NUR
+adem@adem:~$ 
+
+Birden fazla dosya da verebiliyoruz
+
+adem@adem:~$ nl number1.txt letter.txt
+
+Biz nl aracinin yaptigi isin aynisini cat -n names.txt ile de  yapabiliyoruz ama kullanim olarak bu islev icin nl araci daha cok tercih ediliyor  
+
+adem@adem:~$ cat -n names.txt
+     1	OZKAN
+     2	BERIL GULUS
+     3	Evren
+     4	yucel
+     5	Alisan
+     6	Tuba
+     7	Tevfik ozgun
+     8	
+     9	SAADET
+    10	ELIF NUR
+    11	Cagdas
+    12	Vedan 
+    13	c KORKMAZ
+    14	Can Ahmet Polat
+    15	Canan Kahraman
+    16	Ahmet Can Yazar
+    17	ahmet can durmus
+    18	can ahmet furkan
+    19	Tevfik ozgun
+    20	BERIL GULUS
+    21	ELIF NUR
+adem@adem:~$ 
+
+WC(WORDCOUNT) ARACI
+
+Arguman olarak vermis oldugumz dosya icindeki kelimeleri sayabilmemizi sagliyor,sadece kelimeleri degil, karakterleri, satirlari ve bytler i da sayabiliyoruz
+
+adem@adem:~$ wc names.txt
+ 21  36 211 names.txt
+21:KAC SATIR
+36:KAC KELIME
+211:KAC BYTE(kac character)
+
+wc -c names.txt - sadece charcater(byte) uzunlugunu verir
+wc -w names.txt - sadece kelime uzunlugunu verir
+wc -l names.txt - sadece satir uzunlugunu verir
+wc -lw names.txt  once line sonra word uzunlugunu verir
+wc -wcl names.txt once word, sonra char , sonra da line uzunlugunu verir
+
+METINLERI FILTRELEMEK
+
+PIPE MEKANIZMASI
+
+Linux de her sey bir dosya, her komut bir dosyadan ibaret oldugundan dolayi , sistemimizi biz linux de komut satiri uzerinden yonettgimz icin bizim isimiz gucumuz surekli olarak byte aksini yani data alisverisini dosyalar arasi data aktarim data alisveris, data search, data sort vs surekli olarak bu sekilde dosyalar arasi data giris cikislari ile ugrasmak olacaktir
+
+Birden fazla araci birbirine baglayarak calistirabilmemizi saglayan pipe mekanizmasina da bakalim!!!!
+
+Yonlendirme islemlerini ogrenmistik
+Yonlendirme islevi ile bir aracin ciktilarini bir dosyaya output-redireacition(>) ile 
+cat text1.txt > text2.txt veya manuel veri girisi yapip ctrl-d ile kaydeip onu bir dosyaya aktarabiliyorduk 
+Tam tersi de bir dosya ciktilarini bir araca girdi olark aktarabiliiyorduk
+
+ASAGIDAKI ORNEK GIBI!!!yapabilmesi
+cat araci ile dosya icerigini goruntuleyebiliyoruz normalde 
+adem@adem:~$ cat hatasiz.txt
+hatasiz
+Biz  yonlendirme araci olan <(kucuktur-input-redirction) aracini kullanarak bir dosya icerigini
+
+/usr/bin/cat  < isareti  cat aracini temsil eden dosyanin standart girdisi olan 0 numarali dosya tanimlayicisina, sagdaki verilerin yonlendirilmesini sagliyor
+adem@adem:~$ cat result.txt
+hatasiz
+./betik.sh: line 2: asdf: command not found
+adem@adem:~$ cat < result.txt //Bu sekilde result.txt nin icerigin cat aracina yonlendirmis oluyorz
+
+PIPE YAPISINA NEDEN IHTIYAC DUYARIZ
+1-Hizli calismasi
+2-Ayni anda paralel bir sekilde islemler arasinda veri aktarimi yapabilmesi
+
+Pipe mekanizmasini komut satiri uzerinde temsil edebilmek icin | isaretini kullaniriz
+
+Ornek:
+komut1 | komut2 
+Burda komut1 aracinin ciktilari komut2 aracina aktariliyor olacak, uretilme sirasina gore aninda komut2 aracina baglanip aktariliyor olacak
+Bir de bu aktarim yalnizca tek yonlu oluyor, yani her zaman soldaki komut1 in ciktilari komut2 ye aktarilir, komut2 den herhangi bir cikti komut1 e aktarilmaz
+
+ORNEK:
+Biz 3 farkli islem yapmak istiyoruz 
+1-/etc klasoru altindaki sonu .sh ile biten betik dosyalarine erismek
+2-sonu .sh ile biten bu dosyalari alfa-numerik olarak siralamak
+3-alfa numerik olarak siralanan bu dosyalari numarlandirmak istiyoruz
+
+Normalde biz her bir islemi ayri ayri yapip her seferinde yaptgimiz islemi bir dosya icine yazarak nihayttinde tum istekleri gerceklestiirp sonucu bir dosyay yazdirabiliriz ama bunu pipe araci ile tek satirda bir kerede cok kolay birs sekildea yapabilecegiz
+
+1- /etc klasoru altindaki sonu .sh ile biten betik dosyalarine erismek:
+adem@adem:/$ find /etc/ -name "*.sh" -type f
+
+2-sonu .sh ile biten bu dosyalari alfa-numerik olarak siralamak
+sort
+3-alfa numerik olarak siralanan bu dosyalari numarlandirmak 
+nl
+
+
+find /etc/ -name "*.sh" -type f 
+
+/etc/ altindaki sonu .sh ile biten, sadece dosyalari, folder lari degil type-file olacak, ve dikkat edelim persmission denied  yani erisim yetkimiz olmadigindan bazi dosyalar sonucu error olmus oluyor, hatali yani aramayi yapamiyor erisim sorunundan dolayi, bazi satir lar permission denied geliyor. Bu satirlarin gelmemesi icn de sonuna  2> /dev/null   dedgimizde, 2 numarali sonuc error sonuclari idi, error sonuclarini bosluga gonder, kaldir dedgimzde artik boyle bir sonuc da gormeyiz..!!!!HARIKA BESPTPRACTISE!!!!
+
+2 numarali dosya tanimlayicisi uzerinden yalnizca hatali olanlar yani permission denied olanlari, /dev/null a, gondererek kaldir
+find /etc/ -name "*.sh" -type f 2> /dev/null
+
+BU SEKILDE 3 FARKLI ISLEMI TEK SATIRDA  YAPABILIYORUZ..PIPE ARACI SAYESINDE!!HARIKA BESTPRACTISE!!
+adem@adem:/$ find /etc/ -name "*.sh" -type f 2> /dev/null | sort | nl
+| isareti pipe aracidir aslinda veya pipe isaretidir
+
+
+find /etc/ -name "*.sh" -type f 2> /dev/null | sort | nl
+
+find /etc/ -name "*.sh" -type f 2> /dev/null
+1 numarali hatsiz ciktilar sort aracinin standart girdisine aktariliyor(0 standart dosya girdisi)
+2 numarali hatali ciktilar ise /dev/null a gonderiliyor
+
+sort araci da yine
+1 numarali hatasiz ciktilar nl aracinini standar girdisine aktariliyor(nl nin 0 dosya girdisine aktraliyor)
+2 numarali hatali ciktilar ise /dev/tty
+
+nl aracinda ise 
+1 hatasiz ciktilar /dev/tty
+2 hatali ciktilar /dev/tty
+
+/dev/tty console ekranina sonucu basan, aracin dosyalaridir
+/dev/tty dosyasi console umuzu temsil ediyor!!!
+
+find-sort-nl araclari ayni anda paralel olarak calisiyor
+Bahsi gecen tum islemler ayni anda yapiliyor
+Yani biz komutu girdigmz de bu uc arac ta ayni anda ayaga kalkiyor
+Araclar ayni anda calisir ve paralel olark birbirlerine veri iletimi yaparlar
+Dosyalar uzerinde read-write yapilmadiigi ve veri aktarimi RAM uzerinden paralele olarak gerceklestigi iicn islemler cok daha hizli oluyor
+
+PIPE MEKANIZMA ILE SISTEMIN CALISMASI MANTIGI
+BURDA ANLAMAMIZ GEREKEN NOKTA SUDUR KI FIND ARACI ORNEGIN 1 TANE DATA BULDUGU ANDA, O DATA YI SORT ARACINA GONDERIYOR HEPSINI TEK TEK BULMAYI BEKLEMIYOR SORT ARACI DA CALISMAK ICIN FIND ARACININ HEPSINI BULMASINI BEKLEMIYOR..YANI HEPSI AYNI ANDA PARALEL BIR SEKILDE COK HIZLI BIR SEKILDE CALISIYORLAR
+BIRDE PIPE ARACINDA COK H IZLI CUNKU HERHANGI BIR OKUMA YAZMA ISLEMI GERCEKLESMIYOR,RAM UZERINDE GERCEKLESIYOR
+
+PIPE ARACI ILE, COK PERFORMANSLI NETICLERE ALIYORUZ ANLIK OLARAK ALMAMIZ GEREKEN VERILERDE COK YUKSEK SEVIYE PERFORMANS ALIYORUZ PIPE ARACI SAYESINDE..PIPELINE..
+PIPE MEKANZMASI SAYESINDE PEKCOK FARKLI ISLEVI OLAN ARACLARI COK KARMASIK VE FARKLI YAPILARDA KULLANMAK YERINE FARKLI ARACLARIIN ANA ISLEVLERI ILE KULLANARAK, COK DAHA HIZLI SONUCLAR ELDE EDEBILIRIZ
+
+BU ISLEMIN AYNISINI BIZ...SU SEKILDE DE YAPABILIYORUZ ARAYA ;SEMICOLON-NOKTALI VIRGUL KOYARAK DA HER BIR ARACI YANYANA AYRI AYRI CALISTIRABILIRIZ
+adem@adem:~$ find /etc/ -name "*.sh" -type f 2>/dev/null >test12.txt; sort < test12.txt > test13.txt; nl<test13.txt
+
+BURAYA DIKKAT EDELIM.. SORT ARACI ARGUMEN OLARAK ALDIGI DOSYAYI DEFUALT OLARAK INPUT-OLARAK KABUL EDER AMA TABI KI BIZ AYRI BIR SEKILDE <-INPUT REDIRECTION I KULLANARAK TEST12.TXT NIN ICERIGINI INPUT OLARAK SORT ARACINA REDIRECT EDERSEK BU DAHA DOGRU BIR MANTIK OLACAKTIR...BU IKI FARKI AYIRT EDELIM!!!
+
+adem@adem:~$ sort test12.txt > test20.txt
+adem@adem:~$ sort < test12.txt > test21.txt
+
+
+ARADA SEMICOLON-NOKTALI VIRGUL ILE ISLEMLERI ARD ARDA YAPARKEN
+Burda arada noktali virgul oldugu icin, once find aracinin isi bitiyor, sonra sort aracinin isi bitiyor ardindan da nl araci calisyor yani birbirlerini bekliyorlarburda, bu pipe araci gibi calismiyor. Bir de biz burda tabi ki disk uzerinde read-writeislemerli yapiyoruz dosyalara yazarken ve dosyalardan okurken, dikkat edelim sort < test12.txt > test13.txt; burda sort ile test12.txt yi okuyoruz input olarak aliyoruz sonra da test13.txt ye cikti olarak output olarak veriyoruz..
+
+HATA VE COZUM!!!!
+
+adem@adem:~$ find /etc/ -name "*.sh" -type f 2>/dev/null > test12.txt
+adem@adem:~$ cat test12.txt
+/etc/init.d/console-setup.sh
+/etc/init.d/hwclock.sh
+/etc/init.d/keyboard-setup.sh
+/etc/libreoffice/soffice.sh
+/etc/wpa_supplicant/ifupdown.sh
+/etc/wpa_supplicant/functions.sh
+/etc/wpa_supplicant/action_wpa.sh
+/etc/console-setup/cached_setup_keyboard.sh
+/etc/console-setup/cached_setup_font.sh
+/etc/console-setup/cached_setup_terminal.sh
+/etc/profile.d/cedilla-portuguese.sh
+/etc/profile.d/vte-2.91.sh
+/etc/profile.d/bash_completion.sh
+/etc/profile.d/01-locale-fix.sh
+/etc/profile.d/debuginfod.sh
+/etc/profile.d/im-config_wayland.sh
+/etc/profile.d/apps-bin-path.sh
+/etc/profile.d/xdg_dirs_desktop_session.sh
+/etc/profile.d/gnome-session_gnomerc.sh
+/etc/acpi/asus-keyboard-backlight.sh
+/etc/acpi/ibm-wireless.sh
+/etc/acpi/undock.sh
+/etc/acpi/tosh-wireless.sh
+/etc/acpi/asus-wireless.sh
+/etc/gdm3/config-error-dialog.sh
+adem@adem:~$ sort test12.txt
+/etc/acpi/asus-keyboard-backlight.sh
+/etc/acpi/asus-wireless.sh
+/etc/acpi/ibm-wireless.sh
+/etc/acpi/tosh-wireless.sh
+/etc/acpi/undock.sh
+/etc/console-setup/cached_setup_font.sh
+/etc/console-setup/cached_setup_keyboard.sh
+/etc/console-setup/cached_setup_terminal.sh
+/etc/gdm3/config-error-dialog.sh
+/etc/init.d/console-setup.sh
+/etc/init.d/hwclock.sh
+/etc/init.d/keyboard-setup.sh
+/etc/libreoffice/soffice.sh
+/etc/profile.d/01-locale-fix.sh
+/etc/profile.d/apps-bin-path.sh
+/etc/profile.d/bash_completion.sh
+/etc/profile.d/cedilla-portuguese.sh
+/etc/profile.d/debuginfod.sh
+/etc/profile.d/gnome-session_gnomerc.sh
+/etc/profile.d/im-config_wayland.sh
+/etc/profile.d/vte-2.91.sh
+/etc/profile.d/xdg_dirs_desktop_session.sh
+/etc/wpa_supplicant/action_wpa.sh
+/etc/wpa_supplicant/functions.sh
+/etc/wpa_supplicant/ifupdown.sh
+
+HATA-COZUM
+adem@adem:~$ sort test12.txt>test12.txt
+adem@adem:~$ cat test12.txt
+SONUC BOS GELECEKTIR SEBEBI-CUNKU HEM INPUT OLARAK HEM DE OUTPUT OLARAK AYNI DOSYA KULLANILDIGI ICIN..DOSYA OKUNDUKTAN SONRA DOSYA BOSALTILIYOR...VE BOS BIR DOSYA SONUCU GELIYOR
+As a result, at step 3, when the shell truncates the file, it effectively erases its contents. When you subsequently write the sorted result to the file in step 4, you're overwriting an empty file, not appending to the original content.
+
+That's why you should use a different output file or a temporary file when you want to sort the content of a file and save it back to the same file. 
+COZUM ISE ASAGIDAKI GIBI FARKLI BIR DOSYAYYA AKTARMALIYIZ OUTUPUT U O ZAMAN ALABILIYORUZ SONUCU
+adem@adem:~$ sort test12.txt>test15.txt
+adem@adem:~$ cat test15.txt
+
+dem@adem:~$ cat test15.txt
+/etc/acpi/asus-keyboard-backlight.sh
+/etc/acpi/asus-wireless.sh
+/etc/acpi/ibm-wireless.sh
+/etc/acpi/tosh-wireless.sh
+/etc/acpi/undock.sh
+/etc/console-setup/cached_setup_font.sh
+/etc/console-setup/cached_setup_keyboard.sh
+/etc/console-setup/cached_setup_terminal.sh
+/etc/gdm3/config-error-dialog.sh
+/etc/init.d/console-setup.sh
+/etc/init.d/hwclock.sh
+/etc/init.d/keyboard-setup.sh
+/etc/libreoffice/soffice.sh
+/etc/profile.d/01-locale-fix.sh
+/etc/profile.d/apps-bin-path.sh
+/etc/profile.d/bash_completion.sh
+/etc/profile.d/cedilla-portuguese.sh
+/etc/profile.d/debuginfod.sh
+/etc/profile.d/gnome-session_gnomerc.sh
+/etc/profile.d/im-config_wayland.sh
+/etc/profile.d/vte-2.91.sh
+/etc/profile.d/xdg_dirs_desktop_session.sh
+/etc/wpa_supplicant/action_wpa.sh
+/etc/wpa_supplicant/functions.sh
+/etc/wpa_supplicant/ifupdown.sh
+
+adem@adem:~$ nl test15.txt
+     1	/etc/acpi/asus-keyboard-backlight.sh
+     2	/etc/acpi/asus-wireless.sh
+     3	/etc/acpi/ibm-wireless.sh
+     4	/etc/acpi/tosh-wireless.sh
+     5	/etc/acpi/undock.sh
+     6	/etc/console-setup/cached_setup_font.sh
+     7	/etc/console-setup/cached_setup_keyboard.sh
+     8	/etc/console-setup/cached_setup_terminal.sh
+     9	/etc/gdm3/config-error-dialog.sh
+    10	/etc/init.d/console-setup.sh
+    11	/etc/init.d/hwclock.sh
+    12	/etc/init.d/keyboard-setup.sh
+    13	/etc/libreoffice/soffice.sh
+    14	/etc/profile.d/01-locale-fix.sh
+    15	/etc/profile.d/apps-bin-path.sh
+    16	/etc/profile.d/bash_completion.sh
+    17	/etc/profile.d/cedilla-portuguese.sh
+    18	/etc/profile.d/debuginfod.sh
+    19	/etc/profile.d/gnome-session_gnomerc.sh
+    20	/etc/profile.d/im-config_wayland.sh
+    21	/etc/profile.d/vte-2.91.sh
+    22	/etc/profile.d/xdg_dirs_desktop_session.sh
+    23	/etc/wpa_supplicant/action_wpa.sh
+    24	/etc/wpa_supplicant/functions.sh
+    25	/etc/wpa_supplicant/ifupdown.sh
+adem@adem:~$ 
+
+
+XARGS
+Linux uzerindeki tum araclar standart girdi den 0 numarali dosya(input), veri kabul etmek zorunda degil...(echo gibi) kimi araclar yalnizca argumen alarak calisiyor, kendisine verilmis olan ilgili argumenlari kullaniyor.
+Dolayisi ile bizim pipe mekanizmasi ile bu sekilde standart input- almayan, onun yerine sadece kendine verilen arugmentleri okuyan araclar i kullanabilmemiz icin ekstra bir mekanizmaya ihtiyacimz var..
+Tam olarak bu sorunu cozen aracimizin ismi xargs isimli aractir
+Bu aracimz standart girdiden okumus oldugu verileri, kendisinden sonraki komutun argumeni olarak iletebiliyor. Bu sayede standart girdiden-inputtan(0 no lu dosya) veri kabul etmeyen araclari(echo gibi) biz tipki sanki manuel oalrak elimizle o araca argumenler girmisiz gibi calistirabiliyoruz.
+xargs(extended arguments-genisletilmis argumanlar)
+
+echo ile dosya isimlermizi string icinde yazip readme1.txt dosyasina aktarip sonra da cat ile bu dosya isimlerini okuyiup touch araci ile bu dosya isimlerinin her birisi icin birer dosya olusturmayi planliyoruz..AMA ASAGIDAKI GIBI BIR PROBLEMLE KARSILASIYORUZ!!!!
+
+adem@adem:~$ echo "myfile1 myfile2 myfile3" > readme1.txt
+adem@adem:~$ cat readme1.txt
+myfile1 myfile2 myfile3
+adem@adem:~$ cat readme1.txt | touch
+touch: missing file operand
+Try 'touch --help' for more information.
+adem@adem:~$ 
+
+PROBLEM-CUNKU TOUCH ARACI STANDART VERI GIRSINDEN-0 NUMARALI INPUT VERI GIRSIJNDEN VERI OKUMYAN BIR ARACTIR..
+YALNIZCA ARGUMAN ALARAK CALISAN BIR ARACTIR!!!!
+ISTE BURDA O ZAMAN BIZ XARGS ARACINI KULLANARAK BU ISIN USTESINDEN GELECEGIZ!!!!!
+XARGS SANKI BIZ TOUCH A ARGUMEN GIRMISIZ GIBI, ONCE GIDIP CAT ARACINDAN VERILERI OKUYUP TOUCH ARACINA ARGUMEN OLARAK AKTARACAK!!!!
+
+
+adem@adem:~$ cat readme1.txt | touch
+touch: missing file operand
+Try 'touch --help' for more information.
+HATA ALDIK(2 NUMARALI HATA DOSYASI OKUDU)
+
+adem@adem:~$ cat readme1.txt | xargs touch
+HATA ALMADIK CUNKU XARGS ILE KULLANDIK!!!-BESTPRACTISE
+adem@adem:~$ cat readme1.txt
+myfile1 myfile2 myfile3
+adem@adem:~$ ls
+Android                                    names.txt
+android-studio                             network-manager_1.36.4-2ubuntu1_amd64.deb
+AndroidStudioProjects                      newtext.txt
+betik2copy.sh                              nohup.out
+betik2.sh                                  number1.txt
+betik.sh                                   number2.txt
+commandlinetools-linux-6609375_latest.zip  Pictures
+cottageservice.sql                         Public
+data1.txt                                  readme1.txt
+Desktop                                    result2.txt
+Documents                                  result.txt
+Downloads                                  snap
+geoserver                                  Templates
+google-chrome-stable_current_amd64.deb     test
+hatali.txt                                 test12.txt
+hatasiz.txt                                test13.txt
+ini                                        test15.txt
+letter.txt                                 test1.txt
+logs                                       test20.txt
+move2test2.sh                              test21.txt
+Music                                      test2.txt
+myfile1                                    text12.txt
+myfile2                                    utv
+myfile3                                    Videos
+adem@adem:~$ 
+
+
+adem@adem:~$ cat readme1.txt | xargs touch
+cat readme1.txt yazildiginda cat aradinin standart girdisi(0 file) cat aracina iletiliyor, cat aracina standart output dosyasi olan 1 nujmarali dosya uzerinden, pipe bagli oldugu icin bu verileri pipe a iletiyor, pipe da xargs aracinin standart girsi olan 0 dosyasina bu verileri yonlendiiryor sonra xargs in standart veri output cikisi olan 1 numarali dosyasi uzerinden de bu cikti, touch a argument olarak veriliyor, touch araci da sanki biz argumanlari elle girmisiz gibi calistirildi, ve neticede dosyalarimiz olusturulmus oldu..
+
+TEE ARACI
+Pipe yapisinda verilerimz yalnizca soldan saga tek yonlu sekilde aktariliyordu. Eger biz hem bir sonrak isleme hem de bir dosyaya ayni verilerin yazilmasini istiyorsak, bu islem icin tee isimli araci kullaniriz. Cunku pipe mekanizmasi tek basina bu islemi desteklemiyor.....Pipeline aracini bir boru gibi dusunursek burdak tee araci da bizim gercek hayatta bildgimz te boru gorevi goruyor. Ilk islemden almis oldugu ciktiyi okuyor, istenilen dosyaya ve ayni zamanda bir sonraki islemin standart girdisine yonlendiriyor
+
+
+adem@adem:~$ ls / head
+ls: cannot access 'head': No such file or directory
+/:
+bin   cdrom  etc   lib    lib64   lost+found  mnt  proc  run   snap  swapfile  tmp  var
+boot  dev    home  lib32  libx32  media       opt  root  sbin  srv   sys       usr
+adem@adem:~$ ls / | head
+bin
+boot
+cdrom
+dev
+etc
+home
+lib
+lib32
+lib64
+libx32
+adem@adem:~$ 
+
+head araci bildgiimz gibi en ustten 10 veriyi getirir, veya 10 satir i getirir.Biz pipe yardimi ile ls in getirdigi tum verilerden sadece 10 tanesin getirmesini soylemis olduk bu sekilde..
+Fakat burda bu ciktilar sadece standart ciktya aktarildi yani head in standart ciktisina aktarildi
+
+Her bir aracin, her bir komutun 0-standart input- 1- standart-hatasiz-output 2-hatali-output olmak uzere 3 tane dosyasi vardir altinda ama tabi standart input her arac ta olmayabiliyor, touch, echo aracinda olmadigi gibi
+
+adem@adem:~$ ls / | tee mylist.txt | head
+
+Bu sayede listeledigmz ls / root altindaki dosya isimlerini tee araci sayesinde once bir mylist.txt dosyasina kaydedip sonra da head in standart inputuna(0) aktardik ve head da standart hatasi z output(1) dosyasi ile, tum listeden 10 tanesini siraladi, ekarna basti
+
+adem@adem:~$ cat mylist.txt
+bin
+boot
+cdrom
+dev
+etc
+home
+lib
+lib32
+lib64
+libx32
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+snap
+srv
+swapfile
+sys
+tmp
+usr
+var
+adem@adem:~$ 
+
+tee araci standart input dosyasi(0) uzerinden aldigi input verisini hem ilgili dosyaya yaziyor hem de 1 numarali standart hatasiz outputu da  head aracinin standart inputuna(0) aktariyor. head araci da 1-standart hatasiz cikti olarak , console u temsil eden dosya olan dev/tty dosyasina yani console u temsil eden dosyaya bu ciktiyi gonderiyor,
+
+
+adem@adem:~$ ls / | tee mylist.txt | head
+
+adem@adem:~$ ls /
+Bu islemde ls aracinin standarrt input dosyasi olan 0'a input verisni /dev/tty dosyasindan yani console u temsil eden dosya nin 1' outuput dosyasindan aldi ve kendi yani ls aracinin hatasiz output ciktisini pipe mekanizmasi sayesinde tee aracina aktardi. Tee araci da bu aldigi ciktiyi(standart input dosya-0) sina aliyor ve bunu 1 hatasiz output ile redirection output > ile mylist.txt dosyasina yazdirdi..Bunu yaparken ayni zamanda elindeki tum verileri 1 hatasiz outuput u da head aracinin standart input dosyasi olan 0 a aktardi. Bu sayede head araci da kendi standart input(0) dosaysina aldigi tum verileri komut satirina yanni console a kendi hatasiz outputu ile console u tamsil eden /dev/tty ye aktarark console ekranina basmak zorunda kalmamiz oldu.
+
+adem@adem:~$ ls / | tee mylist2.txt | tail
+
+adem@adem:~$ ls / | head | tee mylist2.txt
+Herhangi bir yere ekstra yonlendirme yapmadgimz icin standart ciktilari da , console umuzu temsil eden  /dev/tty dosyalarina gondermis oluyor
+
+ ls / | head | tee mylist2.txt
+ ls-0  / bunun sonucu root altindaki dosya isimlerini console dan /dev/tty den standart inputuna aliyor(0)
+ Sonra da hatasiz output dosyasindan(1) sonucu pipe a iletiyor
+sonra pipe araciligi ile head standart input 0-file i ile outputu aliyor ve head hatasiz output-1 dosyasindan tee nin standart inputuna-0 aktariyor. Tee araci da hem dosyaya yaziyor hem de standart ciktisi olan hatasiz ciktisi olan 1 dosyasindan, consolle u temsil eden /dev/tty nin standart input-0 in a yonlendirerek , console a da basilmasi saglaniyor
+
+Birden fazla dosyaya da yazabilir bu sekilde...
+
+ls / | head | tee mylist2.txt mylist3.txt mylist4.txt
+
+
+TEE ARACININ UZERINE EKLEME OZELLIGI
+Normalde biz cat uzerinden manuel girilen verileri ya da bir dosya icerigini baska bir dosyaya yazdirmak istersek, o zaman > output redirection ile yonlendirdgimz dosya eger mevcut oyle bir dosya var ise icerigini silip uzerine yaziyordu ama sonuna eklemesi icin ise biz >> seklinde kullanirdik output redirection operatorunu
+Tee araci da buna benzer sekilde eger birsey belirtmezsek direk belirtilen dosyanin icerigini silip uzerine  yazar
+
+
+UZERINE  YAZAR
+ ls / | head | tee mylist2.txt
+ 
+ DOSYA ICERIGNIN SONUNA EKLER tee -a(append) 
+ ls / | head | tee -a mylist2.txt
+
+
+ adem@adem:~$ echo "my new data1" | tee -a testfile.txt
+my new data1
+adem@adem:~$ echo "my new data1" | tee -a testfile1.txt
+my new data1
+adem@adem:~$ echo "my new data1" | tee -a testfile1.txt
+my new data1
+adem@adem:~$ cat testfile1.txt
+my new data1
+my new data1
+my new data1
+adem@adem:~$ 
+
+
+ ?>
 
