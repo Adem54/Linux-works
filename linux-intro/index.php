@@ -4171,6 +4171,123 @@ my new data1
 my new data1
 adem@adem:~$ 
 
+tee aracinin kullanildigi baska bir alan: YAZMA YETKIMIZ OLMAYAN DOSYALARA SUDO YARDIMI ILE VERI YAZABILMEK!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo echo "new data" >> /etc/apt/sources.list
+bash: /etc/apt/sources.list: Permission denied
+sudo komutunu kullanmamiza ragmen, persmission denied hatasi aliyoruz
+
+COOK ONEMLI BASH KABUGU UZERINDE ISLEM GERCEKLESTIRIRKEN >> YONLENDIRME OPERATORLERINE SUDO ILE YETKI VEREMIYORUZ
+DOLAYISI ILE DE PERMISSION DENIED HATASI ALIYORUZ NORMAL OLARAK. ISTE BU NOKTA DA TEE ARACINI KULLANABILIYORUZ
+BU SEKILDE KOMUT SATIRI UZERINDEN output-redirection ile > veya >> ile veri ekledigmz durumlarda bu sekilde yazma yetkisini sudo ile yapabilmek icin tee araci kullanilir
+Dosya icerigini tahrip etmemek icin "####" ekleriz cunku yorum satiri olarak taniyacaktir # karkteri
+ echo "####" |sudo tee -a /etc/apt/sources.list
+
+ echo "####" ile sudo tee -a /etc/apt/sources.list komutu pipe ile ayrilmis komutlar yani aslinda ayri islemlerdir..Ondan dolayi sudo nun tee den once mutlaka kullanilmasi gerekir, cunku sudo echo dan once kullanilmis olsa da o,  tee komutuna etki etmez ondan dolayi tee komutundan once ozellikle kullanmak gerekiyor
+ Bu sekilde artik bu datayi dosya nin sonuna ekleyebiliriz
+
+ GREP ARACI(GLOBAL REGULAR EXPRESSION PRINT)GREP
+ KISACASI REGEX SAYESINDE BIZIM ONA VERDIGMZ DOSYA ICERIKLERINI FILTRELEME KONUSUNDA BIZE YARDIMCI OLUYOR
+
+ Bir dosya icinde aradgmz bir ifade nin bulundugu satirlari gorebiliriz 
+
+ adem@adem-ThinkPad-13-2nd-Gen:~$ grep "false" /etc/passwd
+ adem@adem-ThinkPad-13-2nd-Gen:~$ grep "false" /etc/passwd
+tss:x:106:112:TPM software stack,,,:/var/lib/tpm:/bin/false
+whoopsie:x:117:124::/nonexistent:/bin/false
+speech-dispatcher:x:119:29:Speech Dispatcher,,,:/run/speech-dispatcher:/bin/false
+gnome-initial-setup:x:126:65534::/run/gnome-initial-setup/:/bin/false
+hplip:x:127:7:HPLIP system user,,,:/run/hplip:/bin/false
+gdm:x:128:134:Gnome Display Manager:/var/lib/gdm3:/bin/false
+mysql:x:130:139:MySQL Server,,,:/nonexistent:/bin/false
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+BUNU ANLAYALIM....TAM OLARAK!!!!!!!!!!!!
+cat /etc/passwd yaptigimzda cat araci passwd dosyasinini icerigini input dosyasi-0 alacak ve standart ciktisi olan hatasiz cikti dosyasi 1 numarali dosyaya yollayacak , eger biz bu ciktiyi bir yere yonlendirmez sek  > veya >> file2.txt gibi bir dosyaya yonlendirmezsek standart ciktisini default olarak console a gonderecek , console u temsil eden dosya olan dev/tty ye gonderiyor ve de ekrana basilmis oluyor!!
+
+AMA BIZ PIPE ARACI ILE DEFAULT HALINE BIRAKMAK YERINE GREP ARACINA GONDEREREK GREP ARACI ILE YAZDGIMZ "FALSE" IFADESNIN ARANMASINI SAGLAYACAGIZ
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/passwd | grep "false"
+tss:x:106:112:TPM software stack,,,:/var/lib/tpm:/bin/false
+whoopsie:x:117:124::/nonexistent:/bin/false
+speech-dispatcher:x:119:29:Speech Dispatcher,,,:/run/speech-dispatcher:/bin/false
+gnome-initial-setup:x:126:65534::/run/gnome-initial-setup/:/bin/false
+hplip:x:127:7:HPLIP system user,,,:/run/hplip:/bin/false
+gdm:x:128:134:Gnome Display Manager:/var/lib/gdm3:/bin/false
+mysql:x:130:139:MySQL Server,,,:/nonexistent:/bin/false
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+GREP ARACI ILE YUKARDAKI MANTIKTA BIR IFADENIN, BIR DOSYA ICERIGINDE ARANMASI MANTIGI IDI
+
+GREP ILE TERS ARAMA | HARIC TUTMA 
+
+       -v, --invert-match
+              Invert the sense of matching, to select non-matching lines.
+
+/etc/passwd dosyasi icerisinde "false" ifadesinin gecmedigi icerigi getir demis oluyoruz			  
+grep -v "false" /etc/passwd 
+
+BIRDEN FAZLA DOSYAYI DA ARGUMEN OLARAK VEREBILIRZ
+
+grep "root" /etc/passwd  /etc/group
+
+
+DIZINLERDE OZ YINELEMELI ARASTIRMA YAPMAK
+Biz bir dizin adresi verip, o dizin alitndaki tum dizin ve dosyalara bakip aradigmzi ifade geciyor mu diye bakacaktir
+
+grep -r(oz yineleme yapsin diye) bu kullanilmalidir
+
+/etc/apparmor.d/abstractions/bash:  # run out of /etc/bash.bashrc
+grep: /etc/cups/ssl: Permission denied
+grep: /etc/cups/subscriptions.conf.O: Permission denied
+grep: /etc/cups/subscriptions.conf: Permission denied
+grep: /etc/shadow-: Permission denied
+grep: /etc/ufw/user6.rules: Permission denied
+grep: /etc/ufw/after.init: Permission denied
+grep: /etc/ufw/before6.rules: Permission denied
+grep: /etc/ufw/after.rules: Permission denied
+grep: /etc/ufw/user.rules: Permission denied
+grep: /etc/ufw/after6.rules: Permission denied
+grep: /etc/ufw/before.init: Permission denied
+grep: /etc/ufw/before.rules: Permission denied
+grep: /etc/brlapi.key: Permission denied
+grep: /etc/gshadow: Permission denied
+grep: /etc/.pwd.lock: Permission denied
+grep: /etc/postgresql/14/main/pg_hba.conf: Permission denied
+grep: /etc/postgresql/14/main/pg_ident.conf: Permission denied
+grep: /etc/NetworkManager/system-connections/Nixus.nmconnection: Permission denied
+grep: /etc/NetworkManager/system-connections/AndroidAPE.nmconnection: Permission denied
+grep: /etc/profile.d/debuginfod.csh: Permission denied
+grep: /etc/profile.d/debuginfod.sh: Permission denied
+/etc/bash.bashrc:# System-wide .bash
+
+BIRCOK PERMISSION DENIED SONUCU GELDI HATALI SONUC..CUNKU ARAMA YAPAMADI!!!
+PEKI BEN PERMISSION DENIED SONUCLARINI YANI HATALI CIKTI SONUCLARIN NASIL KALDIRABILIRIM
+
+BESTPRACTISE- HATALI CIKTILARI KALDIRMAK!!!!!!!!!
+
+grep -r "bashrc" /etc/ 2> /dev/null
+HATALI CIKTILAR KALDIRMAK ICIN DIZIN YOLU SONUNA  - 2> /dev/null EKLERSEK 2 NUMARA-HATALI CIKTILARI BOSLUGA GONDER KALDIR DEMIS OLUYORZ
+-r sayesinde dizin altindaki tum dosyalar oz yinelemeli bir sekilde aranacaktir...!!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep -r "bashrc" /etc/ 2> /dev/null
+/etc/skel/.profile:    # include .bashrc if it exists
+/etc/skel/.profile:    if [ -f "$HOME/.bashrc" ]; then
+/etc/skel/.profile:	. "$HOME/.bashrc"
+/etc/skel/.bashrc:# ~/.bashrc: executed by bash(1) for non-login shells.
+/etc/skel/.bashrc:# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+/etc/skel/.bashrc:# sources /etc/bash.bashrc).
+/etc/profile:    # The file bash.bashrc already sets the default PS1.
+/etc/profile:    if [ -f /etc/bash.bashrc ]; then
+/etc/profile:      . /etc/bash.bashrc
+/etc/apparmor.d/abstractions/bash:  @{HOME}/.bashrc                  r,
+/etc/apparmor.d/abstractions/bash:  /etc/bashrc                      r,
+/etc/apparmor.d/abstractions/bash:  /etc/bash.bashrc                 r,
+/etc/apparmor.d/abstractions/bash:  /etc/bash.bashrc.local           r,
+/etc/apparmor.d/abstractions/bash:  # run out of /etc/bash.bashrc
+
+
+
+
 
  ?>
 
