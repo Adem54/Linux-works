@@ -1,1 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    grep -r "bashrc" /etc/  2>/dev/null
+    "bashr" yi git /etc/ dizini altinda ara(mutlaka -r kullanmaliyiiz dizin altinda arama  yapabilmek icin )
+    Ama hatali olan sonuclari listeden cikar diyrouz 2 > dev/null(hatali sonuc-permission denied olanlari)
+    
+    grep -r(-r secenegini belirtmeden dizin altinda arama yapmaya calisirsak asagidaki sonuc elde edilir..)
+    adem@adem:~$ grep  "bashrc" /etc/
+    grep: /etc/: Is a directory
+    adem@adem:~$ 
 
+    Yalnizca Arana Ifadenin Icinde Oldugu Dosya Isimlerini Almak!
+    Aranan ifadenin icinde gectigi satir yerine sadece dosya ismini almak
+
+    adem@adem:~$ grep -rl "bashrc" /etc/ 2>/dev/null
+    /etc/skel/.profile
+    /etc/skel/.bashrc
+    /etc/bash.bashrc
+    /etc/apparmor.d/abstractions/bash
+    /etc/profile
+    adem@adem:~$ 
+
+    TIRNAK KULLANIMI
+    Aranacak ifadeyi tirnak icinde yaziyouruz, bu sayede hangi ifade arastirilacak ifade hangi ifade dosya ismi bunu bash-shell-kabugu ayirt edeebiliyor
+    grep mehmet can isimler.txt 
+    Burda ahmet i arastirilacak ifade, can ve isimler.txt yi de ifadenini arastirilacagi dosya olarak aliyor , cunku Bash kabugu tirnaksiz bosluklari argumanlar arasi bosluk olarak kabul eder!!!!
+    adem@adem:~$ grep mehmet can names.txt
+    grep: can: No such file or directory
+    adem@adem:~$ 
+
+    UNUTMA!!!!:Bash kabugu tirnaksiz bosluklari argumanlar arasi bosluk olarak kabul eder!!!!
+
+    adem@adem:~$ grep "mehmet can" names.txt
+    Bu sekilde sorunsuz bir sekilde "mehmet can" i aramasi gerektigini anlayacaktir
+
+    KUCUK BUYUK HARF DUYARLILIGI
+    Bildigmz gibi Linux un kucuk-buyuk harf duyarliligi var(windows da yok bu)
+    Regex araci da yani grep , arastirilacak ifadenin buyuk harf kucuk harf olmasina gore arastirma ozelliklerini degistiriyor
+    adem@adem:~$ grep "ahmet can" names.txt
+    ahmet can durmus
+    KUCUK BUYUK HARF DUYARLILIGI OLMADAN ARASTIR DERSEK-INSENSITIVE(DUYARSIZ)
+    adem@adem:~$ grep -i "ahmet can" names.txt
+    Ahmet Can Yazar
+    ahmet can durmus
+    adem@adem:~$ 
+
+    SPESIFIK KELIME ARASTIRMASI
+    Bazen bizim aradgimz kelime daha uzun bir keliimenin icinde gecebiliyor vaya uzun bir kelimenin sadece basinda olabiliyor ve sonunda olabiliyor ama biz sadece aradgimz kelimenin mustakil kendi basina bulundugu kelimeleri almak istersek o zaman da
+
+    adem@adem:~$ grep "Can" names.txt
+    Can Ahmet Polat
+    Canan Kahraman
+    Ahmet Can Yazar
+    adem@adem:~$ 
+    
+    grep -word(Tam olarak kelimeyi) ile arastiririz
+    adem@adem:~$ grep -w "Can" names.txt
+    Can Ahmet Polat
+    Ahmet Can Yazar
+    adem@adem:~$ 
+
+    Satirlari Numaralari ile Almak! Aradigmz ifadenin dosya icinde hangi numarali satirlarda oldugunu da gorebiliyoruz!!!
+
+    adem@adem:~$ grep -wn "Can" names.txt
+    14:Can Ahmet Polat
+    16:Ahmet Can Yazar
+    adem@adem:~$ 
+    
+    COKLU FILTRELEME  YAPMAK!
+
+    adem@adem:/var/log$ cat /var/log/bootstrap.log | grep "service" | grep "Error"
+
+    Bu sekilde bir dosya icerigini arguman olarak, grep aracina veriyor sonra o grep aracinda "service" gecen satirlari alip o ciktiyi da tekrar grep aracina verip o cikti icinden de icinde "Error" gecen ifadeler i cikti olarak ver diyoruz(Herhangi bir yere aktar demezsek default olarak console dosyalarinin standart inputuna vererek conosle a basilmasi saglaniyor)
+
+    GREP ARACI ILE REGEX IFADELERI KULLANMAK
+    BASIT REGEX KURALLARI 
+    .=Herhangi bir tek karakter,satir sonu karakteri haric, yeni bir satir a gecme karakteri haric 
+    *=Bir onceki karakterin sifir veya daha fazla kez tekrari
+    +=Bir onceki karakterin bir veya daha fazla kez tekrari
+    ?=Bir onceki karakterin sifir veya bir kez tekrari
+    ^=Baslangic karakteri
+    $=Bitis karakteri
+    []=Karakteri kumesi
+    [a-z]=Yalnizca kucuk harfler
+    [A-Z]=Yalnizca buyuk harfler
+    [0-9]=Yalnizca rakamlar
+    \=Ozel karakterlerin(regexin bu ozel karakteri) gormezden gelme
+    | = Kosul(Ya da kosulu)
+
+    SATIR BASINDA-'Ber' gecenleri getir.olacak dikkat edelim..
+    ^  
+    adem@adem:~$ grep "^Ber" names.txt
+    Berkan
+    Beril
+    Bertay
+    adem@adem:~$ 
+
+    adem@adem:~$ grep "^Ber" names.txt
+    Berkan
+    Beril
+    Bertay
+
+    Dikkat edelim normal aramada aranilan kelime satir basinda degil 2. kelime de onu getiriyor ama satir basinda olmasini istersek.. o zaman..bu sembolu kullanriz ^
+    adem@adem:~$ grep "Ber" names.txt
+    Berkan
+    Beril
+    Bertay
+    Kamil Berman
+    adem@adem:~$ 
+
+    SATIR SONUNDA "an" olan lari getir dersek gercekten de satirin sonkelimesine bakiyor ve 'an' ile bitenlere bakiyor 
+    adem@adem:~$ grep "an$" names.txt
+    Alisan
+    Canan Kahraman
+    can ahmet furkan
+    Berkan
+    Adnan
+    Kamil Berman
+    adem@adem:~$ 
+
+    "an." an ifadesinden sonraki tek karakteri filterlemis oluyorz..
+    adem@adem:~$ grep "an." names.txt
+
+    Vedan 
+    Can Ahmet Polat
+    Canan Kahraman
+    Ahmet Can Yazar
+    ahmet can durmus
+    can ahmet furkan
+    adem@adem:~$ 
+
+    '..an' an dan once 2 karakter i getir diyoruz, an dan onceki 2 karakteri kirmizi renkli olarak getirecektir
+
+    adem@adem:~$ grep "..an" names.txt
+    Alisan
+    Vedan 
+    Canan Kahraman
+    Ahmet Can Yazar
+    ahmet can durmus
+    can ahmet furkan
+    Berkan
+    Adnan
+    Kamil Berman
+    kamilcan
+    adem@adem:~$ 
+
+    a ile baslayan ve icerisinde k, l , r karakterlerinden herhangi birini bulunduran satiri getir diyoruz burda 
+    adem@adem:~$ grep "a[klr]" names.txt
+    Ahmet Can Yazar
+    adem@adem:~$ 
+    
+    a ile baslayan ama icerisinde k,l, r karakterleri bulundurmayan satirlari getir diyoruz!!!burda da 
+    ^ isareti koseli parantez [^] icerisinde kullanildiginda haric anlamina geliyor!!!
+
+    adem@adem:~$ grep "a[^klr]" names.txt
+    Alisan
+    Cagdas
+    Vedan 
+    Can Ahmet Polat
+    Canan Kahraman
+    Ahmet Can Yazar
+    ahmet can durmus
+    can ahmet furkan
+    Berkan
+    Bertay
+    Adnan
+    Kamil Berman
+    kamilcan
+    adem@adem:~$ 
+
+    a ile baslayan, icinde k,l,r karakterlerini bulundurmayan ama a,b,c karakterlerini bulunduranlari getir diyoruz!!!
+
+    adem@adem:~$ grep "a[^klr][abc]" names.txt
+    Canan Kahraman
+    Ahmet Can Yazar
+    adem@adem:~$ 
+    
+BURAYA KADAR OLAN ORNEKLER TEMEL REGEX KULLANIMININ BASIT ORNEKLERIDIR!
+
+BUNUN DISINDA GREP UZERINDE KULLANABILECEGIMIZ GENISLETILMIS REGEX KARAKTERLERI BULUNUYOR
+Bunlar cok fazla gunluk islemlerde ihtiyacimiz olmuyor..Spesifik ihtyac durumlarinda kullanilabilir
+
+grep araci standart kullanimda basit regex kurallarini kullaniyor, genisletilmis regex kullanacagimiz zaamn kullanacagimz karakterleri grep aracina tanitmamiz gerekiyor
+
+grep -E diyerek grep e soylememiz gerekiyor.
+grep -E(extended regex)
+
+adem@adem:~$ grep -E "ahmet|can" names.txt
+ahmet can durmus
+can ahmet furkan
+kamilcan
+adem@adem:~$ 
+
+bosluk karakterlerini de dikkat aldigi icin bizim, "ahmet|can" derken araya bosluk birakmamamiz gerekiyor!
+
+BIZ GENISLETILMIS REGEX KARAKTERLERININ TANINMASI ICIN -E YERINE \-TERS SLASH KULLANARAK DA BUNU SAGALAYABILIRIZ
+
+adem@adem:~$ grep  "ahmet\|can" names.txt
+ahmet can durmus
+can ahmet furkan
+kamilcan
+adem@adem:~$ 
+
+
+</body>
+</html>
