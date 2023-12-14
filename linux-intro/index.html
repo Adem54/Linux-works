@@ -207,6 +207,188 @@ can ahmet furkan
 kamilcan
 adem@adem:~$ 
 
+FIND ARACI-DOSYA VE KLASOR KONUMU OGRENME ARACIA!! 
+
+adem@adem:~$ find ./ -name "findme" 2>/dev/null
+./Documents/findme
+./Pictures/findme
+adem@adem:~$ 
+2>/dev/null permission denied olanlari cikar, yani hatali sonuc lari kaldir(2numarali)
+
+FIND ARACI HEM DOSYA HEM KLASOR NE BULURSA GETIRIR NORMALDE ARANAN ISME UYAN 
+
+AMA BIZ ONA ISTERSEK ARANAN ISME UYAN SADECE DOSYALARI GETIR DIYEBILIRIZ
+
+adem@adem:~$ find ./ -name "findme" -type f 2>/dev/null
+./Documents/findme
+adem@adem:~$ 
+
+AYNI SEKILDE DIRECTORY-DIZIN-KLASORLERI GETIRMESINI ISTERSEK DE  -type d kullaniriz 
+
+adem@adem:~$ find ./ -name "findme" -type d 2>/dev/null
+./Pictures/findme
+adem@adem:~$ 
+
+FARKLI DOSYA YOLLARINDA VE DIREK TUM SISTEMDE(/ KOK DIZIN ALTINDA) ARAMA YAPMAK
+adem@adem:~$ find /etc/ -name "conf"
+find: ‘/etc/cups/ssl’: Permission denied
+find: ‘/etc/polkit-1/localauthority’: Permission denied
+find: ‘/etc/ssl/private’: Permission denied
+adem@adem:~$ find / -name "conf" 2>/dev/null
+/home/adem/.vscode/extensions/ritwickdey.liveserver-5.7.9/node_modules/eslint/conf
+/home/adem/android-studio/jbr/conf
+/usr/share/speech-dispatcher/conf
+/usr/share/groovy/conf
+
+adem@adem:~$ find / -name "conf" 2>/dev/null
+BU SEKILDE DIREK KOK DIZINDE TUM SISTEM ALTINDA ARAMA YAPILIYOR
+
+ISTERSEK BOYUTA GORE FILTRELEME DE YAPABILIRIZ-SIZE
+
+adem@adem:~$ find . -type f -size +1M
+type i file olan, ve size i da 1M dan daha buyuk olan(+1M + DEMEK DAHA BUYUK 1M DAN DAHA BUYUK) 
+
+find ./ -type f -size +1M
+find . -type f -size +1M
+BURDA HERHANGI BIR DOSYA ISMI BELIRTILMEMIS AMA NERDE ARANACAGI BELIRTILMIS ./ O ZAMAN ./ BULUNDUGUMZ KLASOR ALTINDA KI TUM DOSYALARDAN SARTLARA UYANLARI GETIRECEK
+
+find ./ -type f -size -1M
+find . -type f -size -1M
+BOYUTU 1MB DAN KUCUK OLAN DOSYA LARI GETIRECEK
+-size filtrelemesi yaparken, size i asagidaki gibi kullanabiliriz
+
+byte -b 
+kilobyte -k 
+megabyte -M 
+Gigabyte -G 
+
+SISTEMIMIZ ICINDE 1GB DAN DAHA BUYUK OLAN DOSYALARI LISTELEDIK!!!
+
+adem@adem:~/utv/NSS-serviceapp$ find / -type f -size +1G 2>/dev/null
+/home/adem/Android/Sdk/system-images/android-31/google_apis/x86_64/system.img
+/home/adem/Android/Sdk/system-images/android-32/google_apis/x86_64/system.img
+/home/adem/.android/avd/Pixel_5_API_31.avd/snapshots/default_boot/ram.img
+/home/adem/.android/avd/Pixel_5_API_31.avd/userdata-qemu.img
+/home/adem/.android/avd/Pixel_5_API_31.avd/userdata-qemu.img.qcow2
+/home/adem/.android/avd/Galaxy_Nexus_API_32.avd/snapshots/default_boot/ram.img
+/home/adem/.android/avd/Galaxy_Nexus_API_32.avd/userdata-qemu.img
+/home/adem/.android/avd/Galaxy_Nexus_API_32.avd/userdata-qemu.img.qcow2
+/home/adem/cottageservice.sql
+/proc/kcore
+/swapfile
+adem@adem:~/utv/NSS-serviceapp$ 
+
+DOSYA-KLASORLERIN TARIHLERINE GORE FILTRELEME DE YAPABILIRIZ
+
+Biz biliyoruz ki dosyalarimza ait farkli turde date bilgileri mevcut..ve onlari biz stat komutu ile gorebiliyorduk!
+
+adem@adem:~$ stat names.txt
+  File: names.txt
+  Size: 274       	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5687537     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-14 13:47:09.060429013 +0100
+Modify: 2023-12-14 13:47:06.300396317 +0100
+Change: 2023-12-14 13:47:06.300396317 +0100
+ Birth: 2023-12-13 09:28:27.873505766 +0100
+adem@adem:~$ 
+
+modify-date degisimi icin mtime
+change-date degisimi icin ctime
+access-date degisimi atime
+
+Tam olarak 2 gun once ~/utv/test   bu klasor altinda, modify edilmis olan dosya ve klasorleri getir diyoruz
+
+adem@adem:~$ find ~/utv/test -mtime 2
+/home/adem/utv/test/Linux-works/.git/objects/20
+/home/adem/utv/test/Linux-works/.git/objects/20/7fb7696f597dcbc65415799d0273e7ee7e7b94
+/home/adem/utv/test/Linux-works/.git/objects/15
+/home/adem/utv/test/Linux-works/.git/objects/15/dd1d7ca101e9833efc8e2a78c355d927d4dab2
+/home/adem/utv/test/Linux-works/.git/objects/5a
+/home/adem/utv/test/Linux-works/.git/objects/5a/5c5403774448a92b6aff563745efc7830ecdf0
+/home/adem/utv/test/Linux-works/.git/objects/27
+/home/adem/utv/test/Linux-works/.git/objects/27/e625c870f7228028e7bd1573c54b9751f50d01
+adem@adem:~$ 
+
+Tam olarak 2 gun once ~/utv/test   bu klasor altinda, modify edilmis olan klasorleri getir diyoruz
+adem@adem:~$ find ~/utv/test -mtime 2 -type d
+/home/adem/utv/test/Linux-works/.git/objects/20
+/home/adem/utv/test/Linux-works/.git/objects/15
+/home/adem/utv/test/Linux-works/.git/objects/5a
+/home/adem/utv/test/Linux-works/.git/objects/27
+adem@adem:~$ 
+
+Ama son 2 gun icinde ve daha kisa sure icinde duzenlenmis leri gormek istersek
+
+find ~/utv/test -mtime -2 
+
+Duzenlenme suresi 2 den gerideki, 2 den daha onceki tarihleri gormek icinde 
+
+find ~/utv/test -mtime +2 - uzerinden 2 gun gecmis olan dosyalar
+
+find ~/utv/test -atime 2 Tam olarak 2 gunc once erisilmis olan dosyalardir
+
+find ~/utv/test -atime -2 Son 2 gun icinde erisilimis olanlar  
+find ~/utv/test -atime +2 Erisim olduktan sonra uzerinden en az 2 gun gecmis dosyalardir 
+
+find ~/utv/test -atime -1 Son 24 saat icinde erisilmis olan dosyalar 
+
+EGER ZAMAN OLARAK DAKIKALARI GORMEK ISTERSEK 
+cmin  amin mmin seklinde komutlari kullaniriz 
+cmin :change minutes
+amin :access minutes  
+mmin : modify minutes
+
+NOT: find aracina eger arayacagi klasor veya dosya konumunu vermezsek o default olarak, uzerinde bulundugumuz dizini alacaktir.YANI . VEYA ./
+
+adem@adem:~$ find ~/utv/test -amin -60
+/home/adem/utv/test/Linux-works/linux-intro/index.html
+adem@adem:~$ 
+Son 1 saatte erisilmis olan dosya 
+1 saatten once erisilmis olan dosyalar, dikkat 1 saat once degil 1 saat ve oncesinde, erisildikten sonra uzerinden en az 1 saat gecmis dosyalar demektir
+
+LINUX U OGRENIRKEN ANA MANTGIMIZ BU OLMALIDIR!!!
+find araci cok guclu bir aractir.Ondan dolayi bir find aracinin nelerde kullanilabilecegini anlamaya calisiyoruz ama herseyi bilemeyiz ondan dolayi mantik olarak biz araclarin genel olarak hangi amac icin kullanildigni bilecegiz sonra spesifik ihtiyaclarimzda gelip man find, veya find --help yazarak, gelip dokumantasyondan ihtiyacimiza uyacak optionslari bulup onlari kullanacagiz! GENEL OLARAK BIZIM LINUX KULLANICISI OLARAK ANA YAKLASIMIMIZ BU SEKILDE OLMALIDIR!!!AMA ARACLARI GENEL OLARAK REFLEKSLERINI GENEL OLARAK, NASIL KULLANILDIKLARINI AMACLARINI BULMALIYIZ!!!! 
+
+DOSYA VE KLASORLERI YETKILERINE GORE SIRALANDIRMAk ISTERSEK DE PERM, USER KEYWORDLERINI KULLANABILIRZ BUNLAR ICIN YINE MAN FIND, FIND --HELP DEN FAYDLANABILRIZ 
+
+OLUMSUZ LAMA YANI OLMAYAN I ARAMA - NOT IFADESI 
+FILTRELEME NIN TERSI SEKILDE CALISMASI
+
+isminin sonunda .webp olan tum dosyalari uzerinde bulundgumz dizinde getir diyoruz
+adem@adem:~$ find ./ -name "*.webp"
+
+isminin sonunda .webp olmayan tum dosyalari uzerinde bulundgumzu dizinde getir diyoruz
+adem@adem:~$ find ./ -not  -name "*.webp"
+
+DUZENLENME TARIHI 2 DEN ONCE OLMAYANLAR 
+find ./ -not  -mtime -2
+
+DUZENLENME TARIHI 2 DEN ONCE OLANLAR-UZERINDEN 2 GUN VE DAHA FAZLA GECMEYENLER, DUZENLENME TARIHINDEN SONRA!! 
+find ./ -not  -mtime +2
+
+AND-OR KOSUL IFADESI FIND ILE KULLANIMI
+and-or kosul ifadesini find filtrelemesinde kullanma
+
+.txt yada .webp ile biten dosya lari  getir diyoruz!
+adem@adem:~$ find ./ -name "*.txt" -or -name "*.webp"
+DIKKAT EDELIM HER BIR DOSYA TARIFI ICIN -NAME FLAG I NI KULLANMAMIZ GEREKIYOR 
+
+.webp uzantili dosyalar ve boyutu 10kilobyte tan buyuk olan dosyalar diyoruz 
+adem@adem:~$ find ./ -name "*.webp" -and -size +10k
+
+BIZ FIND ARACININ KULLANIRKEN DE REGEX I KULLANABILIRZ AMA BURDA ONEMLI BIR DETAY VAR 
+Normalde find komutu biz aksini -regex secenegi ile belirtmedigimz surece daha once uzerinde durdugmuz wildcard yaklasimini(yani dosya ismi genisletmesindeki *,?,[]) kullaniyor. 
+
+find ./ -name "*.webp"
+BURAYA COK DIKKAT burdaki "*.webp" burdaki * isareti regex degil, wildcard-yani dosya genisletmesi joker karakterlerinden olan * dir..BU GREP ILE ARASINDAKI COK ONEMLI BIR FARKTIR FIND ARACININ
+
+Regex i kullanabilmek icn -regex ifadesinin kullanmaliyiz
+find -regex  ".*.webp"
+* isareti regex de kendinden onceki karakteri 0 veya daha fazla kez tekrar ediyor!
+find -regex  "*.webp" * isaretinden once birsey olmazsa hicbirsey getirmeyebilir.
+
+
 
 </body>
 </html>
