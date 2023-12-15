@@ -5260,5 +5260,36 @@ isim vermezsek kendi ismi  ile kopyalar
 adem@adem:~/Documents$ ls
 findme  test12.txt
 
+BIRDEN FAZLA DOSYAYI DA AYNI ANDA KOPYALAYABILIRIZ 
+
+dem@adem:~$ cp myfile1 myfile2 myfile3 ~/Documents/
+
+cp araci en son girilen argumen i hedef dizin olarak tanir, yani kopyalancak dizin
+
+BURAYA DIKKAT!!!
+Yalniz cp aracinin soyle bir handikabi var, biz kopyalacagimiz dosylar ile ayni isimde dosya eger kopyalanacak hedef dizin de var ise o zaman gider o ayni isimdeki dosyanin bir onceki verilerini silip yeni gelen dosya verilerini uzerine yazar!!!!
+
+cp -i secenegini kullanarak, yapilan kopya isleminde eger ayni isimde dosya var ise bizim onaymizidan gecmesini saglayabiliriz
+
+adem@adem:~/Documents$ cat > ~/myfile
+Hi, god dag!
+adem@adem:~/Documents$ cp -i  ~/myfile ~/Documents/
+cp: overwrite '/home/adem/Documents/myfile'? N
+adem@adem:~/Documents$ paste myfile
+Selam
+adem@adem:~/Documents$ cp -i ~/myfile ~/Documents/
+cp: overwrite '/home/adem/Documents/myfile'? Y
+adem@adem:~/Documents$ paste myfile
+Hi, god dag!
+adem@adem:~/Documents$ 
+
+BIZ SADECE DOSYALARI DEGIL, DIZINLERI DE KOPYALABILIRIZ... 
+KOPYALAMANIN RECURSIVE SEKILDE GERCEKLESTIRILMESI, OZELLIKLER BELIRTILMESI!!!
+-r  recursive
+
+cp -r ~/Documents/ /temp/  
+Documents dizini altindaki tum dizi ve dosyalar, altlarindaki doysa ve dizinler ile birlikte /temp/ klasoru altina kopyalanacktir.
+
+
  ?>
 
