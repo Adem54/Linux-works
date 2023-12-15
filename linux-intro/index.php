@@ -4667,6 +4667,91 @@ find -regex  ".*.webp"
 * isareti regex de kendinden onceki karakteri 0 veya daha fazla kez tekrar ediyor!
 find -regex  "*.webp" * isaretinden once birsey olmazsa hicbirsey getirmeyebilir.
 
+Dosya ismi genisletme kuralina gore, yani bash in default unda, yani joker karatker olarak, * karakteri 0 veya 0 dan daha fazla sayida herhangi bir karakter ile eslesebiliyor
+Regex kuralina gore ise * karakteri  kendisinden onceki karakteri 0 veya daha fazla kez tekrar eden oruntuler ile eslesir
+Biz ozellikle -regex flag ini veya option unu kullanmadigmz surece, -name secenegi sayesinde
+
+
+LOCATE ARACI
+find aracindaki gibi dosya ve dizin isimleri uzerinden sistemimizde arastirma yapmamizi saglar
+Locate araci find aracindan farkli olarak, canli dosya sistemi uzerinde arastirma yapmiyor
+Her seferinde dosya sistemi uzerinde arastirma yapmiyor kendi database de tuttugu dosya kaydi uzerinden arastirma yapiyor
+Dolayisi ile de sistemimz uzerinde en son, ve en guncel olusturulmus olan dosyalari arastirma konusunda pek basarili degil
+Bu arastirma isleminden once ilgili database dosyasinin guncellenmesi gerekiyor
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ sudo touch findme
+[sudo] password for adem: 
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ ls
+findme
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cd ..
+adem@adem-ThinkPad-13-2nd-Gen:~$ locate findme
+SONUC GELMIYOR CUNKU locate kendi database ini kontrol edip arastirma yaptgi iicn database i guncellemeden yapilan arastirma son eklene datalari bulamaz, onun iicin once datgabase i asagidaki gibi guncellememiz gerekiyor
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo updatedb
+adem@adem-ThinkPad-13-2nd-Gen:~$ locate findme
+/home/adem/Documents/findme
+
+locate araci find aracina gore daha hizlidir, cunku find araci canli olarak dogrudan gercekten tum dizinleri tek tek kontrol ediyor ama locate araci daha onceden kendi db si uzerinde ekledigi isim listesi uzerinden, kontrol ediyror ve dosyalarai tek tek okumuyyor
+Ama tabi ki locate araci find araci kadar da genis bir arastirma yapamiyor
+
+LOCATE INSENSITIVE SEARCH YAPMA -i(insensitive)
+locate -i ABC
+
+INSENSITIVE COUNT-YANI CAKISAN DOSYA VE KLSOR SAYSINI SAYSINI VERIR
+locate -ic ABC
+
+--regex GENISLETILMIS REGEX I KULLANMAK ICIN BU SEKILDE BELIRTIRIZ REGEX I VE DE | IFADESI GENISLETILMIS REGEX DE GECERLIDIR
+LOCATE ARACINDA REGEX DE KULLANILABILIR, AMA --REGEX OPTION I EKLEMEK GEREKLIDIR 
+locate --regex "(.\rar|\.zip)"
+| YA DA KOMUTU OLARAK TANINDA GENISLETILMIS REGEX KOMUTLARI ARASINDA
+locate --regex  ".*.rar"
+BASIT REGEX I KULLANMAK ICIN ISE -r diye kullanmamiz yeterlidir
+locate -r "(.*.rar)"  BU BASIT REGEX DE CALISIR AMA | YADA IFADESI BASIT REGEX DE DEGIL GENISLETILMIS REGEX(EXTENTED REGEX) DE CALISIYOR..YAI --REGEX DIYE BELIRTMEK GEREKKYOR | YA DA REGEX IFADESINI KULLANABILMEK ICN
+
+FIND:Gelismis filtreleme, oz niteliklere gore filtreleme(dosya adi, size, date)
+LOCATE:Yalnizca dosya-dizin ismi ve database uzerinden arama yapilabilir, find dan daha hizlidir
+
+
+CUT ARACI 
+Elimzde yer alan metinsel verileri istedigmz satir araliginda kesmemiz mumkun oluyor, cut araci sayesinde
+Okunabilir formatta olan her turlu metinsel veriyi kesmemiz mumkundur
+
+cut araci ile biz satir araligina gore kesecegjmiz icin neye gore yani bosluga gore mi, bir harfe gore mi, virgule gore mi, oldugunu delimeter i belirtmemiz gerekiyor
+
+-d delimeter
+-f fields
+" " ise satirlar arasindaki boslukalrdan kesilecegi icin bosluga gore kes diyruz
+cut -d " " -f
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat > folders.txt
+satir1sutun1 satir1sutun2 satir1sutun3 satir1sutun4                   
+satir2sutun1 satir2sutun2 satir2sutun3 satir2sutun4
+satir3sutun1 satir3sutun2 satir3sutun3 satir3sutun4
+satir4sutun1 satir4sutun2 satir4sutun3 satir4sutun4
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+adem@adem-ThinkPad-13-2nd-Gen:~$ cut -d " " -f 1-3 folders.txt
+1 ile 3.sutunlar ararsini kesip almis oldu!!!
+satir1sutun1 satir1sutun2 satir1sutun3
+satir2sutun1 satir2sutun2 satir2sutun3
+satir3sutun1 satir3sutun2 satir3sutun3
+satir4sutun1 satir4sutun2 satir4sutun3
+
+1.ve 2. satirlari ; semicolon a gore bolerek kes ve getir
+adem@adem-ThinkPad-13-2nd-Gen:~$ cut -d ";" -f 1-2 text1.txt
+row1column1;row1column2
+row2column1;row2column2
+row3column1;row3column2
+row4column1;row4column2
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+EGer spesifik 3 farkli sutun istersek yani 1,3,4.sutunu aralarina virgul koyarak belirtiriz
+adem@adem-ThinkPad-13-2nd-Gen:~$ cut -d ";" -f 1,3,4 text1.txt
+Sadece 4.sutunu da alabiliriz
+adem@adem-ThinkPad-13-2nd-Gen:~$ cut -d ";" -f 4 text1.txt
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cut -d ";" -f 4 text1.txt --complement
+4.bolum haric diger tum sutunlari getir diyoruz
+Elde ettigimz dosya ciktilari ni istedigmz dosyalara yazdirabiliriz
+Daha fazla bilgi icin man cut veya cut --help diyerek inceleyebilirz
 
 
 
