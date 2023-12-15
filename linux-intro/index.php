@@ -4761,6 +4761,504 @@ echo "linux dersleri" ciktisi olan "linux dersleri"  u tr ye arguman olarak veri
 adem@adem-ThinkPad-13-2nd-Gen:~$ echo "linux dersleri" | tr "ie" "IE"
 lInux dErslErI
 
+METINDEKI KUCUK HARFLERIN TAMAMINI BUYUK HARFE CEVIRMEK
+adem@adem:~$ echo "linux dersleri" | tr "a-z" "A-Z"
+LINUX DERSLERI
+adem@adem:~$ 
+
+tr --help 
+
+[:alnum:]       all letters and digits
+  [:alpha:]       all letters
+  [:blank:]       all horizontal whitespace
+  [:cntrl:]       all control characters
+  [:digit:]       all digits
+  [:graph:]       all printable characters, not including space
+  [:lower:]       all lower case letters
+  [:print:]       all printable characters, including space
+  [:punct:]       all punctuation characters
+  [:space:]       all horizontal or vertical whitespace
+  [:upper:]       all upper case letters
+  [:xdigit:]      all hexadecimal digits
+  [=CHAR=]        all characters which are equivalent to CHAR
+
+  BUREDA MESELA [:lower:]       all lower case letters. KUCUK KARAKTERLERI TEMSIL EDIYOR. ASLINDA BUNLAR BASH UZERINDE BU YAKLASIMI KULLANAN PEK COK ARAC ILE KARSILASABILIYORUZ
+
+   ASAGIDAKI IKI KOD DA AYNI SEYDIR ASLINDA 
+  adem@adem:~$ echo "linux dersleri" | tr "a-z" "A-Z"
+  LINUX DERSLERI
+  [:lower:] "a-z"
+  [:upper:] "A-Z"
+  adem@adem:~$ echo "linux dersleri" | tr [:lower:] [:upper:]
+  LINUX DERSLERI
+
+  BIZ ARALARINDA : OLAN UZUN BIR SATIR I : " E GORE AYIRARAK ALT ALTA YAZABILIYORUZ ASAGIDAKI GIBI 
+
+  adem@adem:~$ echo $PATH
+/home/adem/test/demo1/:/home/adem/test/mytest/:/home/adem/test/test2/:/home/adem/Desktop/test2/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+adem@adem:~$ echo $PATH | tr ":" "\n"
+/home/adem/test/demo1/
+/home/adem/test/mytest/
+/home/adem/test/test2/
+/home/adem/Desktop/test2/
+/usr/local/sbin
+/usr/local/bin
+/usr/sbin
+/usr/bin
+/sbin
+/bin
+/usr/games
+/usr/local/games
+/snap/bin
+/snap/bin
+adem@adem:~$ 
+
+TEKRAR EDEN KARAKTLERI KALDIRABILIRZ VE UNIQ HALE GETIREBILIRZ
+adem@adem:~$ echo "www.linuxdersleri.net" | tr -s "w"
+w.linuxdersleri.net
+adem@adem:~$ 
+
+
+adem@adem:~$ echo "bbbuuu bbiiir dddeenneemmee yazziisiiidir112223443433354555" |tr -s [:graph:]
+bu bir deneme yazisidir1234343545
+adem@adem:~$ 
+[:graph:] ifadesi tum karakterleri temsil ediyor, normal harf ve sayi tamamini temsil ediyor
+
+EGER SADECE SAYILARIN TEKRARLARINI KALDIRMAK ISTERSEK
+adem@adem:~$ echo "bbbuuu bbiiir dddeenneemmee yazziisiiidir112223443433354555" |tr -s [:digit:]
+bbbuuu bbiiir dddeenneemmee yazziisiiidir1234343545
+adem@adem:~$ 
+[:digit:] sayilari temsil ediyor
+
+SILME ISLEMI DE YAPABILIRZ
+-d delete
+adem@adem:~$ echo "www.linuxdersleri.net" | tr -d "."
+wwwlinuxderslerinet
+adem@adem:~$ 
+
+DIKKAT EDELIM "de" ifadesini verince tr araci hem "d" hem de "e" harflerinin gectigi tum karakterleri siliyor!!!yani "de" yi ifade olarak almak yerine ayri ayri tek tek harf olarak siliyor
+adem@adem:~$ echo "www.linuxdersleri.net" | tr -d "de"
+www.linuxrslri.nt
+adem@adem:~$
+
+ONEMLI!!!!
+BIZ EGER BITISIK YAPIDA, BIRDEN FAZLA KARAKTERI KAPSAYACAK IFADELERDE DEGISIKLIK YAPMAK ISTERSEK O ZAMAN SED ARACI VAR ONU KULLANMALIYIZ!!!!
+tr ARACI YALNIZCA TEK BIR KARAKTER DONUSTURME, SILME, SADELESTIRME, TEKRAR EDENLERI KALDIRMA GIBI ISLEMLER ICIN BULUNUYOR.DAHA KOMPLEKS ISLEMLER ICIN SED ARACINI KULLANMALIYIZ
+
+tr ARACI STANDART GIRDIDEN VERI KABUL ETTIGI ICIN VERILERIMIZI BIZ  tr aracina pipe(|) olmadan da gonderebiliriz
+
+ONCE testt dosyasina icerigi yazdik..
+adem@adem:~$ echo "bbbuuu biiir dddenenemme yyyaziissiii111222333444">testt
+
+SONRA testt dosyasinin icerigini tr aracina input standart girdisine aktardik(< INPUT REDIRECTION ILE)...BURDA..DIKKAT EDELIM!!!!!COOK ONEMLI...
+adem@adem:~$ tr -s [:graph:] < testt
+bu bir deneneme yazisi1234
+
+STANDART GIRDI(INPUT-O) ALAN ARACLARIN STANDART GIRDISINE VERI GONDERMEYI BIZ (INPUT-REDIRECTION OPERATORU OLAN < KUCUKTUR) ILE YAPIYROUZ BUNU UNUTMAYALIM!!!
+
+BU CIKTILARI BASKA BIR DOSYA YA GONDERMEK ISTERSEKKK DE ASAGIDAK GIBI YAPARIZ
+adem@adem:~$ tr -s [:graph:] < testt > testt1
+adem@adem:~$ cat testt1
+bu bir deneneme yazisi1234
+adem@adem:~$ 
+
+SED ARACI- STREAM EDITOR KISALTMASIDIR
+COK GUCLU BIR METIN MANIPULASYON ARACIDIR
+STREAM-AKIS LINUX DE HERSEY BYTE AKISI, DOSYALAR ARASI VERI AKISIDIR DEMISTIK..ISTE BURDA DA O ISIM KULLANILMIS
+
+BU ARACIMZ ILE REGEX IN BASIT VE GENISLETILMIS KURALLARI YADIMI ILE SEARCH-EDIT-DELETE GIBI PEK COK ISLEMI YERINE GETIREBILIYORUZ 
+
+BUL DEGISTIR ISLEMI
+adem@adem:~$ sed 's/bulunacakifade/yerine-gec-ifade/g(global-metinselveridekihertekrarda yerine gececek)
+
+
+adem@adem:~$ sed 's/satir/bolum/g' readme1.txt
+bu ilk bolum bu ikinci bolum bu da son bolum
+bolum iki ve bolum sonu
+yeni bolum ve son bolum
+yeni veri ve son veri
+adem@adem:~$ 
+sed 's/satir/bolum/g' readme1.txt
+global /g nin varlik sebebi odur
+Bu degiskligi ise her yerde yapmak istiyorum, yani satir ifadesini gordugm her yerde yapmak istiyorum, o zaman global kullaniriz
+
+global /g  yi girmezsek yalnizca ilk buldugu yerde,kini degistirecekti
+adem@adem:~$ sed 's/satir/bolum/' readme1.txt
+bu ilk bolum bu ikinci satir bu da son satir
+bolum iki ve satir sonu
+yeni bolum ve son satir
+yeni veri ve son veri
+adem@adem:~$ sed 's/bolu
+
+ISTENILEN DEGISIKLIK SPESIFIK SATIR OLMASINI SA SAGLAYABILIRZ
+adem@adem:~$ sed '3s/satir/bolum/g' readme1.txt
+bu ilk satir bu ikinci satir bu da son satir
+satir iki ve satir sonu
+yeni bolum ve son bolum
+yeni veri ve son veri
+adem@adem:~$ 
+adem@adem:~$ sed '3s/satir/bolum/g' readme1.txt
+burdaki sed '3s/satir/bolum/g' g secenegi ile biz 3.satirda bulunan 
+'3s ifadesi ile 3.satir demis oluyoruz..
+tum satir ifadelerini bolum e cevir diyoruz yoksa 3.satirda ilk buldugu ifadeyi cevirir sadece
+
+ISTEDIGIMZ  SATIR ARALIGI DA BELIRTEBILIRIZ
+1 ile 3.satirlar i degistirsin diyebiliriz..
+adem@adem:~$ sed '1,3s/satir/bolum/g' readme1.txt
+bu ilk bolum bu ikinci bolum bu da son bolum
+bolum iki ve bolum sonu
+yeni bolum ve son bolum
+yeni veri ve son ver
+
+ISTERSEK ISTEDIGMZ IFADEYI SILMEBILIRIZ!!!
+
+KOMPLE 2.SATIRI SILMEK ICIN
+adem@adem:~$ sed '2d' readme1.txt
+bu ilk satir bu ikinci satir bu da son satir
+yeni satir ve son satir
+yeni veri ve son veri
+adem@adem:~$ 
+
+2.SATIRDAN 4.SATIRA KADAR OLAN KISIMLARI SIL DIYORUZ
+
+adem@adem:~$ sed '2,4d' readme1.txt
+bu ilk satir bu ikinci satir bu da son satir
+adem@adem:~$ 
+
+SPESIFIK IFADELERIN BULUDUGU SATIRLARIN  SILINMESI
+
+/d delete
+adem@adem:~$ sed '/yeni/d' readme1.txt
+bu ilk satir bu ikinci satir bu da son satir
+satir iki ve satir sonu
+adem@adem:~$ 
+yeni ifadesinin bulundugu satirlar silindi
+
+SPESIFIK IFADELERIN BULUDUGU SATIRLARIN HARICINDEKILERIN  SILINMESI
+adem@adem:~$ sed '/yeni/!d' readme1.txt
+yeni satir ve son satir
+yeni veri ve son veri
+adem@adem:~$ 
+
+ISTEDGIIMZ BIR VERININ EKLENMESI
+adem@adem:~$ sed '/veri/i\oncesi' readme1.txt
+bu ilk satir bu ikinci satir bu da son satir
+satir iki ve satir sonu
+yeni satir ve son satir
+oncesi
+yeni veri ve son veri
+adem@adem:~$ 
+veri ifadesinin bulundugu satirdan onceki satira belirttigm ifadeyi ekliyor 
+\i:input demektir
+sed '/veri/i\oncesi' readme1.txt
+veri ifadesini buldugun satirdan onceki satir a oncesi ifadesini ekle diyoruz 
+\oncesi ifadesini ters slash ile yazmamiz gerekiyor
+
+SONUNA DA EKLEYEBILIRIZ 
+\a append 
+adem@adem:~$ sed '/veri/a\sonrasi' readme1.txt
+bu ilk satir bu ikinci satir bu da son satir
+satir iki ve satir sonu
+yeni satir ve son satir
+yeni veri ve son veri
+sonrasi
+adem@adem:~$ 
+
+sed araci script yazarken, bash programlamada da kullanilabiliyor ihtiyac durumunda
+
+BUL DEGISTIR ISLEM I ILE DAHA KOMPLEKS BIR ISLEM YAPACAKSAK O ZAMANDA AWK ISIMLI ARACI KULLANIRIZ
+
+AWK ARACI 
+Metinsel veriler uzerinde sed aracindan cok daha etkili manupulasyonlar yapmamizi sagliyor
+gawk-Gunu awk kullanacagiz
+biz awk aracina giriyoruz arka planda gawk calisiyor olacak
+
+awk araci metinleri records-fields olmak uzere 2 parca halinde ele aliyor
+KAYITLAR(RECORDS)-ALANLAR(FIELDS)
+
+awk araci kendisine verilmis olan veri girisinin sonuna ulasana kadar her seferinde yalnizca tek bir kayit uzerinde calisiyor
+
+(record1) ilk satir
+(record2) ikinci satir
+(record3) ucuncu satir
+(record4) dorduncu satir
+
+Her bir satir record olarak el aliyor awk araci
+Her bir satirdaki her bir kelime de bir field olarak ele aliyor awk araci
+
+Diger araclarda oldugu gibi her bir satiri ayircan ozel bir karatker var \n biz bunlari dogrudan gormuyoruz ama aslinda her bir satir dan sonra yeni satira gecis karakteri bulunuyor
+
+ilk satir \n
+ikinci satir \n
+ucuncu satir \n
+dorduncu satir \n
+
+iste awk araci da yeni bir satir e gecme aracini gordugunde , yeni bir satira gecildigini yani aslinda yeni bir record a gecildigini ogreniyor. Yeni satira gecis yerine, bu recordlari(satirlari) birbirinden ayirmak icin farkli degerlerde belirtebiliriz.. Ama bizim temel kullanimda boyle birseye ihtiyacimiz yok
+Bizim ozel metinsel verimizde satirlar ornegin birbirinden \n degil de nokta . ile ayriliyorsa bunu awk aracina ozellikle belirtebilirz 
+
+awk araci her bir yeni satira gecisi yeni bir kayit-record olarak ele aliyor
+
+awk araci uzerinde records lar uzerindeki fields bolumlerine $ isareti sayesinde erisebiliyoruz
+Ilk kelime $1
+2.kelime $2
+Son kelime $NF ile erisebiliyoruz
+Recordun tamamina erismek icin ise yani tum satira $0 ile erisiriz
+
+AWK ASLINDA SCRIPT DILIDIR
+Islenecek veriler icin cesitli programlar yazmamiza, scriptler olusturmamiz a olanak sagliyor
+Biz onu cok fazla uzerinde durmadan temel kullanima odaklanacagiz
+awk araci metinsel verileri islemek ve programlamak ve surekli ihtiyac duydugumuz durumlarda kullanmak icin bir script dili aslinda
+
+AWK KULLANIM
+awk desen{aksiyon}
+desen bulunursa aksiyon yerine getirilir
+aksiyonlarin berlitilmesi gerekiyir
+{print} aksiyonunu kullanacagiz cogunlukla, ama daha fazlasi icin awk --help veya man awk den ogrenebiliriz
+{print} kayitlari(records-satirlari), alanlari(fields-kelimeleri), ozel metinleri, degisklenleri konsolumuza yazdirmamizi sagliyor
+
+HER BIR KAYITTAKI ILK ALANLARI YAZDIRMAK ISTIYORUZ!!!!
+
+adem@adem:~$ cat data1.txt
+Ahmet Yaz 33
+hasan mert 19
+aylin uzun 24
+32 mehmet KARA
+naz 29 sabah
+
+$1 1.field i temsil ediyor
+
+adem@adem:~$ awk '{print $1}' data1.txt
+Ahmet
+hasan
+aylin
+32
+naz
+adem@adem:~$ 
+
+{print} sayesinde konsole bastirma aksiyonunu yaptik burda
+
+$3 kullanark 3.siradaki field-yani kelimeleri de bastirabilriz
+
+adem@adem:~$ awk '{print $3}' data1.txt
+33
+19
+24
+KARA
+sabah
+adem@adem:~$ 
+
+HER ZAMAN SON SUTUNUN KACINCI STUUN OLDUGUNU BILEMEYEBLIRIZ ONUN ICIN DE SON SUTUNU ALMAK ICIN ISE $NF diye belirtiriz
+
+adem@adem:~$ awk '{print $NF}' data1.txt
+33
+19
+24
+KARA
+sabah
+adem@adem:~$ 
+
+TEK TEK BASTIRMAK YERINE BIRDEN FAZLA FIELD I DA BASTITRABILIRZ 
+
+adem@adem:~$ awk '{print $1 " " $3}' data1.txt
+Ahmet 33
+hasan 19
+aylin 24
+32 KARA
+naz sabah
+adem@adem:~$ 
+1 VE 3.ALAN ARASINA BOSLUK BIRAKARAK BASTIRMIS OLDUK
+
+SPESIFIK OLARK BELIRLI BIR SATIR-REOCORD DA DA ISLEM YAPABILIRZ
+HER BIR RECORD NR seklinde temsil ediliyor. 
+
+adem@adem:~$ awk 'NR==2 {print $1 " " $3 }' data1.txt
+hasan 19
+adem@adem:~$ 
+
+YALNIZCA 2.SATIRDA(2.RECORDDA) KI ALANLARDAN 1 VE 3. ALANLARI BASTIRMIS OLDUK
+
+SUBSTRING OZELLIGI-FIELD LAR ICINDE FIELDLARI PARCALAYARAK ISTEDIGMZ KISIMLARI INI ELDE ETMEK
+
+Ilk alandaki fieldlarin 2.karakterden itibaren getir ve bastir demis oluyoruz
+adem@adem:~$ awk {'print substr($1,2)}' data1.txt
+hmet
+asan
+ylin
+2
+az
+adem@adem:~$ 
+
+Ilk alandaki fieldlarin 1.karakterden baslayip 3 karakter bastir diyebilirz
+adem@adem:~$ awk {'print substr($1,1,3)}' data1.txt
+hmet
+asan
+ylin
+2
+az
+adem@adem:~$ 
+
+Her bir field i : ya gore ayir dedik
+-F field 
+1.ve 2. satiri bastir dedik ve aralarina bir alta gecme isareti koy dedik 
+adem@adem:~$ echo $PATH | awk -F':' '{print $1 "\n" $2}'
+
+adem@adem:~$ echo $PATH;
+/home/adem/test/demo1/:/home/adem/test/mytest/:/home/adem/test/test2/:/home/adem/Desktop/test2/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+adem@adem:~$ echo $PATH | awk -F':' '{print $1 "\n" $2}'
+/home/adem/test/demo1/
+/home/adem/test/mytest/
+adem@adem:~$ 
+
+ILK DIZIN VE SON DIZINI VER DEMIS OLUYORUZ
+
+adem@adem:~$ echo $PATH | awk -F':' '{print $1 "\n" $NF}'
+/home/adem/test/demo1/
+/snap/bin
+adem@adem:~$ 
+
+AWK ARACININ REGEX ILE KULLANIMI
+Yalnizca satir sonunda rakam bulunan lari filtrelemek istersem
+[0-9]$ rakam bulunan ve sonda olan demek..yani satir icinde sonda olan ve rakam olan veriler
+adem@adem:~$ cat data1.txt
+Ahmet Yaz 33
+hasan mert 19
+aylin uzun 24
+32 mehmet KARA
+naz 29 sabah
+adem@adem:~$ awk '/[0-9]$/{print $NF}' data1.txt
+33
+19
+24
+adem@adem:~$ 
+
+SONU SAYI ILE BITEN SATIRLARIN TUM ALANLARINI BASTIR DERSEK DE 
+$0 tum record-satir i temsil ediyor
+
+[0-9]$ rakam bulunan ve sonda olan demek..yani satir icinde sonda olan ve rakam olan veriler
+adem@adem:~$ awk '/[0-9]$/{print $0}' data1.txt
+Ahmet Yaz 33
+hasan mert 19
+aylin uzun 24
+adem@adem:~$ 
+
+SPESIFIK BOLUMLARI DE BELIRTIREBILIRIZ
+YALNIZCA 2.ALAN-SUTUN-FIELDDA RAKAM BULUNDURAN RECORD UN 1.ALANINI BASTIR DERSEK
+
+adem@adem:~$ cat data1.txt
+Ahmet Yaz 33
+hasan mert 19
+aylin uzun 24
+32 mehmet KARA
+naz 29 sabah
+adem@adem:~$ awk '$2 ~ /[0-9]/{print $1}' data1.txt
+naz
+$2 ~ tilde isaretini kullanma sebebimz ozellikle uzerinde calisilacak olan alanin spesifik olarak belirtilmesini sagliyor
+
+TAM TERSI ISLEM- 2. ALANINDA RAKAM BULUNDURANLAR HARICINDEKI RECORDLARIN 1.FIELD LARINI BASTIRALIM
+adem@adem:~$ awk '$2 !~ /[0-9]/{print $1}' data1.txt
+Ahmet
+hasan
+aylin
+32
+adem@adem:~$ 
+
+OKUNAKLI CIKTI ALMAK
+Bazen okudugmuz icerik cok uzun olabiliyor ve ekrana sigmiyor normalde grafiksel arayuz terminal i kullanince kaydirma cubugu ile yukari cikip goruyoruz ama biz herzaman bu sekilde kaydirma cubugumz olmayablir, bazi komut sarirlarinda olmadigi gibi..Onun icinde ekranda okunabilir sekilde uzun metinleri nasil cikti aliriz ona bakalim 
+
+MORE ARACI KOMUTU
+Console ekranina sigmayacak uzunluktaki metinleri, ekrana sigacak sekilde ekrana basar
+
+adem@adem:~$ ls -l | more
+ile ekrana sigdigi kadar olan ilkk bolum u listleer sonra da more buton gibi gelir space tusuna bastikca karsimiza gelecektir
+adem@adem:~$ cat /etc/passwd | more
+
+Verileri sonuna kadar gormeden cikmak istersek Q tusuna basariz
+
+LESS ARACI
+Verileri geriye donuk olarak da incelemek icinkullanilir 
+
+adem@adem:~$ less /etc/passwd
+Ilk once ekrana sigacak kadar kismi gosterir sonra da , asagi ve yukari ok tuslari ile 1 er satir asagi veya yukari gidebilirz ve de space tusu ile de istersek 1 sayfa sonrasini yani 1 satir degil de 1 ekran kadar ileriki satirlari goruruz..ve Q  ile de cikariz
+
+B tusu ile 1 sayfa geri gidebilirim-Back
+F tusu ile de 1 sayfa iler i gidebilirim-Forward
+
+HEAD ARACI
+Dosya icerigini en basindan itibaren ilk 10 satiri getirir varsayilan olarak ama biz satir sayisi belirtirsek o zaman da kendisi belirtilen satir kadarini bize gosterecektir
+
+adem@adem:~$ head -n 3 /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+
+
+adem@adem:~$ ls -l /etc/ | head
+
+
+TAIL-KUYRUK 
+En sondan itibaren default olarak ilk 10 satiri getirir ama biz spesifik satir saysi belirtirsek de o kadar satiri bize getirir
+adem@adem:~$ tail -n 3 /etc/passwd
+mysql:x:129:137:MySQL Server,,,:/nonexistent:/bin/false
+postgres:x:130:138:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash
+admin:x:1001:1001:,,,:/home/admin:/bin/bash
+adem@adem:~$ 
+
+adem@adem:~$ ls -l /etc/ | tail -n 4
+total 1300
+drwxr-xr-x  3 root     root      4096 feb.  23  2023 acpi
+-rw-r--r--  1 root     root      3028 feb.  23  2023 adduser.conf
+drwxr-xr-x  3 root     root      4096 feb.  23  2023 alsa
+adem@adem:~$ 
+
+tail aracinin ANLIK VERI TAKIBI DE YAPAR AYRICA
+
+-f following
+tail -f secenegi sayesinde bir dosyaya en son eklenen verileri anlik olarak takip edebiliyoruz
+
+Yani biz bir taraftan bir dosya icine manuel olarak veri girerken baska bir console dan da o dosyaya anlik olarak girilen veriyi gorebiliyoruz tail -f secenegi sayesin de
+
+
+adem@adem:~$ cat > text12.txt
+Hello
+world
+what is
+your
+name
+
+adem@adem:~$ tail -f text12.txt
+/etc/profile.d/im-config_wayland.sh
+/etc/profile.d/apps-bin-path.sh
+/etc/profile.d/xdg_dirs_desktop_session.sh
+/etc/profile.d/gnome-session_gnomerc.sh
+/etc/acpi/asus-keyboard-backlight.sh
+/etc/acpi/ibm-wireless.sh
+/etc/acpi/undock.sh
+/etc/acpi/tosh-wireless.sh
+/etc/acpi/asus-wireless.sh
+/etc/gdm3/config-error-dialog.sh
+tail: text12.txt: file truncated
+Hello
+world
+what is
+your
+name
+
+TAKIP ISLEMINI DURDURMAK ICIN DE CTRL-C KULLANIRIZ
+
+BU TAIL -f KULLANIMINI OZELLILE LOG DOSYALARINI INCELERKEN, SON ANDA DEGISIKLIGE UGRAMIS DOSYALAR HAKKINDA BILGI ALMAK ICIN , VE O DOSYA ICERIGINI ANLIK OLARAK TAKIP ETMEK ICIN KULLANIYORUZ...
+
+KOPYALAMA - TASIMA ISLEMLERI
+
+cp test12.txt test122.txt
+ayni bulundugu konuma(konum belirtilmedigi icin) ismi degistirilerek kopyalanmis oldu
+
+cp test12.txt /tmp/
+/tmp/ bu dizin altina ayni orjinal ismi ile kopyalanir, kopyalancak isim belirtilmediginden dolayi
+
+adem@adem:~/Documents$ cp test12.txt ~/Documents/
+isim vermezsek kendi ismi  ile kopyalar
+adem@adem:~/Documents$ ls
+findme  test12.txt
 
  ?>
 
