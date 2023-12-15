@@ -4753,6 +4753,13 @@ adem@adem-ThinkPad-13-2nd-Gen:~$ cut -d ";" -f 4 text1.txt --complement
 Elde ettigimz dosya ciktilari ni istedigmz dosyalara yazdirabiliriz
 Daha fazla bilgi icin man cut veya cut --help diyerek inceleyebilirz
 
+tr ARACI- TRANSLATE ARACI -DONUSTURMEK, DEGISTIRMEK
+Temelde mevcut veriler icindeki karakterleri degistirmek veya silmek icin bu araci kullanabiliyoruz
+Ozellikle kucuk buyuk harf degisimi, tekrar eden karakterlerin silinmesi, ozel karakterlerin silinmesi veya bu karakterlerin bulunup degistirilmesi gibi bircok islev icin kullanabiliyoruz
+
+echo "linux dersleri" ciktisi olan "linux dersleri"  u tr ye arguman olarak veriyor ve bu veri icinde "ie" karakterleri "IE" olarak donsturuluyor.Siralama onemli  burda, ie 1.sirada i, 2.sirada e var ve yerlerine gelecek de 1.sirada I yani i yerine, 2.sirada E yani e yerine gelecek demektir
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "linux dersleri" | tr "ie" "IE"
+lInux dErslErI
 
 
  ?>
