@@ -5290,6 +5290,53 @@ KOPYALAMANIN RECURSIVE SEKILDE GERCEKLESTIRILMESI, OZELLIKLER BELIRTILMESI!!!
 cp -r ~/Documents/ /temp/  
 Documents dizini altindaki tum dizi ve dosyalar, altlarindaki doysa ve dizinler ile birlikte /temp/ klasoru altina kopyalanacktir.
 
+KENDIMZ ISIM VERIP DE ISIM VERDGMIZ KLASOR E DE KOPYLANAMASINI SAGLAYABILIRIZ 
+cp -r ~/Documents/ /temp/Doc
+Doc klasoru altina kopyalanacaktir.. 
+
+MV ARACI - DOSYA TASIMA
+
+adem@adem:~/Documents$ mv ~/Documents/myfile ~/myfilee
+mv ~/Documents/myfile ~/myfilee 
+~/Documents/myfile bu dosyayi ~/myfilee bu dizine bu isimle kaydet demis oluyoruz.. 
+
+MV-BIR DOSYA ISMINI DEGISTIRMEK  ISTEDGIMZ DE DE KULLANABILIRIZ 
+bir dosyayi ismini degistirmek icn , eger ayni dizinden ayni dizine yani bulundugu yerden bulundugu yere ismini degistirerek tasirsak, icerik zaten ayni oldugui icin dosyanin sadece ismi degismis olacaktir
+
+adem@adem:~$ mv myfilee myfil
+myfilee isimli dosyayi myfil ismi ile degistirmis olduk...yani rename yapmis olduk aslida
+
+BIRDEN FAZLA DOSYAMIZI DA AYNI ANDA TASIYABILIRIZ
+
+adem@adem:~/Documents$ mv ~/test{12..13}.txt ~/Documents/
+test12.txt ve test13.txt dosyalarini al ve Documents klasoru altina tasi diyoruz
+
+MV ILE BIZ KLASORLERI DE TASIYABILIRZ TABI KI 
+VE CP ARACINDAKI GIBI EKSTRA -r belirtmeden yapabilirz
+adem@adem:~$ mv ~/Documents/doc ~/
+TASIRKEN KLASOR ISMI DEGISTIRMEK ISTERSEK DE ASAGIDAKI GIBI ISIM BELIRTEREK TASIRIZ
+adem@adem:~$ mv ~/Documents/doc ~/myloc
+
+DIKKAT ETMEMIZ GERKEN NOKTA
+KLASOR TASIMA ISLEMINDE EGER KLASORU TASIMAK ISTEDGIMZ YERDE BIZIM YENI VERDGIMIZ ISIM ILE AYNI ISIMDE BASKA BIR KLASOR VAR ISE GIDIP O VAR OLAN KLASORUN ALTINA YERLESTIRECEKTIR
+
+OLASI VERI KAYIPLARINI ONLEMEK ICIN, UZERINE YAZMA DURUMUNA DIKKAT EDLEIM
+
+COKLU TASIMA ISLEMLERInde TASINAN DOSYA ILE AYNI ISIMDE DOSYA TASINAN DISIN DE VAR ISE
+Coklu dosya tasima islemerinde eger tasinan yerde ayni isimde bir dosya var ise uzerine yazacagi icin, verikayiplari yasayabliriz ondan da dolayi, tasidgimiz dizinde tasidigmz dosya ile ayni isimde dosya var ise tasima islemini tamamlamadan bize sormasini isteyebiliriz
+
+mv -i ~/myfile ~/Documents/
+overwrite? diye bize soracaktir
+Y Ye basarsak onay vermis olacagiz 
+N ye basarsak onay vermemis oluruz tasima islemini yapmaz
+
+
+EN BASTAN TASINAN DOSYA ILE AYNI ISIMDE DOSYA TASINDIGI YERDE VAR ISE OVERWRITE OLMASIN UZERIJNE YAZMA OLMASIN DIYE EN BASTAN BELIRTEDEBILIRIZ
+
+mv -n test{1..4}.txt myfile1.txt myfile2.txt ~/Documents/
+Bu sekilde , test1.txt,test2.txt,test3.txt,test4.txt,myfile1.txt myfile2.txt dosyalarini ~/Documents/ bu dizine tasi ama eger bu dizin de tasiana dosyalar ile ayni isimde dosya var ise o zaman tasimayi reddet, tasima, yani bana sormadan direk o ayni isimde olan dosyalarin tasima islemini durdur demis oluruz -n option ini kullanarak
+
+mv -i  dersek o zaman da ayni isimde dosya var ise bizim onaymizdan gecerek tasima tamamlansin deriz ve ? bize sorar Y dersek tasir, N DERSEK TASIMAZ
 
  ?>
 
