@@ -111,8 +111,65 @@ Oncelikle Insert modunda isek ESC ile command moduna geceriz
 
 :q! Dosyayi kaydetmeden cikmak icin 
 
+ARSIVLEME VE SKSTRMA ISLEMLERI 
+
+Bir group dosya veya klasor u bir arsiv dosyasi icersinde toparlamaya genel olarak arsivleme denir 
+Veri butunlugu saglamak, dosya kayiplarini onlemek icin yapilir 
+
+TAR(TAPE ARCHIVE) ARACI - ARSIVLEME ARACI 
+
+tar -cf(create file) options larini kullanmamiz gerekiyor 
+
+Arsivleme isleminde biz ozellikle belirtmedigmz surece dosya boyutlarinda herhangi bir degisiklik olmuyor, cunku biz belirtmedigmz surece herhangi bir skstirma islemi uygulanmiyor dosyalara
+Arsivleme islemi yalnizca ilgili dosya ve klasorlerin tek bir arsiv dosyasi altinda toplanmasini sagliyor 
+Bunu teyit etmek icin klasorun kapladigi disk alanini gormek icin 
+
+du -h linux-dersleri/ diye kontrol ederiz 
+
+adem@adem:~$ du -h linux-tutorial/
+508K	linux-tutorial/Test/meldank
+512K	linux-tutorial/Test
+524K	linux-tutorial/
+adem@adem:~$ 
+Toplam boyut 525K(kilobyte)
+
+Arsiv dosyasini boyutunu mevcut dosya ile kiyaslayabiliriz
+
+tar -cf(create-file) dan sonra ilk olarak arsiv dosyasina verecegimz ismi girmemiz gerekiyor buu cooook onemlidir!!!
+Sonrasinda da hangi klasor  yolundaki klasorleri vereceksek onun adresini girmemiz gerekiyor
+adem@adem:~$ tar -cf linux-tutorial.tar linux-tutorial/
+
+Alternatif olarak da asagida ki gibi de kullanabiilriz 
+tar -c linux-turorial/  -f linux-tutorial.tar 
+
+Dikkat edecek olursak -f seceneginden sonra mutlaka olusturulacak olan, arsiv dosyasinin ismi verilmis!!!!
+Herzaman icin -f den sonra olusturulacak olan arsiv dosyasi ismi verilmelidir
+
+.TAR UZANTISINI ARSIV DOSYA ISMINDE KULLANMAK ZORUNDA MIYIZ?
+.tar uzantisi, arsiv dosyalarinin standart uzantisidir 
+Bunu kullanmak zorunda degiliz ama sistem uzerinde arsiv dosayalarimizi, ayirt edici kilmak icin ve belli bir standart i takip etmek islerimizi daha kolay ayirt etmek icin cook onemlidir!!!
+Ornegin tum arsiv dosyalarini kullanmak istersek, joker karakterden yararlanirsak 1 kere de birsuru .tar u zantili dosyayi secebilirz... dolayis ile arsiv dosy alari icin .tar uzantili olarak dosyalari olusturmak aslinda onemlidir!!!!!
+
+
+adem@adem:~$ tar -cf linux-tutorial.tar linux-tutorial/  dan linux-tutorial.tar boyle bir dosya olusturulur(arsiv dosyasi kirmizi sekilde gelir )
+
+ls *.tar seklinde de girerek sadece .tar dosyalarini listele diyebiliriz!!
+
+adem@adem:~$ ls *.tar
+linux-tutorial.tar
+adem@adem:~$ 
+
+Hem linux-tutorial hem de linux-tutorial.tar dosyalarinin kapladigi alani gormek istersek 
+adem@adem:~$ du -h linux-tutorial*
+508K	linux-tutorial/Test/meldank
+512K	linux-tutorial/Test
+524K	linux-tutorial
+512K	linux-tutorial.tar
+adem@adem:~$ 
 
 
 
+
+ 
 </body>
 </html>
