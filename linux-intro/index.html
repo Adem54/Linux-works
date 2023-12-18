@@ -27,5 +27,83 @@ Nano araci ile ilgili daha detayli bilgi icini ise ^-G - CTRL-G tuslamasi yapila
 ^E- Go to end of current line 
 ..gibi daha cok isimiza yaryacak, isimizi kolaylastiracak kisa yol tuslari gorebiliriz CTRL-G help tusu ile,  nano araci ile herhangi bir dosyamizi acinca gorebilirz  bunlari
 
+VI METIN EDITORU
+Nerdeyse tum linux dagitimlarinda varsayilan olarak bulunur
+
+VIM-vi improved
+vi editoru VIM editorunun yalin halidir
+Vi editoru standart editorlerden biraz daha farkli calisiyor
+
+Vi editoru ile dosya acmak!
+sudo vi readme.txt
+
+Dosya ilk acildiginda vi araci komut modunda calisir
+Yani biz bu dosyaya yeni veriler ekleme yapmak istersek bu modda ekleme yapamayiz
+Cunku komut modunda yalnizca duzenlemeler, dosya icerisinde gezinti gibi islemleri yerine getiriyoruz
+
+INSERT MODUNA GECMEK - "i" tusuna basarak modu degistirmek!!!!
+Ekleme yapmak icin "i" tusuna basarak insert moduna gecebiliriz
+i tusuna basinca en altta :-- INSERT --  ifadesini goruruz zaten
+Simdi artik istedigmz satira istedigmiz verileri ekleyebiliriz
+
+INSERT MODUNDA IKEN ESC ILE COMMAND MODNA GECMEK!
+Ekleme islemin yaptiktan sonra dosya icinde hizlica gezinmek, sil, kopyala vs gibi islemler yapmak istersek o zaman tekrardan command-komut moduna gecmemiz gerekir
+Gecis yapmak icinde, insert modunda iken ESC tusuna basarak command moduna gecebiliriz
+
+COMMAND MODU KISA YOLLARI 
+KLAVYEMIZDEKI NORMAL OK TUSLARI ILE YAPABILIRZ ONCELIKLE -> <- 
+H - SOLA GITMEK ICIN OK TUSU 
+L- SAGA GITMEK ICIN OK TUSU  
+K-UST OK TUSU 
+J- ALT OK TUSU 
+
+^- SATIR EN BASINA DON 
+$-SATIR SONUNA GETIRIR
+GG-dosya nin en basindaki satira gelir
+SHIFT-G ile de dosyamizin en sonundaki satira gelir!!!
+Sag altta imlecin pozisyonunu row-column surekli dinamik olarak gosterilir
+
+Sayfa sayfa gezinti imkani - Yani mevcut ekranmiz a sigmayan veri diger sayfaya atacaktir, sayfalar arasi gezinti yapmak icin 
+CTRL-B(BACK) -  BIR ONCEKI SAYFA YI GOREBILIRIZ 
+CTRL-F(FORWARD) - BIR SONRAKI SAYFAYI GOREBILIRZ
+
+KARAKTER SILME ISLEMI
+X tusu ile tek bir karakter siliyoruz
+3X tusu ile imlecin bulundug yerden itibaren 3 karakter sil
+
+KELIME SILME ISLEMI
+DW-DELETE WORD - bir kelime silmek icin
+2DW -  2 kelime birden silmek icin
+DD-1 satirin tamamini silmek icin
+3DD-3 satir silmek icin kullanilir
+
+Silme islemin vi aracinda aslinda kesme islemi ile silinmis oluyor
+Yani x,DW,DD char,word,row silme islemi kesme islemi neticesinde siliiyordu aslinda kesme islemi y apilmis oluyor hemen ardindan yapistir dersek 
+
+Yapistirmak icin 
+Y-yank- kopyalama 
+P-put - yapistirma
+
+1P-1 KEZ YAPISTIRIR
+3P-3 KEZ YAPISTIRIR
+
+YW(YANK-WORD)-KELIMENIN HEPSINI KOPYALA 
+YALNIZCA 3 KARAKTER KOPYALAMAK ICIN - 3Y-SPACE 
+
+2YW-2 KELIMME KOPYALA 
+YY - TUM SATIRI KOPYALAMAK ICIN
+
+KELIME ARAMAK 
+/arastirilacak kelime
+
+/aylin yazariz 
+aranan kelime de bir sonraki aranan kelimeyi gormek icin 
+
+Enter ile onayladktan sonra N TUSU ILE BIRSONRAKI ARANAN KELIME YI GOREBILIRIZ
+BIR ONCEKI ARAM IIN ISE ENTER DAN SONRA SHIFT-N 
+
+
+
+
 </body>
 </html>
