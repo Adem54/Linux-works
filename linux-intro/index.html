@@ -7,7 +7,371 @@
 </head>
 <body>
  
+Nano araci kaldigmiz yerden devam!!!!
+^/ Go To Line  - CTRL-/ - Istedgimz satira dogrudan atlayabilme
+Bunu yapmadan once ALT-N ile satir numaralarini aktif gorunur hale getirebiliriz
+CTRL-/  yaptigimz zaman, bize Enter line number, column number: 
+soruyor, biz Alt-N ile satir numaralarini da getirdigmz icin, artik hangi satir numarasini girersek o satir numarasina bizim imlecimizi getirecektir
 
+M-U  - ALT-U - UNDO - GERI ALMA
+M-E  - ALT-E - REDO - GERI ALINANLARI ILERI ALMA
+
+Console ekrani buyudukce, alt taraftaki kisa yol tuslarinin tamamini gorebiliriz
+
+M-A - Set Mark - Alt-A - Mouse yardimi ile istedgimz kismi secebiliyoruz,isaretleyebiliyoruz!! YALNIZ SECERKEN, MOUSE IMLECI, YANI KLAVYE ILE DE OYNATABILDIGMZ IMLEC IN OLDUGU YERDE, IMLEC ILE SECIM YAPMAMIZ GEREKIYOR, BU MOUSE ILE SECMEYE CALISIRSAK, O ZAMAN MOUSE KLAVYE IMLECINDEN BAGIMISIZ SECEBILIYOR O ZAMAN TAM SECILMIS OLMUYOR,  ONDAN DOLAYI MUMKUN OLDUGUNCA SECIM ISLERINI MOUSE ILE DEGIL DE KLAVYE ILE YAPALIM- klavye ile  secim islemi yaparken sag-sol ok tuslarindan biri ile shift e ayni anda basarak yapariz, normal text i nasil seciyorsak klavye aracilig ile ayni sekilde yapariz burda da
+M-6 - COPY- ALT-6 - Isaretlenen kelimeleri kopyalama
+^-K  - CUT - CTRL-K - ISARETLENEN KELIMELERI KESME
+
+Nano araci ile ilgili daha detayli bilgi icini ise ^-G - CTRL-G tuslamasi yapilabilir
+^A-Go to beginning of current line 
+^E- Go to end of current line 
+..gibi daha cok isimiza yaryacak, isimizi kolaylastiracak kisa yol tuslari gorebiliriz CTRL-G help tusu ile,  nano araci ile herhangi bir dosyamizi acinca gorebilirz  bunlari
+
+VI METIN EDITORU
+Nerdeyse tum linux dagitimlarinda varsayilan olarak bulunur
+
+VIM-vi improved
+vi editoru VIM editorunun yalin halidir
+Vi editoru standart editorlerden biraz daha farkli calisiyor
+
+Vi editoru ile dosya acmak!
+sudo vi readme.txt
+
+Dosya ilk acildiginda vi araci komut modunda calisir
+Yani biz bu dosyaya yeni veriler ekleme yapmak istersek bu modda ekleme yapamayiz
+Cunku komut modunda yalnizca duzenlemeler, dosya icerisinde gezinti gibi islemleri yerine getiriyoruz
+
+INSERT MODUNA GECMEK - "i" tusuna basarak modu degistirmek!!!!
+Ekleme yapmak icin "i" tusuna basarak insert moduna gecebiliriz
+i tusuna basinca en altta :-- INSERT --  ifadesini goruruz zaten
+Simdi artik istedigmz satira istedigmiz verileri ekleyebiliriz
+
+INSERT MODUNDA IKEN ESC ILE COMMAND MODNA GECMEK!
+Ekleme islemin yaptiktan sonra dosya icinde hizlica gezinmek, sil, kopyala vs gibi islemler yapmak istersek o zaman tekrardan command-komut moduna gecmemiz gerekir
+Gecis yapmak icinde, insert modunda iken ESC tusuna basarak command moduna gecebiliriz
+
+COMMAND MODU KISA YOLLARI 
+KLAVYEMIZDEKI NORMAL OK TUSLARI ILE YAPABILIRZ ONCELIKLE -> <- 
+H - SOLA GITMEK ICIN OK TUSU 
+L- SAGA GITMEK ICIN OK TUSU  
+K-UST OK TUSU 
+J- ALT OK TUSU 
+
+^- SATIR EN BASINA DON 
+$-SATIR SONUNA GETIRIR
+GG-dosya nin en basindaki satira gelir
+SHIFT-G ile de dosyamizin en sonundaki satira gelir!!!
+Sag altta imlecin pozisyonunu row-column surekli dinamik olarak gosterilir
+
+Sayfa sayfa gezinti imkani - Yani mevcut ekranmiz a sigmayan veri diger sayfaya atacaktir, sayfalar arasi gezinti yapmak icin 
+CTRL-B(BACK) -  BIR ONCEKI SAYFA YI GOREBILIRIZ 
+CTRL-F(FORWARD) - BIR SONRAKI SAYFAYI GOREBILIRZ
+
+KARAKTER SILME ISLEMI
+X tusu ile tek bir karakter siliyoruz
+3X tusu ile imlecin bulundug yerden itibaren 3 karakter sil
+
+KELIME SILME ISLEMI
+DW-DELETE WORD - bir kelime silmek icin
+2DW -  2 kelime birden silmek icin
+DD-1 satirin tamamini silmek icin
+3DD-3 satir silmek icin kullanilir
+
+Silme islemin vi aracinda aslinda kesme islemi ile silinmis oluyor
+Yani x,DW,DD char,word,row silme islemi kesme islemi neticesinde siliiyordu aslinda kesme islemi y apilmis oluyor hemen ardindan yapistir dersek 
+
+Yapistirmak icin 
+Y-yank- kopyalama 
+P-put - yapistirma
+
+1P-1 KEZ YAPISTIRIR
+3P-3 KEZ YAPISTIRIR
+
+YW(YANK-WORD)-KELIMENIN HEPSINI KOPYALA 
+YALNIZCA 3 KARAKTER KOPYALAMAK ICIN - 3Y-SPACE 
+
+2YW-2 KELIMME KOPYALA 
+YY - TUM SATIRI KOPYALAMAK ICIN
+
+KELIME ARAMAK 
+/arastirilacak kelime
+
+/aylin yazariz 
+aranan kelime de bir sonraki aranan kelimeyi gormek icin 
+
+Enter ile onayladktan sonra N TUSU ILE BIRSONRAKI ARANAN KELIME YI GOREBILIRIZ
+BIR ONCEKI ARAM IIN ISE ENTER DAN SONRA SHIFT-N 
+
+VIA ARACINDAN CIKMAK ICIN
+Oncelikle Insert modunda isek ESC ile command moduna geceriz 
+
+:w -yalnizca kaydetmek
+
+:qw Hem kaydetmek hem dosyadan cikmak icin 
+
+:q! Dosyayi kaydetmeden cikmak icin 
+
+ARSIVLEME VE SKSTRMA ISLEMLERI 
+
+Bir group dosya veya klasor u bir arsiv dosyasi icersinde toparlamaya genel olarak arsivleme denir 
+Veri butunlugu saglamak, dosya kayiplarini onlemek icin yapilir 
+
+TAR(TAPE ARCHIVE) ARACI - ARSIVLEME ARACI 
+
+tar -cf(create file) options larini kullanmamiz gerekiyor 
+
+Arsivleme isleminde biz ozellikle belirtmedigmz surece dosya boyutlarinda herhangi bir degisiklik olmuyor, cunku biz belirtmedigmz surece herhangi bir skstirma islemi uygulanmiyor dosyalara
+Arsivleme islemi yalnizca ilgili dosya ve klasorlerin tek bir arsiv dosyasi altinda toplanmasini sagliyor 
+Bunu teyit etmek icin klasorun kapladigi disk alanini gormek icin 
+
+du -h linux-dersleri/ diye kontrol ederiz 
+
+adem@adem:~$ du -h linux-tutorial/
+508K	linux-tutorial/Test/meldank
+512K	linux-tutorial/Test
+524K	linux-tutorial/
+adem@adem:~$ 
+Toplam boyut 525K(kilobyte)
+
+Arsiv dosyasini boyutunu mevcut dosya ile kiyaslayabiliriz
+
+tar -cf(create-file) dan sonra ilk olarak arsiv dosyasina verecegimz ismi girmemiz gerekiyor buu cooook onemlidir!!!
+Sonrasinda da hangi klasor  yolundaki klasorleri vereceksek onun adresini girmemiz gerekiyor
+adem@adem:~$ tar -cf linux-tutorial.tar linux-tutorial/
+
+Alternatif olarak da asagida ki gibi de kullanabiilriz 
+tar -c linux-turorial/  -f linux-tutorial.tar 
+
+Dikkat edecek olursak -f seceneginden sonra mutlaka olusturulacak olan, arsiv dosyasinin ismi verilmis!!!!
+Herzaman icin -f den sonra olusturulacak olan arsiv dosyasi ismi verilmelidir
+
+.TAR UZANTISINI ARSIV DOSYA ISMINDE KULLANMAK ZORUNDA MIYIZ?
+.tar uzantisi, arsiv dosyalarinin standart uzantisidir 
+Bunu kullanmak zorunda degiliz ama sistem uzerinde arsiv dosayalarimizi, ayirt edici kilmak icin ve belli bir standart i takip etmek islerimizi daha kolay ayirt etmek icin cook onemlidir!!!
+Ornegin tum arsiv dosyalarini kullanmak istersek, joker karakterden yararlanirsak 1 kere de birsuru .tar u zantili dosyayi secebilirz... dolayis ile arsiv dosy alari icin .tar uzantili olarak dosyalari olusturmak aslinda onemlidir!!!!!
+
+
+adem@adem:~$ tar -cf linux-tutorial.tar linux-tutorial/  dan linux-tutorial.tar boyle bir dosya olusturulur(arsiv dosyasi kirmizi sekilde gelir )
+
+ls *.tar seklinde de girerek sadece .tar dosyalarini listele diyebiliriz!!
+
+adem@adem:~$ ls *.tar
+linux-tutorial.tar
+adem@adem:~$ 
+
+Hem linux-tutorial hem de linux-tutorial.tar dosyalarinin kapladigi alani gormek istersek 
+adem@adem:~$ du -h linux-tutorial*
+508K	linux-tutorial/Test/meldank
+512K	linux-tutorial/Test
+524K	linux-tutorial
+512K	linux-tutorial.tar
+adem@adem:~$ 
+DIKKAT EDELIM BU KOMUT HEM linux-tutorial klasorunun hem de linux-tutorial.tar dosyasinin yerini aliyor * sayesind.. 
+linux-tutorial ile baslayan ve sonunda 1 veya daha fazla karakter olan klasor dosya ne varsa getir demis oluyoruz!!!
+adem@adem:~$ du -h linux-tutorial*
+
+Arsiv dosyasi ile orjinal dosya nin boyuttu nerde ise ayndidir
+524K	linux-tutorial
+512K	linux-tutorial.tar
+
+Arsiv ledgimz dosyalar orjinallerine gore biraz daha az yer kapladi cunku, arsivlenen dosya datalari disk te standart sekilde oldugu gibi bloklar halinde degilde, bir arada tutuluyor olmasidir
+
+Standart olarak diske kaydedilen dosyalar da her bir blok 4KB tir ama bazen kaydedilen veri 1kb lik olabiliyor..Icinde 1 kb lik data var ama blok 4kb lik yer kapliyor..
+Iste tar araci, bloklama yerine tum verileri pespese siralayarak bir arada tuttugu icin arsiv dosyasi normalden daha az yer kaplayacaktir. Yani skstirma algoritmasi vs uygulanmiyor yalnizca veriler pespese siralandigi icin, genel olarak blok mantigna gore daha az bos alan kalmis oluyor
+
+TUM ARSIV ISLEMINI CONSOLE UZERINDEN ADIM ADIM TAKIP ETMEK ICIN VERBOSE-V ILE DETAYLI ISLEM CIKTISI ALMAK ISTEDGIMZI BELIRTEBILIRIZ 
+AYRICA ARSIVE BIZ ISTEDGIMIZ KADAR DOSYA EKLEYEBLIRIZ
+ 
+cf-create file , cvf-create verbose file 
+verbose ile, a-f arasindaki dosyalari myletters.tar isimli arsiv dosyasina kaydederken de tum adim adim arsivledigi dosyalari da bize gosteriyor asagidaki gibi
+adem@adem:~$ tar -cvf myletters.tar {a..f}
+a
+b
+c
+d
+e
+f
+adem@adem:~$ 
+
+Benzer sekilde klasorleri arsive alirken de -verbose secenegini kulanarak, tar aracinin arsivleme prosessini takip edebiliriz 
+
+adem@adem:~$ tar -cvf myarch1.tar linux-tutorial
+linux-tutorial/
+linux-tutorial/Test/
+linux-tutorial/Test/meldank/
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld3.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld1.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld2.png
+linux-tutorial/result2.txt
+linux-tutorial/readme1.txt
+adem@adem:~$ ls
+
+Buyuk boyutlu dosyalarda bu -verbose secenegi cokc kritik bi roneme sahptir
+
+ARSIV DOSYASINI DISARIYA CIKARMAYA GEREK KALMADAN GORUNTULEMEK!
+
+Arsiv dosyasinin ismini de yazacagmiz icin, f secenegini kullanmamiz gerekir
+tar -tf
+f secenegini kullanmazsak, arsiv dosyasinin icerigi okunamaz hata aliriz!!!!
+adem@adem:~$ tar -t myletters.tar
+tar: Refusing to read archive contents from terminal (missing -f option?)
+tar: Error i
+
+ASAGIDAKI GIBI IKI FARKLI SEKILDE .TAR DOSYALARININ ICINDE BULUNAN DOSYALARI GOREBILIRIZ!!
+adem@adem:~$ tar -tf linux-tutorial.tar
+linux-tutorial/
+linux-tutorial/Test/
+linux-tutorial/Test/meldank/
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld3.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld1.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld2.png
+linux-tutorial/result2.txt
+linux-tutorial/readme1.txt
+adem@adem:~$ tar --list -f linux-tutorial.tar
+linux-tutorial/
+linux-tutorial/Test/
+linux-tutorial/Test/meldank/
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld3.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld1.png
+linux-tutorial/Test/melda
+
+
+DAHA AYRINTLI LISTELEMEK ISTERSEK -t veya -list secenegi yerine, ek olarak verbose-v secenegini de kullanabilriiz
+
+adem@adem:~$ tar -tvf linux-tutorial.tar
+drwxrwxr-x adem/adem         0 2023-12-18 10:22 linux-tutorial/
+drwxrwxr-x adem/adem         0 2023-12-18 10:16 linux-tutorial/Test/
+drwxrwxr-x adem/adem         0 2023-12-18 10:16 linux-tutorial/Test/meldank/
+-rw-rw-r-- adem/adem    450972 2023-12-18 10:16 linux-tutorial/Test/meldank/normal_bestilling_fra_kveld3.png
+-rw-rw-r-- adem/adem     30008 2023-12-18 10:16 linux-tutorial/Test/meldank/normal_bestilling_fra_kveld1.png
+-rw-rw-r-- adem/adem     27237 2023-12-18 10:16 linux-tutorial/Test/meldank/normal_bestilling_fra_kveld2.png
+-rw-rw-r-- adem/adem        52 2023-12-12 11:23 linux-tutorial/result2.txt
+-rw-rw-r-- adem/adem       185 2023-12-18 09:23 linux-tutorial/readme1.txt
+adem@adem:~$ 
+
+Dikkat edelim, arsiv dosyasinin icindeki, dosyalari gormek icinde arsiv dosyasini disariya aktarmamiz vs gerekmemis oldu!
+Bu yaklasim sayesinde spesifik olarak aradigimz bir dosya var ise bu arsiv icerisinde mi degil mi diye kontrol etmek icin, arsivi disari cikarmadan bu durumu rahatlikla kontrol edebiliyoruz
+
+tar aracini grep araci ile pipe i da kullanarak bu islemi yapabiliriz-HARIKA BESTPRACTISE!!!!
+ORNEGIN .tar dosyamiz icinde readme dosyasi var mi diye kontrol edecek olursak eger....
+adem@adem:~$ tar -tvf linux-tutorial.tar | grep "readme"
+-rw-rw-r-- adem/adem       185 2023-12-18 09:23 linux-tutorial/readme1.txt
+adem@adem:~$ 
+
+NETICE DE CONSOLE UZERINDEN ALDGMIZ TUM CIKTILAR 
+
+ARSIV I NASIL DISARI CIKARIRIZ?
+2 SECENEKTE ELE ALABLIRIZ
+1-ARSIV DOSYASININ TAMAMINI DISARI CIKARMAK!
+2-SPESIFIK OLARAK BELIRTILEN DOSYA VE KLASORLERI DISARI CIKR
+
+extract - x option i kullanirsak, arsiv dosyasinda bulunan tum dosya ve klasorleri disari cikaracaktir
+
+Eger -C ile arsiv dosyasini cikaracagimz klasorun adini belirtmezsek, arsiv dosyalari mevcut uzerinde bulunudgumuz dizine cikarilacaktir
+tar araci ile spesifik olarak bir dizin belirtirken, -C option i ve gonderilecek klasor ismi mutlaka belirtilmelidir
+
+
+adem@adem:~$ tar -xf linux-tutorial.tar -C linux-tut
+adem@adem:~$ cd linux-tut
+adem@adem:~/linux-tut$ ls
+linux-tutorial
+
+AYRICA SUNA DIKKAT EDELIM BIZ BURDA GORELI YOL BELIRTTIK ONU DA ABSOLUTE YAPMAMIZ SURDURULEBILIRLIK ACISINDAN COK DAHA IYI OLACAKTIR 
+adem@adem:~$ tar -xf linux-tutorial.tar -C linux-tut 
+YERINE ORNEGIN 
+adem@adem:~$ tar -xf linux-tutorial.tar -C ~/linux-tut/
+YA DA 
+adem@adem:~$ tar -xf linux-tutorial.tar -C /usr/share/doc
+
+YINE CONSOOLE DA ATILAN DOSYALARI GORMEK ISTERSEK -V VERBOOSE OPTION I KULLANABILIRIZ
+
+RECURSIVE-ONYINELEMELI BIR SEKILDE-AYNI KLASOR LERIN ALTINDA BULUNAN KLASORLERI DE EN ASAGIDKINE GOSTERILEREK BIZE LISTELENMESINI ISTERSEK DE !!!!!!!BESTPRACTISE
+
+adem@adem:~$ ls -R linux-tut
+linux-tut:
+linux-tutorial
+
+linux-tut/linux-tutorial:
+readme1.txt  result2.txt  Test
+
+linux-tut/linux-tutorial/Test:
+meldank
+
+linux-tut/linux-tutorial/Test/meldank:
+normal_bestilling_fra_kveld1.png  normal_bestilling_fra_kveld3.png
+normal_bestilling_fra_kveld2.png
+adem@adem:~$ 
+
+Arsiv Dosyasini Icerigini Istedigmz Dizine Cikarmak Icin Alternatif YOLLAR
+
+Arsiv dosyasini cikarmak istedgimz dizine gecis  yapariz ve biz o dizin uzerinde iken, bu arsiv dosyasini bulundugmuz dizine cikarabiliriz
+tar araci arsiv dosyasini var sayilan olarak komutun girildigi, dosya komutuna cikaracaktir
+
+adem@adem:~$ cd ~/Downloads
+adem@adem:~/Downloads$ tar -xf ~/linux-tutorial.tar 
+
+linux-tutorial isminde bir klasor ile beraber Downloads klasoru altina cikaracaktir
+
+BIR BASKA ALTERNATIF OLARAK DA ARSIV DOSYASINI CIKARMAK ISTEDIGMIZ DOSYA DIZININE ONCE TASIRIZ ARDINDAN DA TASIDGIMZ YERDE DOGRUDAN DISARI CIKARARAK, BULUNDUGU YERE CIKARILMASINI SAGLAMIS OLURUZ!!!!
+
+CIKTILARI DAHA AYRINTILI GORMEK ICIN -VERBOSE-V SECENEGINI DE EKLERIZ!! 
+adem@adem:~/Downloads$ tar -xvf ~/linux-tutorial.tar 
+
+ARSIV DOSYASI ICINDEN SPESIFIK BAZI DOSYA VE KLASORLERI NASIL CIKARIRIZ!!! 
+Once .tar dosyamiz icinde ki dosylari bir gorelim 
+
+adem@adem:~$ tar -tf linux-tutorial.tar
+linux-tutorial/
+linux-tutorial/Test/
+linux-tutorial/Test/meldank/
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld3.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld1.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld2.png
+linux-tutorial/result2.txt
+linux-tutorial/readme1.txt
+adem@adem:~$ 
+
+Ben sadece result2.txt,readme1.txt dosyalarini cikarmak istiyorum ornegin disari
+
+Burda en oenmli sey spesifik oalrak disari cikaracagimiz dosya ve klasorlerin tam ismini belirtmemiz gerekiyor! Yani demek istedgimz disari cikarmak istedgimz dosya ve klasorler o arsiv icindeki dosyada tutuldugu icin tam olarak yeri de o arsiv icindeki yeridir
+linux-tutorial/result2.txt
+linux-tutorial/readme1.txt
+
+wildcards charactlerden(joker karakterler(*,?,[])) biri olan * i klasor ler icin kullandigimizda boyle hatalar alabiliriz..
+
+adem@adem:~$ tar -xf linux-tutorial.tar  *result2.txt */readme1.txt 
+tar: Pattern matching characters used in file names
+tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
+tar: *result2.txt: Not found in archive
+
+wildcard(joker karakter) lari bu sekilde kullanmak icin!!!!!
+
+adem@adem:~$ tar --wildcards -xf linux-tutorial.tar  *result2.txt */readme1.txt 
+Burda icerikleri mevcut dizine cikarmak istedgimz icin, klasor ismi ve konumu vermedik!!Dikkat edelim, biz ozellikle bir isim vermezsek islemi  yaparken bulundgumz dizine archiv dosya isimli klasor icine cikaracaktir 
+
+Spesifik olarak cikarttgimz dosyalari kontrol etmek icin
+adem@adem:~$ ls -R linux-tutorial
+linux-tutorial:
+readme1.txt  result2.txt
+adem@adem:~$ 
+
+MEVCUT ARSIVE YENI BIR DOSYA EKLEMEK!
+
+adem@adem:~$ tar --append -f linux-tutorial.tar my-text.txt
+
+Ekledigmz dosyanin .tar-arsiv dosyamiza eklenip eklenmedigini gormek icin: 
+
+adem@adem:~$ tar -tf linux-tutorial.tar
+linux-tutorial/
+linux-tutorial/Test/
+linux-tutorial/Test/meldank/
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld3.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld1.png
+linux-tutorial/Test/meldank/normal_bestilling_fra_kveld2.png
+linux-tutorial/result2.txt
+linux-tutorial/readme1.txt
+my-text.txt
+adem@adem:~$ 
 
 </body>
 </html>
