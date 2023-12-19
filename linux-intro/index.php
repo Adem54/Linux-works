@@ -5336,7 +5336,336 @@ EN BASTAN TASINAN DOSYA ILE AYNI ISIMDE DOSYA TASINDIGI YERDE VAR ISE OVERWRITE 
 mv -n test{1..4}.txt myfile1.txt myfile2.txt ~/Documents/
 Bu sekilde , test1.txt,test2.txt,test3.txt,test4.txt,myfile1.txt myfile2.txt dosyalarini ~/Documents/ bu dizine tasi ama eger bu dizin de tasiana dosyalar ile ayni isimde dosya var ise o zaman tasimayi reddet, tasima, yani bana sormadan direk o ayni isimde olan dosyalarin tasima islemini durdur demis oluruz -n option ini kullanarak
 
+TEK TEK HEPSINI YES-Y NO-N SEKLINDE ONAYLAMAK VEYA REDDETMEK ISTERSEK DE...
 mv -i  dersek o zaman da ayni isimde dosya var ise bizim onaymizdan gecerek tasima tamamlansin deriz ve ? bize sorar Y dersek tasir, N DERSEK TASIMAZ
 
- ?>
+RM ARACI- (REMOVE ARACI-DOSYA VE KLASOR SILME) 
+Dosya ve klasorlerin silinmesi icin kullanilir
+
+rm komutu ile tek bir dosya yi da silebilirz istersek ayni anda birden fazla dosyayi da silebiliriz!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ rm ae.txt af.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ rm ae.txt af.txt
+
+SILME ISLEMINI KONTROLLU SEKILDE HER SILMNE ISLEMINDE BIZDEN ONAY SORULMASINI ISTERSEK!
+adem@adem-ThinkPad-13-2nd-Gen:~$ rm -i ag.txt bd.txt
+rm: remove regular empty file 'ag.txt'? Y
+rm: remove regular empty file 'bd.txt'? N
+
+KLASOR-DIZIN SILME ISLEMI
+
+Normalde rm komutu yalin hali ile sadece dosyalari siler.
+Ici bos olan dizinleri silmek icin -d option i ile kullanmaliyz 
+ada isimli klasoru silmek icin kullaniriz!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ rm -d ada
+
+ICERISI DOLU OLAN KLSOR SILMEK ICIN ISE:
+Bizim ada/ada1/ada1.txt klasorler ve dosyalarimz var 
+Icin dolu olan, klasor-dizinleri silmek icin:
+Tum alt klasorleri ozyinelemeli sekilde yani -recursive sekilde silmek icin -r option i ni kullanabilirz
+adem@adem-ThinkPad-13-2nd-Gen:~$ rm -r ada
+
+Toplu Sekilde Silme Yaparken Bize bilgi verilmesini istersek eger!
+Bazen biz, hangi dosyalarin silindiginin kaydini tutmak isteyebiliriz...Bunun icin scirpt yazarken boyle seyler cok lazim oluyor!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ rm -v {1..5} 
+rm: cannot remove '1': Is a directory
+rm: cannot remove '2': Is a directory
+rm: cannot remove '3': Is a directory
+rm: cannot remove '4': Is a directory
+rm: cannot remove '5': Is a directory
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+SHRED ARACI KALISIC SILME ISLEMI!
+Silme Islemi Nasil Gerceklestirilir?
+Normalde bilgisayarimiz uzerinde bir dosya sildgimiz de o dosya tamamen yok olmuyor
+ Isletim sistemleri dosya silme komutu aldiklarinda o dosyayi diskten silmek yerine, o dosyay ulasilmasini saglayan yolun bilgsini siliyorlar, yani ilgili dosya hala fiziksel olark disk uzerinde tutuluyor, olmasina ragmen, dosya ya giden yolun baglantisi silindigi icin ilgili dosyaya ulasilamiyor. Bu yontemin kullanilma amaci, bu yontem dosyayi fiziksel olarak silme ye oranla cok daha hizli olmasidir
+
+ DOSYA Kalici olarak Nasil Silinir?
+ Gercek silme dedgimiz kavram, disk uzerinde yer kaplayan her turlu verinin ancak uzerine yeni veriler yazilarak, ortadan kaldirilabilecek olmasi demektir. Cunku diskte fiziksel olarak tutulan bu veriler uzerine  yazilarak tahrip edilmedikleri zaman cesitli kurtarilma yontemleri ile kurtarilmalari mumkundur
+ Ozetle bir dosyayi kalici olarak geri getirilemeyecek sekilde silinmesini isterseniz o dosyanin uzerine defalarca, rastgele verilerek yazarak bunu yapabilirsiniz
+ Pekcok isletim sisteminde bu uzerine yazarak silem islemini harici yazilimlarla yapilabilirken Linux da bu, varsayilan olarak kullanilabilen shred araci ile mumkun olmaktadir
+
+ shred araci ile biz linux de dosya uzerine rastele veriler yazilarak dosya icerigini tahrip edebiliyoruz ve ondan sonra da artik dosyayi guvenle silebiliriz. Cunku dosya gercekten geri getirilse bile orjinali tahrip edildigi icin, orjinal icerige erisilemiyor tabi ki
+
+ shred aracinin varsayilan olarak kullanlmasi 
+ Dogrudan kullanildiginda 3 kez rastgele verilen dosya icerigine bitler yazilmasini saglar
+ 3 den fazla yazilmsini saglamak icin de bunu -n option i ile belirtmeliyiz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ shred readme
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat readme
+����-��v)�����bҮ^�pb�����&TԽ��o�Ś��_ bu sekilde rastgele uzun uzn icerikleri 3 kez yazarak orjinal iceirigi tamamen tahrip edecektir
+
+UZEIRNE RASTGELE VERILER YAZILMASINI ISTIYROUZ AMA AYRITILI BILGI ALMAK VE BU ISLEMI TAKIP ETMEK ISTERSEK!
+-v(verbose)
+adem@adem-ThinkPad-13-2nd-Gen:~$ shred -v  readme
+
+Hem ayrintli bilgi verilsiin hem de dosya uzerine 5 kez rastgele veirler yazilsin istersek 
+-n(number) option 
+-v(verbose) option - ayrintli
+adem@adem-ThinkPad-13-2nd-Gen:~$ shred -vn 5  readme
+shred: readme: pass 1/5 (random)...
+shred: readme: pass 2/5 (ffffff)...
+shred: readme: pass 3/5 (random)...
+shred: readme: pass 4/5 (000000)...
+shred: readme: pass 5/5 (random)...
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Ayrica shred komutuna biz uzerine rastgele veriler yazdiktan sonra bu dosyayi silmesini de soyeleyebiliriz
+
+-u() islem tamamlandigind ilgili dosyayi silmesini soyler
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ shred -uvn 5 readme
+shred: readme: pass 1/5 (random)...
+shred: readme: pass 2/5 (000000)...
+shred: readme: pass 3/5 (random)...
+shred: readme: pass 4/5 (ffffff)...
+shred: readme: pass 5/5 (random)...
+shred: readme: removing
+shred: readme: renamed to 000000
+shred: 000000: renamed to 00000
+shred: 00000: renamed to 0000
+shred: 0000: renamed to 000
+shred: 000: renamed to 00
+shred: 00: renamed to 0
+shred: readme: removed
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+silerken dosya ismini de surekli degistire degistire sildigi icin dosya ismini de tahrp ettigi icin, birisi bu dosyayi kurtarmaya calissa, dosyanin ismine dahi ulasamayacktir
+Islem biraz uzun sureibliyor, islem tamamlana kadar beklemek gerekiyor
+
+SEMBOLIK VE KATI LINK 
+
+Link Yapisi ve inode kavrami
+Isletim sistemini olusturan dosya sistemindeki tum veriler depolama birimlerinde-fiziksel diskte bloklar halinde tutuluyuorlar
+Biz bir dosya ya erisecegimiz zaman bloklar halinde diskte tutulan o dosyaya ait verinin bulunmasini saglayan index node isimli bir yapi bulunuyor, buna da kisaca inode deniyor
+Diskteki bir verinin hangi dosyanin verisinin hangi blokta oldugu bilgisine inode uzerinden erisebiliyoruz
+Ornegin bir dosya olusturuldugunda bu dosya icerigi o an icin diskte bos olan bir blok veya bloklara yerlestirildginde o dosynin yerlestirildigi blok veya bloklarin numarasi, uniq numarasi inode a ataniyor ve bu olusturulan dosya da inode degerine link olarak baglaniyor!!!!ki inode degeri ile bu olusurulan dosya nin hangi bloklarda bulundugu bilgisine erisilebilsin
+Bu sayede ornegin yeni olusurulmus bir dosya okunmak istendiginde aslinda, bu dosyanin bagli oldugu inode degerine bakiliyor, inode degerinin disk uzerinde isaret ettigi bloklardan bu veriler getiriliyor
+
+DIKKAT COK IYI ANLAYALIM!!ISIN MANTIGI ANLATILIYOR BURDA
+Yani aslinda ornegin text.txt dosyasi uniq bir inode degerine bagli olan bir linktir!!!! inode degeri de ilgili verinin diskteki yerini bildigi icin, text.txt linki uzerinden bu verilere kolaylikla ulasabiliyoruz
+Dosya sistemimizdeki her bir dosya ya iste bu uniq inode degerleri uzerinden erisiliyor arka planda
+Bizim gordugmz dosya ve klasor isimleri yalnizca inode degerlerine yonlendirme yapan linklerdir!!!!!!
+Bu dosya isimlerinin var olmasi ve tamamen aslinda link gorevi gormesi, biz insanlarin disk uzerindeki verilere kolaylkla erisebilmesi icin okunakli isimlerden olusan baglanti noktalaridir aslinda
+
+SEMBOLIK LINK (SOFT LINK)
+Sembolik linkleri siradan kisayollara benzetebiliriz
+ Gorevleri yalnizca orjinal dosya iceriklerine yonlendirme yapmaktir
+
+Sembolik link olusturmak icin ln araci kullanilir 
+ln araci
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ln -s links/mytext mySembText2
+Sembolik link olustururken kesin yolu belirtmk cok onemlidir, goreceli yolu degil!!!! Cunku biz bu mySembText2 kisa yol dosyasini baska bir yere tasiyabiliriz, kendisine goreceli yol calismayabilir,ama absulute-kesin yolu belirtirsek sorun olmaz
+mytext dosya icerigine mySembText2 uzerinden erisebiliyor olacagiz!!
+Yani olusrda sembilikdosya olan mySembText2 dosyasinin konumu degistirilirse, mySembText2 uzerinden, ona kisa yol olsuturulan dosyaay erisebilmemiz icin goreceli yol ile degil kesin adres-yolu ile mySembText2 olusturulmalidir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ln -s ~/links/mytext mySembText2
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat mySembText2
+deneme-deneme
+ls -l ile mySembText2 nin de oldugu dosyalari listelersek eger 
+lrwxrwxrwx  1 adem adem   23 des.  17 21:46 mySembText2 -> /home/adem/links/mytext
+l-link demektir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ mv mySembText2 ~/Documents/
+adem@adem-ThinkPad-13-2nd-Gen:~$ cd Documents
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ ls -l
+total 0
+-rw-r--r-- 1 root root  0 des.  14 23:48 findme
+lrwxrwxrwx 1 adem adem 23 des.  17 21:46 mySembText2 -> /home/adem/links/mytext
+Dikkat edersek, yolu dogru bir sekilde bulabiliyor: mySembText2 -> /home/adem/links/mytext
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cat mySembText2
+deneme-deneme
+
+GORELI(RELATIVE) YOL : links/mytext mySembText2 - Bu sadece o dizinde gecerli olacaktir... 
+KESIN YOL(ABSOLUTE) YOL: ~/links/mytext mySembText2 - Bu ise linux dosya sistemi uzerindde hangi dizine gidersek gidelim heryerden erisilebilecektir
+
+SEMBOLIK LINK(KISA YOL LINKI GIBI) UZERINDEN ORJINAL DOSYAYA VERI YONLENDIRMEK
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ echo "new data" >> ~/Documents/mySembText2
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cat ~/Documents/mySembText2
+deneme-deneme
+new data
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cat ~/links/mytext
+deneme-deneme
+new data
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ 
+
+sembolik link uzerinden olsuturulan dosya olan mySembText2 dosyasina ekleme yaptgimzda, orjinal dosya uzerinden, inode -uniq indexnode uzerinden disk uzerine yaziliyor ve bu sayede direk orjinal dosya uzerine ekleme yapmis gibi, hem mySembText2 sembolik linkd dosyasinda hem de ~/links/mytext orjinal dosyasinda degisiklik gerceklesmis oluyor
+
+KISACA, SEMBOLIK BAGLANTILAR-mySembText2 aslinda orjinal dosyay yoneldirma yapan kisayol dosyalaridir. Bu sebeple orjinal dosyalar eger silirse, sembolik dosya uzerinden orjinal dosya verisine ulasmamiz mumkun olmuyor
+Silme isleminde de bahsedildigi uzere bir dosya silindiginde arka planda o dosya uzerinden diskteki verileri bulunmasini saglayan inode baglanti uniq-id si silinmis oluyor, diskte veriler duruyor ama, artik o dosya uzerinden o verilere erisilemiyor
+Bu sekilde normal silinen dosyalar a da sonra dan erisilebilnir aslinda, sadece o dosyaya ait yolun- inode nin tekrar dan kesfedilmesi gerekiyor
+
+ORJINAL DOSYAMIZI SILIP TEKRARDAN O DIZIN ICIN SEMBOLIK BIR DIZIN OLUSTURMAK!!!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ rm ~/links/mytext
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ ls
+findme  mySembText2
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cat ~/Documents/mySembText2
+cat: /home/adem/Documents/mySembText2: No such file or directory
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cat ~/links/mytext
+cat: /home/adem/links/mytext: No such file or directory
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ ln -s ~/links/ links-symbolic
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ ls -l
+total 0
+-rw-r--r-- 1 root root  0 des.  14 23:48 findme
+lrwxrwxrwx 1 adem adem 17 des.  17 22:23 links-symbolic -> /home/adem/links/
+lrwxrwxrwx 1 adem adem 23 des.  17 21:46 mySembText2 -> /home/adem/links/mytext
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ 
+
+links-symbolic artik /home/adem/links/ buraya yonlendirilecek, biz links-symbolic icerisine bir dosya atarsak, hemen /home/adem/links/ buraya yonlendirilmis olacaktir
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ echo "Hello, world- test" > links-symbolic
+bash: links-symbolic: Is a directory
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ echo "Hello, world- test" > links-symbolic/text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents$ cd links-symbolic
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents/links-symbolic$ ls
+text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents/links-symbolic$ cat text.txt
+Hello, world- test
+SEMBOLIK LINK ICINE OLUSTURULAN DOSYA NIN , SEMBOLIK LINKIN YONLENDIRILDIGI DIZINDE DE OLSTURULDUGUNU GOREBILIRIZ
+adem@adem-ThinkPad-13-2nd-Gen:~/Documents/links-symbolic$ cd ~/links
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ ls
+text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ cat text.txt
+Hello, world- test
+
+AMA SUNU BILMELIYIZ KI, ORJINAL DIZIN SILINIR ISE, ARTIK BIZ links-symbolic UZERINDEN, ORJINAL DIZIN VE DOSYA YA DA ERISEMEYIZ
+SEMBOLIK LINKLERI DE SILMEK ICIN YINE rm, rm -d, rm -r araclarini kullanabiliriz!!!!
+
+KATI LINK(HARD LINK) 
+Kati linkleri olusturmak icin ln komutunu kullanmamiz yeterlidir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ln links/text.txt hard-text
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -l
+-rw-rw-r--  2 adem adem   19 des.  17 22:27 hard-text
+kati-hard linklerde diger standart dosyalar gibi oldugu icin bunlarda -l ile baslamaiyor normal diger dosyalar gibi rw-rw-r--  2 adem adem   19 des.  17 22:27 hard-text
+hard-link denilen kavram, sistemimiz uzerindeki tum standart dosya ve dizinleri temsil ediyor
+Aslinda olusturdugmuz orjinal metin dosyasi da disk uzerinde verilere yonlendirme yapan bir kati linktir
+Biz yeni bir kati-link olustrudgumz zaman tipki orjinal dosya gibi, bizi diskteki verilere yonlendiren inode degerine baglanti olusturmus oluyoruz aslinda, hatirlayacak olursak sembolik linkler, orjinal linklere, yani aslinda kati linkli dosyalara yonlendirme yapiyordu, ordan da disk uzerindeki verilere ulasabiliyordu. Kati linkte ise hem orjinal dosya hem de yeni olusturdugumuz bu, kati link dosyasi ayni inode degerine bagli oldugu icin, ayni disk  verisinin yerini biliyor ve bizi oraya yonlendirebiliyor, yani aslinda hem orjinal dosya hem de hard-link dosyasi birere kati-baglantidir, birer hard-link tir.
+Dolayisi ile biz hard-link dosyasi veya orjinal dosya uzerinde birisinde degisklik yapinca bu degisikligi her iki dosyadan da alabiliyoruz.
+HATTA, ORJINAL DOSYA SILINSE BILE, YENI OLUSTURMUS OLDUGUM KATI-LINK DOSYASI YINE AYNI INODE DEGERINE SAHIP OLDUGU ICIN, DISK UZERINDE TAM OLARAK HANGI BLOKLAR UZERINDE OLDUGUNU BILIYOR VE BENIM BU VERILERE ULASMAMI SAGLIYOR
+
+HARD-LINK DOSYASI UZEIRNDEN YENI VERI EKLEYIP TEST EDELIM
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo "new-data" >> hard-text
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat hard-text
+Hello, world- test
+new-data
+adem@adem-ThinkPad-13-2nd-Gen:~$ cd links
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ ls
+text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ cat text.txt
+Hello, world- test
+new-data
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ 
+
+ORJINAL DOSYA UZEIRNDEN VERI EKLEYIP TEST EDELIM
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ cat >> text.txt
+additional data from text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ 
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ cat text.txt
+Hello, world- test
+new-data
+additional data from text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ cat ~/hard-text
+Hello, world- test
+new-data
+additional data from text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ 
+
+ORJINAL DOSYAYI SILIP KATI-LINK I TEST EDELIM
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ ls
+text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ rm text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ ls
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ cat ~/hard-text
+Hello, world- test
+new-data
+additional data from text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/links$ 
+GORULDUGU UZERE ORJINAL DOSYA SILINMESINE RAGMEN KATI-LINK DOSYASI  UZERINDEN BIZ VERILERE ERISEBILIYORUZ!!!!CUNKU KATI LINK DOSYASI DOGURDAN INODE-INDEX NODE BAGLANTI ID SINE BAGLANIYORDU, DISK UZERINDEKI VERILERIIN HANGI BLOK DA OLDUGUNU BELIRTEN
+
+KISACASI KATI LINK SAYESINDE - HARIKA BIR MANTIK...COK IYI ANLAYALIM!!!!
+Ayni veriler icin , tekrar tekrar disk alaninin harcanmasina gerek kalmadan dosya yedeklerinin alinmasi mumkun oluyor!!! BU MANTIK TAM OLARAK, REFERANS TIPLER ILE AYNI MANTIKTA VE TAM OLARAK REFERANS TIPLERE ORNEK OLARAK VERILEBILECEK BIR YAPIDIR!!!!!COOOK ONEMLI!!!!
+TABI KI BURDA KATI-LINK LER UZERINDEN DOSYALAR ZARAR GORUR ISE EGER DOSYALARIN YEDEGI DOSYA KAYBOLMUS OLUR!!!!!!
+YANI YALNIZCA NORMAL RM ILE SILINDIGINDE DOSYAMIZIN INODE ILISKININ KOPARILMASI ILE DISKTE SILINMEYEN AMA BIZIM MEVCUT DOSYAMIZ IN DISK ILE BAGLANTISI OLAN INODE KOPARILDIGINDAN DOLAYI ARTIK O DOSYA LINK OZELLIGINI KAYBETTIGI ICIN, VERILERE ERISEMIYOR..ISTE BOYLE DURUMLRDAKI SILEM ISLEMLERNE KATI-LINK ILE ONLEM ALABILIYORUZ YOKSA , SHRED ILE DOSYA UZERINE RASTGELE BIRCOK KEZ YAZARAK DOSYA ICERIGININ TAHRIP EDILMESI DEGIL
+VERILERIN TAHRIP EDILME RISKI VAR ISE TABI KI BUNLARI NORMAL KOPYALAMA ISLEMI ILE KOPYALAYIP, YENI BIR BAGLATNI INODE NUMARASI OLUSTURULARAK FARKLI YERLERDE YEDEKLEMEMIZ GEREKIYOR
+
+KLASORLER ICIN KATI LINK OLUSTURMAK MUMKUN DEGILDIR..DIKKAT EDELIM SEMBOLINK LINKLERDE BUNU YAPABILIYORDUK!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ ln links/ links-hard
+ln: links/: hard link not allowed for directory
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+METIN EDITORLERI
+Biz eger grafiksel ara  yuz uzerinde calisiyorsak, her grafiksel arayuzun kendisine ait grafik arayuzu mevcuttur. 
+Ama bizim ihtiyacimiz olan grafiksel arayuz  olmadiginda, ozellikle serverlarda islem yaparken, dosyalarimizin iceriklerine dogrudan mudahele edebilmek, edit leyebilmek
+
+TEMEL DUZEYDE METIN EDITORLERINI KULLANABILME YETENEGI COK KRITIK ONEME SAHIPTIR!!!!!BUNLARIN KESINLIKLE BILINMESI GEREKIYOR!!!
+SOZ KONUSU SISTEMI KOMUT SATIRI UZERINDEN YONETMEK OLDUGUNDA..KOMUT SAITRINDAKI ISLEMLERIMIZI ETKILI SEKILDE HAHLLEDEBILMEK COK KRITIK ONEME SAHIPTIR!!!! 
+
+NANO ARACI 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ nano newfile.txt
+
+nano araci gidi newfile.txt dosyasi var mi diye bakar, eger var ise var olan dosya nin icerigini bize acar, eger yok ise o zamanda yeni bir newfile.txt dosyasi olustur ve o olusturdugu dosyayi bize acar.. ve dosyanin en altinda 
+^G Help ^O Write OUt ^Where Is
+^X Exit ^R Read File ^\Replace
+^ isareti CTRL anlamina gelmektedir
+M isaretleri de ALT tusun anlamina gelmektedir
+
+^X Exit demek CIKMAK ICIN CTRL-X E BAS DEMEKTIR
+^O WRITE OUT -(CTRL-O)-YAZDIGIM VERILERI KAYDETMEK ICIN, bize dosya ismini degistirmek isteyip istemedigmzi sorar, yani degistirirsek, farkli kaydet yapmis gibi olur aslinda, ve bize tekrardan sorar, dosya ismini degistirmek istiyor musun diye biz de YES-Y ye basarsak bundan sonra biz dosya ismini orneign newfile.txt den newfile1.txt olsun dedi isek ilk basta biz newfile.txt dosyasinin iceriginie girmistik ama simdi dosya ismini degistrdigmz icin artik degistridgmz dosya yi bize acacaktir1!!!!!
+^O WRITE OUT-(CTRL-O)
+Biz dosys yi bu sekilde kaydederken dosya ismini degistirmek istersek dosya nin konumunu da degstirerek yazabiliyoruz
+yani isim yerine ~/Documents/newfile11.txt yazarsak, artik iceriginii ve ismini ve yolunu degistirdigmz sekilde verdgimz adres e kaydedilecektir
+Biz yine dosyayi kaydederken ^T-CTRL-T ile dizin-dosyalar uzerinde gezinebiliyoruz, klavye yukari asagi tuslari ile dizinler arasinda gezebiliyorz, ornegin ust dizine cikmak iicn de .. dosyasina gelince enter a basariz ya da alt klasorlere gitmek istersek de Documents  e gelince entter a basarsak da Documents icine girerriz!!!!  Yani dogrudan dizinler arasindan secerek de kayit yapabiliriz
+
+Veri kaydetmek icin CTRL-X  e basarak BIZE YES-Y , NO-N , CANCEL-C SECENKELRI GELIR
+AYRICA Dosya icine girdigimizde eger dosya iceriginde degisiklik  yaparsak, dosyanin ustte isminin bulundug yerde * iconu olusuyor, bu o dosya da dgisiklik  yapildigini ifade eder
+
+^R-Read File- CTRL-R ile BASKA BIR DOSYA ICERIGINI OKUYUP O AN UZERINDE ISLEM YAPTIGMZ DOSYAYA AKTARABILIYORUZ!!!
+Bir dosaymizi nano newfile.txt ile actiktan sonra
+CTRL-R yapinca bize hangi dosyanin iceriye aktarilacagi soruluyor, biz burda istersek direk olarak ~/test.txt diye yazarak dosya yolunu belitererk istersek de CTR-T Ile browser yaparak, dogrudan .. aracina gelince enter ile basarak bir uste, direk dizinlere tiklayinca da o dizinin icine girerek, yon tuslari ile istedgimz dosyayi secebiliriz ve biz en son mouse imlecimizi nerde birakti isek ordan itibaren sectigimz dosya icerigini getirecektir, veya ekleyecektir
+Icergini getirdgimiz dosya iceriginde ornegin bazi spesifik icerikler ariyoruz, cunku uzun bir icerik getirmis isek muhtemelen arayacigimz spesifik icerikler olacaktir!!!!!BUNUN ICIN ISE, BASKA BIR DOSYANIN ICERIGINI GTEIRDIKTEN SONRA.. 
+^W WHERE IS - CTRL-W secenegi ile spesifik kelimleri arama yapabiliriz, Search diye bir secenek geliyor alta oraya aramak istedigm kelimeyi  yazarak arama yapabilirim
+Ornegin aradigmz kelimeden birden fazla var ise bir sonraki kelimeye gecmek icin tekrardan CTRL-W YAPARZ
+SEARCH WORD:CTRL-W geoserver
+NEXT SEARCHED WORD: CTRL-W -geoserver
+PREVIOU SEARCHED WORD: CTRL-SHIFT-W
+GO OUT OF THE SEARCH MODE: CTRL-C
+
+^\ REPLACE - CTRL-\
+Replace Moduna gecer 
+Search (to replace) : geoserver  ENTER A BASARIZ
+Replace with: geoseverr ENTERA BASARIZ
+Replace this instance? 
+Y Yes-(Sadece o an bize gosterilen geoserver kelimesi degistirilsin )  A All - Tum o kelimenin oldugu  yerler degistirilsin
+N No Degistirilmesin   ^C Cancel Islemi iptal et
+TEK TEK DEGISTIRIP DEGISITRMEYECEGMZI SORACAKTIR Y YE BASTIGMZ KELIMEYI YENI YAZDIGMZ ILE DEGISTIRIP BIR SONRAKIN ATLAR, N-NO YA BASARASAK DA DEGISTIRMEZ VE BIR SONRAKINE ATLAR!
+
+^K-CUT- CTRL-K - IMLECIN UZERINDE BULUNDGUMZU SATIRI KESER
+^U PASTE-CTRL-U  - IMLECIN AKTIF OLDUGU SATIRA YAPISTIRIR
+
+M-U UNDO - ALT-U  - BIR GERIYE ALIR
+M-E REDO - ALT-E   - BIR ILERIYE ALIR
+
+EGER BIR  KOMUT CALISTIRIP BU KOMUTUN SONUCUNU DOSYAMIZA EKLEMEK ISTERSEK
+^T -EXECUTE -  CTRL-T
+CTRL-T YE BASARSAK BIZE CALISTIRMAK ISTEDGIMZ KOMUTU SORACAKTIR
+echo "this is my command" dersek this is my command i mouse imlecimiz en son dosya uzerinde nerde ise oryaa ekleyecektir
+ya da 
+ls yazarsak da bizim uzerinde islem yaptgmimz dosya konumunda ls yapinca gelecek olan dosya isimleirni getirecektir
+
+
+BURDA SUNU ANLAYALIM 
+DOSYA UZERINDE YAPACAGMIZ ISLEME GORE DOSYA MODU AYARLANIYOR VE KISA YOL ISLEM YAPMA TUSLARI DA AYNI TUS MODA GORE FARKLI ISLEVLERDE KULLANILIYOR
+EGER CTRL-R ILE READ, BASKA BIR DOSYA ICERIGNI DOSYAMIZA EKLEME MODUNA GELIRSEK ORDA CTRL-T BROWSER ISLEMI YAPARAK BIZIM DOSYA, KLASOR LER UZERINDEN GEZINIP ISTEDGIMZ DOSYAYI SECEBILMEMIZI SAGLARKEN,
+EGER BIZ DIREK DOSYAMIZ UZERINDE IKEN, BIR KOMUT CALISTIRIP SONUCU DOSYAYA EKLEYCEK ISEK BU SEFER DE CTRL-T KOMUTU EXECUTE ISLEMI YAPACAKTIR!!!
+
+
+
+?>
 
