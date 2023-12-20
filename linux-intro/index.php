@@ -6226,6 +6226,373 @@ adem@adem-ThinkPad-13-2nd-Gen:~$
 GZIP SIKISTIRMA SEVIYELERI
 DEFAULT OLARAK 6.SEVIYE SKSTIRMA YAPAR
 1 DEN 9 A KADAR SIKSTIRMA SEVIYELERI VARDIR
+1 EN AZ SIKISTIRMA VE HIZLICA BITIRIYOR AMA ACARKEN DAHA YAVAS
+9 EN COK SIKISTIRMA AMA DAHA ZAMAN ALIYOR, AMA ACARKEN DAHA HIZLI
+
+SIKISTIRMA SEVIYESINI NASIL BELIRTIRIZ
+gzip -9 filename
+gzip -1 filename
+
+seklinde  yapabiliriz
+
+TIME ARACI - ARACLARIN PERFORMANS INI OLCME!!
+TIME ARACI ILE DIGER ARACLARIN CALISMA SURELERINI OGRENME!
+time araci ile time aracinndan sonra kullandgiimz araclarin calisma sureleri hakkinda bilgi alabiliyoruz!!
+
+
+SIKISTIRILMIS DOSYALARA SPEISIFIK ISIM VEREBILMEK!!!!
+Dosyalari istedgimz isimde disarya cikartmak icin -c secenegi ile birlikte yonlendirme operatorlerini de kullanacagiz!! c secenegi SIKISTIRMA islemi sonrasinda elde edilen ciktilarin standart ciktiya bastirilmasini sagliyor. Bizde yonlendirme operatorlerini kullanarak, standart ciktilari istedgimz bir dosyaya yonlendirebiliriz
+
+linux-tutorial.tar dosyasini /temp altina tasiriz once 
+adem@adem:/tmp$ time gzip -c linux-tutorial.tar > standart.tar.gz
+
+real	0m0,022s
+user	0m0,022s - cpu yu
+sys	0m0,000s
+adem@adem:/tmp$ 
+
+En alt skstirma seviyesinde yaparsak skstirma islemini: 
+
+adem@adem:/tmp$ time gzip -1 -c linux-tutorial.tar > min1.tar.gz
+
+real	0m0,024s
+user	0m0,020s - cpu yu bu kadar mesgul ediyor cunku en dusuk skstirma seviyesi
+sys	0m0,004s
+adem@adem:/tmp$ 
+
+Ust seviye skstirma seviyesinde yaparsak skstirma seviyesini:
+
+adem@adem:/tmp$ time gzip -9 -c linux-tutorial.tar > max.tar.gz
+
+real	0m0,029s
+user	0m0,028s -  cpu yu bu kadar mesgul ediyor cunku en yuksek skstirma seviyesi
+sys	0m0,001s
+adem@adem:/tmp$ 
+
+sikistirilan dosya boyutu, turu, testin yapildigi pc nin ozellikleri de etkilidir
+
+SIKISTIRMA ORANLARI HAKKINDA BILGI ALMAK
+
+
+adem@adem:/tmp$ gzip -l *.gz
+         compressed        uncompressed  ratio uncompressed_name
+             502603              532480   5.6% max.tar 
+             501685              532480   5.8% min1.tar
+             501685              532480   5.8% min.tar
+             502673              532480   5.6% standart.tar
+            2008646             2129920   5.7% (totals)
+adem@adem:/tmp$ 
+
+time i kullanarak, skstriilmis dosyalarin ne kadar surede acildigina inlceyeybiliriz
+
+adem@adem:/tmp$ time gzip -d min.tar.gz
+
+real	0m0,010s
+user	0m0,004s
+sys	0m0,007s
+adem@adem:/tmp$ time gzip -d max.tar.gz
+
+real	0m0,008s
+user	0m0,007s
+sys	0m0,001s
+adem@adem:/tmp$ tim
+
+BZIP2 ARACI VE BZIP2 SIKISTIRMA ALGORITMASI
+
+gzip araci ile yaptigmiz herseyi ve ayni secenekleri kullanarak, bzip2 aracini kullanabiliyoruz
+uzantisi .bz2 dur
+
+DIREK ORJINAL DOSYAYI DEGISTIREREK BZIP2 SIKISTIRMASI YAPMAK
+adem@adem:~$ bzip2 linux-tutorial.tar
+ORJINAL DOSYAYI KORUYARAK BZIP2 SIKISTIRMASI YAPARSAK 
+
+adem@adem:~$ bzip2 -k linux-tutorial.tar
+
+Detayli bilgi alarak, skstirma islemini yapmak icin 
+
+adem@adem:~$ bzip2 -kv linux-tutorial.tar
+
+ls -sh VEYA du -h ILE skstirilmis dosya ile orinal dosya boyutuna bakacak olursak!
+
+4,0K linux-tutorial.tar.bz2
+12K mylinux-tutorial.tar
+
+
+SPESIFIK ISIMDEKI BIR DOSYAYA SIKISTIRMA YAPMAK ICIN
+
+adem@adem:~$ bzip2 -c linux-tutorial.tar > mylinux-tutorial.tar.bz2
+
+SONRA SIKISTIRILMIS OLAN DOSYAYI CIKARMAK ICIN
+adem@adem:~$ bzip2 -d mylinux-tutorial.tr.bz2
+
+.TAR VEYA .BZ2 VEYA .GZ UZANTILARI SIKISTIRMA VEYA ARSIVLEME YAPMAK ICIN KULLANILMAK ZORUNDA DEGIL AMA DAHA ONCEDE BAHSEDILDIGI UZERE, BU SEKILDE KULLANMAK, STANDART KULLANIMLARA AYAK  UYDURMAK, DOSYALARI BIRBIRINDEN KOLAYCA AYIRT ETMEK VE JOKER-WILCARD KARAKTERLERI KULLANARAK, DAHA PRATIK ISLEMLER YAPABILMEK ICIN COK KULLANISLIDIR!!!
+
+BZIP ALGORITMA SIKISTIRMA SEVIYELERI
+
+gzip default-level:6 - optimum level gzip icin 6
+bzip2 default-level:9 -  optimum level bzip2 icin 9 dur
+
+BZIP2 DAKI SIKISTIRMA SEVIYESI ISTENILDIGI GIBI AYARLAMA YAPILABILIR
+DAHA AZ, VE DAHA HIZLI OLSUN ISTERSEK 1 
+DAHA FAZLA SIKISTIRMA VE DAHA YAVAS OLUSUN ISTERSEK DE 9
+
+adem@adem:/tmp$ time bzip2 -1 -c linux-tutorial.tar > min1.tar.gz
+adem@adem:/tmp$ time bzip2 -9 -c linux-tutorial.tar > min1.tar.gz
+
+BZIP2 NIN GZIP DEN FARKLARINDAN BIRI!!!
+bzip2 araci kendi icinde DAHILI OLARAK RECURSIVE OZELLIGINI SUNMUYOR, BUNDAN DOLAYI FARKLI ARACLARI KULLANARAK, DOSYA ISIMLERINI RECURSIVE BIR SEKILDE BZIP2 ARACINA AKTARIP YINE HEPSININ SIKSTIRILMASIN SAGLYABILIRIZ!!!!
+
+BIZ SIKISTIRMA ISLEMLERI ICIN BIRCOK FARKLI ARAC VE ALGORITMA BULABLIRIZ!!!!
+
+SIKISTIRILMIS ARSIV DOSYALARI OLUSTURMAK!!
+
+tar aracini kullanarak, birden fazla dosyamiz bir dosya altinda arsivlendikten sonra, sikistiriladabiliyor
+Biz tar aracina eger arsivleme isleminden hemen sonra, bir de skstirma algoritmasi aracini kullanmasini soylersek, tek seferde skstirilmis olan arsiv dosyalari olsuturabiliyoruz
+
+tar aracinin hemen arkasindan gzip - bzip2 araclarini kullanarak , skstriilmis arsiv dosyalari olusturabilecegiz
+tar aracinda gzip ve bzip2 araclarini kullanabilecegimz cesitli algoritmalar bulunmaktadir
+
+tar --help ile bakacak olursak
+-I, --use-compress-program=PROG
+                             filter through PROG (must accept -d)
+  -j, --bzip2                filter the archive through bzip2
+  -J, --xz                   filter the archive through xz
+      --lzip                 filter the archive through lzip
+      --lzma                 filter the archive through xz
+      --lzop                 filter the archive through lzop
+      --no-auto-compress     do not use archive suffix to determine the
+                             compression program
+      --zstd                 filter the archive through zstd
+  -z, --gzip, --gunzip, --ungzip   filter the archive through gzip
+  -Z, --compress, --uncompress   filter the archive through compress
+
+  OZELLIKLERLE BU SATIRLARA DIKKAT EDELIM!!
+
+    -j, --bzip2                filter the archive through bzip2
+
+   -Z, --compress, --uncompress   filter the archive through compress
+
+   ya da asagidaki gibi kullanabiliriz!!!
+
+   HEM ARSIVLEME HEM DE SKSTMRA YAPACAK OLURSAK
+
+   -c ile spesifik bir skstirma dosya ismi veririz -f file demk -f denhemen sonra skstirilmis veya arsivlenmis dosyas ismi gelmeli idi hemen.
+   z- tar, arsivleme isleminden sonra, skstirma da yapmasi icin kullaniliyor
+   adem@adem:~$ tar -czf linux-zip.tar.gz linux-zip
+
+adem@adem:~$ du sh linux*
+
+du -sh linux* yaparsak : 
+84	linux-zip 
+4	linux-zip.tar.gz
+
+linux-zip.tar.gz dosyasi hakkinda dah genis bilgi almak icn file aracini kullanirsak eger
+DAHA GENIS BILGI ICIN FILE ARACI
+adem@adem:~$ file linux-zip.tar.gz
+linux-zip.tar.gz: gzip compressed data, from Unix, original size modulo 2^32 30720
+adem@adem:~$ 
+
+
+TAR ARACI ILE BIRLIKTE BZIP2 ARACININI KULLANILMASI.. 
+
+ -j, --bzip2  filter the archive through bzip2
+-c create 
+-j bzip2 ile skstirilmasini saglar
+-f yeni olsuturulan arsiv-skstirilmis dosya nin olustuturlmasini saglar
+
+adem@adem:~$ tar -cjf linux-zip.tar.bz2 linux-zip
+
+ONEMLI OLAN TAR ARACI ILE BIZ SIKISTIRILMIS ARSIV DOSYALARI OLUSTURABILIYORUZ BUNU BILMEK COK KRITIK ONEME SAHIPTIR..YOKSA HANGI KOMUTLAR IN KULLANILACAGINIZ ZATEN TAR --HEP VEYA MAN TAR DAN DA BULABILIRIZ!
+
+SIKSTIRILMIS OLAN ARSIV DOSYALARININ ACILMASI
+
+-x(extract) f -file optionslarini kullanabiliriz
+
+adem@adem:~$ tar -xf linux-zip.tar.gz
+
+adem@adem:~$ tar -xf linux-zip.tar.bz2
+
+
+COK SIK KULLANDIGMZ KOMUTLAR BUNLAR!!
+ls -R linux-zip - DIYEREK linux-zip klasorunun recursive bir sekilde listelenmesini saglariz..yani alt klasorin her birisi icinde en son dosyalar acilana kadar listelenecek sekilde
+ls -sh  burda da her bir dosya ve klasorun ne kadar alan kapladigini gosterir
+
+ZCAT-ZGREP ARACI ILE SIKISTIRILMIS DOSYALAR UZERINDE ISLEM YAPABILMEK!
+SIKISTIRILMIS OLAN dosyalar  uzerinde dogrudan, cat,grep,less, more gibi araclari dogrudan kullanamiyoruz.
+Bunlarin yerine gzip arsiv-skstirma dosyalari icin kullanabilecegimz zcat,zgrep,zless,zmore araclarini kullaniyoruz.. Her sktirma aracina karsilik olarak bu sekilde zcat,zgrep,zless,zmore gibi araclar bulunmaktadir
+
+
+
+adem@adem:~$ echo "Deneme-test-hello-world" > test-file.txt
+adem@adem:~$ cat test-file.txt
+Deneme-test-hello-world
+adem@adem:~$ grep "test" test-file.txt
+Deneme-test-hello-world
+adem@adem:~$ gzip test-file.txt
+
+Normal cat ile test-file.txt.gz dosyasini okuyamiyoruz ama zcat araci ile okuyabiliyoruz
+adem@adem:~$ cat test-file.txt.gz
+��etest-file.txtsI�K�M�-I-.��H����-�/�I���҄adem@adem:~$ zcat test-file.txt.gz
+Deneme-test-hello-world
+adem@adem:~$ 
+
+SONUUCN RENKLI GELMESI ICIN --color option i zgrep aracinda kullanilmalidir
+adem@adem:~$ zgrep --color "hello" test-file.txt.gz
+Deneme-test-hello-world
+
+BZIP2 ARACI ICIN ISE : bzcat,bzgrep araclarini kullanabiliyoruz
+Her skstirma araci ile skstirilmis dosya icin bu sekilde o skstirma aracina has kullanilabilecek araclar mevcuttur..
+
+bz yazdiktan sonra TAB-TAB(2kez Tab tusuna basarsak) hangi araclari bu skstirma algoritmasi ile kullanabilecegimzi goruruz
+adem@adem:~$ bz
+bzcat         bzegrep       bzgrep        bzless        
+bzcmp         bzexe         bzip2         bzmore        
+bzdiff        bzfgrep       bzip2recover  
+adem@adem:~$ bz
+
+
+ZIP-RAR 
+Linux de bu algoritmalar ile cok karsilasmayiz
+Bu araclar da lisans ve dosya ozellkler i korunmuyor
+Rar-zip kullanmak cok mantiikli degil linux de
+Cunku rar-zip dosya ozelliklerini kaybediyor biz linux de dosya ozelliklerinin korunmasini istiyoruz
+
+ZIP 
+Farkli isletim sistemlerinde ortak olarak kullanabiliyoruz
+
+-r olmazsa alt dosya ve klasorleri skstirma islemine dahil etmeyecektir!!!
+adem@adem:~$ zip -r linux1.zip linux-zip
+
+SIKISTIRILAN DOSYALARI UNZIP ARACI ILE DISARI CIKARTMA!
+
+adem@adem:~$ unzip linux1.zip
+
+BILGI ALMA KOMUTLARI 
+BILGI ALMA KOMUTLARI KENDI LOCAL UBUNTU YUKLU PC MIZDE ANLAMSIZ GOZUKEBILIR CUNKU SAAT I ZATEN PC DE EN USTTE GOSTERIYOR VS, GIBI ANCAK SUNU IYI ANLAYALIM KI UBNTU-LINUX COGUNLUKLA SERVER YONETIMLERINDE KULLANILAN ISLETIM SISTEMIDIR VE NORMAL LOCAL PC UZERINDEKI BIR TERMINAL DE UZAK SERVER A BAGLANTI OLUSTURDUKTAN SONRA BIZIM LOCAL PC MIZDEKI TERMINALIMIZ ARTIK SERVER IMIZ ILE ILGILI TUM BILGIYI BIZE VERECEKTIR VE BU BILGILEERI TAMAMEN, LINUX-COMMAND LARI  UZERINDEN BULABILIRZ, BASKA SECENEGIMIZ YOK, SERVER YONETIMLERINDE!!!!! BU COOOK ONEMLIDIR!!!!
+
+DATA-TAKVIM-SAAT BILGILERI
+adem@adem:~$ date
+on. 20. des. 14:44:57 +0100 2023
+adem@adem:~$ 
+
+adem@adem:~$ date +%r
+02:53:12 
+adem@adem:~$ date +%R
+14:53
+adem@adem:~$ 
+
+DATE ARACI ILE TARIH DEGISTIRILEBILIYOR AMA DATE DEGISTIRMEK ICIN SISTEM SERVISLERINI KULLANMAK COK DAHA MANTIKLI BIR YAKLASIMDIR
+DATE KOMUTU YALNIZCA MEVCUT SISTEM SAATINI DEGISTIRIYOR, RTS-TIME-DONAMISAL GERCEK ZAMANLI SAATI DEGISTIRMIYOR, BUNU DA DEGISITRMEK ICIN BIR AYRI ARAC DAHA GEREKIYOR, 2 ARACLA  UGRASMAMK ICIN, ZAMAN DEGISITRMEK ICIN ILGILI SERVISI KULLANMAK DAHA MANTIKLDIR
+
+CAL-ARACI ILE TAKVIM BILGISINE ULASMAK!
+
+Sistemlerde bazen varsayilan olarak gelmiyor ama biz sonradan bu araci yukleyerek kullanabliriz
+
+cal yazinca eger boyle bir komut yok diye uyari alirsak yeniden yuklyerek kullanabilirz
+sudo apt install ncal 
+diyerek kurabiliriz
+
+adem@adem:~$ cal
+   Desember 2023      
+sø ma ti on to fr lø  
+                1  2  
+ 3  4  5  6  7  8  9  
+10 11 12 13 14 15 16  
+17 18 19 20 21 22 23  
+24 25 26 27 28 29 30  
+31             
+
+ncal ile de bu sekilde gorebiliriz
+adem@adem:~$ ncal
+    Desember 2023     
+ma     4 11 18 25   
+ti     5 12 19 26   
+on     6 13 20 27   
+to     7 14 21 28   
+fr  1  8 15 22 29   
+lø  2  9 16 23 30   
+sø  3 10 17 24 31   
+adem@adem:~$ 
+
+Gecmisteki ay ve yili vererek o ay ve yila ait takvim i de kullanabiliriz
+
+adem@adem:~$ ncal 1 2002
+    Januar 2002       
+ma     7 14 21 28   
+ti  1  8 15 22 29   
+on  2  9 16 23 30   
+to  3 10 17 24 31   
+fr  4 11 18 25      
+lø  5 12 19 26      
+sø  6 13 20 27      
+adem@adem:~$ 
+
+adem@adem:~$ apropos calendar
+cal (1)              - displays a calendar and the date of Easter
+ncal (1)             - displays a calendar and the date of Easter
+adem@adem:~$ 
+
+
+WHICH KOMUTU KOMUTLARIN(ARACLARIN) HANGI KONUMDA BULUNDUGUNU BULABILIRIZ
+
+Biz ls komutu yazdigmiz da , biz Bach-shell kabugunu kullandigmz icin Bash kabugu yorumluyor yazdigiz komutlari 
+BAsh kabugu once ls komutu kendi icinde dahili olarak-inbuild olarak, gomulu olarak icinde bu isimde bir dosya var mi diye kontrol eder, eger  yok ise PATH yolu uzerinde bu isimli bir dosya var mi onu kontrol eder ve eger bulabilirse bu dosyayi calistiriyor
+Iste bash kabugunun bu bulup calistirmasina benzer birsekilde calisiyor, which komutu
+
+ls aracinin dosya konumunu asgidaki gibi gorebiliriz!!!
+adem@adem:~$ which ls
+/usr/bin/ls
+adem@adem:~$ 
+
+Path uzerindeki tum araclarin dosya dizin adreslerini, which komtu ile kolaylikla ogrenebiliriz
+Ozellikle bir aracin calistirilabilmesi icin tam dizin adresinin girilmesi gerektigi durumlarda, bizi dizin bilgisi gerekebiliyor
+
+Bash kabuk programlama da sklikla kullaniliyor
+
+TYPE | COMMAND | BUILTIN
+
+Bash kabuguna vermis oldugmz komutlarin kabuk tarafindan nasil algilandigini gormemizi saglar
+
+adem@adem:~$ type ls
+ls is aliased to `ls --color=auto'
+adem@adem:~$ 
+Bash kabugu ls olarak takma isim haline gelmis ama arkada ls --color=auto komutunu calistirdigini belirtiyor
+
+Bizim kullandigmz ls ismi ile ayni isimde bir takma isim bulundugu icin, kabuk girilen ls komutunu takma isim olarak el aliyor, takma isme karsilik gelen `ls --color=auto' komutu calistiiryor
+Niye takma isim cunku kabugun yerlesik bir komutu degil bu
+
+Normalde bu ls in dosya konumu bu ama biz type ls yazinca anliyoruz ki, ls komutu alias a karsilk gelen komutu calisitiryor...Direk dosya komutunu calistirmadigi icin
+adem@adem:~$ which ls
+/usr/bin/ls
+adem@adem:~$ 
+Yani Bash-shell kabugum, ls komutunu bu sekilde algiliyor mus:ls is aliased to `ls --color=auto' 
+
+
+adem@adem:~$ type cd
+cd is a shell builtin
+adem@adem:~$ 
+
+console a bash komutu girildiginde mevcut dosya bu dizindeki dosyayi calisitiryor mus!!!
+adem@adem:~$ type bash
+bash is /usr/bin/bash
+adem@adem:~$ 
+Bash kabugu bash komutunu /usr/bin/bash bu dosyadan calistiriyor direk, ve bu dosya ismi olarak goruyormus 
+
+type KOMUTU ILE GIRILEN ARAC(KOMUT) ISIMLERININ KABUK TARAFINDAN NASIL ALGILANDIGINI OGRENEBILIYORUZ!!
+PEKI NEDEN BU BILGIYE IHTIYACIMIZ VAR 
+
+YERLESIK VE HARICI KOMUTLAR LA AYNI ISIMDE TAKMA ISIMLER TANIMLI OLABILIYOR AYNI LS KOMUTUNDA OLDUGU GIBI
+TAKMA ISIMLER YERLESIK VE HARICI KOMUTLARDAN DAHA ONCELIKLI OOLARAK DEGERLENDIRILDIKLERI ICIN , GIRMIS OLDUGUMZ KOMUTLAR BIZIM BEKLEDGIMZDEN DAHA FARKLI SONUCLAR VEREBIYOR CUNKU TAKMA ISIMLER
+TAKMA ISIM > DAHILI-HARIICI KOMUTLAR
+
+ORNEK VERECEK OLURSAK 
+adem@adem:~$ alias ls="echo I am a nickname"
+adem@adem:~$ ls
+I am a nickname
+adem@adem:~$ 
+
+
+
 
 */
 
