@@ -6075,9 +6075,157 @@ mynewfolder/newfilee.txt
 mynewfolder/newfile.txt
 mynewfolder/newfile1.txt
 
+MEVCUT ARSIV DEN DOSYA SILMEK!!
+
+tar --delete 
+
+newfile11.txt dosyasini silmek icin!!!!!!!!!!!!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ tar -f myfolder.tar --delete newfile11.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ tar --delete -f myfolder.tar  newfile11.txt
+
+BU IKI SEKILDE DE KULLANILABILIR!!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ tar -tf myfolder.tar
+home/adem/myfolder/
+home/adem/myfolder/text1.txt
+home/adem/myfolder/text2.txt
+home/adem/myfolder/text.txt
+home/adem/mynewfolder/
+home/adem/mynewfolder/newfilee.txt
+home/adem/mynewfolder/newfile.txt
+home/adem/mynewfolder/newfile1.txt
+mynewfolder/
+mynewfolder/newfilee.txt
+mynewfolder/newfile.txt
+mynewfolder/newfile1.txt
+
+Dosya silecegimz zaman hangi dosyayi silecegimzden emin degil isek,
+silinmesi gereken icerigi belirtecegimz arguman-parametre kisminda isek 2 kez tab tusuna basip, arsiv dosyasi icerigi hakkinda bilgi alabiliriz 
+
+tar --delete -f myfolder.tar 
+Buraya kadar yazdiktan sonra, TAB TAB yaparsak myfolder.tar icindeki tum dosyalar listelenir
+adem@adem-ThinkPad-13-2nd-Gen:~$ tar --delete -f myfolder.tar mynewfolder/newfile.txt 
+
+Ayrica biz ornegin icerige bakarak silmek istedigmiz dosya ismini girerken TAB tusu otomatik tamamlama ozellig icin calisarak bizim isimzi oldukca kolaylastiriyor!!!
+
+Silmek istedgimz dosya veya klasoru yolunu dogru bir sekilde girerek kolayca silebiliyoruz
+
+SKSTIRMA ISLEMLERI
+
+Dosya tasima islemlerinde, ve surekli dosya transferi yapacagmiz icin, bu islemlerin bilinmesi cook onemlidir!!!
+
+GZIP SIKISTIRMA ISLEMLERI VE GZIP ARACI ILE SIKISTIRMA ISLEMLERI
+
+Nerdeyse her linux dagitimlarinda default olarak kullanilan bir aractir
+Normal dosyalari skstirabiliyor ve skstirilmis dosyalari da disari cikarabiliyoruz
+
+Once arsiv dosyamizin boyutunu ogrenmek icin ls -sh komutunu kullarniz
+ARSIV DOSYA BOYUTU OGR ICIN  LS -SH KOMUTU
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -sh myfolder.tar
+5,7M myfolder.tar
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ du -h myfolder.tar
+5,7M	myfolder.tar
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+DOSYAMIZI  GZIP ARACI ILE SIKISTIRACAK OLURSAK EGER!
+Gzip algoritmasi ile dosyalarimzi skstirilmasini saglar
+Mevcut icinde dosyalar bulunan klasorumuzun isminin sonuna .gz uzantisi getirerek skstirilmis halini bize verir
+Hem .tar(arsiv dosyalarini) hem de normal veya farkli turdeki dosyalari gzip ile skstirabiliriz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip myfolder.tar
+Direk bu sekilde yaparsak orjijnal dosyayi korumdan skstrmis oluyourz yani orjinal dosyanin kendisi uzerinde skstirmis oluruz
+Ama istersek orjinal dosyayi da koruyarak skstirma islemi yapabiliriz
+-k(keep) option i ile kullanarak orjinal dosyayi koruruz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -k myfolder.tar
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -sh myfolder.tar.gz
+5,6M myfolder.tar.gz
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -sh myfolder.tar
+5,7M myfolder.tar
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+COKLU SEKILDE SIKSTIRMA DA YAPAIBLIRIZ
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -k myfolder.tar myfolder1 myfolder2 myfolder3
 
 
+GZIP ILE SIKISTIRILMIS DOSYALARIN ACILMASI | DECOMPRESS
+-d(decompress) option i kullanilmasi
 
+Ayni isimde myfolder klasorunun orjinali var oldugu icin uzerine yazip yazmama yi bize soruyor
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -d myfolder.tar.gz
+gzip: myfolder.tar already exists; do you wish to overwrite (y or n)? y
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ du -h myfolder.tar
+5,7M	myfolder.tar
+
+ISLEMLERIN DETAYLARINI TAKIP ETMEK ICIN VERBOSE -V OPTION I KULLANABILIRIZ
+
+SIKISTIRMA ISLEMLER ASLINDA HER BIR DOSYA DA AYRI AYRI UYGULANDIGINI BILMEMIZ GEREKIYOR
+GZIP ARACINA BIRDEN FAZLA DOSYA VERILDGINDE GZIP ARACI HER BIR DOSYAYI AYRI AYRI SIKISTIRIYOR
+
+adem@adem-ThinkPad-13-2nd-Gen:~/myfolder$ ls
+text1.txt  text2.txt  text.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/myfolder$ cd ..
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip myfolder/*.txt
+adem@adem-ThinkPad-13-2nd-Gen:~/myfolder$ ls
+text1.txt.gz  text2.txt.gz  text.txt.gz
+
+Gordgumuz gibi hepsi bir araya getirilip de degil de ayri ayri skstiriliyor. Arsiv gibi bir araya toplanip da skstirilmiyor.
+Iste bundan da dolayi biz , dogrudan bir klasoru skstirmak icin komut giremiyoruz cunku klasorler kendi icerisinde, birden fazla dosya ve alt klasorleri barindirdigi icin tek bir dosya nin skstirilmasi mumkun olmuyor.
+Klasorleri skstirmak icin oncelikle klsorleri arsiv-leyerek, arsiv dosyasi formatina getirip ardinda da bircok klasor ve dosyayi tek bir arsiv dosyasi olarak arsivledikten sonra arsivlenen dosya tek bir dosya haline gelmis oluyor ve iste arsivlenmis formatta iken biz, SIKISTIRABILIYORUZ!!!BESPTPRACTISE...COOOOK ONEMLI
+
+DOGRUDAN DOSYALARI GZIP ILE SIKISTIRAMAYIZ....ASAGIDAKI ORNEKTE GIBI
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip myfolder
+gzip: myfolder is a directory -- ignored
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+AMA AYNI KLASOR UN ARSVILENMIS HALINI SIKISTIRABILIRIZ GZIP ILE
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip myfolder.tar
+ myfolder.tar.gz SEKLINDE GZ UZANTILI SIKISTIRILMS DOSYA OLUSACAKTIR
+
+ AMA EGER AMACIMIZ KLASORU SIKISTIRMAK YERINE KLASOR ALTINDAKI TUM DOSYALARI RECURSIVE OLARAK YANI IC ICE DOSYALARI AYRI AYRI SIKISTIRMAK ISE O ZAMAN BUNU RECURSIVE -r option i ile YAPABILIRIZ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -r mynewfolder/
+
+RECURSIVE BIR SEKILDE TUM ALT DOSYA VE KLASORLERI GORMEK ISTERSEK!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -R mynewfolder
+mynewfolder:
+newfile1.txt.gz  newfilee.txt.gz  newfile.txt.gz  newfolder1
+
+mynewfolder/newfolder1:
+newfolder11.txt.gz
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+SIKISTIRDIGMZ KLASOR ALTINDAKI TUM DOSYALARI SIKISTIRMA ISLEMINDEN CIIKARMAK ISTERSEK DE 
+-vdr(verbose-ayrintili-izleyerek/decompress-recursive) option i kullanark yapabilirz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -vdr mynewfolder/
+mynewfolder/newfilee.txt.gz:	 30.8% -- replaced with mynewfolder/newfilee.txt
+mynewfolder/newfile.txt.gz:	 -5.6% -- replaced with mynewfolder/newfile.txt
+mynewfolder/newfolder1/newfolder11.txt.gz:	-16.7% -- replaced with mynewfolder/newfolder1/newfolder11.txt
+mynewfolder/newfile1.txt.gz:	  0.0% -- replaced with mynewfolder/newfile1.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -R mynewfolder
+mynewfolder:
+newfile1.txt  newfilee.txt  newfile.txt  newfolder1
+
+mynewfolder/newfolder1:
+newfolder11.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+GZIP SIKISTIRMA SEVIYELERI
+DEFAULT OLARAK 6.SEVIYE SKSTIRMA YAPAR
+1 DEN 9 A KADAR SIKSTIRMA SEVIYELERI VARDIR
 
 */
 
