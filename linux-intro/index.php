@@ -7147,6 +7147,58 @@ DPKG ARACI ILE KURULU OLAN PAKETLERIN YENIDEN YAPILANDIRILMASI
 ILGII PAKETLERIN KONFIGURE EDILMESI GEREKIYOR BAZEN 
 KONFIGURASYONLAR ARACLARIN DOGRU BIR SEKILDE CALISABILMESI ICIN COK ONEMLIDIR
 
+BU KONFIGURASYONLAR NORMALDE ARACI BIZ EN BASTAN KURARKEN GERCEKLESIIYOR, AMA BAZEN KONFIGURASYON HATALII KURULABILIYOR, VEYA BAZEN BIZ BIR SEKILDE KONFIGURAYSONNLARI BOZDU ISEK O ZAMAN TEKRAR ARACI KURMAYA GEREK KALMADAN YENIDEN KONFIGURASYON YAPABILIYORUZ
+
+sudo dpkg-reconfigure firefox-esr
+
+COK FAZLA KULLANMAYACAGIMMZ BIR KOMUT
+BU KOMUT BIZE KONFIGURASYON IMKANI VEREN PAKETLER ICIN GECERLIDIR, EGER BIZ BU KOMUTU KULLANDIGMZ DA HER HANGIB IR CIKTI ALMIYORSAK DEMEKKI BIZ O ARACI KONFIGURE EDEMIYORUZ
+
+sudo dpkg-reconfigure locales
+locales araci icin ama dil secenegi tekrar konfigure edilmesine bize imkan saglaniyor
+
+
+APT APT-GET- APT-CACHE HAKKINDA
+
+apt(advance package tool)
+
+apt araci repolarda paket arama, ve otomatik bagimlilik cozumleri sayesinde paket yonetimini bizler icin oldukca kolay hale getiren bir aracimizdir 
+
+APT ARACI SAYESINDE, INDIRMAK ISTEDGIMZ PAKET REPO OLARAK, ISIMLENDIRILMIS OLAN PAKETTEN ALINIYOR, BU SAYEDE PAKETLERIN BULUNUP YUKLENMESI HEM GUVENLI HEM DE TUTARLI HALE GELIYOR
+REPO DEDGIMZ I SADECE UZAK SUNUCUDA BULUNAN INTERNETE ACIK OLAN REPO OLARAK DEGIL, ORNEGIN INTERNETE BAGLI OLMAYAN LOKAL AGDA DISKIMIZI REPO OLARAK TANIMLAYIP ICERISINE ISTEDGIMZ PAKETLERI YERLESTIREBILIRIZ, BU SAYEDE LOKAL AGDAKI TUM CIHAZLARIIN BU DISKTE BULUNAN PAKETLERE APT ARACI UZERINDEN ULASMASI, APT ARACINI KULLANARAK BU PAKETLERI YUKLEMESI DE MUMKUN OLMUS OLUR!!!!
+
+BU REPO YU ANLAMAK COK ONEMLI-INTERNET BAGLANTISI OLMAYAN YEREL AGDAKI BIR DISK TE REPO OLABILIYOR VE APT O YEREL AGDAKI DISKTEN PAKETLERI YUKLEYEBILIYORMUS!!!
+
+YANI OZETLE APT ARACI ILE YUKLEME YAPACAGIMZ ZAMAN, BU REPO ADRESLERINE IHTIYACIMIZ VAR. BU REPOLAR LOKAL VEYA INTERNET UZERINDE BIR ADRESTE TUTULUYOR OLABILIR
+APT ARACINI KULLANACAKSAK REPOYA IHTIYACIMZ VAR
+
+APT ARACI SADECE APT TEN IBARET DEGIL 
+
+apt-get:Bu araci kullanarak paketleri indirme, kurma, guncelleme ve silme gibi islemleri gerceklestirebiliyoruz
+apt-cache: Bu araci kullanarak da repolarda paket arastirmasi yapabiliyoruz, arama motoru gibi kullanabiliyoruz
+apt-file:Ilgili paketin icindeki dosylari aramak icin kullaniliyor.
+
+AYRICA apt-get ve apt-cache komutlarini tek bir aracta birlesiren apt komutunu da kullanabiliyoruz 
+
+APT-GET VE APT-CACHE ILE KOMUT GIRMEK YERINE YALNIZCA, APT KOMUTU ILE DE AYNI ISLEVLERI YERINE GETIREBILIIYORUZ
+
+-- APT(ADVANCE PACKAGE TOOL) ARACI --
+Apt araci repolar uzerinden paketi cekip ilgili araci yukluyordu
+Yani apt araci linux-ubuntu-debian repolari sayesinde calisiyor
+apt aracinin dogru sekilde calismasi icin, ki bu cok onemlidir, paketleri cektigi bu repolarin en guncel hallerinin haberdar edilmesi gerekiyor. Yoksa hangi paketlerin en son hangi surumlerinin bu repoya eklenmis oldugu ve bu paketlere tam olarak hangi dizinden ulasilabilecegi bilinemez, bilinemezse de ilgli paketler kurulamaz.
+Yani bu repolar surekli guncellendigi ve iceriisnde surekli deigisiklikler yapildigi icin, bir paket kurulmadan once  paketlerin isimleri ve dizin adresleri hakkinda en guncel repo bilgisinin alinmasi gerekiyor, bu isleme de index guncelleme deniyor.
+ Yani guncelleme yapiyorum dedgimzde repolardaki en guncel bilgilerin, apt araci tarafindan ogrenilmesini saglamis oluyoruz. Bir nevi paket listesinin en guncel halini almis oluyuoruz aslinda..
+ISTE BU IS ICN REPOLARDAKI EN GUNCEL BILGILERI APT ARACININ BILMESI ICIN 
+
+SUDO APT-GET UPDATE VEYA
+SUDO APT UPDATE 
+
+KOMUTUNU CALISTIRMAMIZ GEREKIYOR SIKLIKLA
+
+
+
+
+
 
 
 
