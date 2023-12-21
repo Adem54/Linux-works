@@ -6421,8 +6421,6 @@ ZCAT-ZGREP ARACI ILE SIKISTIRILMIS DOSYALAR UZERINDE ISLEM YAPABILMEK!
 SIKISTIRILMIS OLAN dosyalar  uzerinde dogrudan, cat,grep,less, more gibi araclari dogrudan kullanamiyoruz.
 Bunlarin yerine gzip arsiv-skstirma dosyalari icin kullanabilecegimz zcat,zgrep,zless,zmore araclarini kullaniyoruz.. Her sktirma aracina karsilik olarak bu sekilde zcat,zgrep,zless,zmore gibi araclar bulunmaktadir
 
-
-
 adem@adem:~$ echo "Deneme-test-hello-world" > test-file.txt
 adem@adem:~$ cat test-file.txt
 Deneme-test-hello-world
@@ -6590,6 +6588,564 @@ adem@adem:~$ alias ls="echo I am a nickname"
 adem@adem:~$ ls
 I am a nickname
 adem@adem:~$ 
+
+Bizim kullandgiimz komutlarin bash-shell tarafindan nasil algilandigini type komutu ile ogreniyoruz tamama ama bu bilgiye neden ihtiyacimz var?
+Cunku ls komutunda oldugu
+Kabuga girilmis olan komutlarda bash kabugu ilk once takma isim var mi onu kontrol eder var ise takma ismi calistirir once!!!
+Iste type komutu ile bash kabugunun girmis oldugmuz komutu nasil algiladigini gorebilioruz
+
+EGER GIRDGIMIZ KOMUTUN TAKMA ISMININ ONCELIK OLARAK CALISTIRIMA OZELLIGINI KAYBETMESINI ISTERSEK!!!
+command ls
+COMMAND KOMUTU ILE YAZINCA, KABUK ALIAS ISMI GORMEZDEN GELECEK VE ONCE YERLESIK KOMUTLARA BAKACAK, DAHA SONRA DA LS ISMININ GECTIGI PATH YOLLARINA BAKARAK, /usr/bin/ls dosyamizi buludugu zaman bu dosyamizi calistirabiliyor
+
+adem@adem:~$ alias cd="echo I am a cd command"
+adem@adem:~$ cd
+I am a cd command
+adem@adem:~$ type cd
+cd is aliased to `echo I am a cd command'
+
+Her iki sekilde de alias-takma ismi gormezden gelir
+adem@adem:/$ builtin cd ~
+adem@adem:~$ command cd /
+
+BUILTIN KOMUTU YALNIZCA YERLESIK KOMUTLARI NITELERKEN, COMMAND TUM KOMUT TURLERINDE YERLESIK KOMUTLARIN CALISTIRILMASINI SAGLIYOR
+
+adem@adem:~$ builtin ls
+bash: builtin: ls: not a shell builtin
+adem@adem:~$ 
+
+ls builtin-yerlesik ollmadigi icin ls komutunda builtin komutu calismaz
+
+TYPE ARACI YALNIZCA CALISTIRILACAK OLAN ARACLARI  TEMSIL EDEN KOMUTLARIN BASH TARAFINDAN NASIL ELE ALINDIGINI GORMEMIZI SAGLIYOR
+
+ALIAS I DENEMEK ICIN ALIAS UYGULADGIMZ KOMUTLARI DA ESKI HALINE ALMAK ICIN UNALIAS KOMUTUNU KULLANIRIZ!!!!
+
+adem@adem:~$ alias cd="echo I am a cd command"
+adem@adem:~$ cd
+I am a cd command
+adem@adem:~$ type cd
+cd is aliased to `echo I am a cd command'
+
+unalias cd
+
+FILE ARACI 
+Dosya turu hakkinda , dosya uzantisi bulunmayan ve turunu bilmedigimz dosyalar icin kullaniriz..
+
+adem@adem:~$ file ~/.bashrc
+/home/adem/.bashrc: ASCII text
+adem@adem:~$ 
+
+adem@adem:~$ file mylinux-tutorial.tar
+mylinux-tutorial.tar: POSIX tar archive (GNU)
+adem@adem:~$
+
+adem@adem:~$ file /usr/bin/ls
+/usr/bin/ls: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=897f49cafa98c11d63e619e7e40352f855249c13, for GNU/Linux 3.2.0, stripped
+adem@adem:~$ 
+
+ELF-EXECUTABLE AND LINKABLE KISALTMASINDAN GELIYOR, YURUTULEBILIR, RUN EDILEBILIR DOSYALARI TEMSIL EDIYOR
+
+STAT ARACI
+adem@adem:~$ stat mylinux-tutorial.tar
+  File: mylinux-tutorial.tar
+  Size: 10240     	Blocks: 24         IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690399     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-20 13:01:03.888056763 +0100-En son erisim(dosya okunmasi veya calistirilmasi gibi) tarihi
+Modify: 2023-12-20 12:59:41.000000000 +0100-En son duzenllenme(en son ekleme-cikarma, dosya iceriginin degistirildigi) tarihi 
+Change: 2023-12-20 13:00:42.039792543 +0100-(meta verilerinin en son ne zaman degistirildigi-ismi,bulundugu konum, dosya icerigi)
+ Birth: 2023-12-20 13:00:42.039792543 +0100(dosyanin ilk olusturuldugu tarih)
+adem@adem:~$ 
+
+Dosya ve klasorlerin bize sundugu, oz nitelikleri, meta verileri, yani o dosyaya ait size,yetki,isim, bulundugu konum bircok meta veriyi bize sunuyor
+
+LSB_RELEASE(LINUX STANDART BASE) ARACI
+
+Mevcut linux dagitimi hakkinda bilgi verir
+Linux Standart Base in amaci farkli dagitimlarda ortak standartlari olusturmak ve kullanilmasini saglamak. Mevcut dagitmimizin bu standartlardaki isim ve surumunun gorebiliriz
+
+adem@adem:~$ lsb_release -a
+No LSB modules are available.(Bu hata lsb_release aracinin sistemimizde kurulu ama LSB cekirden modulunun kurulu olmadini gosteriyor ama zaten kurmak sart degil)
+Distributor ID:	Ubuntu
+Description:	Ubuntu 22.04.3 LTS
+Release:	22.04
+Codename:	jammy
+adem@adem:~$ 
+
+
+lsb_release --help  ile de ekstra ihtiyacimz olan bilgilere bakabilirz
+
+UNAME
+
+Mevcut isletim sistemi ve donanim ile ilgili bilgilerer erismemizi saglar
+
+adem@adem:~$ uname -a
+Linux adem 6.2.0-37-generic #38~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov  2 18:01:13 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+adem@adem:~$ 
+
+Linux:cekirdek adi
+hostname:adem
+sistemin cekirdek surumu:6.2.0-37-generic
+cekirdek versiyonu:#38~22.04.1-Ubuntu
+Makinenin donanim mimarisi:2 x86_64 x86_64 x86_64
+Isletim sistemi adi:GNU/Linux
+
+Bu bilgileri ayri ayri da bastiabilirz
+
+uname --help
+uname -s -yalnizca kernel ismini gorebilriz
+
+UPTIME ARACI 
+Sistemin ne kadar suredir calistigi konuusunda bilgi almamizi saglar
+
+adem@adem:~$ uptime
+ 09:53:29 up 12 days, 23:05,  1 user,  load average: 1,43, 1,26, 0,99
+adem@adem:~$ 
+
+09:53:29 : Mevcut sistemin saati
+up 12 days,: Sistemin ne kadar suredir acik oldugu
+1 user,:sistemde acik olan kullanici oturum sayisi
+load average: 1,43, 1,26, 0,99: Sistemin 1,5 ve 15 dakikalik periyotlardaki sistemin yuk ortalamalarini veriyor
+
+echo {1..99999}   yaparak sistemi biraz zorlayacak, yuk bindirecek  olursak
+
+adem@adem:~$ uptime
+ 09:58:35 up 12 days, 23:10,  1 user,  load average: 1,32, 1,15, 1,02
+adem@adem:~$ 
+
+1,43, 1,26, 0,99
+1,32, 1,15, 1,02
+
+Bu sekilde degismims oldu!!!!!dikkat edelim
+Yakin zamandaki yuk orani uzak zamana gore artik gosteriyor
+
+Linux de yuk ortamalari sadece islemci-cpu lara degil, disk kaynaklarina olan talebi de yansitiyor!!!
+Disk uzerindeki okuma yazma da sistem uzerindeki yuk ortlamasini etkilendiriyor
+
+Sistem  yuku aldigmz sonuclarda cok dusuk veya 0 ollarak geliyor ise o zaman bu sistemin kisa periotta beklemede oldugunu gosteriyor.
+
+Sadece sistemin ne kadar suredir acik oldugu bilgisi icin: 
+uptime -p komutu nu kulanabiliriz
+
+adem@adem:~$ uptime -p
+up 1 week, 5 days, 23 hours, 19 minutes
+adem@adem:~$ 
+
+SISTEMINI ILK ACILIS TARIHINI, NE ZAMAN BASLATILDIGINI GORMEK ICN 
+uptime -s
+adem@adem:~$ uptime -s
+2023-12-08 10:47:59
+adem@adem:~$ 
+
+
+FREE ARACI
+
+Mevcut bellek kullanimi hakkinda bilgi alabildigimz temel bir aractir
+
+adem@adem:~$ free
+               total        used        free      shared  buff/cache   available
+Mem:        16278532     4631960     1952252      632648     9694320    10678592
+Swap:        2097148      229888     1867260
+adem@adem:~$ 
+
+birim belirtmezsek KB CINSINDEN GETIRIR
+free -m :MB CINSINDEN VERIR
+free-g:GB CINSINDEN VERIR
+
+free -h(humanreadabel)
+
+adem@adem:~$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       4,4Gi       1,9Gi       571Mi       9,2Gi        10Gi
+Swap:          2,0Gi       224Mi       1,8Gi
+adem@adem:~$ 
+
+total:Toplam bellek
+Mem:Ram
+Swap:Takas alani(virtual bellek)
+used:Anlik olarak kullanilan bellek
+free:Bostaki alan
+shared:Geriye donuk uyumluluk-su anda cok gecerliligi yok 
+
+
+BU ISTATISTIKLERI BELLI ARALIKLARLA GORMEK ISTERSEK-MESELA 3 SANIYE DE BIR
+adem@adem:~$ free -s 3
+
+3 SANIYE DE BIR DEGERLERI BASTIRIR
+
+CTRL-C ILE DURDURURUZ
+
+BIZ HEM NE SIKLIKLA HEM DE KAC KEZ BASILACAGINI DA BELIRTEBILIRIZ
+
+free -s 2 -c 4(2 saniye de  -c(count) 4 kez basilsin)
+
+DU(DISK USAGE) ARACI
+Sistemde kullanilan tahmini disk alanini gorebiliyoruz
+du direk calistirirsak, o zaman uzeirnde bulundugmz dosya ve klasorlerin, kilobyte cinsinden ne kadar yer kapladigni gorebiliriz
+
+adem@adem:~$ du mylinux-tutorial.tar
+12	mylinux-tutorial.tar
+
+DU -H(HUMAN READABLE)
+adem@adem:~$ du -h logs
+8,0K	logs
+adem@adem:~$ 
+
+adem@adem:~$ du -h Desktop
+4,0K	Desktop/test/test2/test21/test211/test2111
+8,0K	Desktop/test/test2/test21/test211
+4,0K	Desktop/test/test2/test21/test2112
+16K	Desktop/test/test2/test21
+20K	Desktop/test/test2
+4,0K	Desktop/test/test3
+108K	Desktop/test/img
+4,0K	Desktop/test/test4
+152K	Desktop/test
+8,0K	Desktop/test2
+176K	Desktop
+
+AYRICA DIKKKAT EDERSEK DU -H DESKTOP DA SONUCUNDA DESKTOP ALTINDAKI TUM DOSYA VE KLASORLERIN KAPLADIGI ALANI VERIR VE LISTENIN EN ALTINDA DA DESKTOP OLARAK TOPLAM NE KADAR ALAN KAPLADINGI GOSTERIR
+
+DU -H DESKTOP- BURDA KLASOR ISIMLERI ILE GELIYOR SADECE, EGER DOSYA ISIMLERI DE GELSIN ISTERSEK 
+DU -A DESKTOP DERIZ
+
+adem@adem:~$ du -h Desktop
+4,0K	Desktop/test/test2/test21/test211/test2111
+8,0K	Desktop/test/test2/test21/test211
+. 
+. 
+176K	Desktop
+adem@adem:~$ du -a Desktop
+4	Desktop/note.txt
+4	Desktop/test/test1.txt
+.
+.
+176	Desktop
+adem@adem:~$ 
+
+-S VEYA -SH ILE KULLANARAK SADECE TUM DESKTOP KLASORUNUN NE KADAR ALAN KAPLADIGINI DA GOREBILIRIZ!!
+-S(SUMMARIZE)
+-H(HUMAN READABLE)
+
+adem@adem:~$ du -s Desktop
+176	Desktop
+adem@adem:~$ du -sh Desktop
+176K	Desktop
+adem@adem:~$ 
+
+SPESIFIK OLARAK BELIRTTIGIZ DOSYA VE KLASORLERI BELIRTEBILIRIZ
+
+
+DU -H ILE YAPTGMIZ AYNI ISLEMI LS -SH ILE DE YAPABILIRIZ
+
+s(summarize) h(humanreadable)
+adem@adem:~$ ls -sh Desktop
+total 20K
+4,0K note.txt  4,0K note.txt.save  4,0K test  4,0K test2  4,0K test3.txt
+adem@adem:~$ ls -l -sh Desktop
+total 20K
+4,0K -rwxr-x--- 1 root root 2,3K april  5  2023 note.txt
+4,0K -rwxr-x--- 1 root root 2,5K april  6  2023 note.txt.save
+4,0K drwxrwxr-x 6 adem adem 4,0K okt.  23 13:45 test
+4,0K drwxrwxrwx 2 root root 4,0K juni  13  2023 test2
+4,0K -rw-rw-r-- 1 adem adem   20 april  5  2023 test3.txt
+
+DIKKAT EDELIM NORMLALDE DU -H DESKTOP YAZINCA DESKTOP ALTINDAKI HER BIR DOSYA VE KLASORUN BOYUTUNU AYRI AYRI VERIRKEN DU -SH DESKTOP SEKLINDE KULLANINCA DESKTOP KLASORUNU BIR BUTUN OLARAK NE KADAR YER KAPLADIGNI VERIYOR
+
+adem@adem:~$ du -sh Desktop
+176K	Desktop
+adem@adem:~$ du -sh Downloads/geoserver1
+117M	Downloads/geoserver1
+adem@adem:~$ 
+
+Access denied hatali sonuclarini gostermek istemezsek de bu sekilde yapariz 
+2 numara hatali cikti sonuclari 
+/dev/null da bolsuga gonder, kaldir, yokluga gonder gibi birsey
+
+adem@adem:~$ du -s ~/D* 2>/dev/null
+176	/home/adem/Desktop
+12	/home/adem/Documents
+2671160	/home/adem/Downloads
+adem@adem:~$ du -sh ~/D* 2>/dev/null
+176K	/home/adem/Desktop
+12K	/home/adem/Documents
+2,6G	/home/adem/Downloads
+
+shc(summarize-humanreadable-count)-Toplam alani gormek icinde 
+adem@adem:~$ du -shc ~/D* 2>/dev/null
+176K	/home/adem/Desktop
+12K	/home/adem/Documents
+2,6G	/home/adem/Downloads
+2,6G	total
+
+
+LSUSB | LSPCI | LSHW
+
+lsusb:Sistemimiz uzerinde usb uzerinden bagli olan aygitlari gosteriyor
+
+adem@adem:~$ lsusb
+Bus 002 Device 002: ID 8087:8000 Intel Corp. Integrated Rate Matching Hub
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 8087:8008 Intel Corp. Integrated Rate Matching Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 005: ID 1b3f:2008 Generalplus Technology Inc. USB Audio Device
+Bus 003 Device 003: ID 093a:2510 Pixart Imaging, Inc. Optical Mouse
+Bus 003 Device 004: ID 0bda:5730 Realtek Semiconductor Corp. HP 2.0MP High Definition Webcam
+Bus 003 Device 002: ID 03f0:064a HP, Inc HP USB Keyboard
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+adem@adem:~$ 
+
+Ornegin sisteme usb uzerinden harici bir wifi karti  taktigimzda, aygit hakkinda burdan bilgi alabiliriz. Wifi aygiti sistem tarafindan dogru sekilde taninmiyorsa o zaman aygiti takip lsusb komutu ile liste uzerinden burdaki aygitin id sine bakip bu id uzerinden internetten arastirma yapip uygun aygit surucusu olup olmadigini sorulayabilirsiniz
+
+Yine de wifi kartini kullanamiyorsunuz ama, surucusunun mevcut oldugunu biliyorsunuz, formlar uzerinden, github vs gibi harici kaynaklaridan da arastirabiliriz
+
+PCI VERI  YOLU ILE BAGLI OLAN AYGITLARI DA LISTEYEBILIRIZ
+LSPCI
+
+SISTEME BAGLI OLAN TUM AYGITLARI GORMEK ICIN LSHW(HARDWARE)
+
+Eger bash-shell kabugunda yuklu degil ise bu araci apt araci ile yukleriz 
+sudo apt install lshw -y seklinde kurariz
+
+adem@adem:~$ lshw
+WARNING: you should run this program as super-user.
+adem  
+
+Burda araci sudo lshw ile calistirirsak ciktilarin tamamini alabiliriz
+
+
+PAKET YONETIMI!
+
+LINUX PAKET YONETIMI
+
+Linux dagitimlarinin birbrinden ayrildigi nokta, basta paket yonetim araclari olmak uzere,dagitimlarda varsayilan olarak yuklu bulunan araclardir 
+Dagitimlari birbirinden ayiran temel noktalardan biridir, paket yonetimi
+
+Sistemi kullanirken sisteme yukledigmz araclari kullaniyoruz
+
+Paket dedgimz yapi, ilgili aracin kurulacagi sisteme tam olarak uygun sekilde onceden hazirlanmis olan dosyalarinin bir paket haline getirilip kullanicilara sunulmasi
+Bizim kaynak koddan derleme, bagimliliklari ekleme vs ile ugrasmamiza gerek kalmiyor. Zaten paket yonetimii ile yuklenen araclar icinde kaynak kodlar derlenmis ve tum bagimlilklar dahil edilmis ve hazir bir sekilde getiriliyor
+
+Dagitim repo sunda ise hazir calistirilabilir dosyalar mevcut, bunlar bizlere paketler halinde sunuluyor
+Biz aslinda bu paketleri Gelistirici Repo-Devlopment repo adresinden alioyruz
+
+Dagitimlarini en buyuk sorumluluklarindna bir tanesi de kullaniciilara yazilimlarin tum bagimliliklari ile birlikte, guncel, guvenilir, paketleirn repo uzrerinde sunulmasi..Bu sayde biz, kurulm icin cok zaman harcamadan direk paket kurulumu yaparak yapabiliyoruz
+
+PAKET YONETICILERI UZERINDEN, PAKET KURMA,SILME,UPDATE ETME ISLEMLERINI YAPABILIYORUZ
+
+DEBIAN  TABANLI DAGITIMLAR
+apt, dpkg araclari ni kullanir
+RED HAT
+yum, rpm araclarini kullanir
+
+Cunku yazilimlar ilgili dagitimlarda calismaya uygun sekilde derlenip paketlendigi icin, bu paketleiri acmak icinde, yine uygun paket yoneticilerinin kullanilmasi gerekiyor. Ornegin debian tabanli dagitimlarda kullanilmasi gereken paketler .deb uzantili sunuluyorken, redhat dagitimlarda bu .rpm oluyor
+
+DEBIAN TABANLI DAGITIMLAR ICIN GECERLI OLAN PAKET YONETIM ARACLARI
+APT-DPKG ARACLARI
+
+debian tabanli sistemlerde .deb uzantili dosyalar birer kurulabilecek veya calistirilabilir paket dosyasidir.Windows da .exe ye karsilik gelendosyalardir 
+.deb uzantlili paket dosyalarini kurmak-calistirmak icin dpkg aracini kullaniriz
+
+dpkg-(telaffuzu - dipekic veya di pi key ci)
+
+dpkg araci debian a ozel olan .deb paketlerinin kurulmasi, konfigure edilmesi ve silinmesi gibi temel paket yonetiminden sorumludur
+
+dpkg-(DEBIAN PACKAGE KISALTMASIDIR)
+
+APT ARACI(ADVANCE PACKAGE TOOL)
+Bir de APT ARACIMIZ VARDIR PAKET YONETIMLERINDE LINUX-DEBIAN TABANLI DAGITIMDA
+apt-(Advance package tool) 
+
+apt araci dpkg ye oranla kullanicilarin islerini kolaylastirmak icin hazirlanmis, cok daha ust seviye bir paket yoneticisidir
+
+apt araci paketlerin uzak sunucudan bagimliliklari ile birlikte otomatik olarak indirilip kurulmasini sagliyor. Diger paket yonetimi isleri icin de bu aracimzi rahatlikla kullanabiliyoruz
+
+apt araci kurulum ve kaldirma isleri icin arka planda dpkg aracini kullaniyor
+Burda apt aracini kullaniyor olma nedenimiz, bu aracin varlik nedeni , kurmak istedgimz aracin paketini repo uzerinden, otomatik olarak bulmasi, ve bu aracin ihtiyac duydugu diger tum ek paketleri, yani bagimliliklarini da cozumleyip, bunlari da kurabiliyor olmasidir
+Bu sayede biz bagli oldugmuz uzak sunucu depolarinda, aradigmiz paket oldugu surece, istedgimz araci kolaylikla kurabiliyoruz.
+Zaten genellikle istisnai durumlar haric repolarda bir aracin kurulmasi icin gerekli olan tum bagimliliklar vs apt araci vasilatsiyla kuruluyor
+
+DPKG ARACI ILE APT ARACINI KARISTIRMAYALIM..BIRBIRINDEN COK FARKLI SEKILDE CALISIYORLAR!!!!!!
+
+NORMALDE BIZ DPKG ARACINI KULLANIRSAK, YALNIZCA LOKAL OLARAK INDIRMIS OLDUGUMUZ, .DEB UZANTILI TEK BIR PAKETI KURABILIYORUZ
+KURMUS OLDUGUMZ BU PAKETIN-ARACIN CALISMASI ICIN GEREKLI OLAN HARICI PAKETLER VAR ISE DPKG TARAFINDAN BUNLAR OTOMATIK OLARAK BULUNUP INDIRILMIYOR, BUNU YAPAN ARACIMIZ BURDA BAHSI GECEN APT ARACIDIR. BIZLER DPKG ARACINI YALNIZCA LOKAL OLARAK, PAKET YONETIMI ICIN KULLANIYORUZ
+OZETLE BU DURUMDA DPKG ARACINI KULLANARAK KURULUM YAPACAKSAK, KURUDGUMZ PAKETIN IHTIYAC DUYDUGU EK PAKETLERI DE TEK TEK BULUP INDIRMEMIZ, VE ONLARI DA DPKG ARACINI KULLANARAK TEK TEK KURMAMIZ GEREKIYOR
+
+
+DPKG(DEBIAN PACKAGE) ARACI
+COK DIKKAT EDELIM, BIZ GENELLIKLE LOKAL PC MIZE KURACAGIMZ CHROM,ZOOM, VE GUNLUK KULLANIMDA IHTIYAC DUYDUGMZU BU PROGRAMLARIN KENDI SITLERINE GITTGIMZDE, BIZE LINUX DE KRUULUM ICIN GEREKLI OLAN .DEB DOSYALARINI DA VERECEKLER BIZ BU DEB ARACLARINI INDIRIRIZ BU INDIRME ISLEMINI DE WGET UZAKTAN DOSYA INDIRME ARACI ILE YAPIP .DEB DOSYALARINI SISTEMIMIZE DPKG ARACI ILE  KURABILIRIZ
+
+ORNEGIN ZOOM KU KURARKEN 
+
+ZOOM DEBIAN - ZOOM DOWNLOAD LINUX YAZARAK ARAMA YAPARIZ 
+SONRA ZOOM ICIN INDIRILECEK DOWNLOAD BUTONA SAGA TIKLAYIP COPY LINK DERIZ 
+SONRA 
+wget https://zoom.us/client/5.17.0.1682/zoom_amd64.deb
+diyerek zoom kurulumun saglayacak olan zoom_amd64.deb kurulum-calistirilabilir windows daki .exe dosyasinin karsiligi olan dosyayi indirmis oluruz.
+Artik bundan sonra bu dosyayi lokal de kurabilmek icin 
+
+dpkg -i(installl) zoom_amd64.deb 
+
+seklinde kullanarak .deb uzantili dosyamizi kurabiliriz!!!
+ONEMLI AYRINTI KURULUM ISLEMINI ANCAK ADMIN  YETKSINDE OLANLAR KURABILIR ONDAN DOLAYI DA SUDO ILE KURMALIYIZ MUTLAKA, YOKSA KURAMAYIZ!!
+
+sudo dpkg -i zoom_amd64.deb
+
+adem@adem:~/Downloads$ sudo dpkg -i zoom_amd64.deb
+Selecting previously unselected package zoom.
+(Reading database ... 300428 files and directories currently installed.)
+Preparing to unpack zoom_amd64.deb ...
+Unpacking zoom (5.17.0.1682) ...
+dpkg: dependency problems prevent configuration of zoom:
+ zoom depends on libxcb-xtest0; however:
+  Package libxcb-xtest0 is not installed.
+ zoom depends on libxcb-cursor0; however:
+  Package libxcb-cursor0 is not installed.
+
+dpkg: error processing package zoom (--install):
+ dependency problems - leaving unconfigured
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+Processing triggers for gnome-menus (3.36.0-1ubuntu3) ...
+Processing triggers for desktop-file-utils (0.26-1ubuntu3) ...
+Processing triggers for shared-mime-info (2.1-2) ...
+Errors were encountered while processing:
+ zoom
+adem@adem:~/Downloads$ 
+
+ARACIMIZI KURARKEN ASAGIDAKI GIBI DEPENDENCY PROBLEMLERI YASANDIGI ERROR-FEEDBACKLERI ALDIK!!!!
+BU ARACIMZ TAM OLARAK KURULMAMIS OLDU ASLINDA, HATIRLARSAK DPKG ILE KURULUM YAPARKEN, KURDUGUMZU .DEB UZANTILI ARACIN HARIICI-DEPENDENCIES LERININ DE AYRI AYRI KURULMASI GEREKTIGI, APT ARACI GIBI OLMADIGINI BELIRTMISTIK!!!!!
+
+Unpacking zoom (5.17.0.1682) ...
+dpkg: dependency problems prevent configuration of zoom:
+ zoom depends on libxcb-xtest0; however:
+  Package libxcb-xtest0 is not installed.
+ zoom depends on libxcb-cursor0; however:
+  Package libxcb-cursor0 is not installed.
+
+
+ DOLAYISI ILE ERROR ALINAN TUM DEPENDENCIES PAKETLERINI ARAYIP BULUP ONLARI DA DPKG ILE KURMAMIZ GEREKIYOR KI ZOOM TAM OLARAK KURULABILMIS OLSUN!!! 
+ AYNI .DEB DOSYAMIZI BULDUGMZ GIBI YUKLENMEYEN DEPENDENCIES DOSYLARININ DA GIDIP BULUUP ONLARI DA YUKLEMEMIZ GEREKIYOR. 
+ ZATEN BU HALI ILE ZOOM ARACI DA CALISMAYACAKTIR!!!!
+
+ PEKI BU EKSIK ARACLARI NERDEN BULACAGIZ?????
+ BU ARASTIRMA ISLEMI ICIN DE 
+ debian packages yazarak internette arayacak olursak
+
+ Debian Packages linkine tiklariz
+ https://www.debian.org/distrib/packages
+Bu web sitesinde
+Søk i pakkekatalogene Nøkkelord:
+Søk i pakkenes innhold
+
+YUKLENMEYEN DEPENDENCY PAKETLERIMIZ BU SEKILDE IDI:
+Unpacking zoom (5.17.0.1682) ...
+dpkg: dependency problems prevent configuration of zoom:
+ zoom depends on libxcb-xtest0; however:
+  Package libxcb-xtest0 is not installed.
+ zoom depends on libxcb-cursor0; however:
+  Package libxcb-cursor0 is not installed.
+
+  libxcb-xtest0 
+  libxcb-cursor0
+
+  Bu paketleri arariz ve ustteki paketi karsimiza paket i bulur ve gelen link tiklanildiginda, o paket ile ilgili download linkleri goruruz
+
+  how can I understand which is ok for my linux-ubuntu :Download libxcb-xtest0
+Architecture	Package Size	Installed Size	Files
+amd64	102.2 kB	126.0 kB	[list of files]
+arm64	102.3 kB	177.0 kB	[list of files]
+armel	102.2 kB	177.0 kB	[list of files]
+armhf	102.3 kB	177.0 kB	[list of files]
+i386	102.2 kB	125.0 kB	[list of files]
+mips64el	102.2 kB	178.0 kB	[list of files]
+mipsel	102.1 kB	177.0 kB	[list of files]
+ppc64el	102.4 kB	177.0 kB	[list of files]
+s390x	102.1 kB	121.0 kB	[list of files]
+
+Bu download linklerinden hangisi bizim ubuntu isletim sistemine uygun bunu ogrenmekk icn de 
+uname -a 
+veya 
+uname -m deriz ve 
+
+adem@adem:~/Downloads$ uname -m
+x86_64
+adem@adem:~/Downloads$ uname -a
+Linux adem 6.2.0-37-generic #38~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov  2 18:01:13 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+adem@adem:~/Downloads$ 
+Bu da demek oluyor ki :
+
+If your system is 64-bit (x86_64 or amd64), you should choose the amd64 package.
+
+DOLAYISI ILE TEK TEK BAGIMLIKLIK DOWNLOAD LINKLERINI DE YINE WGET ILE .DEB UZANTILI DOSYALARI INDIRIP ONLARI DA YINE 
+dpkg -i ile tum bagimlilik .deb dosyalarnin kurduktan sonra bastan bir kez daha
+
+adem@adem:~/Downloads$ sudo dpkg -i zoom_amd64.deb
+bu sekilde kurulumumuzu yapariz ve o zaman problemsiz bir sekilde kurulumun gerceklestigini gorebiliriz!!!
+
+ANCAK BU SEKILDE KURULUM YAPMAK COK UZUN VE ZAHMETLIDIR
+GENELLIKLE DPKG INTERNET BAGLANTISININ OLMADIGI DURUMLARDA LOKALDEKI DOSYALARIMZI KURMAK ICIN KULLANILIYOR
+AMA INTERNET BAGLANTIMIZ VAR IKEN DPKG YI KURULUM ICIN KULLANMAK COK DA MANTIKLI DEGIL, APT ARACI VARKEN
+
+YUKLENMIS PAKETLERI NASIL DPKG UZERINDEN SILEBILIRIZ!
+-r (remove)
+adem@adem:~/Downloads$ sudo dpkg -r zoom
+[sudo] password for adem: 
+(Reading database ... 301949 files and directories currently installed.)
+Removing zoom (5.17.0.1682) ...
+run post uninstall script, action is remove ...
+Processing triggers for shared-mime-info (2.1-2) ...
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+Processing triggers for gnome-menus (3.36.0-1ubuntu3) ...
+Processing triggers for desktop-file-utils (0.26-1ubuntu3) ...
+adem@adem:~/Downloads$ zoom
+Command 'zoom' not found, but can be installed with:
+sudo apt install zoom-player
+adem@adem:~/Downloads$ 
+
+Biz bir paketi dpkg ile yukledigmz zaman o pakete ait dosyalar, linux e indriliyor ve inen paket te bir arac-yani komut olarak kullanilabiliyor ve komut uzerinden calistirilabiliyor
+Ama suna dikkkat edelim.Eger silmeye calistigimz paket in ek bagimliliklari var ise, o zaman iligli paketi dogrudan bu sekilde silemeyiz
+
+Baska araclar tarafindan kullanildigindan dolayi, baska araclari bozulmamasi icin bize uyyari verecektir 
+sudo dpkg -r apt 
+dpkg: dependency problems prevent removal of apt:
+tasksel depends on apt.
+apt-utils depends on apt (= 2.3.)
+
+AMA PAKETI HERSEYE RAGMEN SILMEK ISTERSEK, AMA BU COK TEHLIKELIDIR VE BIRCOK SEYI BIRDEN BOZABILIRIZ 
+
+--force-all 
+ZORLAYARAK SILMEK COK MANTIKLI DEGILDIR
+
+BIZ BIR ARACI SILDGIMZDE BU ARACIN KONFIGURASYON DOSYALARI GERIDE KALIYOR KI, BU ARAC TEKRAR KURULURSA ILERDE O ZAMAN BU KONFIGURASYON DOSYALARI KULLANILIYOR
+
+AMA KONFIGURASYON DOSYALARINI DA SILMEK ISTERSEK O ZAMAN 
+sudo dpkg -P zoom 
+ile sileriz
+
+EN BASTAN SILERKEN DOGRUDAN sudo dpkg -P zoom ile silersek eger o zaman, zaten hem paketi hem de konfigurasyon dosyalarini silecektir
+
+BUNLAR DPKG NIN EN TEMEL KULLANIMLARIDIR
+
+KURMADAN ONCE PAKET HAKKINDA BILGI ALMAK ICIN
+dpkg -I zoom_amd64.deb 
+
+SISTEMIMIZDE KURULU OLAN PAKETLER HAKKINDA BILIGI ALMAK ICIN
+KURULU OLAN DEBIAN PAKETLERINI LISTELE DEMIS OLUYORZ
+
+dpkg -l
+cok uzun bir liste gelecektir, space e basarak diger sayfalar a da gecebiliriz
+Q TUSU ILE DE CIKABILIRIZ
+
+SPESIFIK BIR ARAC HAKKINDA BILGI ALMAK ICIN ISE:
+
+Ornegin apt araci hakkinda bilgi almak istersek
+dpkg -l apt
+
+DPKG ARACI ILE KURULU OLAN PAKETLERIN YENIDEN YAPILANDIRILMASI 
+
+ILGII PAKETLERIN KONFIGURE EDILMESI GEREKIYOR BAZEN 
+KONFIGURASYONLAR ARACLARIN DOGRU BIR SEKILDE CALISABILMESI ICIN COK ONEMLIDIR
 
 
 
