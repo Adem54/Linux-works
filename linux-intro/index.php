@@ -7479,6 +7479,634 @@ Kurulma esnasinda hata veren, kurulum gerceklesmeyen, bazi bagimlilik paket-arac
 
 Bu tarz kaynak koddan kurulum prosesslerinde, illa ki bazi hatalar olacaktir, onemli olan bizim bu hatalari arastirmak... 
 
+KULLNICI VE GRUP YONETIMI
+
+Kullnici:
+1-super(Super User)
+2-sistem(System User)
+3-Normal(Normal User)
+
+SUPER USER-ROOT
+Sistem uzerinde tum haklara sahip olan en yetkili kullanicidir, root kullanici olarak da bilinir.
+Biz root hesabinin kullanirken, sistemimiz uzerindeki en yetkili kullanici hesabin  yonetiyor olacagiz
+
+SYSTEM USER
+
+Bu yazilim veya uygulamalar tarafindan olusturulan ve yonetilen kullanicilara verilen isimdir
+Sistemdeki araclar tarafindan kullanilan hesaplar
+Mevcut sistemimizde saat senkronizasyonunu saglayan NTP ISIMLI BIR ARAC YUKLU ISE,
+BU ARACIN GOREVINI YERINE GETIREBILMESI ICIN KENDISINE AIT BIR SISTEM KULLANICI HESABI BULUNUYORDUR- NTP USER
+BU SAYEDE GEREKTIGINDE BU KULLANICI HESABI UZERINDEN, GOREVINI YERINE GETIREBILIYOR
+SISTEMDEKI CESITLI YAZILIMLARIN(NTP GIBI) ISLERINI GORMEK ICIN KENDILERINE AIT KULLANICI HESAPLARI OLABILIYOR.
+YETKILERI GOREVLERI DAHILINDE SINIRLIDIR
+BURDA BAHSI GECEN HESAPLAR INSANLARIN DEGIL, YAZILIMLARIN SISTEMI YONETMEK ICIN SINIRLI OLAN YETKILERI DAHILINDE SISTEMI YONETMEK ICIN KULLANDIKLARI TURDEN HESAPLARDIR
+
+NORMAL USER
+root(super user) tarafindan olusturulan standart hesaplardir.
+Temel sistem yonetimi icin kullanilirlar
+
+Kisisel dosyalar icin /home/adem dizini altinda, kendi dizinine sahip oluyorlar
+Normal kullanicilar /home/ dizini altinda kendilerine ait dizine sahip oluyorlar, tipki benim sahp oldugumn gibi /home/adem/  seklinde!!!!!
+
+Kendi dosyalarini duzenli sekilde tutabilmeleri
+Kendi kisisel calisma duzenini, olusturabilmeleri acisindan onemli bir yaklasim
+Yazilimlarin kullanmalari icin var olan system user larin /home/ dizinleri yoktur
+Cunku yazilimlarin insanlar gibi kisisel islemlerini barindirmak icin, bir /home/ dizinine ihtiyac duymuyorlar. Yalnizca gorevleri dahilinde islevleri yerine getirmek icin varlar
+
+SUDO KOMUTUNU ANLAMAK!!
+
+Sistemde en yetkili kullanici root-super user dir. Sistemi yonetirken, de yetkiler gerektiren islemler le karsilasiriz.
+Bu durumda gorevi yerine getirebilmek icin root-super user hesabina gecis yapabiliriz. Ancak root hesabina gectigmiz zaman, en yetkili kullanici olacagimz ve onumuzde hicbirsey duramayacagi icin, hatali sekilde kritik dosyalari silmeyi onleyecek, veya sistemin isleyisine zarar verecek bir eylemde root user u durduracak hicbir mekanizme bulunmuyor. 
+Root kullanici hesabini yalnizca gerektiginde kullandgimiz, ve ne yaptigimiz bilerek kullandigimz varsayiliyor sistem tarafindan.
+Root hesabini kullanmak tehlikeli olabildigi icinde cogu sistemde root hesabi pasif olarak geliyor, varsayilan olarak aktif gelmiyor. Biz aktiflestirmedigmiz muddetce de, root hesabi aktif olmuyor. Buna karsilik root hesabi aktif olmasa bile yetki gerektiren islerimiz icin gecici olarak root yetkileri ile hareket edebilmemizi saglayan sudo komutunu, sudo aracini kullanabiliyoruz.
+Sudo sayesinde, root hesabi aktif degil iken veya root hesabi aktif ise bile root kullanici hesabinin sifresini bilmeden, yonetici ayricaliklari ile ilgili isimizi yurutmemiz mumkun oluyor
+
+NOT:
+SUDO YU CD KOMUTU ILE BIRLIKTE KULLANAMAYIZ CUNKU CD KOMUTU SHELL-ENVIRONEMNTS DA INBUILT BIR COMMANDDIR. SUDO YU CALISTIRDIGMIZDA, BIZ DISARDAN, SUPERUSER-ROOT YETKISINE SAHIP OLAN BIR PROGRAM EXECUTE EDIYORUZ VE SUDO KENDISI DE EXTERNAL-DISARDAN PROGRAMLARI CALISTIRABILIYOR, AMA SHELL IN INBUILT ARACLARINI DIREK OLARAK CALISTIRAMIYOR!!!!
+
+YENI KULLANICI OLUSTURMAK! adduser-useradd-passwd
+Yeni bir kullanici olusturmak icin, yeni kullaniciya olusturacak yetkiye sahip olmamiz gerekiyor.
+Bu yetki de sadece sistem uzerindeki superuser-root yetkili kullancisinda bulunuyor
+Daha onceden de bahsettigmiz gibi, sudo komutu yardimi ile, root user ina gecis yapmadan, da yetki gerektiren islemleri yapabiliyoruz
+
+useradd veya adduser dan herhangi birini kullanarak y apabiliirz
+
+adem@adem:~$ sudo adduser adem54
+Adding user `adem54' ...
+Adding new group `adem54' (1002) ...
+Adding new user `adem54' (1002) with group `adem54' ...
+Creating home directory `/home/adem54' ...
+Copying files from `/etc/skel' ...
+New password: (Yeni sifre girmemiz gerekiyor)
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for adem54
+Enter the new value, or press ENTER for the default
+	Full Name []: Adem Erbas
+
+ Yeni bir kullanici olsuturulacagi zaman,  /etc/skel  (skeleton) dan dosyalar kopyalanip, o kullanici ismi ile ayni isimde home dizin i altinda olusturualn dizin altina kopyalaniyor!!!
+
+adem@adem:/home$ ls
+adem  adem54  admin
+adem@adem:/home$ 
+
+SIMDI, HEM /ETC/SKEL I HEM DE /home/adem54 KONTROL EDECEK OLURSAK 
+ICERISINDE GIZLI DOSYALAR OLDUGU ICIN . ILE BASLAYAN DOSYALAR, ONLARI GORMEK ICIN 
+LS -A KOMUTU ILE LISTELEMEK GEREKIYOR
+adem@adem:~$ ls -a /etc/skel
+.  ..  .bash_logout  .bashrc  .profile
+adem@adem:~$ ls /home/adem54
+ls: cannot open directory '/home/adem54': Permission denied
+adem@adem:~$ sudo ls -a /home/adem54
+.  ..  .bash_logout  .bashrc  .profile
+adem@adem:~$ 
+
+useradd i kullanarak yeni bir kullanici olsutururken ise
+sudo useradd -m adem54
+-m secenegi ile belirtmezsek, kendisi adem54 kullcisi icin olusturulacak dizini /home dizini altina olusturmuyor...BUNA DIKKAT ONDAN DOLAYI BIZ GENELLIKLE, adduser ile yeni bir kullanici olustururuz
+
+sudo useradd -m adem54
+komut calistirilinca , bize herhangi bir password vs sormadan, kullaniciyi olusturuyor. Ama bizim bu kullaniciya password olusturmaiz gerekiyor, ki bu kullanici hesabinda oturum acabilelim!!
+Biz parola olsuturma islemini useradd araci yeni kullanici olustururken yapamadigmiz icin, bizim bunu kendimzin ozellikle olsturmasi gerekiyor
+Bunun icinde passwd aracimzi kullanabiliyoruz
+
+PASSWD ARACI ILE PASSWORD OLUSTURMAK!
+
+sudo passwd adem54
+ile gerceklestirebiliriz
+New password:
+Retype passowrd: 
+
+passwd ARACI, YENI KULLANICILARA PASSWORD OLUSTURMAK, VE MEVCUT KULLANICILARINDA PASSWORDLERINI DEGISTIRMEK ICIN KULLANILAN BIR ARACTIR 
+ARGUMAN OLARAK KULLANICI ISMINI ALIR
+
+/ETC/PASSWD HAKKINDA!!!! 
+
+adem@adem:~$ cat /etc/passwd
+postgres:x:130:138:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash
+admin:x:1001:1001:,,,:/home/admin:/bin/bash
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/bin/bash
+adem@adem:~$ 
+En son 3 satira bakacak olursak eger
+En  son olusturdugmz kullanici yi gorebiliyoruz, cunku ona da password olusturmustuk.
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/bin/bash
+adem54:kullanici ismi
+x:kullanici parolasi
+1002:1002: kullanici hesap numarasi:kullanici grup numarasi
+Adem Erbas,,,:kullanici ad,soyad vs gibi kisisel bilgileri
+/home/adem54: kullaniciya ait home dizini
+/bin/bash:kullanicinin varsayilan shell-kabugu
+
+BU DOSYANIN ICINDEKI VERILER KULLANICI HESAPLARINI ETKILIYOR, BIZ GELIP DE BURDA ORNEGIN KISISEL VERILER ILE ILGILI VEYA VARSAYILAN KABUK-SHELL-BASH ILE ILGILI DEGISIKLIKLER YAPARSAK, BU KULLANICIYA AIT BILGILERI ETKILEMIS OLACAK. 
+
+YANI KISACASI ASLINDA BIZ HIC adem@adem:~$ sudo adduser adem54 komutunu kullanmadan, uygun dosyalari ornegin /etc/passwd dosyasi gibi, dosyalari duzenleyecek olursak, sistemimize yeni bir kullanici olusturabiliriz
+Ornegin yeni kullanicimiz /etc/passwd dosyasina ekleriz
+Daha sonra, /etc/group dosyasina da ekleriz ve bu kullaniciya bir parola-password tanimlariz, ve daha sonra bu kullaniciya bir home dizini olustururuz
+Yani tek tek butun dosyalari uygun sekilde duzenlersek yeni bir kullanici hesabinin adem@adem:~$ sudo adduser adem54 komutu kullanmadan da olusturabiliriz
+
+AMA TEK TEK MANUEL SEKILDE UGRASMAYA GEREK YOK, ADDUSER ARACI BIZIM ICIN ARKA PLANDA BUNLARI ZATEN YAPACAK
+
+KULLANICILAR ARASI SWITCH ISLEMI ICIN 
+su - adem54  komutunu kullaniriz
+passowrd:
+- ifadesi adem54 kullanicisinin home dizininde calismaya baslamasini sagliyor
+su - adem  diyerek tekrardan adem kullancisina gecis yapabiliriz
+
+
+adem@adem:~$ adduser --help
+adduser [--home DIR] [--shell SHELL] [--no-create-home] [--uid ID]
+[--firstuid ID] [--lastuid ID] [--gecos GECOS] [--ingroup GROUP | --gid ID]
+[--disabled-password] [--disabled-login] [--add_extra_groups]
+[--encrypt-home] USER
+
+Biz kullanici olusturma asamasinda, kullanicinin ornegin home dizinin spesifik olarak baska bir yer belirtmek istersek , ayni sekilde shell-kabuk varsayilan olarak bash degil de baska bir shell olmasini istersek, ve kisisel bilgiler, grup bilgileri vs bunlari da custom yapabiliyoruz, adduser ile yeni bir kullanici olusturma esnasinda, option olarak vererek
+
+/ETC/PASSWD DOSYASI KULLANICILAR  UZERINDEN ETKILI BIR DOSYA, KULLANICI HESAP BILGILERININ TUTULDUGU BIR DOSYADIR. DOLAYISI ILE BU DOSYA UZERINDE DEGISIKLIK YAPTTIGIMZDA ELBETTE KULLANICILARI ETKILIYOR!!!!
+
+MEVCUT BIR KULLANICI HESABINI DEAKTIF HALE GETIRMEK!!!!
+exit - ile bir kullanici hesabindan cikis yapaibliyoruz
+Bir kullaniciyi deaktif hale getirmek icin, o kullanici hesabindan oturum acmasi engellenerek yapilabilir
+
+sudo nano /etc/passwd dosyasine gidecek olursak eger!!!!
+Bazi kullanici hesap bilgilerini asagidaki gibi gorebiliriz
+
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+.
+. 
+admin:x:1001:1001:,,,:/home/admin:/bin/bash
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/bin/bash
+
+
+games isiml i kullanici bilgilerine dikkat edecek olursak eger, varsayilan bash kabugu /bin/bash yerine /usr/sbin/nologin olarak verilmis ve bu sekilde varsayilan shell-kabuk verildigi zaman
+kullanici oturum acmaya calistiginda, bu sekilde sistemde hata alacak oturum acamayacak
+adem54 kullanicisinin shell-kabugunu da /usr/sbin/nologin olarak degistirecek olursak eger o zaman su - adem54 e gecmeye calistigmizda gecis yapilamayacak, yani login-olamayacak, oturum acilamayacak!!!!
+
+Baska bir alternatif de yine sudo nano /etc/passwd dosyasindaki bir ornege bakacak olursak 
+mysql:x:129:137:MySQL Server,,,:/nonexistent:/bin/false
+bu da yine varsayilan bash i /bin/false yaparak, kullanicinin login olmasini engelleiyor ama hata mesaji da vermiyor...
+
+adem54 kullanicisini deaktif hale getirmek istersek!!!!
+
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/usr/sbin/nologin
+
+adem@adem:~$ su - adem54
+Password: 
+This account is currently not available.
+adem@adem:~$ 
+
+adem54 kullanicisini bu seferde mesaj vermeden login olmasini engelleyecek olursak eger!!!
+
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/bin/false
+adem@adem:~$ su - adem54
+Password: 
+adem@adem:~$ 
+
+/ETC/PASSWD ICINDE X:KULLANICI PAROLASI /ETC/SHADOW ISIMLI DOSYA DA SIFRELENMIS BIR SKEILDE TUTULDUGUNA ISARET EDIYOR!!!!
+TUM KULLANICILARIN PAROLA BILGILIERI /ETC/SHADOW ICERISINDE SIFRELENMIS BIR SEKILDE TUTULUYOR
+
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/bin/bash
+adem@adem:~$ 
+En son 3 satira bakacak olursak eger
+En  son olusturdugmz kullanici yi gorebiliyoruz, cunku ona da password olusturmustuk.
+adem54:x:1002:1002:Adem Erbas,,,:/home/adem54:/bin/bash
+adem54:kullanici ismi
+x:kullanici parolasi 
+
+/ETC/SHADOW DOSYASI 
+
+sudo nano /etc/shadow
+
+root:!:19447:0:99999:7:::
+daemon:*:19411:0:99999:7:::
+.
+. 
+adem:$y$j9T$sWcNPGWVQJqltfq2HQOgu0$BnqMO.Rtaxr7b5A5pFBBIJiAQsXew03tyefj3n3XLX3:>
+mysql:!:19450:0:99999:7:::
+postgres:*:19517:0:99999:7:::
+admin:$y$j9T$MT3kFlDVnV.BM5.iC9fN01$Hmgvxx/tJ.BU9B5PTnNifciPqBo7848/5SaD/C3MEHA>
+adem54:$y$j9T$DEGJEQg.v3LPQ6/aGc2VP0$u.3lsrX8RdoyX/RspnhqoC2FI3D0rwO5vJZUw3JiPO>
+
+Gordugmz gibi, sonradan olsuturdugmz kullaniclara ait parolalar da burda sifrelenmis bir sekilde bulunuyor!!!
+Biz burdaki kullanici hesaplarindan birisi ile giris yaptigimzda bizden parola ister biz parolayi girereiz girdigmz parola sifrelenerek, /etc/shadow dosyasi icerisindeki sifrelenmis hali ile eslesiyor ise biz o kullanici uzerinden login olabiliyoruz, yok ise parola hatali mesaji aliyruz
+
+GRUPLAR HAKKINDA!!!
+
+Grup  yapisi sayesinde, ortak izinlere sahip olmasini istedgimiz kullanicilari, ayni grupta derleyip bireysel kullanici yetkileri disinda toplu sekilde bu kullanicilara erisim yetkileri de tanimlayabiliyoruz!!!!
+
+Normalde yeni bir kullanici olusturdugmzda, her bir kullaniciya ait olarak bu kullanici hesabi ile iliskili olarak, kullanici hesabi ile ayni isimde yer alan bir grup olusturuluyor. Iste bu grup o kullanicinin birincil grubu olarak geciyor
+Ilk olarak bu kullanici olusturudldugu icin ve yalnica o kullanici o grupta var oldugu icn
+
+groups komutu ile bir kullanicinin grubunu sorgulayabiliriz
+adem@adem:~$ groups adem54
+adem54 : adem54
+
+adem54 kullanicisinin kendi ismi ile olsuturulms olan birincil gruba dahil oldugunu goreibiliriz
+
+adem kullanici icin groups komutu ile grubu sorgulayacak olursak
+
+adem@adem:~$ groups adem
+adem : adem adm cdrom sudo dip plugdev lpadmin lxd sambashare
+
+adem kullanicisi ile root yetkisi gerektiren islemlerde sudo, kullanilirken, sudo grubuna dahil oldugui icin, sudo komutu kullndiginda, yetkisinin olup olmadigi kontrol edilirken, sudo grubuna dahil oldugundan yetkisi oldugu anlasiliyor 
+adem kullanicisinin 1.-birincil grubu yine adem ismindki grubudur ve onun disinda da bircok farkli grubu vardir
+Bu sekilde bircok farkli gruba dahil olarak, o kullanici o dahil edildgi grupta var olan diger kullancilarin da sahip oldugu  ile ortak yetkiler dogrultusunda hareket edebiliyor. 
+
+/ETC/GROUP DOSYASI INCELEME
+
+adem@adem:~$ cat /etc/group
+
+adem@adem:~$ cat /etc/group
+root:x:0:
+daemon:x:1:
+bin:x:2:
+sys:x:3:
+adm:x:4:syslog,adem
+
+postgres:x:138:
+admin:x:1001:
+adem:x:1000:
+adem54:x:1002:
+
+admin kullanicisi 1001 numarali gruba sahip
+adem54 kullanicisi 1002 numarali gruba sahip
+
+Bu numaralar her bir grubu birbrinden benzersip yapan numaralardir
+Ayrica bazi grup numarlarinin karsisinda kullanici isimler i var , bir gruba birden fazla kullanici dahil olabildig iicin de 
+
+sudo:x:27:adem- sudo grubu 27 numarali gruptur ve  adem isimli kulllanici sudo grubuna dahil mis
+adem:x:1000:
+
+dip:x:30:adem
+Bu x de gruplarin parolasini temsil ediyor ama gunumuzde genellikle gruplara parola koyulmasi tercih edilmiyor ondan dolayi da gruplarin kendine ait parolasi olmuyor
+Burdaki x ler eger var ise parolayi temsil ediyor...
+
+Sonuc olarak /etc/group dosyasi kullanilarak, demekki kullanicilari gruba dahil etme cikarma da yapaiblirz fakat bunu manuel olarak yapmak cok saglikli degil onun  yerine bu islemi yapabilecegimz araclar kullanarak yapilmasi daha mantiklidir
+
+
+YENI GRUP OLUSTURMAK"!!
+adem@adem:~$ sudo groupadd new-group
+
+cat /etc/group a bakacak olursak! 
+Ya da en sonuncu satira bakacakolursak eeger
+adem@adem:~$ tail -n 1 /etc/group
+new-group:x:1003:
+
+GRUBA YENI KULLANIC eklemek!!!
+
+sudo gpasswd -a adem54 new-group
+
+adem@adem:~$ sudo gpasswd -a adem54 new-group
+Adding user adem54 to group new-group
+adem@adem:~$ tail -n 1 /etc/group
+new-group:x:1003:adem54(burdan da gorebiliriz)
+adem@adem:
+
+
+BIR KULLANICININ DAHIL OLDUGU GRUPOLARI GORMEK ICIN ISE
+groups adem54
+
+adem@adem:~$ groups adem54
+adem54 : adem54 new-group
+adem@adem:~$ 
+
+EKLEDIGIMZ KULLANICIYI GRUPTAN SILMEK ICIN ISE 
+
+adem@adem:~$ sudo gpasswd -d adem54 new-group
+Removing user adem54 from group new-group
+adem@adem:~$ groups adem54
+adem54 : adem54
+adem@adem:~$ tail -n 1 /etc/group
+new-group:x:1003:
+adem@adem:~$ 
+
+
+MEVCUT GRUBU SILMEK!!!
+
+adem@adem:~$ sudo groupdel new-group
+adem@adem:~$ grep 'new-group' /etc/group
+adem@adem:~$ tail -n 3 /etc/group
+admin:x:1001:
+plocate:x:139:
+adem54:x:1002:
+adem@adem:~$ 
+
+
+ERISIM  YETKILERI
+
+Bir dizin altindaki erisim yetkilerini gorebilmek icin o dizin altnda
+ls -l yapariz 
+Spesifik bir dosyaya ait erisim yetkilerini gormek icin de 
+stat komutunu kullaniriz
+
+dem@adem:~$ ls -l
+total 3853068
+-rw-rw-r--  1 adem     adem              0 des.  19 15:12 a
+drwxr-x---  3 adem     adem           4096 mars  31  2023 Android
+
+adem@adem:~$ stat myfil
+  File: myfil
+  Size: 13        	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690334     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2023-12-15 13:06:28.561026045 +0100
+Modify: 2023-12-15 13:06:23.244957322 +0100
+Change: 2023-12-15 13:25:47.795637447 +0100
+ Birth: 2023-12-15 13:02:44.154095325 +0100
+adem@adem:~$ 
+
+
+dem@adem:~$ ls -l
+total 3853068
+ErsmYet  NumbHardlink  Owner   Group    FileSize   Last-modified  File-Dir-Name 
+drwxr-x---    3        adem     adem    4096       mars  31  2023 Android
+
+d:directory-klasor oldugu icin
+-r standart dosyalar da yalnizca - ile belirtiliyor
+
+ls -l ile mySembText2 nin de oldugu dosyalari listelersek eger 
+lrwxrwxrwx  1 adem adem   23 des.  17 21:46 mySembText2 -> /home/adem/links/mytext
+Burdaki l de bu dosyanin sembolik 
+
+DESKTOP KLASORUNUN ERISIM YETKILERINI INCELEYELIM SIMDI
+drwxr-x---  4 adem(kullanici)   adem(group ismi)   4096 des.  12 14:04 Desktop 
+
+d
+rwx
+rwx bu dosyanin sahibi olan adem(hemen 4 ten sonraki) kullanicisinin sahip oldugu  yetkilerdir
+r-read
+w-write
+x-execute
+
+r-x  ise 
+Desktop klasorunun grubundaki, yani adem grubundaki kullanicilarin
+sahip oldugu yetkilerdir
+adem grubuna kimler dahil ise r-x yetkileri ile hareket edebilir mis
+
+---: Others have no permissions for this directory.
+
+-: Bu kısa çizgi veya kısa çizgi, belirli bir iznin bulunmadığını gösterir. İzin dizesinde kısa çizgi görüyorsanız bu, ilgili iznin verilmediği anlamına gelir.
+
+
+ORNEK!!!
+-rwxrwxr-x  1 adem(KULLANICI)     adem(ADEM GRUBUNA SAHIP OLAN KULLANICILAR)             20 des.  11 10:00 betik.sh
+
+-rwx rwx r-x
+rwx-(READ-WRITE-EXECUTE) kullanicininn kendisinini sahpi olduugu  yetkiler
+rwx(READ-WRITE-EXECUTE)  kullanicinin ait oldugu gruptakilerin sahip oldugu yetkiler
+r-x(READ-EXECUTE)  OTHER- ne kullanicinin kendisi ne de kullanicinin dahil oldugu grupta olmayan kullanicilar icin gecerlidir bu yetkilerde!!!!
+
+
+-rw-rw-r--  1 adem     adem             33 des.  26 15:51 testfile.sh
+
+EGER YETKI OLARAK EXECUTABLE HALE DE GETIRECEK OLURSAK!!!!
+adem@adem:~$ chmod +x testfile.sh
+4 -rwxrwxr-x  1 adem     adem             33 des.  26 15:51 testfile.sh
+
+YETKILERI TEST EDERSEK
+-rw-rw-r--  1 adem     adem             45 des.  26 15:59 testfile1.sh
+
+adem@adem:~$ ./testfile1.sh
+-bash: ./testfile1.sh: Permission denied
+adem@adem:~$ 
+Executable x yetkisi olmadigindan dolayi boyle bir hata aliriz
+
+r-cat ile acip okuuyabiliriz
+w-sudo nano ile acip icerisine birseyler yazabiliriz 
+ama dosyayi execute edemiyoruz 
+adem@adem:~$ ./testfile1.sh
+-bash: ./testfile1.sh: Permission denied
+
+dosyamizi execute edebilmek icin execute yetkisi asagidaki gibi veririz
+
+adem@adem:~$ chmod +x testfile1.sh
+adem@adem:~$ ./testfile1.sh
+This is test file and I will check it
+adem@adem:~$ 
+
+
+CHMOD ILE ERISIM YETKILERI TANIMLAMAK!
+
+ls -l
+-rwxrwxr-x  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+ONCELIKLE DOSYAMIZA AIT TUM YETKILERI SIFIRLAYALIM VEYA CIKARALIM
+r-read
+w-write
+x-execute 
+
+yetkilerini sifirlamak veya cikarmak istiyoruz
+
+adem@adem:~$ chmod -rwx testfile.sh (read-write-execute yetkilerini kaldirdik cunku basina - koyduk, basina + koyarsak o yetkileri veririz, basina - koyarsak o  yetkileri kaldiririz)
+
+----------  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+DOSYASNIN SAHIBI ILE ILGILI YETKILER EKLEYECEKSEK EGER CHMODDAN SONRA U(USER) ILE BASLARIZ
+user(dosyanin sahibi-owner) a executable yetkisi verildi
+chmod u+x testfile.sh
+
+---x------  1 adem     adem             27 des.  26 15:54 testfile.sh
+1.KARAKTER- D ISE DIRECOTRY, - ISE FILE, L ISE DE SYMBOLINK LINK DEMEKTI
+234. KARAKTERLER, --X(- DEMEK YETKI YOK DEMEKTIR, X I GORDGUMZE GORE EXECUTABLE Y ETKISI VAR, AMA READ-WRITE YETKILERI OWNER ICIN YANI DOSYA HANGI KULLLANICI UZERINDE OLUSTURULDU ISE SAHIBI ODUR!!!)
+567.KARAKTERLER OWNER IN DA AIT OLDUGU GRUP ICINDEKI KULLANICILARA AIT YETKILER ICINDIR(---) HICBIR YETKI VERILMEMIS
+8910.KARAKTERLER ISE OTHER YANI NE OWNER, NE DE GROUP ICINDE OLMAYAN KULLANICILAR ICINDIR(---)  
+
+user(owner-adem) dosya sahibi kullanicisina +read-write yetkilerini ekliyor
+adem@adem:~$ chmod u+rw testfile.sh
+-rwx------  1 adem     adem             27 des.  26 15:54 testfile.sh
+adem@adem:~$ chmod u-x testfile.sh
+-rw-------  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+adem grubuna ait kullanicilar icin read yetkisini de ekliyoruz
+chmod g+r testfile.sh
+-rw-r-----  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+Other kullanici(yani ne user(owner-adem) ne de group kullanicilarindan degil ise)
+adem@adem:~$ chmod o+r testfile.sh
+
+-rw-r--r--  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+- ilk karakter(- file, d directory, l Symbollink)
+rw- (234.karakterler user(owner) adem in dosya uzerijndeki yetkileridir read,write yetkisi var ama executablle yetkisi yok)
+r--(567.karakterler ise adem group unda bulunan kullanicilarin dosya uzerindeki yetkileridir, r:read, -- write ve executable yetkileri yok)
+r--(8910. karakterler ise user(owne-adem) ve group kullanicilari haricnde kalan other kullanicilar in dosya uzerindeki yetkilerdir!!!!)
+
+HEM USER, HEM GROUP HEM DE OTHER HEPSINE BIRDEN YETKI EKLEMEK ISTERSEK
+
+adem@adem:~$ chmod a+x testfile.sh
+a(all=>user(owner), group, other)
+-rwxr-xr-x  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+TUM KULLANICILARIN-HERKESIN-ALL YALNIZCA CALISTIRMA YETKISI OLSUN ISTERSEK
+adem@adem:~$ chmod a=x testfolder(a=x denildiginde, a-all-tum kullanicilara x-executable yapar, ve diger yetkileri de kaldirir)
+d--x--x--x  3 adem     adem           4096 des.  26 17:17 testfolder
+
+
+
+PEKI AYNI ANDA HEM BIR YETKI YI CIKARIRKEN BASKA BIR YETKIYI EKLEYEBILIRIZ
+              user     group 
+-rwxr-xr-x  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+user(owner) kullanicisina read ve write yetkilerini ver onun disindaki yetkileri kaldir demis oluyoruz =(esittir) ile yapinca!!!
+adem@adem:~$ chmod u=rw testfile.sh
+
+-rw-r-xr-x  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+YETKI TANIMLAMANIN RAKAMLARLA KISA YOLDAN YAPILMASI
+
+r:4(READ)  
+w:2 (WRITE)
+x:1(EXECUTE)
+ sayilarin a karsilik geliyorlar ve biz yetkileri tanimlamak icin bu sayilarin toplamlarini kullanabiliyoruz
+
+mkdir testfolder
+
+drwxrwxr-x  2 adem     adem           4096 des.  26 16:51 testfolder
+
+adem@adem:~$ chmod 000 testfolder/
+0 DEMEK, YETKI  YOK DEMEKTIR!
+
+TUM YETKILERI SIFIRLIYORUZ
+1.0 USER(OWNER)
+2.0 GROUP
+3.0 OTHERS 
+A AIT YETKILERI TEMSIL EDER!!!!
+
+USER,GROUP VE OTHER HEPSI ICINDE YETKILER KALDIRILSIN DENMIS OLUYOR
+
+d---------  2 adem     adem           4096 des.  26 16:51 testfolder
+
+SADECE USER(OWNER) ICIN READ YETKISI VERECEK OLURSAK
+adem@adem:~$ chmod 400 testfolder
+dr--------  2 adem     adem           4096 des.  26 16:51 testfolder
+
+SADECE USER(OWNER) ICIN HEM READ, HEM WRITE YETKISI VERECEK OLURSAK
+
+adem@adem:~$ chmod 600 testfolder
+drw-------  2 adem     adem           4096 des.  26 16:51 testfolder
+
+USER(OWNER) KULLANICISINA SADECE EXECUTE YETKISI,VE GROUP KULLANICILARINA VE OTHER KULLANICILARA DA TUM YETKILERI VERMEK ISTERSEK!
+
+chmod 177 testfolder
+d--xrwxrwx  2 adem     adem           4096 des.  26 16:51 testfolder
+
+RAKAMLARLA KULLANICILARDAN YETKI CIKARMA NASIL YAPILIR
+adem@adem:~$ chmod -033 testfolder
+033-
+0-USER(OWNER) KULLANICISINDA HICBIRSEY CIKARMA, HICBIR DEGISIKLIK YAPMA
+3-GROUP KULLANICILARINDAN 3-(2(WRITE)+1(EXECUTE)) YETKILERINI CIKART
+3-OTHER KULLANICILARINDAN 3-(2(WRITE)+1(EXECUTE)) YETKILERINI CIKART
+
+d--xr--r--  2 adem     adem           4096 des.  26 16:51 testfolder
+
+RAKAMLARLA VAR OLAN  YETKILERE YETKI EKLEMEK ISTERSEK DE 
+USER(OWNER) KULLANICISINA WRITE, GROUP VE OTHER KULLANICILARINA DA EXECUTABLE EKLEYECEK OLURSAK 
+
+adem@adem:~$ chmod +211 testfolder
+
+d-wxr-xr-x  2 adem     adem           4096 des.  26 16:51 testfolder
+
+
+CHMOD 777 testfolder NEDIR?
+777
+7:USER(OWNER) A READ(4)+WRITE(2)+EXECUTE(1) YETKILERI VERILIYOR
+7:GROUP READ(4)+WRITE(2)+EXECUTE(1) YETKILERI VERILIYOR
+7:OTHER READ(4)+WRITE(2)+EXECUTE(1) YETKILERI VERILIYOR
+
+Bir betik dosyasi icin ornegin, yani .sh dosasyi icin tum kullanici type larina tumn yetkiler veriliyor.
+.sh dosyasi demek execute edilecek dosya demektir
+
+Bu sekilde bizim execute edecegjmiz bir dosyaya gidip de tum group ve other kullanicilarina da tum yetkileri vermeye gerek yok onun yerine sadece user-owner kullanicisina tum yetkileri versek yeterlidir
+
+CHMOD 700
+ testfolder 
+
+YETKILERIN ALT DIZINLERDE GECERLI OLACAK SEKILDE DEGISTIRMEK
+ONEMLI!!!
+
+testfolder klasoru icindeki tum dosya ve klasorler ve o klasoerlerin de alt klasorlerini listeleyecek olursak eger
+
+adem@adem:~/testfolder$ sudo ls -lR
+.:
+total 8
+-rw-rw-r-- 1 adem adem   17 des.  26 17:17 subfile.txt
+drwxrwxr-x 2 adem adem 4096 des.  26 17:19 subfolder
+
+./subfolder:
+total 4
+-rw-rw-r-- 1 adem adem 32 des.  26 17:19 subfile2.txt
+adem@adem:~/testfolder$ 
+
+testfolder klasorunun yetkilerine de bakacak olursak eger: 
+
+d-wxr-xr-x  3 adem     adem           4096 des.  26 17:17 testfolder
+
+testfolder klasoru ve onun altindaki tum dosya ve klasorler icin gecerli olmasini istedgimz, tum yetkileri kaldirmak istiyrouz!!!!
+-R(recursive) option unu R(buyuk R ) kullanmaliyiz!!!!!
+
+
+adem@adem:~$ sudo chmod -R 000 testfolder
+
+
+ASAGIDA GORECEGMIZ UZERE, HEM testfolder klasorunun hem de bu klasor altindaki tum dosya ve klasorlerin yetkilerini sifirlanmasini saglayacaktir -R(RECURSIVE) option i kullanildigi icin!!!!!!!!!!!!!!!!!1
+
+adem@adem:~$ ls -l
+
+d---------  3 adem     adem           4096 des.  26 17:17 testfolder
+
+adem@adem:~$ ls -lR ~/testfolder
+ls: cannot open directory '/home/adem/testfolder': Permission denied
+adem@adem:~$ sudo ls -lR ~/testfolder
+/home/adem/testfolder:
+total 8
+---------- 1 adem adem   17 des.  26 17:17 subfile.txt
+d--------- 2 adem adem 4096 des.  26 17:19 subfolder
+
+/home/adem/testfolder/subfolder:
+total 4
+---------- 1 adem adem 32 des.  26 17:19 subfile2.txt
+adem@adem:~$ 
+
+
+testfolder klasoru ve altindaki tum dosya ve klasorlerin hepsine tum yetkileri vermek istersek eger: 
+adem@adem:~$ sudo chmod -R 777 testfolder
+
+adem@adem:~$ sudo chmod -R 777 testfolder
+
+adem@adem:~$ ls -l
+drwxrwxrwx  3 adem     adem           4096 des.  26 17:17 testfolder
+
+
+adem@adem:~$ sudo ls -lR ~/testfolder
+/home/adem/testfolder:
+total 8
+-rwxrwxrwx 1 adem adem   17 des.  26 17:17 subfile.txt
+drwxrwxrwx 2 adem adem 4096 des.  26 17:19 subfolder
+
+/home/adem/testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 adem adem 32 des.  26 17:19 subfile2.txt
+adem@adem:~$ 
+
+
+ERISIM YETKILERININ DOSYALAR VE DIZINLER UZERINDEKI GERCEK ETKISI!!!
+
+-rwxr-xr-x  1 adem     adem             27 des.  26 15:54 testfile.sh
+
+adem user-owner kullanicisi rwx(read write execute)  yetkilerine sahptir
+adem ismindeki group kullanicilari testfile.sh dosyasi uzerinde r-x(read-executable) yetksine sahptir
+other kullanicilar ise, r-x(read-execute)  yetkilerine sahiptir
+
+Bizim zaten adem user-owner kullanicimz tum yetkilere sahiptir
+Biz farkli bir kullanici adem grubunda dahil ederek, adem ismindeki grouba dahil olan kullanici olarak islemlerimizi gerceklestirmek istiyoruz
+adem54 isimli kullaniciyi once adem isimli gruba dahil edelim
+
+adem@adem:~$ sudo gpasswd -a adem54 adem
+Adding user adem54 to group adem
+adem@adem:~$ 
+
+adem54 kullanicis i uzerinden grup yetkierini test edebiliyor olacagiz!!!
+
 
 
 */
