@@ -7194,11 +7194,290 @@ SUDO APT-GET UPDATE VEYA
 SUDO APT UPDATE 
 
 KOMUTUNU CALISTIRMAMIZ GEREKIYOR SIKLIKLA
+YANI BIZ YENI BIR PAKET KURACAGIMZ ZAMAN ILK YAPACAGIMZ IS HER ZAMAN 
+SUDO APT UPDATE  KOMUTUNU CALISTIRMAK OLMALIDIR!!!!!BU COOOOK ONEMLIDIR!!!!!!!!!!!!
+
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt update
+[sudo] password for adem: 
+Hit:1 http://no.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:2 http://packages.microsoft.com/repos/code stable InRelease                
+Hit:3 http://no.archive.ubuntu.com/ubuntu jammy-updates InRelease              
+Hit:4 http://no.archive.ubuntu.com/ubuntu jammy-backports InRelease            
+Hit:5 https://dl.google.com/linux/chrome/deb stable InRelease                  
+Hit:6 http://security.ubuntu.com/ubuntu jammy-security InRelease               
+Hit:7 https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/jammy pgadmin4 InRelease
+Ign:8 https://deb.nodesource.com/node jammy InRelease
+Err:9 https://deb.nodesource.com/node jammy Release
+
+Burda, linux-ubunutu dagitima ait, repostroy adreslerini guncellemis oluyor!!!
+Kullanilmakta olan dagitima gore(ubuntu,kali...) repo adresleri degisiklik gosterecektir.
+
+APT Ile paket yuklerken conflict ler cikabiliyor neden?
+1-Linux un ubuntuya degilde ornegin kali versiyonuna ait bir repostory den gidip node.js i ubuntu da indirmeye calisildiginda, veya farkli versiyonlari indriliyor once, daha sonra da zaten farkli versiyon, yanlis versiyon yuklenmis, sonra da yeniden dogru versiyon yuklenmeye calisiliyor ve ne oluyor, confclict oluyor.
+Bu durumlarda genellikle paket once tamamaen kaldirilir, ardindan, cache vs de birseyler kaldi ise onlar da silinir 
+Ve sonra da sudo apt update ile tekrardan bir yenilenir!!!!
+
+
+sudo apt autoremove
+sudo apt autoclean
+
+sudo apt clean 
+sudo apt update
+
+
+ve artik sudo apt update 
+ile en guncel, repo  bilgilerini aldigmiiza gore , yeni bir paket kurarken artik en guncel repolardan kurmak istedigmz paketimz, sorunsuz bir sekilde kurabiliriz!!!!
+
+sudo apt update  komutu sistemimizi guncellemiyor, repolardaki index bilgisini guncelliyor. Bu sayede sistemimizde geri kalmis paketler varmi, yeni paket kurmak istedgimz de bu paketin adresi nedir gibi bilgilier apt araci ogrenebiliyor!!
+
+APT ILE YENI BIR PAKETI NASIL KURABILIRIZ
+Kurma isleminden once, kurmak istedgimz paketin repolarda nasil tutuldugunu, hangi isimle tutuldugunu ogrenmemiz gerekiyor
+Bunun icinde apt search leafpad komutunu kullanabilirz
+Ornegin leafpad isimli bir arac kurmak istiyoruz
+
+Repo da leafpad ismi ile eslesen tum paketleri bize listeleyecektir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ apt search leafpad
+Sorting... Done
+Full Text Search... Done
+l3afpad/jammy 0.8.18.1.11-3 amd64
+  Simple text editor forked from Leafpad
+
+libmousepad-dev/jammy 0.5.8-1 amd64
+  development files for libmousepad
+
+libmousepad0/jammy 0.5.8-1 amd64
+  mousepad plugins library
+
+mousepad/jammy 0.5.8-1 amd64
+  simple Xfce oriented text editor
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Burdan ornegin biz 
+l3afpad/jammy 0.8.18.1.11-3 amd64
+  Simple text editor forked from Leafpad
+Bu paketi kurmak istiyoruz, yani paket ismini burdan orgenmis olduk mesela!  
+ARACIN ISMI  l3afpad/jammy 0.8.18.1.11-3 amd64
+l3afpad oldugunu burdan anlariz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt install l3afpad
+
+Oncelikle, leafpad isminde bir paket apt-repostorilerinde olmadingin anliyoruz, apt search leafpad sonuclarindan
+onun yerine l3afpad paketi mevcut, illa ki apt respostory lerinden kurmak istersek o zaman, biz l3afpad paketini kurabiirz
+asagidaki gibi
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt install l3afpad
+
+
+Peki biz leafpad yazinca bize neden asagidaki gibi bir sonuc verdi!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ leafpad
+Command 'leafpad' not found, but can be installed with:
+sudo snap install leafpad
+
+SNAP NEDIR?
+Ubuntu nun arkasindaki sirket olan Canonical tarafindan gelistiirlen, bir paket yonetimi ve yazilim gelistirme sisteminidir
+Snap , bagimliklilari kendi icinde getiriyor direk olarak, sonra dan kurulan bir paketin ekstra dan bagimliliklarini kurmamiza gerek yok
+Bazi yazilimlar, paketler sadece snap uzerinden kurulabilir, apt repstorylerinde aranilan paket dogrudan artik bulunmuyyor olabilir, ama boyle durumlarda apt repostrylerinde o paketin alternatifi mevcut oluyor genelde, ama biz illa ki o paketi kuralim dersek o zaman snap a basvurabiliriz!!!!Bazi paketler Snap store,yani snap in depolarinda, ubuntu repostorylerinden daha guncel olarak bulunabilir
+Bu genellikle resmi depolarda artık bakımı yapılmayan veya güncellenmeyen yazılımlar için geçerlidir.
+
+snap de leafpad i kurmak istersek - snap paket yoneticisi ile 
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo snap install leafpad
+
+TEKRAR HATIRLATMAKTA FAYDA VAR BIZ SUDO APT ILE BIR PAKET KURMADAN ONCE MUTLAKA, UBUNTU REPO INDEX LERININ GUNCEL OLDUGUNDAN EMIN OLMALIYZ BUNUN ICINDE MUTLAKA, sudo apt update ile oncesinde, en guncel repo indexlerini getirmemiz gerekiyor!!!!
+
+Guncellemeyi yapmadan paket kurulumu yapmaya calisirsak ne gibi durumlar ortaya cikabilir?
+1-Oncelikle aranan paket bulunmayabilir
+2-Aranilan paket bulunsa bile farkli veya eski versiyonlarda olabilir bu da uymusuzluk, compatibale olmama sorunlari verebilir!!!!
+
+Aranilan paket bulunmazsa ilk yapmamiz gereken islem
+sudo apt update 
+yaptikdan sonra o paketi bir kez daha kurmaya calisalim!!
+
+APT ILE KURULAN PAKETIN KALDIRILMASI
+sudo apt remove l3afpad  -  sudo apt-get remove l3afpad ile de yapabilirdik
+Bize Y/N diye sorar Y dersek l3afpad aracini silecektir
+
+Biz paket silerken su sekilde mesajlar gorecegiz 
+The following packages were autumatically installed and are no longer required:
+............................
+............................
+Use 'sudo apt autoremove' to remove them
+The following packages will be removed:
+l3afpad
+Yalnizca l3afpad i siliyor, ama bu arac ile birlikte gelen bagimliliklar sistem de kalmaya devam ediyor
+Eger biz bu arac ile gelen ve baska araclarinda kullanmadigi diger bagimliliklari da tamaman silmek istersek: 
+sudo apt remove l3afpad YERINE sudo apt autoremove l3afpad ile de sileblirdik
+Ama tabi sonradan da yine  biz 
+sudo apt autoremove l3afpad
+komutunnju calistirarak, tum bagimliklari da silebiliriz
+
+APT ILE SILINEN ARACIN KONFIGURASYON DOSYALARI
+apt araci da ayni dpkg aracinda oldugu gibi remove veya autoremove ile bir araci sildiklari zaman, ilgli aracin, konfigurasyon doslarini silmiyor.Cunku ilerde silinen araci tekrar yukleyip ayni konfigurasyonu kullanabilme ihtimalimz var.
+EGer biz bilincli bir sekilde, bu konfigurasyonlari bir daha kullanmayacagimzdan emin isek, bu konfigurasyon dosyaolarinin da silinmesini talep edebiliriz
+Bunun icin --perge option i ekleriz!!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt autoremove --purge l3afpad
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Package 'l3afpad' is not installed, so not removed
+0 upgraded, 0 newly installed, 0 to remove and 11 not upgraded.
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+Tabi biz l3afpad aracini daha once sildigmiz ve bu araca dair herhangi bir konfigurasyon yapmadimgz icin herhangi birsey silinmemis oldu
+
+Ya da direk asagidaki gibi komutu calistirirsak eger, zaten direk olarak, aracin kendsi, konfigurasyon dosyalarini ve , bagimliliklari herseyini silmis oluruz!
+sudo apt autopurge l3afpad
+
+PAKET BAGIMLILIKLARININ DUZELTILMESI 
+
+Bir aracin calismasi icin birden fazla ek pakete ihtiyac duyuluyor normalde.
+Bu bagimliliklar hatali islemlerimiz sonucu bazen silineibiliyor
+
+Bu tarz bagimlilik hatalarinin cozulmesi icin yine apt aracini kullanabiliriz
+apt aracinin baggimlilik sorununu cozebilmek icin: 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt install -f
+ya da asagidaki gibi de yapabiliriz ayni islemi....
+dem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt --fix-broken install
+
+BIR DAHA HATIRLATMAKTA FAYDA VAR, EGER SUDO APT UPDATE YAPMAZSAK BAGIMLILIK SORUNLARI DA COZULEMEYEBILIR, CUNKU SUDO APT INSTALL -F ILE GIDIP GUNCELLENMIS REPO DA PROBLEMI COZEBILIR, ESKI REPO DA PROBLEMI COZEMEYEBILIR...ONDAN DA DOLAYI  SUDO APT UPDATE COOK ONEMLIDIR, REPO INDEXLERININ GUNCELLENMESI ICIN!!!!
+
+PAKETLERIN UPGRADE EDILMESI!!!!
+
+Her hangi bir pakette guncelleme yapmadan once repo indexlerini mutlaka guncellemeliyiz!!!!!
+
+sudo apt update
+SONRASINDA ARTIK UPGRADE KOMUTU CALISTIRILABILIR!
+
+sudo apt upgrade 
+Once yukseltilebilecek paketleri listeler sonra da bize yukseltmek isteyip istemedgimzi sorar, topluca hepsini birden yukseletmek icin
+Eger biz paketler in hepsini degil de spesifik olarak bir kac tanesini yukseltecek olursak eger,
+
+sudo apt upgrade komutu calistirilinca, Y-N sorusuna kadar hangi paketlerin yukseltilebilecegini veriyor o yukseltilebilecek paketlerden 1 tanesinin ismini aliriz ve 
+
+sudo apt install zsh  (paket ismi zsh dir)
+YANI BIZ SPESIFIK BIR PAKETIN EN GUNCEL SURUMUNU YUKLEMEK ISTERSEK ONU TEKRARDAN KURARAK BUNU YAPABILIRIZ!!!!!
+EGER KI TUM PAKETLERIN SURUMUNU AYNI ANDA TOPLU OLARAK, YUKSELTMEK ISTEMEZ ISEK, VE SPESIFIK OLARAK BAZI PAKETLERI TEKER TEKER YUKSELTMEK ISTERSEK O ZAMAN SADECE O PAKETI ILK DEFA KURAR GIBI NORMAL , sudo apt install zsh  KOMUTUNU CALISTIRIRSAK O ZAMAN, ZATEN O PAKETI SON SURUMUNE YUKSELTMIS OLURUZ!!!!
+
+YANI BIZ VAR OLAN BIR ARAC I TEKRARDAN SUDO APT INSTALL DIYE YUKLEDIGMZDE, O ILGILI ARACIN UZERINE YAZMIS OLMUYOURUZ VEYA O ARACI SILMIS DE OLMUYORUZ, SADECE ILGILI ARACI BIR UST SURUME YUKSELTMIS OLUYORUZ!!!
+
+SADECE KURULU BIR ARAC I TEKRAR KURDUGMUZDA-YANI YUKSELTTIGIMZDE BIZE BU ARAC ILE ILGILI BAZI KONFIGURASYON SORULARI SORULABILIR
+BUNLARA DOGRU CEVAPLAR VERMELIYZ
+
+KAPSAMLI GUNCELLEME-YUKSELTME ISLEMI
+
+sudo apt upgrade ile biz
+sadece sistemimizde yuklu bulunan paketlerin-araclarin, ubuntu repolarindaki, en son surumlerine yukseltilmesi saglanmis oluyor 
+Ancak, eger paketlerden bazilarinin yeni surumlerinde, eskiden var olan bazi bagimliliklara artik ihtiyaci yok ise bunlari silmiyor, ya da yeni bagimliliklar var ise bunlari eklemiyor, veya bunlar ile ilgili herhangi birsey yapmiyor.  
+Bunun yerine  
+sudo apt dist-upgrade  komutunu kullanmamiz gerekiyor!!!!!
+BU KOMUT SAYESINDE GUNCELLEME YAPILIRKEN VAR ISE YENI BAGIMLILIK PAKETLERININ KURULMASI, VE AYRICA GEREKSIZ PAKETLERINDE KALDIRILMASI SAGLANIYOR
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt dist-upgrade
+
+BU KOMUT, GEREKSIZ PAKETLERIN SILINMESI,VE UPGRADE EDILEN ARACA EK OLARAK EKLENMESI GEREKEN BAGIMLILIKLAR I DA EKLEYECEKTIR
+BU SEKILDE COK DAHA GENIS KAPSAMLI, SISTEM GUNCELLEMESI YAPMAK ISTERSEK O ZAMAN, DIST-UPGRADE KOMUTUNU KULLANMAMIZ GEREKIYOR
+
+ISLETIM SISTEMINI BIR UST SURUMUNE YUKSELTMEK ISTEDIGMZDE DE 
+SUDO APT DIST-UPGRADE YAPARAK SISTE ILE ILGILI EN GUNCEL EN YUKSEK SURUMLERE ERISEBILIRIZ
+
+EGER SISTEM YUKSELTEME YAPACAKSAK, KULLANILACAK OLAN DAGITIM, IN UBUNTUNUN DEVELOPER LARI TARAFINDAN SUNULAN, DOKUMANTASYONDAN INCELYEREK YAPMALIYZ!!!
+
+APT UZERINDEN KURULAN  ARACLAR IN KURULUM DOSYALARI, YANI .DEB UZANTILI DOSYALARI TUTULUYOR NERDE TUTULUYOR 
+ls /var/cache/apt/archives
+adresinde tutulyor.
+Olur da internet in olmadigi ortamda calisacak olursak burdan, .deb uzantili dosyalari dpkg ile kurararak kullanabiliriz 
+Ama burda her kurulan paketin kurulum dosyasi da tutuldugunda zamanla burasi iyice sisecektir
+Burayi da temizlemek istersek o zaman 
+
+sudo apt clean 
+
+ARADA BIR BU KOMUTU CALISTIRARAK, /var/cache/apt/archives burdaki sismeyi onleyebiliriz!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls /var/cache/apt/archives/
+lock  nodejs_16.20.2-deb-1nodesource1_amd64.deb  partial
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo apt clean
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls /var/cache/apt/archives/
+lock  partial
+
+IHTIYACIMZA YONELIK COZUM SUNAN PEKCOK FARKLI REPO BULUNYYOR
+DAGITIM GELISTIRICILERIN RESMI OLARAK SUNDUGU REPOLARDAN GELISTIRICILERIN KISISEL OLARAK GELISTIRDIGI REPOLARA KADAR PEKCOK REPO ADRESI BULUNMAKTADIR
+NETICE DE TEK BIR REPO ADRESI BULUNMADIGI ICIN, APT ARACI REPO ARACININ KENDISINE DOGRU BIR SEKILDE BELIRTILMESINI ISTIYOR
+BUNU DA /etc/apt/sources.list  dosyasi icerisinde tutuluyor
+
+sudo nano /etc/apt/sources.list 
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb http://no.archive.ubuntu.com/ubuntu/ jammy main restricted
+
+Bu dosyalarda dagitimlara ait resmi deoplar /etc/apt/sources.list  dosya icerisinde, default olarak geliyor
+
+YENI BIR REPO ADRESI NASIL EKLEYEBILIRIZ!! 
+Her zaman icin gelistiricilerin sundugu resmi repo larin dokumantasyonu incelemmemiz gerekiyor!
+Ubuntu repo ile ilgil resmi sayfalari okuyarak, arastirma yaparak bu islemi halledebiliriz 
+ubuntu linux repository diye chrokme da arayabiliriz
+
+GRAFIKSEL ARAYUZLU PAKET YONETIM ARACLARI
+
+apt, dpkg yi kullanarak, komut satirinda nasil yapildigini ogrendik
+ama grafiksel arayuzlu paket yonetimi icin kendimzi arastirmamiz gerekiyori
 
 
 
+DEBIAN DAGITIM  REDHAT DAGTIMLAR 
+dpkg                  rpm
+apt                   yum
+.deb                 .rpm
 
 
+KAYNAK KODDAN DERLEMEK!!
+Her zaman mevcut sistem icin hazirlanmis olan paket dosyalari bulunmayabiliyor
+Bu durumda bizim kaynak kodlari kullanarak, araci mevcut sistemimizde calisabilir hale getirmemiz yani bu aracimizi derlememiz gerekiyor
+Yani kaynak koddan derlemeye de cok az da olsa ihtiyac duyabiliriz
+
+GELISTIRICILER MUTLAKA, KAYNAK KODDAN KURULUM GEREKTGIGINDE DE ADIM ADIM NELER YAPMAK ISTEDIGI DOKUMANLARDA IZAH EDILIYOR!
+
+wget source code 
+diye arayabiliriz wget in source code 
+Burda kaynak kodlari hangi websitesinden okudugmz cok onemli...Cok dikkatli olmak gerek, guvenilirligi ile ilgili
+
+Tam emin olmadan, kaynaklari kullanmamliyiz 
+Mumkun ise github, veya developer larin kendi sitelerinden indirmemiz daha guvenilirdir
+
+wget source code 
+GNU download server linkine tiklayinca, skstirilmis indirilebilir dosya listesini gorebiliriz
+
+Ordan en guncel skstirilmis dosyayi indiririz
+wget2-2.0.1.tar.gz
+
+wget https://ftp.gnu.org/gnu/wget/wget2-2.0.1.tar.gz 
+O an uzerinde bulundgmz dizine inmis oldu 
+
+wget2-2.0.1.tar.gz
+
+Aracimiz arsiv dosyasinda bulunuyyor
+Once bu skstirilmis arasiv dosyasindan cikarmamiz gerekiyor 
+
+SKSTIRILMIS .GZIP DOSYASINI DISARI CIKARMAK
+-d(decompress) option i kullanilmasi
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -d myfolder.tar.gz
+
+Arsiv dosyasini disari cikarmak ORNEGI!!
+-x(extract) 
+adem@adem:~$ tar -xf linux-tutorial.tar -C linux-tut
+
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ gzip -d wget2-2.0.1.tar.gz 
+adem@adem-ThinkPad-13-2nd-Gen:~$ tar -xf wget2-2.0.1.tar
+
+
+adem@adem-ThinkPad-13-2nd-Gen:~/wget2-2.0.1$ ls
+Baktigmz zaman README dosyalari da mevcuttur bu dosyalari cok iyi okumamiz gerekir
+Ve read me dosyasinda adim adim kurulumu inceleyip takip edebiliriz
+Kurulma esnasinda hata veren, kurulum gerceklesmeyen, bazi bagimlilik paket-araclari ni da biz, tekrardan kuracak sekilde adim adim, readme yi takip ederek kurulumu kendimiz kaynak kodlari uzerinden yapaiblirz
+
+Bu tarz kaynak koddan kurulum prosesslerinde, illa ki bazi hatalar olacaktir, onemli olan bizim bu hatalari arastirmak... 
 
 
 
