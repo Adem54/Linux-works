@@ -8440,6 +8440,10 @@ TESTFOLDER ALTINDAKI SUBFILE.TXT DOSYASINI CAT ILE OKUYABILIYORUZ, EXECUTE YETKI
 adem54@adem:~$ cat /home/adem/testfolder/subfile.txt
 this is the file
 adem54@adem:~$ 
+EXECUTE YETKISI OLDUGUNDAN DOLAYI,
+- ALT DOSYA VE KLASORLERE CD ILE GECIS YAPABILIYORUZ
+- CAT ILE KLASOR ALTINDAKI HERHANGI BIR DOSYAYI OKUYABILIYORUZ
+-ECHO "DENEME" >> SUBFILE.TXT , KLASOR UN ALT DOSYASI ICERIGINE VERI EKLEYEBILIYORUZ!!!!!
 
 WRITE-EXECUTE YETKISI OLDUGNDAN DOLAYI,testfolder klasoru altindaki dosya icerisine girip degistirme yapabiliryouz, ve dosyayi silme de yapabiliyoruz
 adem54@adem:/home/adem/testfolder$ nano newtextfile1.txt
@@ -8472,10 +8476,125 @@ adem54@adem:/home/adem/testfolder$
 SIMDI BURAYA KADAR BIZ TESTFOLDER ALTINDAKI TUM DOSYA VE KLASORLER ICIN USER-GROUP-OTHER KULLANICILARI ICIN READ-WRITE-EXECUTE YETKILERININ TAMAMINI VERDIGMIZ ICIN, SADECE TESTFOLDER IN YETKILERINI KISITLAYARAK TESTLER YAPMISTIK
 AMA EGER BIZ TESTFOLDER IN ALTINDAKI DOSYA VE KLASORLERIN DE YETKILERINI KISITLAR ISEK O ZAMAN ZATEN, TESTFOLDER  TUM Y ETKILERE SAHIP OLSA BILE, UZERINDE READ-(CAT),WRITE, EXECUTE ISLEMLERI  YAPILACAK OLAN SUBFOLDER VEYA SUBFILE UZERNDE KULLANICLARIN YETKILERINE GORE ISLEMLER YAPILABILECEKTIR!!!!
 
-ESASEN KLASORLER YETKILERI, KLASORLER E GECIS, KLASOR ICERIGINI LISTELEME VE KLASOR ICERIISNDE DUZENLEME YAPMA KAPSAMINDA GECERLI OLAN YETKILERDIR!!!!
-DOSYA YETKILERI ISE DOSYALARI CALISTIRMA, VE ICERISINDE DUZENLEME YAPMA KAPSAMNDAKI YETKILERDIR
+ESASEN KLASORLER YETKILERI, 
+KLASORLER E GECIS,
+ KLASOR ICERIGINI LISTELEME VE 
+ KLASOR ICERIISNDE DUZENLEME YAPMA KAPSAMINDA GECERLI OLAN YETKILERDIR!!!!
 
+DOSYA YETKILERI ISE DOSYALARI CALISTIRMA, VE ICERISINDE DUZENLEME YAPMA KAPSAMNDAKI YETKILERDIR
 DOLAYISI ILE BIR KLASOR ALTINDA BULUNAN ALT KLASOR VE DOSYALR UZERNDE ISLEM  YAPACAKSAK, HEM KLASOR DUZEYINDE HEM DE ONUN ALTINDA BULUNAN KLASORLER VE DOSYALR DUZEYINDE YETKILERIN TAM OLMASI SARTTIR!
+
+!!!!BURAYI TAM OLARAK ANLAYALIM!!!!!!
+YANI BIZ ORNEGIN TESTFOLDER KLASORU ALTINDAKI BIR DOSYAYI CAT ILE OKUMAK ICIN TESTFOLDER KLASORUNE EXECUTE YETKISI OLMALIDIR DEDIK AMA BU NE ZAMAN GECERLI, BURDA TESTFOLDER KLASORU ALTINDAKI CAT ILE OKUNACAK DOSYA ICIN DE READ-WRITE-EXECUTE YETKILERININ TAMAMI VERILDIGNI VARSAYARAK BUNU KONUSUYORUZ!!!!! YANI HERSEYDEN ILK ONCE CAT ILE OKUNACAK DOSYA ICIN READ-WRITE-EXECUTE YETKILERI TAM VERILMELIDIR KI ONDAN SONRA BIZ BU DOSYA YI BARINDIRAN KLASOR UZERINDEN BU DOSYAYI OKURKEN DE BU PARENT POZISYONUNDAKI KLASOR E DE EXECUTE YETKISI VERILDIGI TAKDIRDE, CAT ILE TESTFOLDER ALTINDAKI DOSYA OKUNABILIR...BUNU BILELIM VE TAM OLARAK NE YAPILDIGNI ANLAYALIM!!!!
+
+
+BIR DOSYA ICIN 
+READ: O DOSYAYI CAT ILE OKUMA YETKISI 
+WRITE: O DOSYA ICERISINE VERI EKLEME, VERI CIKARMA, EDIT YAPMA... 
+EXECUTE: O DOSYAYI CALISTIRMA YANI ORNEGIN test.sh dosyasni ./test.sh diyerek calistiriliyor linux de ..
+
+.SH DOSYALARI KISACA
+Linux de shell script dosyalari dir .sh uzantili dosyalar
+Ve bu dosdyalar icerisine birden fazla bash komutlari yazip , tum komutlari bir kere de .sh dosyasi iceriisnde calistirabiliriz
+Bash komutlarini, direk olarak .sh dosyasini execute ederek yani ./test.sh diyerek  calistirabiliriz
+
+Özetle, Linux'taki .sh dosyaları, Linux sisteminde görevleri otomatikleştirmenin ve çeşitli işlemleri gerçekleştirmenin bir yolu olan kabuk komut dosyalarını yazmak için kullanılır. Bir .sh dosyasını çalıştırmak için, onu yürütülebilir hale getirmeniz ve ardından ./ notasyonunu ve ardından betiğin adını kullanarak yürütmeniz gerekir.
+
+!!!SIMDI BURAYA DA COOOK DIKKAT!!!!
+!!DOSYA VE KLASOERLERIN IZINLERINI SADECE VE SADECE O DOSYA VE KLASORLERIN USER I YANI OWNER I KIM ISE O DEGISTIREBILIYOR, YANI ORNEGIN /HOME/ADEM/TESTFOLDER  ADEM KULLANICISI ALTINDA BULUNAN TESTFOLDER KLASORU ADEM KULLANICISINA AITTIR YANI ADEM KULLANICISI BU TESTFOLDER IN USER-OWNER IDIR...AMA /HOME/ADEMTEST   ADEMTEST KULLANICISI NA SU - ADEMTEST ILE GECIS YAPILDIGINDA, /HOME/ADEM/TESTFOLDER ADEMTEST KULLANICISINA GECIS YAPILDIGINDA ACILABILIR, VE O ZAMAN ADEMTEST KULLANCISI GIDIP DE /HOME/ADEM/TESTFOLDER UZERINDE BIR YETKI DEGISIKLIGI YAPAMAYACAKTIR BUNU UNUTMAYALIM!!!! BUNU BILMEK COOOOK ONEMLI!!!
+!! YANI NETICE OLARAK, BIR DOSYA VE KLASOR UZERINDE KI YETKI DEGISIKLIGIINI ANCAK O DOSYA VE KLASOR UN USER-OWNER I OLAN KULLANICI YAPABILIR!!!!!!BUNU DOGRU ANLAMAK VE BILMEK COOOOOK KRITIK ONEME SAHIPTIR!!!!!!
+
+
+BUNU TEST EDECEK OLURSAK ASAGIDAKI GIBI:
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod 777 testfolder; chmod g=rwx testfolder;
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxrwxrwx 3 adem adem 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ chmod g=x /home/adem/testfolder
+chmod: changing permissions of '/home/adem/testfolder': Operation not permitted
+
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ chmod o-rwx /home/adem/testfolder
+chmod: changing permissions of '/home/adem/testfolder': Operation not permitted
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+
+DIKKAT EDERSEK OPERASYONA IZIN VERILMEDI!!!CUNKU  ADEMTEST KULLANICISI TESTFOLDER IN OWNER I DEGILDIR VE ONDAN DOLAYI DA TESTFOLDER UZERINDE YETKI DEGISTIRME IZNI YOKTUR!!
+NOT PERMITTED
+
+!! BU SOYLEDIGMIZ ISLEM ICIN YALNIZCA TEK BIR ISTISNA VAR O DA ROOT KULLANICISIDR. ROOT KULLANCISI SISTEM UZERINDEKI TUM DOSYA VE KLASORLER IN YETKILERINI DGEISTIRME YETKISIN E SAHIPTIR!
+!!PEKI BU NE DEMEK, YANI  BIZ ADEMTEST KULLANICISI UZERINDEN, EGER ROOT YETKILERINE SUDO UZERINDEN ERISECEK OLURSAM EGER, O ZAMAN ADEM KULLANICISINA AIT OLAN TESTFOLDER KLASORU VE ONUN ALTINDAKI KLASOR VE DOSYA YETKLILERINI DEGISTIRMEM MUMKUN HALE GELECEKTIR!!!
+
+! ademtest kullanicisi uzerinde olusturdugmz newtest.txt dosya izinlerini adem kullanicisi uzerinden sudo kullanarak nasil degistirebiliyoruz!!ASAGIDA BUNUN ORNEGINI GOREBILIRIZ---BU DA COK KRITIKTIR... !  
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ echo "This is the newtestfile in ademtest user" >  newtest.txt
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls
+newtest.txt
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls -l
+total 4
+-rw-rw-r-- 1 ademtest ademtest 41 des.  28 00:18 newtest.txt
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ exit
+logout
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod a-rwx /home/ademtest/newtest.txt
+chmod: cannot access '/home/ademtest/newtest.txt': Permission denied
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chmod a-rwx /home/ademtest/newtest.txt
+[sudo] password for adem: 
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -l /home/ademtest/newtest.txt
+ls: cannot access '/home/ademtest/newtest.txt': Permission denied
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo ls -l /home/ademtest/newtest.txt
+---------- 1 ademtest ademtest 41 des.  28 00:18 /home/ademtest/newtest.txt
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+! AMA BURDA BIRSEY VAR DIKKAT EDECEGIMZ BIZ AYNI MANTIKTAKI ISLEMI YANI SUDO KULLANARAK ADEMTEST KULLANICISI UZERINDEN, ADEM KULLANICISINA AIT TESTFOLDER YETKILERINI SUDO KULLANARAK DEGISTIREMEDIK!!!! VE ASAGIDAKI GIBI BIR MESAJ GERI BILDIRMI ALDIK BU NEDEN OLDDU  !
+
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ chmod o-rwx /home/adem/testfolder
+chmod: changing permissions of '/home/adem/testfolder': Operation not permitted
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ sudo chmod o-rwx /home/adem/testfolder
+[sudo] password for ademtest: 
+ademtest is not in the sudoers file.  This incident will be reported.
+
+SOLUTION:
+message stating that "ademtest is not in the sudoers file." This means that your user account ademtest is not configured in the sudoers file, and therefore, it's not allowed to run commands with superuser privileges using sudo.
+BURDA 2 SEKILDE BU ISI COZERIZ
+1- USER-KULLANICILARDAN SUDO KULLANMA YETKISI OLAN, YANI SUDOERS DOSYASINA SAHIP  OLAN KULLANICI UZERINDEN BU ISI YAPMAK
+2- PEKI BIZ ADEMTEST KULLANICISININ SUDO YU KULLANMA YETKISI YOK ISE YANI SUDOERS DOSYASINA SAHIP DEGIL AMA BEN ISLEMIMIZ ILLA KI ADEMTEST KULLANISI UZERINDEN YAPMAK ISTIYORUM , NASIL ADEMTEST KULLANICISI ILE SUDO KOMUTUNU KULLANABILECEK HALE GETIRIRIZ?
+ADEMTEST KULLANICISINA SUDOERS DOSYASINI EKLEMEMIZ GERKEKIR
+
+ONCELIKLE SUDO KULLANMA YETKISI OLAN ADEM KULLANICISINDA OLMAMIZ GEREKIR
+SUDO KULLANMA YETKISI OLAN ADEM KULLANICINDA IKEN 
+
+1-Log in as a user with administrative privileges, such as the adem user.
+Eger baska bir kullanici da isek o zaman su - adem  diyerek adem kullanicisna login olabiliriz, ama zaten adem kullanicsindan isek o zaman zaten birsey yapmamiza gerek yok
+adem kullancisinda oldugjmzu ise terminal de komut yazdigmz satir in en solunda kullanici adi yazar zaten.. 
+ya da echo $USER  ile de gorebiliriz current user ismini
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo $USER
+adem
+
+2-Run the following command to edit the sudoers file using the visudo command:
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo visudo
+3-In the editor that opens, navigate to the section of the file that specifies user privileges. You'll typically find a section that looks like this:
+# User privilege specification
+root    ALL=(ALL:ALL) ALL 
+4-To grant ademtest sudo privileges, add the following line below the root line:
+ademtest    ALL=(ALL:ALL) ALL
+It should look like this:
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+ademtest    ALL=(ALL:ALL) ALL
+
+Save the file and exit the editor. In most cases, you can save and exit the editor by pressing Ctrl+X, then Y, and finally Enter.
+
+! ARTIK SUDO YU KULLANARAK, ADEMTEST KULLANICISINDA IKEN ADEM KULLANICISININ USER-OWNER OLDUGU TESTFOLDER UZERINDEKI YETKILERI DEGISTIREBILMIS OLDUK!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls -ld /home/adem/testfolder
+drwxrwxrwx 3 adem adem 4096 des.  27 00:09 /home/adem/testfolder
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ sudo chmod a-rwx /home/adem/testfolder
+[sudo] password for ademtest: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls -ld /home/adem/testfolder
+d--------- 3 adem adem 4096 des.  27 00:09 /home/adem/testfolder
 
 */
 
