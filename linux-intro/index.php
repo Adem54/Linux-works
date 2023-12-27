@@ -8107,6 +8107,222 @@ adem@adem:~$
 
 adem54 kullanicis i uzerinden grup yetkierini test edebiliyor olacagiz!!!
 
+-rwxr-xr--  1 adem adem       30 des.  26 23:06 testfile.sh
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo gpasswd -a ademtest adem
+Adding user ademtest to group adem
+adem@adem-ThinkPad-13-2nd-Gen:~$ groups ademtest
+ademtest : ademtest adem
+
+
+              
+-rwxr-xr--  1 adem(user-owner) adem(group-name)       30 des.  26 23:06 testfile.sh
+
+- file oldugunu gosterir(d-olsa idi directory, l olsa idi systemlink olurdu)
+rwx (user-owner in read-write-execute yetkisi oldugunu gosterir)
+r-x (group kullanicilarinin dosya uzerinde read, execute yetkisi var ama write yetkisi yok)
+r--(other kullanicilarinin sadece read yetkisi var)
+
+O zaman, biz adem grubunda olan bir kullanci, olan ademtest kullanicisinin yetkisini test edecegiz!!!!!
+ademtest kullanicisi adem grubunun kullanicisidr, ve r-x yani read, ve execute yetkilerine sahpitir
+
+ademtest kullanicisina gecis yapiyoruz oncelikle asagidaki gibi :
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ whoami(current user i gormek icin kullaniriz)
+ademtest
+
+Once grup kullanicilarin i sadece okuma yetkisi olacak sekilde degistirelim, yetkilerini
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod 744 testfile.sh
+744
+7(user-owner- read(4)write(2)execute(1))
+4(group- read(4))
+4(other- read(4))
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -l
+YADA
+chmod g=r testfile.sh (group kullanicilarina read yetkisi ver digerlerini de kaldir demektir)
+-rwxr--r--  1 adem adem       30 des.  26 23:06 testfile.sh
+adem grubuna dahil olan kullanicilar sadece read-okuma yapabilirler
+Yani ademtest kujllanicisi adem grubuna dahil olan bir kullanici olarak
+
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ groups ademtest
+ademtest : ademtest adem
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+
+ademtest kullanicisina switch olalim m
+
+su - ademtest
+Ardindan da adem kullanicsinin altinda bulunan, testfile.sh dosyasinin uzerinde degisklik yapmaya calisacagiz, ademtest kullanicisi ile!!!!
+
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem$ nano testfile.sh
+Icinde degisiklik yapip da ctrl-x ile kaydetmeye calistigimda permission denied hatasi aliyoruz!!!!!!!!!!!!
+Sonra tekrar adem kullancisina gecis yaparsak 
+su - adem
+
+Ve chmod g=+w testfile.sh
+-rwxrw-r--  1 adem adem       30 des.  26 23:06 testfile.sh
+ve ardindna tekrardan ademtest e gecis yap
+
+su - ademtest
+Sonra sudo nano /home/adem/testfile.sh 
+icine girip degisiklik yapip ctrl-x yapinca sorunsuz bir sekilde kaydolmus oluyor!!!!
+
+
+cat-head-tail ile read islemini yapariz
+sudo nano ile write islemin yapariz
+
+adem kullanisinda iken sorun  yok cunku onun yetkisinde sorn yok
+adem@adem-ThinkPad-13-2nd-Gen:~$ ./testfile.sh
+Hello,  this is my testfile.sh
+
+Ama ademtest kullanisinin execute  yetkisi olmadigindan persmission denied hatasi aliriz asagida!!!!!
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem$ ./testfile.sh
+-bash: ./testfile.sh: Permission denied
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem$ 
+
+GORULDUGU UZERE BIZ KULLANICILAR ARASINDA GECIS YAPABILIYORUZ VE BIR KULLANICIDAN DIGERINE GECTIGIMZDE, O KULLANICIDA IKEN DIGER KULLANICILARINI DOSYALARINA DA HOME/ ALTINDA KULLANICILARIN ISIMLERINNIN OLDUGU KLASOR-LER UZERINDEN ERISEBILIRIZ...VE DE AYNI GROUP TA OLAN, FARKLI KULLANICILARIN YETKILERINI DE BU SEKIDLE TEST ETME FIRSATI BULMUS OLURUZ
+
+
+
+read: cat-head-tail
+write-sudo nano
+execute: ./testfile.sh  seklinde execute edilir..
+
+COOK ONEMLI BIR BILGI!!!!
+EGER BIR DOSYA DA READ YETKIMZI YUOK ISE O DOSYA DA EXECUTE YETKIMZ OLSA BILE, O DOSYAYI CALISTIRAMAYIZ!!!!BUNU UNUTMAYALIM!!!!
+DOSYA ICERIGINI GOREMIYORSAK ICINDEKI VERILERE ERISEMEYIZ, YANI READ  YETKISI YOK ISE EXECUTE YETKISI OLSA BILE O DSOSYAYI CALISTIRAMAYIZ
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod 714 testfile.sh
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ cd /home/adem
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem$ ls -l
+
+-rwx--xr--  1 adem adem       38 des.  26 23:28 testfile.sh
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem$ ./testfile.sh
+bash: ./testfile.sh: Permission denied 
+DOLSYISI ILE TEK BASINA EXECUTE YETKISI CALISTIRMAK ICIN YETERLI OLMAZ, MUTLAKA READ YETKISI DE OLMALIDIR EXECUTE EDILEBILMESI ICIN
+
+ERISIM YETKISININ KLASORLER UZERINDEKI ETKISI!!!
+
+KLASOR DE READ YETKISI VAR ISE:
+KLASOR ALTINDAKI DOSYA-KLASORLERIN LISTELENEBILMESI ICIN-READ  YETKISI GEREKIR
+KLasor altindaki dosyalari listeyebilmemiz icin o klasor uzerinde read-okuma yetkisi olmak zorundadir
+
+KLASOR DE WRITE YETKISI VAR ISE: 
+Dizin icinde; yeni dosya, klasor olusturma ve silme, yeniden isimlendirme islemlerini yapabiliyoruz
+
+KLASOR DE EXECUTE YETKISI VAR ISE DE:
+Dizine gecis yapabiliyoruz ve icerisindeki dosya ve klasorlere ayni sekilde, erisebiliyoruz
+
+KLASOR VE TUM ALTKLASORLERE AYNI YETKILERIN UYGULANMASI ICIN -R(recursive) opotion i kullanilmalidir
+testfolder klasoru ve tum alt dosya ve klasorlere tum y etkileri veririiz once
+-R(recursive) option unun kullanilmasi gerekrir
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod -R 777 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -lR testfolder
+testfolder:
+total 8
+drwxrwxrwx 2 adem adem 4096 des.  27 00:08 subfolder
+-rwxrwxrwx 1 adem adem   35 des.  27 00:09 test1.txt
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 adem adem 50 des.  27 00:09 test2.sh
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+ls -ld testfolder (-ld sadece kendisini, directory olarak bize goster demektir)
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxrwxrwx 3 adem adem 4096 des.  27 00:09 testfolder
+
+testfolder klasorunun kendisine, sadece read okuma izni verecegiz, kim icin adem grubunundaki kullanicilar icin:
+
+drwxrwxrwx 3 adem adem 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod g=r testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxr--rwx 3 adem adem 4096 des.  27 00:09 testfolder
+d-directory
+rwx:adem(owner-read-write-execute yetkilerine sahip)
+r--:group(read yetkisine sahip)
+rwx:other(read-write-execute yetkilerine sahip)
+
+adem kullanicisi owner oldugu icin ve read-write-execute yetkileri oldugu icin, cd ile testfolder in alt tindaki klasorlere gecis yapaibliyor
+adem@adem-ThinkPad-13-2nd-Gen:~$ cd testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~/testfolder$ cd ..
+
+Ancak ademtest kullanicisi adem grobunun bir kullanicisidr ve sadece read yetkisi vardir testfolder icin, ama execute yetkisi olmadigi icin testfolder dan alt klasorlere gecis yapamiyor..Alt klosorler e gecis execute yetkisi oldugunda yapilabiliyor!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ cd /home/adem/testfolder
+-bash: cd: /home/adem/testfolder: Permission denied
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+
+TEKRARDAN ademtest bir grup a dahil olan bir kullanicidir, ve group yetksiine read in yaninda execute u de vererek b ir daha deneyelim!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod 757 testfolder; chmod g=rx testfolder; chmod g+x testfolder;
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxr-xrwx 3 adem adem 4096 des.  27 00:09 testfolder
+
+ARTIK ademtest kullanicisi uzerinden, cd ile alt klasoerlere gecis yapabiliyoruz CUNKU ademtest group kullanicisinin, execute yetkisi vardir artik 
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ cd /home/adem/testfolder
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem/testfolder$ 
+
+testfolder in icerigi listelyebilyoruz!!!cunku ademtest grup kullanicisinin read yetkisi de vardir!!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ cd /home/adem/testfolder
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem/testfolder$ 
+
+CUNKU BIZIM, NEWFOLDER KLASORU UZERINDE, WRITE YETKIMZ YOK!!! YENI KLASOR,YENI DOSYA OLUSUTRMA, SILME, DOSYA ISMI DEGISTIRME, KOPYALAMA VS YAPAMAYIZ WRITE YETKISI OLMADAN!!!
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem/testfolder$ mkdir newfolder
+mkdir: cannot create directory ‘newfolder’: Permission denied
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem/testfolder$ touch newfile.txt
+touch: cannot touch 'newfile.txt': Permission denied
+
+TEKRARDAN adem kullanicisina gecip, TESTFOLDER A SADECE READ YETKISI VERELIM!!!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod 747 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxr--rwx 3 adem adem 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls /home/adem/testfolder
+ls: cannot access '/home/adem/testfolder/subfolder': Permission denied
+ls: cannot access '/home/adem/testfolder/test1.txt': Permission denied
+subfolder  test1.txt
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+NEDEN, READ OKUMA YETKIMZ OLDUGU HALDE ls ILE BIZ ADEMTEST GROUP KULLANICISI ILE ADEM KULLNICISININ ALTINDAKI, TESTFOLDER I N ALT DOSYA VE KLASORLERINI LISTELEYEMEDIK VE PERMISSION DENIED HAATASI ALDIK
+COOOK ONEMLI---CUNKU:
+
+BU BIRAZ LS KOMUTUNUN YAPISI ILE ILGILIDIR!! 
+ademtest@adem-ThinkPad-13-2nd-Gen:/home/adem/testfolder$ alias ls
+alias ls='ls --color=auto'(ls ile calistirilan dizin icinde renklendirmeyi sagliyor..VE ONDAN SONRA GIDIP NORMAL LS KOMUTUNU CALISTIRIYOR,ONCE, BU ALIAS KOMUTU CALISTIRIR SONRA, ANA, /usr/bin/ls komutunu calistirir!!!!!!!!!!!)
+LS KOMUTU CALISTIRILDIGINDA, 'ls --color=auto' execute ediliyor..DOLAYISI ILE LS KOMUTUNUN CALISABILMESI ICIN ADEMTEST KULLANICSINDA READ YETKISI OLMASI YETERLI DEGIL AYNI ZAMANDA, EXECUTE YETKISIDE OLMALIDIR!!!COOOOK ONEMLI!!!
+ls --color=auto  burda --color=auto argumani execute edilmeye calisiliyor!!!!
+
+BUNU ANLAMAK ISTERSEK SURDAN DA ANLAYABLIIRZ!!
+ls komutunu yalin sekilde calistirirsak direk dosyasindan o zaman sorun yasanmiyor cunku, direk dosyasindan csalisitirilinca herhangi bir execute a gerek kalammis oluyor :
+
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ whereis ls
+ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ /usr/bin/ls /home/adem/testfolder
+subfolder  test1.txt
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+
+VEYA DIREK COMMAND ILE DE CALISTIRABILIRIZ LS KOMUTUNU:
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ command ls /home/adem/testfolder
+subfolder  test1.txt
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+
+EGER GIRDGIMIZ KOMUTUN TAKMA ISMININ ONCELIK OLARAK CALISTIRIMA OZELLIGINI KAYBETMESINI ISTERSEK!!!
+command ls
+COMMAND KOMUTU ILE YAZINCA, KABUK ALIAS ISMI GORMEZDEN GELECEK VE ONCE YERLESIK KOMUTLARA BAKACAK, DAHA SONRA DA LS ISMININ GECTIGI PATH YOLLARINA BAKARAK, /usr/bin/ls dosyamizi buludugu zaman bu dosyamizi calistirabiliyor
+
 
 
 */
