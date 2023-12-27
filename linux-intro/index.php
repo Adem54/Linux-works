@@ -8322,6 +8322,7 @@ ademtest@adem-ThinkPad-13-2nd-Gen:~$
 EGER GIRDGIMIZ KOMUTUN TAKMA ISMININ ONCELIK OLARAK CALISTIRIMA OZELLIGINI KAYBETMESINI ISTERSEK!!!
 command ls
 COMMAND KOMUTU ILE YAZINCA, KABUK ALIAS ISMI GORMEZDEN GELECEK VE ONCE YERLESIK KOMUTLARA BAKACAK, DAHA SONRA DA LS ISMININ GECTIGI PATH YOLLARINA BAKARAK, /usr/bin/ls dosyamizi buludugu zaman bu dosyamizi calistirabiliyor
+Yani command komutu, ls komutunu orjinal hali ile calistiriyor 
 
 DEMEKKI BIZ HERSEYDEN ONCE CALISTIRMAYA CALISTIGIMZ KOMUT ARKADA NEYI CALISITIYOR BUNU DA KIMI ZAMAN KONTROL ETMEMIZ GEREKEN DURUMLAR OLUSABILIYOR AYNI LS KOMUTUNDA OLDUGU GIBI O ZAMAN BIZ 
 
@@ -8332,6 +8333,149 @@ WHEREIS LS
 LINUX - DE CALISIRKEN BU MANTIGI COK IYI BILMELIYIZ!!!!!!
 
 GIBI KOMUTLARI KULLANARAK, KULLANDIGMIZ KOMUT ARKADA NEYI CALISTIRIYOR ONU GORMELIYIZ VE ALDIGMIZ SONUCUN NEDEN OLDUGUNUN TAM OLARK, ARKA PLANINDA NELER DONDUGUNU IYICE OGRENIP ANLAAMLIYIZ
+
+SIMDI TEKRARDAN READ-WRITE YETKISI VERELIM TESTFOLDER A VE ADEM54 GROUP KULLANCISI ILE ADEM KULLANICIS ALTINDAKI TESTFOLDER UZERINDEKI YETKILERINI TEST EDELIM!
+
+adem@adem:~$ chmod 767 testfolder
+adem@adem:~$ ls -ld testfolder
+drwxrw-rwx 3 adem adem 4096 des.  26 17:17 testfolder
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ cd /home/adem/testfolder
+-bash: cd: /home/adem/testfolder: Permission denied
+adem54@adem:~$ ls /home/adem/testfolder
+ls: cannot access '/home/adem/testfolder/subfolder': Permission denied
+ls: cannot access '/home/adem/testfolder/subfile.txt': Permission denied
+subfile.txt  subfolder
+
+BURASININI SEBEBINI YUKARDA ACIKLAMISTIK, EXECUTE YETKISI OLMADIGINDAN DOLAYI VE LS KOMUTUN ONCE ALIAS KOMUTUNU CALISTIRIYOR DU ARKADA VE alias komutu execute edilmesi gerekiyor du once(ls --color=auto)
+adem54@adem:~$ alias ls
+alias ls='ls --color=auto'
+adem54@adem:~$ 
+
+adem54@adem:~$ command ls /home/adem/testfolder
+subfile.txt  subfolder
+adem54@adem:~$ 
+
+TESTFOLDER ALTINDAKI SUBFILE.TXT DOSYASINI OKUYAMIYORUZ, TESTFOLDER UZERINDE READ-WRITE YETKIMIZ OLSA BILE
+READ-TESTFOLLDER ALTINDAKI DOSYA VE KLASORLERI LISTELEMEYI SAGLAR
+WRITE-TESTFOLDER ALTINDAKI DOSYALAR I OKUMA,YAZMA, RENAME YAPMA, COPYALAMA,CREATE FILE,CREATE FOLDER, DELETE FOLDER,DELETE FILE... 
+EXECUTE-CD ILE TESTFOLDER DAN ALT DOSYA VE KLASORLERE GECISI SAGLAR
+
+PEKI BURDA NEDEN HALA ALT DOSYA YI OKUYAMIYORUZ CUNKU EXECUTE YETKIMZ HALA YOK, YANI TEK BASINA READ-WRITE YETKIMZ OLMASI ILE ASLNDA WRITE YETKISI ILE  YAPILABILIR DEDGIMZ TUM ISLEMLERI YINE EXECUTE YETKISI OLMADAN YAPAMIYORUZ, EXECUTE YETKISI OLDUKTAN SONRA BIZ O ISLEMLERI WRITE YETKISI ILE BERABER, YAPABILIYROUZ!!!!!
+
+adem54@adem:~$ cat /home/adem/testfolder/subfile.txt
+cat: /home/adem/testfolder/subfile.txt: Permission denied
+adem54@adem:~$ 
+
+SIMDI TUM YETKILERI VERELIM TESTFOLDER A ONDAN SONRA BAKALIM  BIRDE 
+
+adem@adem:~$ chmod g=rwx testfolder
+adem@adem:~$ ls -ld testfolder
+drwxrwxrwx 3 adem adem 4096 des.  26 17:17 testfolder
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ cat /home/adem/testfolder/subfile.txt
+this is the file
+adem54@adem:~$ 
+
+TESTFOLDER KLASORUNUN ALTINDAKI TUM DOSYA VE KLASORLERDE TUM YETKILER OLMASINA RAGMEN, TESTFOLDER KLASORUNDE SADECE READ,WRITE YETKISI OLDUGU ZAMAN, EXECUTE YETKISI OLMADIGINDAN DOLAYI, BIZ TESTFOLDER ALTINDAKI SUBFILE.TXT DOSYASINI ADEM54 GROUP KULLANICISINA GECIS YAPIP DA OKUMAK ISTEDGIMIZ ZAMAN YETKI HATA SI ALIYORUZ-PERMISSION DENIED..BUNU ANLAYALIM!!!!! 
+
+
+adem54@adem:~$ su - adem
+Password: 
+adem@adem:~$ chmod g=rw testfolder
+adem@adem:~$ ls -ld testfolder
+drwxrw-rwx 3 adem adem 4096 des.  26 17:17 testfolder
+adem@adem:~$ ls -lR testfolder
+testfolder:
+total 8
+-rwxrwxrwx 1 adem adem   17 des.  26 17:17 subfile.txt
+drwxrwxrwx 2 adem adem 4096 des.  26 17:19 subfolder
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 adem adem 32 des.  26 17:19 subfile2.txt
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ cat /home/adem/testfolder/subfile.txt
+cat: /home/adem/testfolder/subfile.txt: Permission denied
+adem54@adem:~$ 
+
+GROUP KULLANICILARINA RWX YETKILERININ TAMAMINI VERINCE, ARTIK YENI ADEM54 GROPU KULLANICISI ILE TESTFOLDER ALTINDA YENI DOSYA OLUSTURMA ISLEMI  YAPABILDIK
+adem54@adem:~$ su - adem
+Password: 
+adem@adem:~$ chmod g=rwx testfolder; chmod 777 testfolder;
+adem@adem:~$ ls -ld testfolder
+drwxrwxrwx 3 adem adem 4096 des.  26 17:17 testfolder
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ cd /home/adem/testfolder
+adem54@adem:/home/adem/testfolder$ echo "new textfile1" > newtextfile1.txt
+adem54@adem:/home/adem/testfolder$ ls 
+newtextfile1.txt  subfile.txt  subfolder
+adem54@adem:/home/adem/testfolder$ 
+
+YALNIZCA WRITE-EXECUTE YETKISI ILE GROUP KULANIICISI NE YAPABLIR ONA BAKALIM
+
+adem54@adem:/home/adem/testfolder$ su - adem
+Password: 
+adem@adem:~$ chmod 737 testfolder; chmod g=wx testfolder;
+adem@adem:~$ ls -ld testfolder
+drwx-wxrwx 3 adem adem 4096 des.  27 09:27 testfolder
+adem@adem:~$ 
+
+READ YETKISI OLMADIGI ICIN DIZIN ICERISINI LISTELEYEMEDIK!!!!
+
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ ls /home/adem/testfolder
+ls: cannot open directory '/home/adem/testfolder': Permission denied
+adem54@adem:~$ 
+adem54@adem:~$ command ls /home/adem/testfolder
+ls: cannot open directory '/home/adem/testfolder': Permission denied
+adem54@adem:~$ 
+
+TESTFOLDER ALTINDAKI SUBFILE.TXT DOSYASINI CAT ILE OKUYABILIYORUZ, EXECUTE YETKISI OLDUGUNDAN DOLAYI, BUNU YAPABILIYORUZ
+adem54@adem:~$ cat /home/adem/testfolder/subfile.txt
+this is the file
+adem54@adem:~$ 
+
+WRITE-EXECUTE YETKISI OLDUGNDAN DOLAYI,testfolder klasoru altindaki dosya icerisine girip degistirme yapabiliryouz, ve dosyayi silme de yapabiliyoruz
+adem54@adem:/home/adem/testfolder$ nano newtextfile1.txt
+adem54@adem:/home/adem/testfolder$ rm newtextfile1.txt
+
+EXECUTE YETKIMIZ OLDUGU ICIN, ALT KLASORE GECIS YAPABILIYROUZ AMA READ YETKMIZ OLMADIGI ICIN LISTELEYEMEDIK
+adem54@adem:~$ cd /home/adem/testfolder
+adem54@adem:/home/adem/testfolder$ ls
+ls: cannot open directory '.': Permission denied
+
+KLASOR UZERINDE EGER SADECE EXECUTE YETKISI OLDUGU ZAMAN DA
+NOT:TESTFOLDER UZERINDE EXECUTE YETKISI VAR ISE, O KLASOR ALTINDAKI DOSYALARI CAT ILE SADECE EXECUTE YETKISI ILE OKUYABILIRIZ
+SADECE EXECUTE YETKISI ILE CD ILE BIR ALT KLASORE GECIS YAPABILIRIZ!!!!
+echo  ILE OKUYABILDGMIZ DOSYA NIN UZERINE , VERI EKLERKEN DE SORUN YASAMIYORUZ
+AMA RM ILE SILME ISLEMI YAPAMIYORUZ, LS ILE DIZIN IN ALTINDKAI DOSYA VE KLASORLERI LISTELEYEMIYORUZ
+
+
+adem@adem:~$ chmod g=x testfolder; chmod 717 testfolder;
+adem@adem:~$ ls -ld testfolder;
+drwx--xrwx 3 adem adem 4096 des.  27 09:35 testfolder
+adem@adem:~$ 
+
+adem54@adem:~$ cd /home/adem/testfolder
+adem54@adem:/home/adem/testfolder$ echo "and I added this " >> subfile.txt
+adem54@adem:/home/adem/testfolder$ cat subfile.txt
+this is the file
+and I added this 
+adem54@adem:/home/adem/testfolder$ 
+
+SIMDI BURAYA KADAR BIZ TESTFOLDER ALTINDAKI TUM DOSYA VE KLASORLER ICIN USER-GROUP-OTHER KULLANICILARI ICIN READ-WRITE-EXECUTE YETKILERININ TAMAMINI VERDIGMIZ ICIN, SADECE TESTFOLDER IN YETKILERINI KISITLAYARAK TESTLER YAPMISTIK
+AMA EGER BIZ TESTFOLDER IN ALTINDAKI DOSYA VE KLASORLERIN DE YETKILERINI KISITLAR ISEK O ZAMAN ZATEN, TESTFOLDER  TUM Y ETKILERE SAHIP OLSA BILE, UZERINDE READ-(CAT),WRITE, EXECUTE ISLEMLERI  YAPILACAK OLAN SUBFOLDER VEYA SUBFILE UZERNDE KULLANICLARIN YETKILERINE GORE ISLEMLER YAPILABILECEKTIR!!!!
+
+ESASEN KLASORLER YETKILERI, KLASORLER E GECIS, KLASOR ICERIGINI LISTELEME VE KLASOR ICERIISNDE DUZENLEME YAPMA KAPSAMINDA GECERLI OLAN YETKILERDIR!!!!
+DOSYA YETKILERI ISE DOSYALARI CALISTIRMA, VE ICERISINDE DUZENLEME YAPMA KAPSAMNDAKI YETKILERDIR
+
+DOLAYISI ILE BIR KLASOR ALTINDA BULUNAN ALT KLASOR VE DOSYALR UZERNDE ISLEM  YAPACAKSAK, HEM KLASOR DUZEYINDE HEM DE ONUN ALTINDA BULUNAN KLASORLER VE DOSYALR DUZEYINDE YETKILERIN TAM OLMASI SARTTIR!
 
 */
 
