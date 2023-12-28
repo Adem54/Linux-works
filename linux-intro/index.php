@@ -8596,6 +8596,117 @@ ademtest@adem-ThinkPad-13-2nd-Gen:~$ sudo chmod a-rwx /home/adem/testfolder
 ademtest@adem-ThinkPad-13-2nd-Gen:~$ ls -ld /home/adem/testfolder
 d--------- 3 adem adem 4096 des.  27 00:09 /home/adem/testfolder
 
+! PEKI DOSYA VE USER-OWNER LIGI NASIL DEGISTIREBILIRIZ!!!! CHOWN KOMUTU !
+
+ISTERSEK DOSYA NIN SAHIBINI, VEYA GRUBUNU YA DA IKISINI BIRDEN DEGISTIRMEMIZ MUMKUNDUR
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+
+d--------- 3 adem(user-owner) adem(grupname) 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+DOSYA SAHIBINI VE GROUP U DEGISTIRMEK ISTERSEK EGER:
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ chown ademtest testfolder
+chown: changing ownership of 'testfolder': Operation not permitted
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Bu testfolder klasorunun sahibi adem kullanicisi olmasina ragmen, kendi sahibi oldugu dosya ya bile kendi basina sahipligini, degistiremiyor. 
+!BUNUN YAPILABILMESI ICIN YINE ROOT YETKILERINE SAHIP OLUNMASI GEREKIYOR YANI SUDO KOMUTU KULLANARAK, ROOT YETKILERINI KULLANARAK YAPILABILIR!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown ademtest testfolder
+[sudo] password for adem: 
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+d--------- 3 ademtest(user-owner) adem(groupname) 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+! GORDUGMUZ GIBI SUDO KULLANARAK, KLASORUN SAHIPLIK DURUMUNU ADEM KULLANICISINDAN ADEMTEST KULLANICISINA GECIRMIS OLDUK!
+
+SIMDI DE GROUP ISMINI DEGISTIRECEGIZ
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown :ademtest testfolder
+: ile biz testfolder i ademtest grubuna dahil et demis oluyoruz!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+d--------- 3 ademtest ademtest 4096 des.  27 00:09 testfolder
+
+!AYNI ANDA HEM SAHIPLIGI HEM DE GROUP ISMINI NASIL DEGISTIREBILIRIZ! 
+! : bu iki nokta ust uste grubu ayrimak icin kullaniliyor!!!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown adem:adem testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+d--------- 3 adem adem 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+! EVET BIZ SUNU ANLAMALIYZ KI, DOSYA VEYA KLASOR SAHIPLIGI DEGISTIGI ICIN, DE YETKI TANIMLAMA, DEGISTIRME YI DE O KLASORUN SAHIBI YAPABILDIGI ICIN, ONA GORE YETKI TANIMLAYABILECEK KULLANICIDA DEGISMIS OLUYOR. BUNU ANLAYALIM!!!! !
+
+! PEKI TAMAM BIZ TESTFOLER IN SAHIPLIGINI DEGISTIRIYORUZ AMA, PEKI YA BU FOLDER IN ALT FOLDER VE DOSYALARIN SAHIPLIGI NE OLACAK
+!
+!BIZ NASIL BIR KLASORUN ALTINDAKI TUM KLASOR VE DOSYALARI DA KAPSAYACAK SEKILDE SAHIPLIGI DEGISTIREBILIRIZ!
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo ls -lR testfolder/
+testfolder/:
+total 8
+drwxrwxrwx 2 adem adem 4096 des.  27 00:08 subfolder
+-rwxrwxrwx 1 adem adem   35 des.  27 00:09 test1.txt
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 adem adem 50 des.  27 00:09 test2.sh
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod 777 testfolder; chmod a=rwx testfolder; chmod a+rwx testfolder;
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -lR testfolder
+testfolder:
+total 8
+drwxrwxrwx 2 adem adem 4096 des.  27 00:08 subfolder
+-rwxrwxrwx 1 adem adem   35 des.  27 00:09 test1.txt
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 adem adem 50 des.  27 00:09 test2.sh
+! -R(recursive) option i kullanarak, bir klasorun tum alt klasor ve dosyalari ile birlikte sahipligini degistirebiliriz!!!! !
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown -R ademtest  testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxrwxrwx 3 ademtest adem 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -lR testfolder
+testfolder:
+total 8
+drwxrwxrwx 2 ademtest adem 4096 des.  27 00:08 subfolder
+-rwxrwxrwx 1 ademtest adem   35 des.  27 00:09 test1.txt
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 ademtest adem 50 des.  27 00:09 test2.sh
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+! Bir klasorun alt klasor ve dosyalarinin tamamminin grupu ismini degistirmek istersek yine -R(recursive) option i kullanarak yapabiliriz !
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown -R :ademtest testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxrwxrwx 3 ademtest ademtest 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -lR testfolder
+testfolder:
+total 8
+drwxrwxrwx 2 ademtest ademtest 4096 des.  27 00:08 subfolder
+-rwxrwxrwx 1 ademtest ademtest   35 des.  27 00:09 test1.txt
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 ademtest ademtest 50 des.  27 00:09 test2.sh
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+! Bir klasorun tum alt klasorleri ve dosyalarinin tamaminin b irden hem sahipligi hem de grup ismini degistirmek icin, de yine -R(recursive) option i kullaniriz!
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown -R adem:adem testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -ld testfolder
+drwxrwxrwx 3 adem adem 4096 des.  27 00:09 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls -lR testfolder
+testfolder:
+total 8
+drwxrwxrwx 2 adem adem 4096 des.  27 00:08 subfolder
+-rwxrwxrwx 1 adem adem   35 des.  27 00:09 test1.txt
+
+testfolder/subfolder:
+total 4
+-rwxrwxrwx 1 adem adem 50 des.  27 00:09 test2.sh
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+!BU YAKLASIM SAYESINDE ORNEGIN ILGILI DOSYA VE KLASORE ERISMESINI ISTEDGMIZ KULLANICILAR ICIN OZEL BIR GRUP OLUSTURUP, O GRUBU DA BU DOSYA VEYA KLASORUN GRUBU OLARAK DEGISTIREREK O GRUBA AIT TUM KULLANICILARIN BU DOSYA VE KLASORE DE HANGI ERISIM YETKILERINE SAHIP OLMALARINI ISTERSEK ONA GORE AYARLAMA YAPABILIRZ...AYNI ANDA BIRCOK KULLANICININ BU DOSYA VEYA KLASORE ERISIM YETKILERINI AYARLAYABILIYORUZ!
+
 */
 
 
