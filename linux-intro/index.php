@@ -8917,8 +8917,285 @@ sudo -g grupnam commandname, seklinde kullaniliyor!!!!
 
 
 !KULLANICIYA OZEL SUDO YETKILERI TANIMLAMAK!!!!!
+Sistemimizdeki kullanicilara ozel konfigurasyonlar tanimlayabiliriz
+Ornegin sistemmizdeki adem54 kullanicisi icin ozel bir sudo konfigurasyonu tanimlayabiliriz
+
+Biz konfigurasyonumuzu ya /etc/sudoers.d/ dizini altindaki dosyalardan birine, ya da direk sudoers dosyasina ekleyebiliyoruz!Ama tabi ki sudoers dosyasinin kendisi ana konfigurasyon dosyasi oldugu icin, mumkun oldugunca ekstra konfigurasyonlari /etc/sudoers.d/ dizini altinda ayri dosya olusturup ya da /etc/sudoers.d/ dizini altindaki var olan konfigurasyon dosyalari altindakilerde  yapariz. Yani biz yeni bir konfigurasyon dosyasi olusturacgimz icin, bu dogrudan sudoers tarafindan okunacaktir cunku /etc/sudoers.d/ dizini altindaki tum dosyalar include edilmistir sudoers dosyasi icerisinde
+adem54@adem:/etc/sudoers.d$ ls
+README
+
+! /ETC/SUDOERS.D/ DIZINI ALTINDA YENI KONFIGURASYON DOSYASI OLUSTURARAK KULLANICIYA OZEL KONF. AYARLAMAK
+
+%grupname  grup icin yapilacak konfigurasyonlarda basina % konuluyor ama kullanici icin yapilan konfiguryasonlarda bu yok
+
+adem54 ahost,bhost
+adem54 kullanicisinda gecerli olacak konfigurasyon oldugunu belirtiriz ardindan da hangi hostlar icinde gecerlik olacak onu belirtiriz
+adem54 ALL=
+BU SEKILDE TUM HOSTLAR ICIN GECERLI OLSUN DENILIYOR
+adem54 ALL=(user1,user2:group1,group2)
+SONRA PARANTEZ ICINDE, HANGI KULLANICI VE HANGI GRUP LARDA CALISACAGNI BELIRTIRIZ!!!
+adem54 ALL=(ALL:ALL) ALL TUM HOSTLARDA=(TUM KULLANICI, TUM GRUPLARDA) TUM ARACLARI CALISTIR DEMEKTIR
+EGER BIZ OZELLIKLE KULLANICI BELIRTMEZSEK OZAMAN, DEFAULT OLARAK ROOT KULLANICISI ICIN GECERLI OLACAKTIR,  YANI ADEM54 KULLANCISI ROOT YETKILERI ILE GECERLI OLACAKTIR
+
+adem54 ALL = /usr/bin/ls
+adem54 kullanicisi tum hostlarda calistirilsin, deniyor ve herhangi bir kullanici ve grup belirtilmemeis boyle durumlarda default olarak root kullanicisinin yetkisni verecek, sonra da hangi araclarda gecerli olsun onu vermemiz gerekir, ALL dersek tum araclar, ama spesifik araclar icin gecerli olmasini istersek ornegin ls araci o zaman da o aracin tam dizin adresini vermemiz gerekir, yani o aracin calistirildigi tam dizin adresini vermemiz gerekir
+
+ls aracinini sistem uzerindeki tam konumunu ogrenmek istersek which aracini kullaniriz
+
+adem@adem:~$ which ls
+/usr/bin/ls
+adem@adem:~$ 
+!ls aracinin sistem uzerindeki dosya karsiligi buymus
+adem54 ALL = /usr/bin/ls
+adem54 kullanicisi sistem uzerindeki tum hostlarda, root kullanisi default olarak gecerli olacak, ve yalnizca ls aracinda gecerli olacak!!!
+sudo ile adem54 kullanicisi root kullanicisi olarak, yalnizca ls aracini kullanabiliyor olacak, bu dosyayi kullanabiliyoru olacak
+
+Bir arac daha ekleyecek olursak
+
+adem@adem:~$ which whoami
+/usr/bin/whoami
+
+YORUM SATIRI EKLEYEREK TANIMLANAN YETKI NIN ACIKLAMASI DA YAPILABILIR
+
+#adem54 user authority definition
+adem54 ALL= /usr/bin/ls, /usr/bin/whoami
+
+adem@adem:~$ ls /etc/sudoers.d
+new-conf  README
+adem@adem:~$ 
+
+!BU SEKILDE ADEM54 KULLANICISINA OZEL, SUDO YETKISI TANIMLAMIS OLUYORUZ!!
+
+!SIMDI adem54 kullanicisinda login olalim(su - adem54) ve sudo komutunu calistiralim!! 
+
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ whoami
+adem54
+adem54@adem:~$ sudo whoami
+[sudo] password for adem54: 
+root
+
+sudo whoami root gelir cunku, asagida adem54 kullanicisina tum hostlarda, /usr/bin/ls, /usr/bin/whoami araclari root kullanicisi ile calisitrma yetkisi vermis oluyoruz, cunku, hic bir kullanici belirtilmediginda default olarak root kullanicisi verilmis oluyor!! 
+
+adem54 ALL= /usr/bin/ls, /usr/bin/whoami
+!!Dikkat edelim adem54 kullanicisi kendi basina ls /root a yetkisi yoktur ama sudo ile root yetkisi ile ls aracini calistirabildigi icin sudo kullaninca calistirabilecektir
+
+adem54@adem:~$ ls /root
+ls: cannot open directory '/root': Permission denied
+adem54@adem:~$ sudo ls /root
+snap
+
+!!BURAYA COK DIKKAT, BIZ SINIRLI KOMUTLAR ICIN, SUDO ILE ROOT KULLANICISI YETKISI ILE YETKILENDIRDIGMIZ ICIN, ASAGIDKI SIRADAN NORMAL BIR KOMUTU ECHO KOMUTUNU SUDO ILE CALISTIRMAYACAKTIR, NEDEN CUNKU ASAGIDAKI KOMUTLAR ICIN YETKI VERILMEDI SADECE VE SADECE LS VE WHOAMI KOMUTUNUN ROOT YETKISI ILE CALISTIIRILMASINA IZIIN VERILDI SUDO KULLANILDIGI ZAMAN.... 
+
+adem54@adem:~$ sudo echo deneme
+Sorry, user adem54 is not allowed to execute '/usr/bin/echo deneme' as root on adem.
+adem54@adem:~$ 
+
+!BURAYA COK DIKKAT NEDEN ASAGIDAKI HATAYI ALDIK CUNKU!!!!
+adem54@adem:~$ sudo -u adem whoami
+Sorry, user adem54 is not allowed to execute '/usr/bin/whoami' as adem on adem.
+adem54@adem:~$ 
+
+!adem54 ALL= /usr/bin/ls, /usr/bin/whoami BURDA ALL= DAN SONRA BOSLUK BIRAKTIK HERHANGI BIR KULLANIC BELIRTMEDIK O ZAMANDA DEFAULT OLARAK SADECE ROOT KULLANICISI ICIN BU YETKI ISLEMINI TANIMLAMIS OLDUK, YANI ADEM54 KULLANICISI ROOT YETKILERI ILE TANIMLANAN KOMUTLARI CALISITIRABILIYOR BUNUN DISINDA, ADEM54 KULLANICISINDA IKEN, HERHANGI BASKA BIR KULLANICI OLARAK LS VE WHOAMI KOMUTLARINI CALISTIRAMIYOR OYLE BIR YETKI VERMEDIK CUNKU!!!!
+
+!AMA TEKRARDAN BIZ KONFIGURASYON DEGISTIRIRSEK EGER 
 
 
+adem@adem:~$ sudo visudo /etc/sudoers.d/new-conf
+
+  GNU nano 6.2               /etc/sudoers.d/new-conf.tmp                        
+#adem54 user authority definition
+adem54 ALL=(adem) /usr/bin/ls, /usr/bin/whoami
+
+DIKKAT EDERSEK DIYORUZ KI BU KOMUTLAR ROOT KULLANICISI YETKISI ILE adem54 kullanicsinda oturum acildiginda gecerli olsun ve adem54 kullanciisinda iken adem kullanicisi ile sudo calistirilirse o kullanicida da gecerli olsun deniildigi icin asagida ki ornekte artik adem54 kullanicisinda iken, adem kullanicisi ile sudo yu kullanarak, whoami komutunu calstirdigimzda adem sonucunu aliyoruz
+
+
+adem54@adem:~$ exit
+logout
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ sudo -u adem whoami
+adem
+adem54@adem:~$ 
+
+!!BU ASAGIDAKI KISMI ANLAMAK COOOOK ONEMLI , BIR KULLANICI  UZERINDE LOGIN IKEN (adem54@adem:~$ sudo -u adem whoami) BASKA BIR KULLANICI YI KULLANARAK SUDO KOMUTUNU CALISTIRIRMA MANTIGI VE KOONFIGURASYON AYARLARINI TAM OLARAK ANLAMAK ICIN COOOOK ONEMLI BIR KISIMDIR!!!!! 
+
+
+!adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami
+BURAYI IZAH EDECEK OLURSAK TEKRARDAN TAM OLARAK OLAYI DOGRU ANLAMAK ADINA
+adem54 kullanicsinda login olundugunda, yani adem54 kullanicsi uzerinde iken, ALL(tum hostlarda, tum makinlelerde) (adem:adem) adem kullanicisi ve adem grubu icinde , /usr/bin/ls, /usr/bin/whoami bu komutlari root yetkisi vererek calistirabilme  yetksii verilmis oluyor YANI BU SU DEMEK
+
+
+adem@adem:~$ SU AN ADEM KULLANICISINDAYIZ
+adem@adem:~$ su - adem54
+Password:
+adem54 kullancisina login oluyoruz burda sonra ise 
+adem54 kullanicisnda iken, asagidaki gibi, adem kullanicisina sudo komutu kullanarak whoami komutunu calstirmaya calisiyoruz. Bu durumda ne oluyor hemen sudoers konfiugrasyonn dosyualari inceleniyor ve adem54 kullanicsi icin olan konfiguryasona bakliyor cunku neden adem54 uzerinde login olduk biz, adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami bu konfigurasyon, adem54 kullancisi uzerinde login olundugunda gecerli olsun demektir... 
+
+ve adem54 kullanicsinda login olundugunda, adem kullanicisi icin sudo -u adem whoami calistirdigmizda yine adem sonucunu verir cunku biz adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami  whoami komutu, adem54 kullanicsinda login iken adem kullanicisi ve adem grubu icinde gecerli olsun , demistik!!! 
+
+
+
+adem54@adem:~$ sudo -u adem whoami
+
+SIMDI BURAYA DIKKAT EDELIM 
+
+adem54@adem:~$ sudo whoami
+[sudo] password for adem54: 
+Sorry, user adem54 is not allowed to execute '/usr/bin/whoami' as root on adem.
+adem54@adem:~$ 
+!Neden boyle bir sonuc aldik, cunku, 
+!adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami
+!Burda adem54 kullanicsi uzerinde iken, biz adem54 kullanicisin artik, root yetkisi ile degil, adem kullancisinin yetkileri ile calistirabilecegiz, ama  /etc/sudoers.d/new-config dosyasi icinde biz /usr/bin/ls, /usr/bin/whoami bu komutlari sudo kullanarak root yetkisi ile calstir demis oluuyoruz ama adem54 te login olunca, bu komutlar icin biz adem kullanicsinin yetkisi ile calistirilsin diye konfigurasyon yaptigmidan dolayi, ve bu komutlar sadece sudo ile root yetkisi ile calistirilacagi icin, burda root degil adem kullanicisi yetksi ile calistiirlmaya calisilior ondna dolayi da hata aliyoruz
+
+
+adem54@adem:~$ sudo -u adem whoami
+[sudo] password for adem54: 
+adem
+adem54@adem:~$ 
+
+
+!KONFIGURASYONDA TEKRAR DEGISIKLIK YAPARSAK ASAGIDAKI GIBI 
+
+adem@adem:~$ sudo visudo /etc/sudoers.d/new-conf
+
+! #adem54 user authority definition 
+!adem54 ALL=(ALL:ALL) /usr/bin/ls, /usr/bin/whoami
+
+adem54@adem:~$ exit
+logout
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ whoami
+adem54
+adem54@adem:~$ sudo whoami
+root
+adem54@adem:~$ sudo -u adem whoami
+adem
+adem54@adem:~$ 
+
+
+
+
+BU SEKILDE TUM KULLANICILAR ICIN VE TUM GRUPLAR ICIN GECERLI OLACAKTIR, BU TANIMLAMA SAYESINDE HEM ROOT OLARAK HEM DE SISTEM UZERINDEKI HERHANGI BIR KULLANICI OLARAK, KOMUTLARINI CALISTIRABILIOR OLACAK!!!! 
+
+!adem54 ALL=(ALL:ALL) /usr/bin/ls, /usr/bin/whoami
+VARSAYILAN OLARAK ROOT YETKILERI ILE CALISIYOR, ALL DNEILDIGINDE TUM KULLANICILAR DEDIGI ICIN BUNLAR ICIN DE ROOT KULLANICISI DA VAR ONDAN DOLAYI ROOT YETKILERI ILE CALISTIRILACAK!!
+
+
+!adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami
+BURDA ISE ADEM54 TE LOGINOLUNCA BU KOMUTLARI TUM HOSTLARDA, ADEM YETKILER ILE CALISTIRACAK, SUDO KOMUTUNU KULLANINCA ROOT ILE CALISTIRMAK ISTEYCEGI ICIN,AMA BURDA ROOT YETKISI DEGIL, ADEM KULLANICISININ YETKILERI ILE CALISTIRILMAYA CALISACAK
+
+SUDO USER BELIRTILMEDIGI ICIN ROOT DA CALISTIRMAK ISTIYOR WHOAMI I AMA ADEM54 KULLANICISI EGER USER OLARAK ADEM BELIRTMIS ISE O ZAMAN BURDA ROOT KULLANCISINI TANIYAMAZ
+SUDO WHOAMI DEMEK ASLINDA SUDUR SUDO -U ROOT WHOAMI
+adem54@adem:~$ sudo whoami(sudo -u root whoami) 
+[sudo] password for adem54: 
+Sorry, user adem54 is not allowed to execute '/usr/bin/whoami' as root on adem.
+sudo whoami(sudo -u root whoami) gider /etc/sudoers.d/new-config dosyasina ve adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami bu konfigurasyonu gorur ve derki ha adem54 kullanicisi adem kullanicisi yetkis i kullanabiliyor, root yetkisi ile whoami i calistiramiyor ve hata mesajini dondurur!!!
+
+
+
+BURDA ISE SEN SUDO ILE ADEM YETKILERINI KULLANARAK, WHOAMI YI CALISTIR DIYORUZ VE O ZAMAN NE YAPILIYOR GIDYOR LINUX /etc/sudoers.d/new-config dosyasini inceler, ve orda adem kullanicisina izin verilmis mi whoami komutu iicin ona bakar ve adem kullanicinsini dondurur!!!! 
+adem54 ALL=(adem:adem) /usr/bin/ls, /usr/bin/whoami. Burda adem i gorur ve komutu calistirir
+
+adem54@adem:~$ sudo -u adem whoami
+adem
+
+
+!PAROLA SORULMASINI ISTEMEZSEK DE 
+!!adem54 ALL=(ALL:ALL) NOPASSWD: /usr/bin/ls, /usr/bin/whoami
+
+
+
+Bir kullanıcıya yalnızca belirli bir komutu belirli bir kullanıcı kimliğiyle çalıştırma izni vermek için hangi sudo yetki tanımı kullanılabilir?
+Burak ALL=(Ayse) /usr/bin/whoami
+
+Buradaki sudo tanımı ne anlama gelir: Kullanicilar ALL=(ALL) NOPASSWD: /usr/bin/apt-get ?
+Kullanicilar kullanicilarina apt-get komutunu parola girmeden calistrirma izni verir
+
+!HESAPLAR ARASI GECIS ICIN SU(switch user) ARACI
+Kullanici hesaplari arasinda gecis yapmak icin kullanilan bir aractir
+
+BIR KULLANICIYA GECERKEN
+adem@adem:~$ su adem54
+Password: 
+adem54@adem:/home/adem$ 
+O KULLANICIDAN CIKIS YAPMAK ICIN ISE
+adem54@adem:/home/adem$ exit
+exit
+adem@adem:~$ 
+
+SU ARACINI IKI FARKLI SEKILDE KULLANABILIYORUZ
+
+adem@adem:~$ su adem54
+Bu komut girildiginde su anda mevcut calismakta olunan bash-shell-kabuk ve uzerinde calismakta oldugmz dizin adem@adem:~$, su adem54, adem54 kullanicisi icin baslatilmis olan bash-shell-kabuguna aktariliyor
+
+Yani, su an calismakta olan mevcut adem kullanicsinin kabugundaki ortam degiskenleri gibi cesitli bilgiler,adem54 kullanicisi icin baslatilmis olan kabuk, mevcut kagugun, adem kabugunun altinda yeni bir kabuk baslatildigi icin aktarilarak, adem54 kullanicisini icin baslatilan kabuga aktariliyor
+
+adem@adem:~$ export test1="global variable"
+adem@adem:~$ echo $test1
+global variable
+
+export tanimlamasi sayesinde tanimlama sayesinde, alt kabuklarda da test1 isimli degiskene erisebiliyoruz.
+Yani test1 degisken i hem mevcut kabuklarda hem de alt kabuklarda gecerli olan bir degiskendir
+
+adem@adem:~$ su adem54
+Password: 
+adem54@adem:/home/adem$ echo $test1
+global variable
+adem54@adem:/home/adem$ 
+
+GECISI adem kullanicinin kabugundan yapiyoruz ve gecis yaptgimz adem54 kullanicisinin kabuugna, adem kullanicisin kabugundaki degiskenler export ediliyor...
+
+!Buraya dikkat edersek, biz adem kullanicisi kabugunda, home dizinsinde, yani adem kullanicsinin kendi home u olan /home/adem dizisnde oldugumz icin, adem@adem:~$ , gecis yapgimz adem54 kullanici kabuguda, home dizininde acilacaktir!!!!! 
+
+EGER BIZ ADEM KULLLANICISI KABUGUNDA IKEN SU ILE GECIS YAPARKEN MEVCUT KABUGUN ALT KABUGU BASLATILARAK GECIS YAPILMASINI ISTEMEZ ISEK O ZAMAN SU KOMUTUNU ASAGIDAKI GIBI KULLANARAK, GECIS YAPARIZ 
+
+SU - ADEM54 
+O ZAMAN DA TABI KI ARTIK ADEM KULLANICISI KABUGUNDA IKEN EXPORT ILE TANIMLANMIS DEGIKSENLER MEVCUT KABUKTAN GECIS  YAPILAN KABUGA AKTARILAMAYCAKTIR VE, YENI BASLATILAN KABUK, MEVCUT KABUGUN BIR ALT KABUGU DEGIL TAMAMEN AYRI, SIFIRDAN BASLATILMIS BIR KABUK OLARAK BASLATILACAKTIR
+
+adem@adem:~$ echo $test1
+global variable
+adem@adem:~$ su - adem54
+Password: 
+adem54@adem:~$ echo $test1
+
+adem54@adem:~$ 
+
+!su - adem54 kullanarak adem kullanicisi icin kullanilan mevcut kabuktan, adem54 kullanicisi ile baslatilan kabuga gecerken, global degiskenler, mevcut calisma dizin gibi bilgiler adem54 kullanici kabuguna aktarilmamis oldu!!
+!BU KULLANIM SISTEM YONETICILERI TARAFINDAN GUVENLIK GEREKCESI ILE SIKLIKLA KULLANILIR
+CUNKU KULLANICI YANI KABUK DEGISITIRIRKEN, DEGISTIRILEN KABUKTA AKTARILMASI ISTENMEYEN ORTAM DEGISKENLERI TANIMLANMIS  VE BU DEGISKENLER YENI GECILECEK KABUK ICIN GUVENLIK TEHLIKESI OLUSTURUYOR OLABILIR
+
+DAHA GUVENLI OLDUGU ICN KULLANICI GECISLERINDE SU - ADEM54 KOMUTUNU KULLANARAK GECMEK DAHA GUVENLI VE DAHA MANTIKLIDIR
+
+!KULLANICI HESAPLARINI SILMEK!
+-r(recursive) kullanarak silinmelidir
+sudo userdel -r adem54
+
+adem@adem:~$ sudo userdel -r adem54
+userdel: adem54 mail spool (/var/mail/adem54) not found
+adem@adem:~$ ls /home
+adem  admin
+adem@adem:~$
+
+adem@adem:~$ ls /home
+adem  admin
+adem@adem:~$ grep "adem54" /etc/passwd
+SONUC YOK!!!CUNKU adem54 kullanicsi silindi
+
+BU SEKILDE SILINDIGINI DE GOREBILIRIZ
+
+!Bizim sistemmizmideki tum kullanicilari biz ls /home yaparak gorebiliriz, cunku her yeni kullanici olustugunda, /home altinda o kullanici isminde bir klasor olsuturulacaktir!!!! 
+
+BU SILME ISLEMINDE BU adem54 kullanicsina ait /home/ altndaki adem54 diziini ile , bu kullanici ini /etc/passwd icindeki kayit bilgisi siliniyor. 
+-Eger sistemin farkli konumlarinda bu kullaniclara ait dosya ve dizinler var ise onlar tabi ki silinmemis oldu.
+-Eger silinen kullaniciya ait farkli konumlarda dosya ve dizinleri  de silmek istersek, find aracini kullanabiliriz
+
+!find aracinin kullanicinin olusturmus oldugu dosyalara ozel silme islemi gerceklestirebiliriz.Xargs, find , pipe araclarini kullanarak bu islemi gerceklestirebiliriz.Ama silem islemleri yaparken her zaman dikkatli olmaliyiz, cunku kullanici kendisi silinse bile onu olusturudgu dosya tum sistemin isleyisine katkida bulunan bir dosya ise ve biz onu silersek, sistem e zarar verebiliriz. 
+BOYLE SILME ISLEMLERI ONCESINDE NE YAPTIGIMZDAN IYICE EMIN OLMALIYIZ...YOKSA SISTEME ZARAR VERICI HAMLELELER YAPABILIRIZ
+
+!deluser komutu ile de silme islemnini yapabiliriz
 
 
 */
