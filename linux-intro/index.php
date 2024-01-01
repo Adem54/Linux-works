@@ -8707,6 +8707,220 @@ adem@adem-ThinkPad-13-2nd-Gen:~$
 
 !BU YAKLASIM SAYESINDE ORNEGIN ILGILI DOSYA VE KLASORE ERISMESINI ISTEDGMIZ KULLANICILAR ICIN OZEL BIR GRUP OLUSTURUP, O GRUBU DA BU DOSYA VEYA KLASORUN GRUBU OLARAK DEGISTIREREK O GRUBA AIT TUM KULLANICILARIN BU DOSYA VE KLASORE DE HANGI ERISIM YETKILERINE SAHIP OLMALARINI ISTERSEK ONA GORE AYARLAMA YAPABILIRZ...AYNI ANDA BIRCOK KULLANICININ BU DOSYA VEYA KLASORE ERISIM YETKILERINI AYARLAYABILIYORUZ!
 
+SUDO ARACI 
+
+Herhangi bir kullaniciya root yetkisi vererek calistirmak istedgimizde kullandigmiz bir aractir
+
+
+SUDO ARACI NASIL CALISIYOR
+sudo aracinin kendine ait konfigurasyon dosyasi vardir, yani her olusturulan kullaniciya sudo yu kullanma yetkisi dogrudan verilmiyor
+sudo araci sudoers isimli konfigurasyon dosyasina sahiptir. Sudo araci calistirildiginda, sudoers dosyasini kontrol eder, ve o an sudo yu kullanan kullaniciya sudo yu yani root yetkilerini sudo yu kullanarak kullanma yetkisi verilmis mi buna bakilir, eger verilmis ise tamam o zaman sudo komutu, olmasi gerektigi gibi, o yetkiyi vererek kullandiririlir
+
+sudoers dosyasi ve kontrol edilen icerik asagida ki gibidir!!!!
+/etc/sudoers.tmp
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+ademtest ALL=(ALL:ALL) ALL
+
+! ONCELIKLE BIZ, NASIL O AN KI KULLANICIYI OGRENEBILIRIZ !
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ whoami
+adem
+adem@adem-ThinkPad-13-2nd-Gen:~$ echo $USER
+adem
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+DIKKAT EDELIM SUDO WHOAMI YAZARSAK, ROOT OLARAK GELIYOR KULLANICI
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo whoami
+root
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+Burda bazen sudo whoami denildigi zaman password isteyebilir, bu password, root un passwordu degildir, bu password o an uzerinde bulunan kullanicidir, yani whoami denildiginde gelen kullanicinin login giris sifresidir... 
+
+! SUDOERS DOSYASINI DUZENLEYMEK | SUDO KONFIGURASYONU !
+
+/etc/sudoers
+
+Sudoers dosyasini, dogrudan nano araci  ile acmak yerine bu araca ozel, olarak acmak icin visudo aracini kullaniriz
+sudoers dosdyasi uzerinde gerceklestirdigmz degisikliklerin kontrol edilmesi icin bu ise ozgu visudo araci ile bu isi yapariz
+Ama yetkili bir sekilde bu araci kullanabilmek icin, sudo visudo diyerek kullaniriz!
+
+sudo visudo
+
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+ademtest ALL=(ALL:ALL) ALL
+
+
+root    ALL(Tum hostlari temsil ediyor)=(ALL(root kullanicsinin tumkullanicilar gibi komutlar calistirabilecegi):ALL(tum gruplar gibi calisitrma yapabilecegiini gosteriyor)) ALL(Tum komutlari calistirabilecegi anlamina geliyor)
+Zaten biz chown ile bir klasor veya dosya sahibi ve grup ismin degistirirken de benzer sekilde kullanmistik ayni mantik gecerli burda da 
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo chown -R adem(user-owner):adem(groupname) testfolder
+
+ademtest ALL=(ALL:ALL) ALL
+(ALL:ALL) bu kisim root kullanicisinin tum kullanici-owner ve gruplar gibi komut calistirabilecegi anlamina geliyor
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+root kullanicisi tum hostlarda, tum user(owner)larda, tum gruplarda ve tum komutlar ile calistirilabilecegi anlamina geliyor
+ademtest ALL=(ALL:ALL) ALL
+rooademtest  kullanicisi tum hostlarda, tum user(owner)larda, tum gruplarda ve tum komutlar ile calistirilabilecegi anlamina geliyor
+
+!PEKI NEDEN root kullanicisi tekrardan privilege veriliyor ki zaten root kullanicis degil mi?
+Cunku normalde biz evet root  kullanicisinda  iken tum komutlari, yetkili olarak calistirabiliyoruz ama, biz eger ki gidip de root kullanicisinda iken aliskanlik geregi sudo root seklinde kullanirsak, o an icin root kullanicisinda olsa bile yine gidip sudoers dosyasini kontrol edecek ve orda root kullanicisina privileges lar verilmis mi diye, root    ALL=(ALL:ALL) ALL ondan dolayi da sudoers dosyasinda root kullanicisi icin tekrardan tanimlanmistir
+
+!Sistemimizde root hesabi varsayilan olarak aktif olarak gelmiyor, root hesabinin kullanabilmek icin once onu aktiflestirmemiz gerekiyor
+!Root hesabini aktiflestirmek icin de root hesabina yeni bir parola tanimlamamiz yeterlidir, cunku sistemimizde zaten root hesabi tanimli ama sadece parolasi olmadigi icin giris yapamiyoruz
+!Bunun icin: sudo passwd root    komutunu gireriz, o anki uzerinde oldugmuz kullanicinin passwordunu girdikten sonra bizden new password girmemizi isteyecek root kullanicisi icin
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo passwd root
+[sudo] password for adem: 
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+!ROOT ICIN PASSWORD TANIMLAYARAK, ROOT KULLANICISI NI ARTIK AKTIFLESTIRMIS OLUYORUZ!!!!VERDGIMZ SIFRE YI KULLANARAK ARTIK, ROOT KULLANICISINA GECIS YAPABILIRIZ!!!
+adem@adem-ThinkPad-13-2nd-Gen:~$ su root
+Password: 
+root@adem-ThinkPad-13-2nd-Gen:/home/adem# 
+root@adem-ThinkPad-13-2nd-Gen:/home/adem# whoami 
+root
+root@adem-ThinkPad-13-2nd-Gen:/home/adem# 
+root@adem-ThinkPad-13-2nd-Gen:/home/adem# sudo whoami
+root
+root, sudoers dosyasinda privilges lar verildiginden dolayi, sudoers dosyasina gidiyor ve orda root u buldugu icin, root u getiriyor tabi ki /etc/sudoers icinde:  root    ALL=(ALL:ALL) ALL
+root kullanicisinda bile olsak eger sudoers dosyasinda root icin privileges ler tanimlanmaz ise, sudo whoami diye tanimladigimzda, sudoers dosyasini kontrol edecegi icin, orda root kullanicisina privilges ler verilmis olarak bulamaz ise o zaman root u getirmeyecektir
+
+Bu durum dikkat edelim, biz root kullanicisinda olasak bile, herhangi bir .sh dosyasi, script dosyasi yani run-execute edilebilir bir dosya calistiriyor ise sudo ile, /etc/sudoers dosyasi icinde kontrol eder eger orda root u bulamaz ise o zaman o .sh dosyasini calistirmaz ve hata mesaji verecektir, su sekilde: root is not in the sudoers file. This incident will be reported.
+
+! sudo visudo ile dosyayi acarsak
+CTRL-O ile dosya ya ornegin yeni bir kullanici icin, sudo yetkilerini kullanabilsin diye  
+!ademtest ALL=(ALL:ALL) ALL
+Bu sekilde belirtirsek, belirtince yani bu dosyada degisiklik yaptimgzdan dolayi dosya nin en ust kisminda 
+! sudoers.tmp *  olarak goruruz, birincisi .tmp o an uzerinde degisklik yaptimgz dosya .tmp dosyasina kaydediyor onu gosteriyor, * ise o duzenleme halinde, modunda oldugunu gosteriyor!!!!
+!BU DEGISIKLIKLERI YAPTIGMIZDA BU DEGISIKLIKLER ANINDA O AN UZERINDE OLDUGMZU KULLANICIDA YAPMIS ISEK DEGISIKLIGI HEMEN GECERLI OLMAYACAKTIR , ONDAN DOLAYI DA SUDO KOMUTU YETKILERINI VERDIGMZ VE SUDOERS DOSYASINA EKLEDGIMZ KULLANICI HESABINDAN CIKIP TEKRAR GIRIS YAPARAK DENEMELIYIZ SUDO KOMUTUNUN O ARACTA CALISIP CALISMADIGNI
+
+!SUDOERS DOSYASINDA, TEK BIR KULLANICI ICIN KONFIGURASYON NASIL YAPILIYOR GORDUK:!ademtest ALL=(ALL:ALL) ALL
+!PEKI SUDOERS DE BIZ BIR GRUB ICIN, BOYLE BIR YETKILENDIRME VERECEKSEK, SUDO KOMUTU GRUP ICIN KULLANILABILSIN ISTERSEK O ZAMAN SUDOERS DOSYASINDA NASIL DEGISIKLIK YAPACAGIZ??? 
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+!Group icin bu privileges leri vereceksek de o zaman basina % isareti ve sonra da grup ismi yazilir 
+!%sudo   ALL=(ALL:ALL) ALL
+
+HATIRLAYACAK OLURSAK adem kullanicisi SUDO GRUBUNA DAHIL DI!! 
+adem@adem-ThinkPad-13-2nd-Gen:~$ groups adem
+adem : adem adm cdrom sudo dip plugdev lpadmin lxd sambashare
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo visudo
+[sudo] password for adem: 
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+
+!adem kullanicisina dikkat edersek, adem kullanicisi ile ilgili sudoers dosyasinda herhangi bir dogrudan kullanici sudo kullanma izni verilmemis! Yani ademtest kullancisina verildigi gibi verilmemis:ademtest ALL=(ALL:ALL) ALL
+!Ama, adem kullanicsinin hangi grup lara dahil oldugunu groups adem komutu ile kontrol ettigimzde, sudo grubuna dahil oldugunu gorebilriz ve bu sudo grubunun da sudoers dosyasinda sudo komutunu kullanmak icin tum  yetkilerin verildigini gorebiliriz!!! 
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+!ISTE BU DURUMDAN DOLAYI, yani adem kullanicisina kullanici olarak dogrudan sudoers dosyasinda sudo kullanma yetkisi verilmese bile, adem kullanicisinin dahil oldugu sudo isimli gruba, sudoers dosyasinda, sudo kullanma yetkisi verildigi icin, bu sudo grubuna dahil olan kullanicilar sudo komutunu root yetkisi ile kullanabilir demektir, iste bu sebepten adem kullanicisi sudo ile root yetkilerini  kullanabiliyor
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo whoami
+root 
+
+!KULLANICIMIZ SUDO VEYA ADMIN GRUBUNA DAHIL OLABILIR VE BU HER IKI GRUP ISMI DE SUDOERS DOSYASINDA, SUDO KOMUTUNU ROOT YETKILERI ILE KULLANABILECEK AYRICALIKLAR TANIMLANDIGI ICIN, ADMIN VEYA SUDO GURUBUNDAN BIRINE DAHIL ISE BIR KULLANICI, ARTIK SUDO KOMUTUNU ROOT YETKISLERI ILEK KULLANABILIR DEMEKTIR
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+
+BIZ KENDIMIZ BIR GRUB ICIN SUDO KULLANMA YETKISI VERMEK ISTERSEK AYNI SEKILDE
+SUDO VISUDO ILE SUDOERS DOSYASINI ACARAIZ VE ASAGIDAKI GIBI O GRUPA SUDO KULLANMA  YETKILERI VEREREK O GRUP UYELERININDE SUDO KOMUTUNU ROOT YETKILERI ILE KULLANABILMESINI SAGLAMIS OLURUZ
+%mygroup   ALL=(ALL:ALL) ALL
+
+! SUDOERS DOSYASI ICINDEKI @includedir /etc/sudoers.d NE DEMEKTIR!
+Bu tanimlamada konfigurasyon dosyasinin ayrica nerden alinabilecegini gosteriyor
+/etc/sudoers.d  
+Bu dizin altinda bulunan konfigurasyon dosyalarini al, konfigurasyonlarini oku, ve gecerli kil, dahil et demektir.
+Yeni daha kapsamli konfiguraysonlar yapilacaksa, dogrudan sudoers dosyasina mudahele etmek yerine /etc/sudoers.d buraya eklemeler yapiliyor bu sayede ana dosyada degisiklik yapilmamis oluyor, bu daha duzenli bir yapi olusturulmasini saglamis oluyor
+.d uzantili dizinler genellikle ana dosyasinda konfigurasyon yapmak istemediginden dolayi bu tarz dizinler le yeni konfigurasyon dosyalari olusturup bunlari ana dosyalarina include ederek kullanirlar
+sudoers.d  ile sudoers dosyasinin konfigurasyonlarini bu dosya icinde yapar ve sudoers.d yi de sudoers dosyasina dahil ederek kullanir
+sudoers.d(directory)
+Araclar birden fazla konfigurasyon dosyasi oldugunda ve bu dosyalara bir dizinde ulasmak istediginde, bu sekilde tanimlamalar gerceklestirebiliyorlar
+adem@adem-ThinkPad-13-2nd-Gen:~$ ls /etc/sudoers.d
+README
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+yine visudo araci ile sudo yu kullanarak acabilirz bu dosyayi
+VISUDO ARACI SUDOERS DOSYALARINI ACMAYA OZEL BIR METIN EDITORU IDI
+sudo visudo /etc/sudoers.d/README 
+
+! %mygroup   ALL=(ALL:ALL) ALL
+% ile basliyorsa grup ismidir demistik. Boyle birsey gordgmzde bunun grup oldugnu anlamaliyz
+
+HATIRLARSAK 
+/etc/group  dosyasi icerisinde tum grup isimleri bulunuyordu!!!!!
+Ve biz bir grup ismine, veya bir gruba hangi kullanicilar dahil oldugunu check etmek istersek gelip 
+
+grep "sudo" /etc/group diye
+arama yapabiliriz!!!!!
+
+/etc/group 
+postgres:x:137:
+admin:x:1001:
+gis_database:x:1002:
+myUser:x:1003:
+plocate:x:138:
+mysql:x:139:
+ademtest:x:1004:
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ grep "sudo" /etc/group
+sudo:x:27:adem
+
+YANI BIZ, ORNEGIN SUDO GRUBUNA HERHANGI BIR KULLANICIMZI DAHIL EDEREK ARTIK O KULLANCIMZINDA SUDO KULLARNARAK ROOT YETKISI ILE,
+(ALL(TUM HOSTLARDA)(ALL(TUM KULLANICILARA):ALL(TUM GRUPLARA) : ALL(TUM KOMUTLARDA)) GECERLI OLMASINI SAGALAYABILIRZ) komutlari calistirabilmesi saglanmis olur
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo whoami
+root
+Biz sudo aracina whoami dedmigz de ozellikle hangi kullanici ile kullanacagimzi eger belirtmezsek o zaman varsayilan olarak default olarak root kullanicisi ile o islemi yapacaktir, ONDAN DOLAYI BIZ sudo whoami dedgimzde root kullanici ismini aliyoruz
+
+! BURASI ANLASILMASI ONEMLI BR NOKTADIR!!!
+AMA BIZ adem kullanicisinda iken sudo aracina mevcut uzerinde olunan kullanici haricinde ademtest kullanicisi ile sudo nun calismasini soylersek eger, 
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo -u ademtest whoami
+ademtest
+
+sudo -u(user) ademtest(kullanici) whoami
+sudo yetkisini kullan, yani root yetkilerini kullan, -u(user) ademtest user inda git whoami aracini calistir
+BURDA BIZ ademtest kullanicsini -u ademtest diye belirttgimz icin, whoami ademtest i bulacaktir, ama biz eger hicbirsey belirtmezsek o default olarak root kullanicisini getirecektir!!!!!
+
+!BIR ORNEK!!!
+%kali-trusted ALL=(ALL:ALL) NOPASSWD:ALL
+bURDA ornegin biz kullanicimzi kali-trusted grubuna dahil edersek,bu gruba dahil olan tum kullanicilara sudo yu kullanma yetkisi root yetksi verilirken ayrica birde NOPASSWD ile, parola sorulmadan, tum kullaniclarda gecerli, tum gruplarda gecerli, tum hostlarda gecerli ve tum komutlar icin gecerli
+ALL(ALL HOST)(ALL(ALL USERS):ALL(ALL GROUPS): NOPASSWD ALL(ALL COMMANDS))
+YANI TUM KULLANICILARDA DEDIGI ICN ORNEGIN ASAGIDA  adem kullanicisi uzerinde, sudo ile ademtest kullanisinda whoami komutu calistiriliyor, adem kullanici eger kali-trusted grubuna dahil edilrise o zamn, ademtest kullanicisi adem kullanisi uzerinde iken, sifre-parola sormadan, araci sorunsuz calistirabiliyor, ve baska bir kullaniciyi da yani adem kullanicisi uzerinde ademtest kullanicisini sudo araci ile sorunsuz bir sekiklde calistirabiliyor
+
+! BIR KULLANICIDA IKEN , BASKA BIR KULLANICI YETKISI ILE KOMUT CALISTIRMAK!!!!
+sudo -u(user) ademtest(kullanici) whoami , ademtest ciktisini aldik , cunku sudo araciligi ile adem kullanicisi kendisine herhangi bir parola sorulmadan, tum kullanicilar gibi 
+
+!BIR KULLANICI UZERINDE IKEN, BASKA BIR GRUP ISMI ILE KOMUT CALISTIRMAK!!
+
+sudo -g grupnam commandname, seklinde kullaniliyor!!!!
+
+!YANI KISACASI /etc/sudoers.d/ dizini altina kali-grant-root.tmp dosyasi olsuturup onun da iceriisne
+!%kali-trusted ALL=(ALL:ALL) NOPASSWD:ALL bu sekilde bir konfigrasyon yaparsak zaten, SUDOERS DOSYASI ICINDEKI @includedir /etc/sudoers.d DIRECTORYSI ALTINDAKI TUM DOSYALARI DAHIL EDILDIGI ICIN , kali-grant-root.tmp BOYEL BIR DOSYA DA OTOMATIK DAHIL OLACAKTIR, VE DE BU GRUPA DAHIL ETTIGMZ HERKESE, PAROL BILE SORMADAN TUM YETKILERE SUDO KULLANARAK ERISEBILMELERINI SAGLAMIS OLACAGIZ...!!!!!
+
+!BU KONFIGUYRASYON HIC YOKSA BILE KENDIMZ BOYLE BIR DOSYA OLUSTURP DA BU KONFIGURASYONU KENDIMIZ YAPABILIRZ!!!
+
+
+!KULLANICIYA OZEL SUDO YETKILERI TANIMLAMAK!!!!!
+
+
+
+
 */
 
 
