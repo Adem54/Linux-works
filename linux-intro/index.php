@@ -9197,6 +9197,45 @@ BOYLE SILME ISLEMLERI ONCESINDE NE YAPTIGIMZDAN IYICE EMIN OLMALIYIZ...YOKSA SIS
 
 !deluser komutu ile de silme islemnini yapabiliriz
 
+!DISK  YONETIMI
+Disk islemlerini bizim isletim sistemlerinde cok iyi bilmemiz gerekiyor
+Veri nedir, ve nasil olculur:
+Bilgisyarlar 0:sinyal yok(dusuk akim), 1:sinyalvar(yuksek akim)
+01 lerden olusan veri kumesine binary(ikili kod) diyoruz 
+0-1 bunlar bilgisyarin en kucuk veri birimi olan bit ile ifade edilir
+bit ifadesi b ile temsil edilir
+Her bir 0 veya 1 karakteri 1 bittir
+8 tane 0 veya 1 in yanyana gelmesi, yani karisik sirayla da gelebilir, 8 tane 0 ya da 1 karakterinin yanyana gelmesi ile 1 byte olusur
+
+0 1 0 1 0 1 0 1 => 8 bit yanayana gelerek 1 byte i olusturur
+
+bit->b ile temsil edilir
+byte->B ile gosterilir, temsil edilir
+
+Dolayisi ile 1 byte 8 bitten olustugundan, Kendi icerisindeki kombinasyondan 
+2 uzeri 2^8(2 uzeri 8=256 farkli degeri temsil edebiliyor)
+Bu byte lar da ASCII olarak isimlendirilmis standartlarca belirlenmis olan ozel karakterlere karsilik geliyor
+
+
+  Letter      ASCII CODE      Binary 
+  a            097           01100001
+  A            065           01000001
+  b            098           01100010
+
+  ASCII kodlarinin hesaplanmasinin da bir mantigi var bunu da arastirirsak ogrenebiliriz, eger ihtiyac duyarsak.
+
+  Biz bilgisyarda KLAVYEDE A KARAKTERINE TIKLADIGMZDA BU A KARAKTERI
+  A KARAKTERI -8BIT=1BYTE OLAN  01000001 BINARY(IKILI KOD) A KARSILIK GELIYOR
+
+  1024(2^10) bytes = 1 kilobyte
+  1024(2^10) kilobyte = 1 Megabyte
+  1024(2^10) megabyte = 1 GB
+  1024(2^10) gigabyte = 1 TB
+  1024(2^10) terabyte = 1 PB(petabyte)
+  1024(2^10) petabyte = 1 EB(exabyte)
+  1024(2^10) exabyte = 1 ZB(zettabyte)
+  1024(2^10) zettabyte = 1 YB(yottabyte)
+
 
 */
 
