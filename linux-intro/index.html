@@ -107,7 +107,400 @@ Alan tasarrufu         - Alan ziyani
 
 Biz mumkun oldugunca kullandigmz dosya sisteminde varsayilan blok boyutunu tercih etmemiz, tavsiye ediliyor. Herhangi bir degisiklik yapmadan!!!!
 
+BOLUMLENDIRME TABLOSU | MBR - GPT
+Fiziksel olarak sahip oldugmuz bu diskleri yazilmisal olarak isletim sistemi ozellikleri ile, istedgimz kadar bolumlendirebiliyoruz.
+Hangi disk bolumunun, nerde baslayip nerde bittigini de bolumlendirme tablosu olan MBR - GPT tablolarinda tutuluyor
+
+MBR TABLOSU
+Gecmiste kalmis bir tablo olarak bilinir ve hala gunumuzde de fazla ca kullaniliyor
+Maksimum 2Tb a kadar olan disk boyutlarini destekleyen bir cozum. Ayrica MBR disk bolumleme tablosu kullanilarak, diskimizi yalnizca 4 adet birincil bolume ayirabiliyoruz
+Yine de 1. bolumler cogunlukla yeterli gelmedigi icin genisletilmis bolum kullaniliyor
+Maksimum 3 birincil ve 1 genisletilmis bolum uzerinden 1 mantksal bolum olmak uzere toplamn 15 tane bolum olsuturulablir
+
+GPT TABLOSU 
+Zaman icerisinde dikslerin artmasi ve disklerin, daha fazla alana bolunmesi ihtiyaci dogrultusunda MBR in yetersiz klaldigi noktada gelistirilmis olan yeni nesil bir disk-bolumleme cozumudur, tablosudur 
+
+8zib e kadar disk boyutlari ni destekler. Yeni nesil buyuklukler icin kullanilabilen bir disk bolumleme tablosudur
+Ayrica GPT sayesinde diskmizi 128 bolume ayirmamiz da mumkundur. 
+Primary ve extended diye ayrim yoktur, tum bolumler primary olarak ayriliyor!!!!
+
+Ozetle MBR  a oranla GPT hem maksimum boyut hem de bolum sayisi ile cok daha gelismis ve kullanisli bir disk bolumlendirme tablosu ozelligi sunuyor
+
+!! BIOS UEFI HAKKINDA !!!
+
+Bilgisayarimzin baslangic asamasindan sorumlu olan yapilardir!
+BIOS daha eski bir  yaklasim, 
+UEFI yeni donemin ihtiyaclarina yanit vermek icin  gelistirilmis olan bir cozumdur!!!
+
+ASLINDA BIZ BILGISAYARIMZI BASLATTIGIMIZDA 
+
+BIOS VEYA UEFI(modern sistemlerde UEFI), oncelikle donanimlari kontrol ederler!!
+EGer donanimlarda bir sorun yoksa, sorunsuz ise, belirlenmis olan oncelik sirasina gore, konfigurasyonlarda nasil belirledi isek, yani BIOS VEYA UEFI ayarlarnda nasil belirlendi isek, belirlemis oldugumzu oncelik sirasin gore siralamadaki ilk diski baslatiyor!!!
+
+ILK SIRADAKI DISKIMIZ BIOS VEYA UEFI SAYESINDE BASLATILDIKTAN SONRA, BU DISKTEKI BOLUMLENDIRME TABLOSU(MBR VEYA GPT), KONTROL EDILIYOR, BOLUMLENDIRME TABLOSUNDA DA HANGI BOLUM BOOT EDILEDCEK YANI ON YUKLENECEK BOLUM OLARAK ISARETLENMISE, O BOLUMUN ON YUKLENMESI SAGLANIYOR
+ZATEN BOOT BOLUMUNDE DE GENELLIKLE BOOT-LOADER OLARAK GECEN, ISLETIM SISTEMININ BASLATILMASI ICIN GEREKLI OLAN CEKIRDEK GIBI YAPILARI YUKLEMEYI SAGLAYAN BIR ARAC BULUNUYOR BU SAYEDE BOOT-LOADER UZERINDEN ILGILI ISLETIM SISTEMI BASLATILMIS OLUYOR
+YANI CEKIRDEK YUKLENDIGI ICIN, SISTEMIN BASLATILMASI ICIN GEREKLI OLAN YAPILAR YUKLENDIIGI ICIN, SISTEMIMIZDE BASLATILMIS OLUYOR!!
+
+ORNEGIN BIZDE EGER BIRDEN FAZLA ISLETIM SISTEMI YUKLIU ISE BU BOOTLOADER YAZILIMI UZERINDEN ISTEGIMIZ ISLETIM SISTEMININ BASLATILMASINI SAGLAYABLIYORUZ!!!!
+HANGI ISLETIM SISTEMINI BASLATMAK ISTEDGIMMZ BASLANGIC ASAMASINDA SORULUYR BU YAZILIM TARAFINDAN!!!BUNA DENK GELMISIZDIR MUTLAKA, BIR PC DE 1 DEN FAZLA ISLETIM SISTEMI KULLANDI ISEK, ISTE BIZE BU SORGUYU SAGLAYAN BOOT-LOADER EKRANIDIR
+
+LINUX DE GENELLLIKLE BOOT-LOADER OLARAK GRUB ISIMLI ARAC KULLANILIYOR
+
+ISLETIM SISTEMI BIOS KULLANIYOR ISE MBR DISK BOLUMLEME TABLOSU KULLANILIYOR VE ISLETIM SISTEMINI BASLATACGZIM USB DISKLERDE MBR DISK BOLUMLEMEYI I TANIMLAMAMIZ GEREKIYOR 
+ISLETIM SISTEMI UEFI ISE GPT DISK BOLUMLEME TABLOSUNU KULLANILIYOR, BURDDA  GPT DISK BOLUMLEME TANIMLAMAMIZ GEREKIYOR
+ISLETIM SISTEMI UEFI AYRICA MBR DISK BOLUMLEMEYI DA TANIYOR YENI MODERN YAPILAR ESKI OLAN MBR DISK BOLULEMEYI DE TANIYABILIOYR 
+
+BIOS : SADECE MBR 
+UEFI: HEM GPT , HEM DE MBR KULLANILIR 
+AMA GENELLIKLE UEFI ILE GPT DISK BOLUMLEME KULLANILIR
+
+DOSYA SISTEMI NEDIR? 
+
+Dosya sistemi olmadan diske yazilan verilere ihtiyacimz oldugunda erisemeyiz.
+Dosya sistemi olmaazsa veriler ust uste yiginlar halinde biriktirilecegi icin, herhangi bir sistem olmayacagi icin asagi yukari bu sekilde gozukecek
+
+Dosya sistemi sayesinde veriler duzenli bir seklide yerlestiriliyor ve yazildiklari konumdan tekrar kolay bir sekilde ulasilabiliyor!!
+Disklerimize dosya sistemini tanimladigmz icin ve isletim sistemleri de bu dosya sistemlerini tanidigi icin ve bu dosya sistemleirni davranislarni bildigi icin, diskteki verileri nasil okuyacagini, hangi sistemle tutuldugunu bildigi icin, rahatlikla bilebiliyor. Bu sayede veriler yazabiliyor, yazilmis olan verileri de rahatlikla okuyabiliyor. Bu sebeple dosya sistemi olmazsa olmazdir
+
+Veri okuma, yazma, okunan verileri ulasma, bunlar icin bir standarta ihtiyacimz var bunlari da dosya sistemleri sagliyor
+
+Tek bir fiziksel diskimzi yazilimsal olark birden fazla bolume ayirabildigmz icin, de aslnda ayni fiziksel disk uzerinde farkli bolumlerde, birbirinden farkli dosya sistemlerini kullanmamiz da mumkun oluyor. 
+Bu sayede ayni disk aygiti uzerinden ihtiyaca yonelik olarak, farkli dosya sistemerlini kullanabiliyoruz. 
+
+Diski bolumledikten sonra isimizi bitmiyor, bu disk bolum u icerisine de hangi dosya sistemini  kullanacagmizi tanimlamamiz gerekiyor, aksi halde mevcut isletim sistemleri uzerinden , diskimz uzerindeki verilere ulasmamiz mumkun olmuyor. Cunk u dosya sistemleri verilerin diske nasil depolandigi ve nasil tekrar erisilebilecegi konusunda isletim sistemlerine izahat veriyor, isletim sisteminin bunu nasil yapabilecegini acikliyor.
+
+Bu dosya sistemi oldugu ve isletim sistemi bu dosya sistemini tanidigi ve kullanabildigi surece, diskmize veri yazip okuyabiliyoruz...CUNKU DOSYA SISTEMLERI ASLINDA BU VERILERIN SISTEMATIK OLARAK NASIL DEPOLANACAGINI BELIRLIYOR DAHA SONRA ISLETIM SISTEMLERI DE BU VERILERIN NASIL SISTEMATIK OLARAK DEPLANDIGINI BILDIGI ICIN AYNI SEKLIDE DOGRU YONETMLERLE BU VERILERE ULASABILIYOR VEYA yazabiliyor
 
 
-</body>
-</html>
+LINUX SISTEMINI DOSYA SISTEMI HIYERARSISI
+
+Tum dosyalar kok dizinden baslar ve kok dizinin alt klasorlerinde hiyerarsik duzende tutuluyor
+Tum dosya ve klasorler / kok diizin - root diznin altindadir
+/ =>Kok dizin
+
+/var
+/etc
+/usr 
+/tmp
+/home 
+/bin 
+/mnt 
+/lib
+/sys
+
+Linux sistemini olusturan dosya ve klasorler tek bir kok-root dizin altinda bulunuyor gibi gozukuyor olsa da aslinda linux, farkli dizinlere, farkli disk bolumlerini baglmaayi mumkun kildigi icin, aslinda kok dizin altinda gozuken ancak, birbirinden farkli disk bolumlerinde birbriinden farkli dosya sistemlerine sahip olan klsorlerimimiz bu tek bir dizin hiyerarsisi uzerinde goruntuleyebiliyoruz
+Yani hepsi kok dizin icinde gozukuyor olsa da hepsi farkli disk bolumlerinde yer aliyor olabilir
+Orneign biz /etc klasorunu farkli bir diskteki farkli bir diks bolumune baglayabiliriz, bu kok-root dizin altinda olsalar bile , alt klasorler farkli diskler uzerinde depolanabiliyor.
+Dolayisi ile biz tek bir hiyerarsik yapi goruyoruz ama, aslinda sistem istedgimz olcude dagitabilecegimz, istedgimz disklerde, istedgimz verileri barindirabilecegimz bir yapidadir aslinda. 
+
+WINDOWS DA C(ISLETIM SISTEMI KURULU OLAN ANA DISK),D(EK DISK),E(EK DISK) DISKLERI BULUNUYOR..
+EK DISK AYGITLARININ SISTEME BAGLANMASI ILE SISTEM TARAFINDAN TANINIYOR
+LINUX SISTEMINDE ISE TUM DISK AYGITLARI KOK DIZIN ALTINDAKI UYGUN KLASORE BAGLANARAK KULLANILABLIYOR!
+LINUX SISTEMI WINDOWSTAN FARKLI OLARAK TEKIL HIYEARSI YAPISI NI KULLANDIGI ICIN, SISTEMMIMIZE BAGLAMIS OLDUGMUZ TUM DISK BOLUMLERI DE BU HIYERARSI ICERISINDE UYGUN BIR KONUMA BAGLANIYOR. DOLAYISI ILE TUM DISKLERDE BU TEKIL HIYERARSI ICERISINDE YERINI ALIYOR
+
+
+Linux sisteminin destekledigi dosya sistemlerini gormek icin:
+
+Linux destekledigi birden fazla  dosya sistemleri vardir: 
+
+adem@adem:~$ cat /proc/filesystems 
+nodev	sysfs
+nodev	tmpfs
+nodev	bdev
+nodev	proc
+nodev	cgroup
+nodev	cgroup2
+nodev	cpuset
+ext3
+ext2
+ext4
+squashfs
+vfat
+nodev	ecryptfs
+fuseblk
+
+. 
+. 
+nodev	mqueue
+nodev	pstore
+nodev	autofs
+nodev	binfmt_misc
+Bazilari sanal dosya sistemleri, hepsi canli dosya sistemi degil
+adem@adem:~$ 
+
+Dolasyisi ile ilgili disk aygiti veya bolumu, linux un destekledigi bu dosya sistemlerinden birini kullaniyor ise,
+linux bu diske veri yazip veri okuyabilir.
+
+Dosya sistemleri de ihtiayca gore, kullanilabiliyor. Dosya sistemlerinin de kendi icerisinde farkliliklari vardir, avantajlari ve dezavantajlari gibi..
+
+Biz cok yaygin bir sekilde kullanilan ext4 dosya sistemini  kullanacagiz!!!
+
+DISK ISLEMLERINE HAZIRLIK - DISK UZERINDE ISLEM GERCEKLESTIREBILECEK GUVENLI ORTAMI KURMAK!!
+
+Disk islemleri yaparken, verilerimzin kaybolma riski olusabilir, yapacagimiz hatali disk islemleri sonucunda ondan dolayi da varsa imkan bu disk islemleri ile ilgili daha iyi ogrenmek icin yapacagmiz pratikleri sanal makine uzerinde kurdgumuz linux sisteminde yaparsak, bu risk i ortadan kaldirmis oluruz ve istedgimz gibi uygulama  yapaiblirz
+
+DISK AYGITLARINI LISTELEMEK
+
+lsblk(list blokdevices)
+
+NAME   MAJ:MIN RM(REMOVABLE)   SIZE RO(READONLY) TYPE MOUNTPOINTS
+REMOVABLE-1-YES-0-NO
+READONLY:1-YES-O-NO
+TYPE KISMI ISI DISK IN BIRIMINI BELIRTIYOR
+loop0    7:0    0     4K  1 loop /snap/bare/5
+loop1    7:1    0  63,9M  1 loop /snap/core20/2105
+loop2    7:2    0 302,6M  1 loop /snap/code/147
+loop4    7:4    0  63,5M  1 loop /snap/core20/2015
+loop5    7:5    0  74,1M  1 loop /snap/core22/1033
+loop6    7:6    0  73,9M  1 loop /snap/core22/864
+loop7    7:7    0 240,3M  1 loop /snap/firefox/3358
+loop8    7:8    0 245,6M  1 loop /snap/firefox/3416
+loop9    7:9    0 349,7M  1 loop /snap/gnome-3-38-2004/140
+loop10   7:10   0 349,7M  1 loop /snap/gnome-3-38-2004/143
+loop11   7:11   0 496,9M  1 loop /snap/gnome-42-2204/132
+loop12   7:12   0   497M  1 loop /snap/gnome-42-2204/141
+loop13   7:13   0  91,7M  1 loop /snap/gtk-common-themes/1535
+loop14   7:14   0   9,6M  1 loop /snap/htop/3758
+loop15   7:15   0   9,6M  1 loop /snap/htop/3873
+loop16   7:16   0  45,9M  1 loop /snap/snap-store/638
+loop17   7:17   0  12,3M  1 loop /snap/snap-store/959
+loop18   7:18   0  40,8M  1 loop /snap/snapd/20092
+loop19   7:19   0  40,9M  1 loop /snap/snapd/20290
+loop20   7:20   0   452K  1 loop /snap/snapd-desktop-integration/83
+loop21   7:21   0   428K  1 loop /snap/snapd-desktop-integration/57
+loop22   7:22   0 302,6M  1 loop /snap/code/148
+sda      8:0    0 476,9G  0 disk 
+├─sda1   8:1    0     1M  0 part 
+├─sda2   8:2    0   513M  0 part /boot/efi
+└─sda3   8:3    0 476,4G  0 part /var/snap/firefox/common/host-hunspell
+
+In your output, the "TYPE" column indicates that the block devices are of type "loop," meaning they are loop devices.
+
+These loop devices are associated with specific snap packages or applications running in isolation using snapd (a package management system). They are used to provide a contained environment for these applications, allowing them to have their own filesystems while sharing resources with the host system.
+
+BU ISIMLER SISTEMIMIZE BAGLI OLAN ISIMLERI TEMSIL EDIYOR
+
+DIKKAT EDELIM! 
+
+sda      8:0    0 476,9G  0 disk 
+├─sda1   8:1    0     1M  0 part 
+├─sda2   8:2    0   513M  0 part /boot/efi
+└─sda3   8:3    0 476,4G  0 part /var/snap/firefox/common/host-hunspell
+
+DISKLERLE ILGLI BAZI KOMUTLRI HATILRYACAK OLURSAK EGER
+fdisk -l komutu 
+Bize sistemimizdeki diskler hakkinda bilgiler veriyor
+
+df komutu
+diskler ile iligli daha ayrintili bilgiler veriyor
+df -h(humanreadable)
+
+du komutu
+bulundugmuz dizindeki dosyalarin boyutlarini veriyor
+ du -h komutu 
+ buludngumuz dosya dizinindeki dosyalarin boyutlarini mg-kb cinsiinden degerlerini verir
+ free komutu 
+ o anlik kullanilan bellek ile ilgili bilgileri veriyor
+ toplam bellek, kullanilan miktar vs gibi bilgileri veriyor ve ne kadar musati yer oldugnu da veriyor
+
+
+ adem@adem:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           1,6G  2,0M  1,6G   1% /run
+/dev/sda3       468G  108G  337G  25% /
+tmpfs           7,8G  249M  7,6G   4% /dev/shm
+tmpfs           5,0M  4,0K  5,0M   1% /run/lock
+/dev/sda2       512M  6,1M  506M   2% /boot/efi
+tmpfs           1,6G  132K  1,6G   1% /run/user/1000
+
+sudo fdisk -l 
+
+Disk /dev/sda: 476,94 GiB, 512110190592 bytes, 1000215216 sectors
+Disk model: SAMSUNG MZ7TE512
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: F15F2DBD-D9A0-4B38-BBF9-8C06FD56A98A
+
+Device       Start        End   Sectors   Size Type
+/dev/sda1     2048       4095      2048     1M BIOS boot
+/dev/sda2     4096    1054719   1050624   513M EFI System
+/dev/sda3  1054720 1000214527 999159808 476,4G Linux filesystem
+
+isimleri bu sekilde verilmis cunku SATA DISK 
+So, "sda3" is simply a way to identify the third partition on the first hard drive in your system, and it's commonly used as the root directory ("/") where the Linux operating system is installed.
+
+Bu isimlendirmeler, LInux cekirdegi tarafindan gerceklestiriliyor 
+Ve disklerin turune gore otomatik olarak gerceklestiriliyor.
+Ayrica diskleri birden fazla bolumlere ayirabildigimz den dolayi sda diski sda1,sda2,sda3 diye bolumlere ayriliyor
+Bu sekilde disk icinde birden fazla bolum olusturabilecegimzi gorebiliriz
+
+lsblk -f ile de -f(file) diyerek filesystem hakkinda bilgi almak istegimzi belirtmis oluruz!
+
+lsblk -f 
+
+
+adem@adem:~$ lsblk -f
+NAME FSTYPE FSVER LABEL UUID                                      FSAVAIL    FSUSE% MOUNTPOINTS  
+
+sda                                                                         
+├─sda1
+│                                                                           
+├─sda2
+│    vfat   FAT32       DD16-DBE6                             505,9M     1% /boot/efi
+└─sda3
+     ext4   1.0         5683671f-c61b-4d45-a7b7-680740cf49ad  336,6G    23% /var/snap/firefox/common/host-hunspell
+                                                                            /
+sr0   
+
+Gordugmz gibi sda(sata) diski  ext4 u filesystem olarak kullaniyor.
+
+UUID-Her bir diskin ve disk bolumunun benzersiz bir id si bulunuyor. Bu id sayesinde biz sistemimizin herhangi bir yerinde bu diske veya bolumune sistemimiz uzerinden herhangi bir noktada ulasabiliyoruz! 
+DISKLERIMZDEN BIR TANESI UZERINDEN KONFIGURASYON GERCEKLESTIRECEGIM ZAMAN BU ID YI KULLANIRIZ. HALI HAZIRDA SDA DIYE BIZ BUNU ISIMLENDIRYORUZ. BU ISIMLENDIRME, SISTEM NASIL BAGLANDI ISE, CEKIRDEKI UYGUN KOSULLRDA SIRASI ILE VERIYOR BURDA SIRA DEGISEBILIYOR.
+
+SADECE SISTEMIIZ UZERINDE KULLANMAK TA OLDUGMUZ SDA DISKININ EXT4 DOSYS SISTEMI MEVCUTTUR
+YENI OLUSTURULAN BIR DISK ICIN, EGER ICI BOS VE HERHANGI BIR ISLEM YAPILMAMIS ISE  O DISKLERE AIT DOSYA SISTEMI DE GOREMEYIZ.. 
+BU DISKLERE NASIL DOSYA SISTEMI EKLENIR ONA DA BAKACAGIZ!!!
+
+
+fdisk araci | DISKLERI BOLUMLEMEK
+
+fdisk hangi aygit uzerinde islem gerceklestireceksek o aygitin sistem uzerindeki, aygit ismini girmemiz gerekiyor!
+Ilgili aygitin disk uzerinde sistemimize hangi isimle baglandigini bilmiyor olabiliriz.
+Ogrenmek icin sudo fdisk -l yaparsk sistemimize bagli olan tum disklerin dosya karsiligi bilgilsi burda bulanabilir
+
+adem@adem:~$ sudo fdisk -l
+[sudo] password for adem: 
+Disk /dev/loop0: 4 KiB, 4096 bytes, 8 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 63,91 MiB, 67014656 bytes, 130888 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 476,94 GiB, 512110190592 bytes, 1000215216 sectors
+Disk model: SAMSUNG MZ7TE512
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: F15F2DBD-D9A0-4B38-BBF9-8C06FD56A98A
+
+Device       Start        End   Sectors   Size Type
+/dev/sda1     2048       4095      2048     1M BIOS boot
+/dev/sda2     4096    1054719   1050624   513M EFI System
+/dev/sda3  1054720 1000214527 999159808 476,4G Linux filesystem
+
+Disk /dev/sda:
+DISKIMIZIN SISTEM UZERINDEKI DOSYA KARSILIGI ACIKCA BELIRTILMIS
+BIZ BU AYGIT UZERINDE ISLEM YAPACAGIMZ ZAMAN BU DOSYA ISMINI KULLANACAGIZ=>/dev/sda:
+TOPLAM BOYUT:476,94 GiB
+1000215216 sectors KAC SEKTORDEN OLUSTUGU
+Sector size (logical/physical): 512 bytes / 512 bytes-1 SEKTORUN BOYUTUNU BELIRTMIS BURDA
+Disklabel type: gpt -DISK TYPE I GPT , CUNKU BENIM ISLETIM SISTEMIMI EUFI OLDUGNDAN DOLAYI GPT DISK BOLUMLEME KULLANMIS
+
+Device       Start        End   Sectors   Size Type
+Disk bolumlerinin aygit adi,acikca belirtilmis:
+/dev/sda1     2048       4095      2048     1M BIOS boot
+/dev/sda2     4096    1054719   1050624   513M EFI System
+/dev/sda3  1054720 1000214527 999159808 476,4G Linux filesystem
+
+Boot edilebilir olanlar icin Boot * secenegi konuluyor
+
+
+adem@adem:~$ ls /
+bin    dev   lib    libx32      mnt   root  snap      sys  var
+boot   etc   lib32  lost+found  opt   run   srv       tmp
+cdrom  home  lib64  media       proc  sbin  swapfile  usr
+adem@adem:~$ 
+
+Ana dizin altindaki boot dizini bu sistemin on yuklenmesini sagliyor!! Icerisinde sistemin on yuklenmesini ve baslatilmasini  saglayan dosyalari barindirir
+Bu su demektir, sistem baslangicinde bir diskte ilk once okunacak, sistemin baslatilacagi bolum olarak gecen bolumdur, boot edilebilir budur
+
+Device       Start        End   Sectors   Size Type
+Start:Disk bolumunun disk uzerindeki hangi sektorden basladigini , End ise bu disk bolumumun disk uzerindeki hangi sektorde sonlanacagini gosterir
+End deki sektor numarasindan, startdakini sektoru cikarirsak sektors sayisini elde ederiz!
+Birde suna dikkat edelim, sda1 in end, sektor sayisindan 1 sonra sda2 nin startsektor sayisi basliyor...yani orda bir gecis var...DISKIN BU SEKILDE BOLUNEBILME IMKANI SUNULUYOR
+Sectors, de toplam sektor u belirtir
+Size:Toplam boyut
+Type
+
+fdisk -l  COK ONEMLI BIR ARAC...SISTEME BAGLI OLAN DISKLER ILE ILGILI CESITLI BILGILER ELDE EDEBILIYORUZ!!
+EGER DISK OLUSTURDUK AMA BOLUMLEME YAPMADIK VE DOSYA SISTEMINI EKLEMEDI ISEK O ZAMAN O TARZ DISKLERI FDISK -L ILE GORUNTULEMEYIZ!
+
+ORNEGIN BIZ DIYELIM KI 
+
+BOLUMLDNRIECEGMIZ DISK IN LINUX DE KI ISMIN 
+sudo fdisk -l ile buluruz
+
+Disk /dev/sda:
+
+BU DISKI BOLUMLENDIRECEGIZ!!!
+
+sudo fdisk /dev/sda  
+command for help geldiginde 'm' tusuna basarsak neler i hangi komutlarla yapabilecegimzi gorebiliriz!!
+
+BIZ BU SEKILDE YENI DISK OLUSTURDUGMZDA, ONCE BOLUMLENDIRME GERCEKLESTIRMELIYZ CUNKU EGER BIZ ONCE DOSYA SISTEMI TANIMLAMA YAPARSAK DA DAHA SONRA DISK BOLUMLENDIRMEYI YAPARSAK VERILERIMZIN SILINMESINE NEDEN OLABILIRIZ!!!
+ONDAN DOLAYI, ILK ONCE DIKS BOLUMLENDIRMESI ONDAN SONRA DA BOLUMLEDIGMIZ KISIMLARA DOSYA SISTEMI TANIMLAMASI YAPARIZ!!
+
+BASTA DOSYA SISTEMINI TANIMLAR SONRA DA DOSYA SISTEMINI TANIMLADIGMZ DISKI BOLERSEK, VERILERIMZI PARCALAMIS OLURUZ VE VERILEIRMIZIN
+
+BOLUMLEME ISLEMINI NASIL YAPARIZ
+
+sudo fdisk /dev/sda  
+Command:n:
+
+BURDA ACABA ILK ONCE DOSYA SISTEMINI TANIMLASA IDIK NE OLURDU DIYE TEST EDECEK OLURSAK!!
+
+MBR- DOS SEKLINDE GECIYOR ESKI SISTEM OLDUGU IICN 
+DOS PARTITION-MBR DISK BOLUMLEME DEMEKTIR 
+GPT- BU YENI DISK BOUMLELEME
+
+g-crate a new empty GPT partition table 
+o-create a new empty DOS partition table(MBR)
+
+BURDA EGER MBR ISE BIZIM KI VE GPT OLARAK DEGISTIRMEK ISTERSEK
+sudo fdisk /dev/sda   bundan sonra -g secenegine basilir
+O zaman disk bolumleme tablosunu MBR den GPT  ye degistirecektir..
+
+Sonrasinda tekrar - n secenegini gireriz
+
+GB(Gigabyte) ile GiB(Gibibyte) Farki Nedir? 
+
+GiB (Gibibyte): This is a binary-based unit of digital information storage capacity. 1 Gibibyte is equal to 2^30 bytes, which is 1,073,741,824 bytes. It is commonly used in the context of computer memory and storage devices in operating systems like Linux.
+
+GB (Gigabyte): This is a decimal-based unit of digital information storage capacity. 1 Gigabyte is typically defined as 1,000,000,000 bytes. It is commonly used in the context of computer storage devices like hard drives and SSDs.
+
+The main difference between them is in how the storage capacity is calculated:
+
+In GiB (binary), capacity is calculated in powers of 2, which aligns better with the binary nature of digital storage in computers.
+In GB (decimal), capacity is calculated in powers of 10, which is more commonly used in marketing and by storage device manufacturers.
+For example:
+
+1 GiB = 1,073,741,824 bytes
+1 GB = 1,000,000,000 bytes
+This difference becomes more significant when you're dealing with larger storage capacities. Operating systems and storage devices may report capacities in GiB or GB, depending on their conventions. It's important to be aware of this difference when interpreting storage capacities to avoid confusion.
+
+DEVAM EDERSEK DISK I BOLUMLENDIRME!! 
+
+sudo fdisk /dev/sda  
+Command:  n
+
+Command (? for help): n
+Partition number (1-128, default 1): 2
+First sector (34-1000215215, default = 1054720) or {+-}size{KMGTP}:
+Last sector (1054720-1000215215, default = 1000215215) or {+-}size{KMGTP}: +50G
+
+
+Command (? for help): t
+Partition number (1-128): 2
+Hex code (L to list all codes): 8300  # This sets the partition type to Linux filesystem
+
+Command (? for help): w
+
