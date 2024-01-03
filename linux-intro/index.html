@@ -7,7 +7,106 @@
 </head>
 <body>
  
-Nano araci kaldigmiz yerden devam!!!!
+Disk Yonetimi!
+Verilen Nasil Depolanir:
+Isletim sisteminin emirleri dogrultusunda bir distken veri okurken veya yazarken veriler bloklar halinde okunyor veya yaziliyor.Bu fiziksel diskte olan birsey degil, bu soyutsal birsey, tamamen isletim sistemi ile donanim arasindaki bir soyutlamadan kaynaklaniyor.
+Ornegin linux sisteminin varsayilan dosya sistemi formati olan ext4 un standart boyutu 4096byte
+Disk uzerinde en kucuk birim olan tek bir sektor de 512 byte veri tutabildigi icin bize soyutlama katmani sunan ext4 varsayilan olarak ele aldigi en kucuk disk birimi 8 sektorden meydana gelmis olan tek bir blok oluyor.
+
+Yani ext4 dosya sistemine sahip olan disk bolumlerine veriler yazilirken veya bu veriler okunurken, disk uzeirnde 4096 byte a karsilik gelen 8'er sektorluk(her bir sektor 256 byte) birimler kullaniliyor. Bu da her bir veri kumesi icin 4096 byte lik veri bloklarinin kullanilacagi anlamina geliyor
+
+Bir metin belgesi olusturup icerisine sadece 1 karakter yazarsak 'x' diye, bu 1 byte a karsiliik gelir.
+
+ASCII TABLOSUNA BAKARSAK 1 KARAKTER, YANI 
+DECIMAL-NORMAL BIZIM ANLADIGMZ ACIDAN 1 KARAKTER 1 BYTE A KARSILIK GELIR AMA 1BYTE=8BIT OLDUGU ICIN 
+1 BYTE 256 FARKLI VALUES I TEMSIL EDEBILIR BUNLARIN HEPSI 1 KARAKTERDEN OLUSMUYYOR, BUNLAR ICINDE 3 KARAKTERDEN OLUSAN DA VAR..AMA 1 KARAKTER YAZINCA BU 1 BYTE' A KARSILIK GELIR NETICE ITIBARI ILE , AMA 1 BYTE ILLA KI DE 1 KARAKTER E KARSILIK GELECEK DIYE BIRSEY YOKTUR, 1 BYTE 256 FARKLI DEGER I TEMSIL EDIYOR..
+
+!BURASI COK ONEMLI COKK DOGRU VE IYI ANLAMAK GEREK!
+
+1byte("A")=8bit(0100 0001)
+AMA BIZIM ALFABEMIZE GORE DUSUNMEYELIM.. 
+
+BUNLARI ASCII TABLOSUNDAN GOREBILIRIZ..1 BYTE 256 FARKLI DEGERI TEMSIL EDEBILIR!!!!BUNU IYI ANLAYALIM!!!!!
+
+A = 1BYTE=8BIT(0100 0001)
+BEL=1BYTE=8BIT(0000 0111)
+BS=1BYTE=8BIT(0000 1000)
+
+
+065	101	41	0100 0001	A
+007	007	07	0000 0111	BEL	bell
+008	010	08	0000 1000	BS	backspace
+
+
+Biz bir dosya olusturup icerisine 1 harf girdigimz zaman, bu 1 byte lik yer kapliyor disk uzerinde ama, bunu yazmak icin blok ousturuldugu icin ve bir blok 4096byte yani 8sektor(512byte*8) den olustugu icin, biz sadece 1 byte lik veri yazsak bile, olusturulan dosya ve icine yazilan tek bir karakter disk uzerinde 4096(4kb) lik alan kaplamasina sebep olacaktir!!!!
+
+Cunku mevcut dosya sisteminin kontrol edebilecegi en kucuk  birim 4096 byte lik  bloktur
+
+HEMEN BUNU TEST EDELIM!!!!
+
+adem@adem:~$ cat > mytest
+1
+adem@adem:~$ cat mytest
+1
+adem@adem:~$ stat mytest
+  File: mytest
+  Size: 2(byte)         	Blocks: 8(sektoru temsil ediyor)          IO(input-output) Block: 4096(byte lik yer kapliyor)   regular file
+Device: 803h/2051d	Inode: 5690340(disk uzerinde verinin hangi blokta bulundugu bilgisi)     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2024-01-03 10:40:24.146124414 +0100
+Modify: 2024-01-03 10:40:19.558069208 +0100
+Change: 2024-01-03 10:40:19.558069208 +0100
+ Birth: 2024-01-03 10:40:18.482056259 +0100
+adem@adem:~$ 
+
+SIMDI SORUMUZ SU: NEDEN BIZ mytest dosyasmiziin icine sadece '1' karakterini  yazmamiza ragmen, bu 1 byte lik degil de 2 byte lik yer kapladi?????????
+CUNKU:
+Biz '1' karakterini yazdiktan sonra, enter a bastik o satir sonunda  ve, biz enter a basinca, linux de satir sonuna bir alt satira gecmeyi saglayan bir '\n' karakterini eklemis oldu bu da dolayisi le 1 byte lik degil, 2 byte lik yer kaplamasin saglamis oluyor!!!!!!
+'1' '\n'(newline character)   
+
+Eger biz newline character olusturmak istemezsek o zaman
+echo -n '1' > mytest
+bu sekilde girersek, newlince character olusturmadan dosya icine 1 karakterlik veri yazar ve 1 byte olur!!!
+
+TEKRAN ANA KONUMUZA DONECEK OLURSAK, NETICE DE BIZ BIR DOSYA OLUSTURUP ICERISINE TEK BIR KARAKTER GIRDGIMZDE, FARKETMEDEN ENTER A BASINCA SATIR SONU KARAKTERI OLAN '\N' EKLENDIGINDE 2 BYTE LIK YER KAPLAR AMA DISK UZERINDE BU VERI 1 BLOK OLUSTURULUP O BLOK ICINDEKI 8 SEKTOR DEN BIR SEKTORE YAZILACAGI ICIN, HER HARUKARDA DISK UZERINDE 4096BYTE LIK ALAN KAPLANMIS OLACAK!!!!!
+
+BUNDAN EMIN OLMAK ICIN DOSYA BOYUTUNU BIR BLOK U ASACAK SEKILDE ICERISINE DATA YAZARAK KONTROL EDEBILIRIZ!!!!
+
+
+adem@adem:~$ echo {1..1045} > mytest2
+
+adem@adem:~$ stat mytest2
+  File: mytest2
+  Size: 4118(byte)      	Blocks: 16         IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 5690473     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/    adem)   Gid: ( 1000/    adem)
+Access: 2024-01-03 10:52:19.842566895 +0100
+Modify: 2024-01-03 10:52:14.746507531 +0100
+Change: 2024-01-03 10:52:14.746507531 +0100
+ Birth: 2024-01-03 10:52:14.742507484 +0100
+
+ DOSYA BOYUTU 4118 BYTE , YANI 1 BLOK=4096 BYTE IDI, 1 BLOKTAN BIRAZCK FAZLA YER TUTTUTU ICIN, Blocks: 16, 16 SEKTORLUK  YER KAPLIYOR(HER SEKTOR 512BYTE, 1 BLOK 4096BYTE IDI)
+
+ VERILERIMIZ DOSYA SISTEMLERININ SAHIP OLDUGU BLOK BOYUTLARINA GORE VERILERIMIZ BLOKLAR HALINDE DISKTE DEPOLANIYOR VE TEKRAR OKUNMALARI GEREKTIGINDE DE BU BLOKLAR UZERINDE OKUNUYOR!!!
+
+ DOSYA SISTEMI BLOKTAN DAHA KUCUK BIR ALANA ADRESLEME YAPAMIYOR, ULASAMIYOR, DAHA KUCUK PARCALARA BOLEMIYOR
+ ONDA DOLAYI 1 BYTELIK DOSYA BILE OLSA 4096 BYTE ALAN KAPLAYAN BLOK(8SEKTOR(1SEKTOR=512BYTE)) KULLANILMAK ZORUNDADIR
+
+ stats mytest2
+
+ Inode: 5690473:DOSYANIN HANGI BLOKTA OLDUGUNU SOYLER, INDEX NUMARASIDIR..
+ VERI BULUNURKEN BLOK OLARAK ARANIR, VE BLOK BULUNUR... 
+ 
+ Biz kucuk veriler kullanacagimz zaman, Kucuk blok boyut kullanmamiz mantikli iken daha buyuk boyutlu veriler icin ise, Buyuk Blok Boyut kullanilabilir!!!!
+
+ Kucuk Blok Boyutu     -   Buyuk Blok Boyutu 
+
+ Blok sayisi fazla     - Blok sayisi az 
+ Verilere ulasim yavas - Verilere ulasim hizli 
+Alan tasarrufu         - Alan ziyani
+
+Biz mumkun oldugunca kullandigmz dosya sisteminde varsayilan blok boyutunu tercih etmemiz, tavsiye ediliyor. Herhangi bir degisiklik yapmadan!!!!
+
 
 
 </body>
