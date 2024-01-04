@@ -503,4 +503,258 @@ Partition number (1-128): 2
 Hex code (L to list all codes): 8300  # This sets the partition type to Linux filesystem
 
 Command (? for help): w
+w ile biz onay vermis oluyoruz, ve o ana kadar gerceklestirilen islemler disk uzerinde uygulanacaktir, 
+ya da q ya basaarak, o ana kadar yapilmis islemleri iptal edebiliriz
 
+fdisk -l  ile de son durumda olusturulan, disk alani gorulebilir, ve incelenebilir!!!
+
+sudo fdisk /dev/sdb
+
+adem@adem:~/utv/test/Linux-works$ sudo fdisk /dev/sda
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+This disk is currently in use - repartitioning is probably a bad idea.
+It's recommended to umount all file systems, and swapoff all swap
+partitions on this disk.
+
+
+Command (m for help): m
+
+Help:
+
+  GPT
+   M   enter protective/hybrid MBR
+
+  Generic
+   d   delete a partition
+   F   list free unpartitioned space
+   l   list known partition types
+   n   add a new partition
+   p   print the partition table
+   t   change a partition type
+   v   verify the partition table
+   i   print information about a partition
+
+  Misc
+   m   print this menu
+   x   extra functionality (experts only)
+
+  Script
+   I   load disk layout from sfdisk script file
+   O   dump disk layout to sfdisk script file
+
+  Save & Exit
+   w   write table to disk and exit
+   q   quit without saving changes
+
+  Create a new label
+   g   create a new empty GPT partition table
+   G   create a new empty SGI (IRIX) partition table
+   o   create a new empty DOS partition table
+   s   create a new empty Sun partition table
+
+
+Command (m for help): 
+
+fdisk araci ile mevcut diskleri bolumleme, veya var olan diskleri silme gibi islemler yapabiliyoruz!!!
+
+mkfs | DOSYA SISTEMI TANIMLAMAK
+
+mkfs. yazip tap tusuna basarsak!Sistemimizde yuklu olan dosya sistemlerin gorebiliyoruz
+
+adem@adem:~$ mkfs.
+mkfs.bfs     mkfs.ext2    mkfs.ext4    mkfs.fat     mkfs.msdos   mkfs.vfat
+mkfs.cramfs  mkfs.ext3    mkfs.f2fs    mkfs.minix   mkfs.ntfs    
+adem@adem:~$ mkfs.
+
+mkfs komutu dosya sistemi olusturmak icin kullaniliyor!Bize listede gelen, komutlar biizm ornegin ext4 dosya sistemini kurmak icin mkfs.ext4  bu araci kullanabilecegimiz bilgsini veriyor
+
+lsblk -f dedgimz zaman :
+
+p/code/148
+sda                                                                         
+├─sda1
+│                                                                           
+├─sda2
+│    vfat   FAT32       DD16-DBE6                             505,9M     1% /boot/efi
+└─sda3
+     ext4   1.0         5683671f-c61b-4d45-a7b7-680740cf49ad  336,6G    23% /var/snap/firefox/common/host-hunspell
+                                                                            /
+sr0      
+
+sda1 in bir dosya sistemi yok, olsa idi hemen altinda gorebilirdik
+sda2 nin vfat isminde dosya sistemi var 
+sda3 un ext4 dosya sistemi var. 
+
+ mkfs.ext4 /dev/sda1 ...
+ SEKLINDE DOSYA SISTEMI OLUSTURUYOURZ VE HER DOSYA SISTEMINE DE BENZERSIZ, UNIQ ID VERILIYOR, CUNKU SISTEM BASLANGICINDAN ITITBAREN CEKIRDEK TARAFINDAN ISIM DEGISTIRILEBILIYOR, AMA ID HICBIRZAMAN DEGISMEYECEKTIR!!!
+
+TEKRAR DOSYA SISTEMLERINI KONTROL ETMEK ICIN lsblk -f ile bakarakm, yeni dosya sisteminin ne oldugunu gorebiliriz. Dosya sistemi atamasini yaparak diske, sunu yapiyoruz, artik o diske istedigmz dosyalari atip o dosyalari n okunabilmesini saglayabilecegiz, fakat icerisine veri gondermek ve var olan verileri okuyabilmek icin oncelikle, bu disk bolumumuze nerden ulasabilecegmiizi belirlememiz gerekiyor
+
+YERI BULMAK ICN ISE : sudo lsblk -f ile gelen listede MOUNTPOINT OLARAK NEREYI GOSTETIYORSA, HANGI DIZIN ALTINDA GOSTERIYORSA ORASIDIR
+
+
+adem@adem:~$ lsblk -f
+NAME FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+loop0
+
+p/code/148
+sda                                                                         
+├─sda1
+│                                                                           
+├─sda2
+│    vfat   FAT32       DD16-DBE6                             505,9M     1% /boot/efi
+└─sda3
+     ext4   1.0         5683671f-c61b-4d45-a7b7-680740cf49ad  336,6G    23% /var/snap/firefox/common/host-hunspell
+                                                                            /
+sr0        
+
+Mountpoinst ornegin / yani kok dizin alintda ise, bizim bu verileri bir dizin uzerinden disk bolumunu bir dizin uzerinden sistemimize baglamamiz gerekiyor
+
+SISTEMIMIZE DISKLERIMIZI NASIL BAGLIYORUZ
+
+MOUNT | DISKLERIN SISTEME BAGLANMASI 
+
+Su ana kadar:
+1-Disk bolumu olusturuldu 
+2-Daha sonra bu disk bolumunun, sistemin isletim sistemine erisebilmesi icin, bir dosya sistemine sahip olmsi gerektigini soyledk ve dosya sistemine sahip olmasi gereken dosya sistemini bulup atadik                                                                    Olusturulan disk bolumne dosya sistemi atadik
+
+
+sda                                                                         
+├─sda1  - Eger mountpoints kismi bos ise bu su demektir, herhangi bir filesystem tanimlanmamis demektir!
+Filesystem tanimlandiktan sonra, mountpoints / root-kok dizin olarak gelecektir.
+
+3-Fakat diskmiz dosya sistemine sahip olsa bile, bu diskimizi sistemimizin erisilebilir konumda bulunmuyor, biz ornegin sda1  disk bolumune veri gondemrek istersek / kok dizini kullanabiliriz. Bu kok dizine attigimz, her turlu veri aslinda sda1 disk bolumune kaydoluyor. Dolayisi ile benim disk icerisinde veri depolamam gerekiyorsa bunu sistemimzden erisilebilir noktaya baglamam gerekiyor.
+Peki bunu nereye baglayacagiz?
+
+Normalde baglmak istedgimz aygit flash-disk ise,  yani cikarilabilir bir flash-disk ise, bize onerilen / kok dizinin altindaki media klasoru alitnda bir dizin, klasor olusturup buraya baglamamizdir. Eger baglamak istedgimz aygit cok daha kalici ise ornegin, bir disk bolumunu baglmak istiyorsak, bir isletim sistemi bolumunu baglamak istiyorsak, bunu da / kok dizin altindaki  mnt dizini altinda olusturmus olusturmus oldugumuz klasore baglamamiz gerekiyor
+mnt-mount ifadesinin kisaltmasindan geliyor
+Bunlar yaklasimdir, onerilerdir.. 
+Zaten bizde baglama islemleri icin mount isimli araci kullaniyor olacagiz
+
+MOUNT ARACI ILE KOK DIZINE KLASOR BAGLAMA 
+
+1-Oncelikle baglamak istedgimz diskin ismini biliyor olmamiz gerekir 
+Bunu da  lsblk -f ile ogreniriz
+
+NAME FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+loop0
+
+sda                                                                         
+├─sda1
+│                                                                           
+├─sda2
+│    vfat   FAT32       DD16-DBE6                             505,9M     1% /boot/efi
+└─sda3
+     ext4   1.0         5683671f-c61b-4d45-a7b7-680740cf49ad  336,6G    23% /var/snap/firefox/common/host-hunspell
+                                                                            /
+sr0     
+
+veya sadece lsblk komutunu da gireblriz
+
+sda      8:0    0 476,9G  0 disk 
+├─sda1   8:1    0     1M  0 part 
+├─sda2   8:2    0   513M  0 part /boot/efi
+└─sda3   8:3    0 476,4G  0 part /var/snap/firefox/common/host-hunspell
+                                 /
+sr0     11:0    1  1024M  0 rom  
+adem@adem:~$ 
+
+Ornegin baglmak istedimgz disk imizin ismi sda1
+Konumu, dosya konumu 
+Bu diski baglamak icin 
+/dev(device)
+mount /dev/sda1
+
+sda1 in dosya konumunu ve ismini gormek istersek ayni anda:
+
+sudo fdisk -l (BU KOMUT ILE HEM sda1 ismi oldugunu biliriz, hem de konumunun /dev/sda1 konumu oldugunu biliriz!)
+
+Disk /dev/sda: 476,94 GiB, 512110190592 bytes, 1000215216 sectors
+Disk model: SAMSUNG MZ7TE512
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: F15F2DBD-D9A0-4B38-BBF9-8C06FD56A98A
+
+Device       Start        End   Sectors   Size Type
+/dev/sda1     2048       4095      2048     1M BIOS boot
+/dev/sda2     4096    1054719   1050624   513M EFI System
+/dev/sda3  1054720 1000214527 999159808 476,4G Linux filesystem
+
+
+adem@adem:~$ df -h
+
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           1,6G  2,1M  1,6G   1% /run
+/dev/sda3       468G  108G  337G  25% /
+tmpfs           7,8G  194M  7,6G   3% /dev/shm
+tmpfs           5,0M  4,0K  5,0M   1% /run/lock
+/dev/sda2       512M  6,1M  506M   2% /boot/efi
+tmpfs           1,6G  128K  1,6G   1% /run/user/1000
+
+Ornegin baglmak istedimgz disk imizin ismi sda1
+Konumu, dosya konumu 
+Bu diski baglamak icin 
+/dev(device)
+mount /dev/sda1
+
+Simdi ayrica bu nu nereye hangi klasore baglayacagmizi belirtmeliyiz
+Burda istedgmiz klasore baglayabiliriz, hatta yeni klasor olusturup ona da baglayabiliriz
+
+Ornegin yeni olsutrdugmz Desktop altinda disk isimli klasore baglamak istiyoruz
+adem@adem:~$ sudo mkdir ~/Desktop/disk
+adem@adem:~$ cd disk
+bash: cd: disk: No such file or directory
+adem@adem:~$ pwd
+/home/adem
+adem@adem:~$ cd Desktop/
+adem@adem:~/Desktop$ cd disk
+adem@adem:~/Desktop/disk$ 
+
+sudo mount /dev/sda1 ~/Desktop/disk  KOMUTU ILE BAGLARIZ.. 
+
+PEKI BAGLANDIGINI NERDEN ANLARIZ!!!!!
+TABI KI lsblk komutunu calistirsak, MOUNTPOINTS DE BAGLANDIGI DIZINI GOREBILIRIZ,....COK ONEMLI,...EGER BOS ISE HICBIRYERE BAGLANMAMIS DEMEKTIR
+
+adem@adem:~$ lsblk 
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+
+sda      8:0    0 476,9G  0 disk 
+├─sda1   8:1    0     1M  0 part 
+├─sda2   8:2    0   513M  0 part /boot/efi
+└─sda3   8:3    0 476,4G  0 part /var/snap/firefox/common/host-hunspell
+                                 /
+sr0     11:0    1  1024M  0 rom  
+
+SIMDI DE BU DISK ICINE KLASOR OLUSTURARAK BU DISK BOLUMUNE VERI YAZIP YAZAMADIGMIZI ONTROL ETMEK ISTIYORUM
+KLASOR OLUSTURMAYA CALISIRKEN, PERMISSION DENIED HATASI ALMAMIZ MUHTEMELDIR CUNKU 
+MOUNT ISLEMINDEN ONCE, /Desktop/disk in user-owner i adem kullanici iken mount islminden sonra bu dizin, root a ait, yani owner i root olmus oldu!!!ONDAN DOLAYI DA TABI KI PERMISSION DENIED HATASI ALINACAKTIR!!!
+YANLIS ANLASILMASIN, KLASOR YINE KONIUM OLARAK ORNEGIN /home/adem/Desktop/disk pozisyonunda duruyor adem-owner klasorunun altinda durmasina ragmen, owner i artik adem degil!!!!BURAYI IYI ANLAYALIMM...ADEM-USER(OWNER)  DIZIN ALTINDA OLABILRIZ AMA, OWNER I DEGISMIS OLDU ROOT OLDU ARTIK!!!
+BU PROBLEMI COZMEK ICIN TABI KI SUDO ARACI KULLANIIRIZ
+
+DISKI BAGLAMIS OLDUGMUZ KLASORUN OWNER I DEGISTIRMEK ISTYORUZ O ZAMAN NE YAPARIZ 
+sudo chown adem:adem ~/Desktop/disk  
+
+adem user ve adem grubunu ~/Desktop/disk   bu dizinin owneri yapmis olduk burda, cunku artik hata almiyoruz!!!
+
+
+ls -ld ~/Desktop/disk 
+
+dersek artik bu disk artik adem kullanicisin in  yetkilerine gececektir... Bir user- owner olarak adem kullancisi  bu ~/Desktop/disk klasorunde artik, kendine veriler chmod yetkileri dahilinde islemler yapabilecektir!!
+
+O ZAMAN BIZ PERMISSION DENIED ALDGIMZDA YAPACAGIMZ 3 SEY VAR 
+1.YA SUDO KOMUTUNU KULLANARAK, ROOT YETKIISI ILE O ISLEMI YAPMAK 
+2.EGER UZERINDE LOGIN OLDGUMZ KULLANICI O DIZININ OWNER I ISE AMA ONA VERILEN YETKLIERLDE SORUN YASIYOR ISE O ZAMAN, CHMOD ILE VERILEN YETKILERI ARRTTIRABILIRZ CHMOD 777 ~/Desktop/disk ya da chmod ug+rwx ~/Desktop/disk   seklinde yetkilerini arttiririz 
+3. EGer uzerinde islem  yapmaya calistigimz kullanici ornegin adem kullanicisi owner degil ise o zaman da adem kullanicisni chown ile owner yaparak bu isi cozebiliriz... 
+bIR DIZININI OWNER, GRUOP, PERMISSION LARINI ISE 
+stats, ya da ls -l ile gorebiliriz!!!!
+
+VE ARTIK YENI KLSORU ~/DESKTOP/DISK ALTINDA OLUSTURABILIYORUZ! 
+
+mkdir ~/Desktop/disk/new-folder diyerek 
+Yeni klasoru  sda1 in mountpontsi olan /home/adem/Destkop/disk bolumu altinda tutuluyor olacak!

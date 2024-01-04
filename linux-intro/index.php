@@ -9240,6 +9240,22 @@ Bu byte lar da ASCII olarak isimlendirilmis standartlarca belirlenmis olan ozel 
   1024(2^10) zettabyte = 1 YB(yottabyte)
 
 
+  disk altinda 'lost+found' isminde bir klsor vardir
+  Bu klasor un gorevi, ani sekilde elektrik kesintisi vs sornu yasanir ve aniden eelektrik baglnti kaybedilir ise, disk kontrol edilip kurtarilabilmis veriler, sistem yeniden baslatildiginda, diskte hangi konumda olacagi belirlenememis veriler bu klasore gonderilir. Kaybolan verileri burda bulabiiliriz!!
+
+
+  Burda bir disk bolumu tek bir konuma bagladik istersek birden fazla konuma da baglayabliriz. Veya baska dizinlere de baglayabiliriz. Bu sekilde bu dizin bolumune birden fazla dizin bolumne de ulasilabilir. Cunku olusturulan klasorler yalnizca bu disk bolumne kolayca ulasilmasini saglayan bir gecit kapisi gorevi goruyor. Yani bu klasorler gecit kapisi gibi oldugu icin birden fazla gecit kapisi da olusturabiliuyoruz
+
+  mkdir new-entrance
+
+  mount /dev/sda1 new-entrance/
+
+  yapabilirz ve bundan sonra tekrar 
+
+  lsblk ile cek edersek artik sda1 in MOUNTPOINTS DEGERINDE 2 AYRI DOSYA KONUMU, YANI GIRISI VERILDIGNI GOREIBLIRIZ!!! YANI BU DISK BOLUMUNUN 2 GIRIS KAPISI VAR GIBI DUSNEBILIRIZ, HER IKI KONUMA DA VERI GONDEREREK BIZ ASLINDA SDA1 DISK BOLUMUNE YAZILMASNI SAGLAMIS OLUYORUZ!!
+  AMA BU SEKILDE YAPMAK COK ONERILMEZ, KARMASIKLIGA SEBEP OLMA DURUMUNDAN DOLAYI.
+  BU KLASORLER DISK ICIN GIRIS KAPILARI OLDUGU ICIN BIZ BU KLASORLER  UZERIJNE ISLEM YAPTIGMZDA VE YETKILENDIRME YAPTGIMZDA ASLINDA, BU DISK BOLUMU UZERINDE ISLEM YAPIYORUZ, GERCEKTEN BU KLASORLER UZERINDE ISLEM YAPMIYORUZ, SDA1 DISK BOLUMUNU TEMSIL EDEN KLASORLER UZERINDE ISLEM YAPIUYORUZ
+  ISLETIM SISTEMI UZERINDEN ERISMEK ICN BU KLSAORLER, BU KONUMLAR(MOUNTPONTSDE GOZUKEN) KULLANILIYOR.BUNLAR YALNIZCA TEMSILDIR..YANI
 */
 
 
