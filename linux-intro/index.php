@@ -9230,14 +9230,61 @@ Bu byte lar da ASCII olarak isimlendirilmis standartlarca belirlenmis olan ozel 
   !BIZ NORMAL SAYILARI 10 LU SISTEM OLAN DECIMAL ILE GOSTERIRIRZ!!!
   !BILGISYARLARDA 2 LI GOSTERIMLE GOSTERILIR BUNUN ADI DA BINARY DIR!!!!
 
-  1024(2^10) bytes = 1 kilobyte
-  1024(2^10) kilobyte = 1 Megabyte
-  1024(2^10) megabyte = 1 GB
-  1024(2^10) gigabyte = 1 TB
-  1024(2^10) terabyte = 1 PB(petabyte)
-  1024(2^10) petabyte = 1 EB(exabyte)
-  1024(2^10) exabyte = 1 ZB(zettabyte)
-  1024(2^10) zettabyte = 1 YB(yottabyte)
+  1024(2^10) - 100MB bytes = 1 kilobyte
+  1024(2^10) - 100MB kilobyte = 1 Megabyte
+  1024(2^10) - 100MB megabyte = 1 GB
+  1024(2^10) - 100MB gigabyte = 1 TB
+  1024(2^10) - 100MB terabyte = 1 PB(petabyte)
+  1024(2^10) - 100MB petabyte = 1 EB(exabyte)
+  1024(2^10) - 100MB exabyte = 1 ZB(zettabyte)
+  1024(2^10) - 100MB zettabyte = 1 YB(yottabyte)
+
+  Bunlar bu sekilde internette bulabiliyoruz ama sanilanin aksine 
+  1GB 1024 MB degildir 1000MB dir.
+  Ornegin sistem uzerine bagladigmz 1TB lik bir disk sistem uzerinde 931Gb olarak gozukuyor. Cunku depolama alaninin buyuklugu TB dan GB a donusturuluyor.
+  Bilgisayarlar GB biriminden anliyorlar ve 2 li, yabi binary sayi sistemini kullandiklari icin, 10 luk(decimal) gosterimden 2 lik duzene geciste bu farklar ortya cikabiliyor
+
+  !ONEMLI BIR ACIKLAMA 1GB=1000mb MI YOKSA 1024MB?
+
+  In the context of digital storage, the prefixes for units like kilobyte (KB), megabyte (MB), and gigabyte (GB) are commonly used in two different ways: the binary (base-2) system and the decimal (base-10) system. The difference lies in how these units are defined:
+
+Binary (Base-2) System:
+1 kilobyte (KB) = 1024 bytes
+1 megabyte (MB) = 1024 kilobytes (KB)
+1 gigabyte (GB) = 1024 megabytes (MB)
+This is the definition commonly used in computing and digital storage. It's based on powers of 2 (2^10 = 1024), and it's used because computers operate in binary and powers of 2 are convenient for addressing memory locations.
+
+Decimal (Base-10) System:
+1 kilobyte (KB) = 1000 bytes
+1 megabyte (MB) = 1000 kilobytes (KB)
+1 gigabyte (GB) = 1000 megabytes (MB)
+The decimal system is more commonly used in the International System of Units (SI), which is the standard system of measurement for most non-computing applications. It's based on powers of 10.
+
+!BU SONUCA GORE BILMEMIZ GEREKEN ONEMLI BIR NOKTA DA SUDUR KI!!!!!
+
+As a result, when you see a file size on your computer or device, it's often reported in binary units (1 MB = 1024 KB), but when manufacturers advertise storage capacities, they may use decimal units (1 GB = 1000 MB).. Based on this explanation, for example if I have a 512Gb disk, it is 500Gb and I can not store the data exacttly 512Gb?
+
+That's correct. When manufacturers advertise storage capacities, they typically use the decimal system (1 GB = 1000 MB) to make the capacity appear larger, which can be somewhat misleading. So, if you have a disk drive that is advertised as 512 GB, it means the manufacturer is using the decimal definition of gigabytes, and the actual storage capacity, when measured in binary gigabytes, will be slightly less.
+
+To calculate the approximate binary gigabyte (GiB) equivalent of a 512 GB disk:
+
+512 GB * (1024 MiB/1 GB) * (1024 KiB/1 MiB) * (1024 B/1 KiB) = approximately 476.84 GiB
+
+So, your 512 GB disk drive will have a usable storage capacity of approximately 476.84 GiB when measured in binary units. This is due to the difference in how storage capacity is defined in the decimal system (used by manufacturers for marketing) and the binary system (used by operating systems and software for storage calculations). Keep this in mind when planning your storage needs and selecting storage devices.
+
+!VERILER NASIL DEPOLANIR
+8bit(10101010)=1bytes sektor ismi verilen noktalarda veya kutu larda depolanirlar
+Standartta her bir sektor 512byte lik veri tutabiliyor
+Sektor birimi haric birde isletim sistemleri icin gruplanmis Blok isminde birimler bulunuyyor
+!Blok:Isletim sistemlerinin adressleyebilecegi yani isaret edebilecegi sektorlerden yani sektor grubundan olusuyor.
+1 blok 1 sektorden de olusabilir ya da 2 li 4 lu 8 li 16 li gibi birden cok sektorun bir araya gelmesi ile de olusturulabilir
+Bllok dosya sisteminin adresleyebilecegi en kucuk depolama birimini temsil eden bir soyutlamadir
+
+Hatirlarsak inode kavramindan bahsederken, inode un verilerin hangi bloklarda yer aldigini soyleyen bir yapi oldugundan bahsetmistik
+Verilerin disk uzerinde bloklar halinde tutulmasinin sebebi, diskin en verimli bir sekilde isletim sistemi tarafindan yonetilmesini saglamaktir
+
+Bahsedilen bloklama fiziksell olarak boyle bir gruplama soz konusu degil, bu soyut olarak sektorlerin
+
 
 
 */
