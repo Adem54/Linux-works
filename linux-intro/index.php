@@ -9661,7 +9661,7 @@ YENI OLUSTURULAN BIR DISK ICIN, EGER ICI BOS VE HERHANGI BIR ISLEM YAPILMAMIS IS
 BU DISKLERE NASIL DOSYA SISTEMI EKLENIR ONA DA BAKACAGIZ!!!
 
 
-fdisk araci | DISKLERI BOLUMLEMEK
+! fdisk araci | DISKLERI BOLUMLEMEK
 
 fdisk hangi aygit uzerinde islem gerceklestireceksek o aygitin sistem uzerindeki, aygit ismini girmemiz gerekiyor!
 Ilgili aygitin disk uzerinde sistemimize hangi isimle baglandigini bilmiyor olabiliriz.
@@ -10080,9 +10080,379 @@ EGER DAHA KALICI EKLEME ISLEMI YAPMAK ISTERSEK BUNU /etc/fstab isimli konfiguras
 sudo mount /dev/sda1 new_file seklinde bagladiklarimiz yalnizca sistemimiz acik oldugunda gecerlidir.Sistem yeniden baslsyainca baglantilar silinmis olacak bunu lsblk yi calistirrarak sistemi yeniden baslatinca check edebiliriz
 Bizim baglanti kapisi olarak ayarladgimz klasorlerin baglantisi sistem yeniden baslayinca kopmus oluyor
 
-!DISKLERI KALICI OLARAK BAGLAMAK!
-  
-*/
+!DISKLERI KALICI OLARAK BAGLAMAK  | /etc/fstab dosyasinda duzenleme yapmak gerekiyor!
+Baglantilari  kalici hale getirmek icin /etc/fstab isimli dosyada duzenleme gerceklestirmemiz gerekiyor
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo nano /etc/fstab
+
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda2 during installation
+UUID=70cfee18-0040-47ec-891a-e74f1df1ace1 /               ext4    errors=remoun>
+# /boot/efi was on /dev/sda1 during installation
+UUID=488C-5519  /boot/efi       vfat    umask=0077      0       1
+/swapfile                                 none            swap    sw           >
+
+
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda2 during installation
+UUID=70cfee18-0040-47ec-891a-e74f1df1ace1(file system)  /(mount point)   ext4(type-filesystem)    errors=remoun>
+# /boot/efi was on /dev/sda1 during installation
+UUID=488C-5519  /boot/efi       vfat    umask=0077      0       1
+
+
+DAHA ONCE HATIRLARSAK
+adem@adem-ThinkPad-13-2nd-Gen:~$ lsblk -f
+NAME FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                         
+├─sda1
+│    vfat   FAT32       488C-5519                              86,5M     7% /boot/efi
+├─sda2
+│    ext4   1.0         70cfee18-0040-47ec-891a-e74f1df1ace1   86,8G    48% /var/snap/firefox/common/host-hunspell
+│                                                                           /
+├─sda3
+│    ext4   1.0         44681466-61b9-4aef-af6e-57e517525fc8                
+└─sda4
+     swap   1           9d790e85-3278-4018-8611-5cd78a355ca5                
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Sistemimizde dosya sistemi bulunan(FSTYPE yani ext4,vfat,swap) tum disk bolumlerinin kendisine ait dosya sistemlerine ait benzersiz kimlikleri oldugunu biliyorduk!
+Bu kimlik id numaralari uzerinden sistem bsalangicinda bu bolumlerin isimleri degisse bile, rahatlikla bu disk bolumlerinin kastedilmesini, hangi disk bolumlerinn belirtildigini belirleyebiliriz....
+
+/etc/fstab dosyasi icinde de dkkkat edelim id-uzerinden baglayariz
+
+
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda2 during installation
+UUID=70cfee18-0040-47ec-891a-e74f1df1ace1 /               ext4    errors=remount-ro 0       1
+# /boot/efi was on /dev/sda1 during installation
+
+
+BAGLAMA ISLEMLERI ICIN
+
+ errors=remount-ro  hata durumunda bu diskin tekrar baglanmasini ama readonly seklinde baglanmasi gerektigini tanimlar
+ Kok dizin oldugu icin hata bile alsa, yalnizca veri okunacak formatta bagla...!!!
+
+ Bir diskin standart sekilde baglarken default secenegini kullaniyoruz
+
+       <dump>(yedekleme ile ilgili)  <pass>(bu diskin kontrol edilmesi ile ilgili)  1 oldugu nda her disk in sistem baslangicinda kontrol edilmesi saglaniyr, filesystemcheck kontrolu gerceklestiriliyor
+       Ya da 2 de olabilir
+
+       SIMDI KENDIMZ DISK KALICI DISK BAGLAMA ISLEMI YAPALIM
+
+       # <file system> <mount point>   <type>  <options>       <dump>  <pass>
+
+       Once filesystem i yani diskimziin id sini bulalim bunu nerden ogreniz
+
+       lsblk -f  ya da sudo fdisk -l   araclari ile ogrenebiliriz
+
+       Ornegin : 
+       ─sda2
+│    ext4   1.0         70cfee18-0040-47ec-891a-e74f1df1ace1     87G    48% /var
+
+    70cfee18-0040-47ec-891a-e74f1df1ace1 bu id sidir.
+
+    <file system>  UUID=70cfee18-0040-47ec-891a-e74f1df1ace1
+    UUID ile benzersik kimligi oldugunu belirtmis oluruz
+   <mount point> Daha sonra hangi kok dizine baglayacagimzi belirtecegiz
+  <mount point> /home/adem/Desktop/disk (Burda ~ isaretini kullanamiyoruz, uzun uzun belirtmemiz gerekiyor tam yolu, cunku sistem baglangicinda kullanici biz olmayacagmiz icin, burda ~ isareti kullanirsak bu bizim /home/adem yani bizim ev dizinimize donusturulmeyecek, bundna dolayi tam dizini belirtmemiz gerekiyor)
+
+   <type>  ext4  (bunu da yine lsblk den ogrenebiliyoruz)
+   <options> defaults(secenegi yeterli geliyor)
+   <dump> 0(yedekleme islemi yapmaycagiz su anlik)
+    <pass> 1 seklinde belirtirsek her sistem baslangicinda otomatik olarak kontrol edilmesi saglanir ama 1 seklinde belirtmek uygun olmaz, cunku bir usste(sudo nano /etc/fstab) kok dosya sistemi  yani / 1 seklinde belirtilmis zaten o daha onceliklidir, once onun kontrol edilmesi gerekir, ondan dolayi da 2 rakaminin belirtilmesi daha uygun olacaktir.
+
+
+    UID=70cfee18-0040-47ec-891a-e74f1df1ace1      /                     ext4    errors=remount-ro 0       1(once bu dosya sistme i kontrol edilecek sistem baslangicinda sonra, pass-2 olan kontrol edilecek sistem baslangicinda)
+    UUID=70cfee18-0040-47ec-891a-e74f1df1ace1    home/adem/Desktop/disk ext4    defaults          0       2 
+
+    Neden uniq id leri ile tanimliyorduk, unutmyalaim, sistem baslangicinda isimleri degisebiliyor disklerin...ama uniq id leri hicbirzaman degismez
+
+    Burda degisiklikleri yaptikdan sonra (sudo nano /etc/fstab) asagidaki komutu calistirarak degiskliklerin gecerli olmasi saglanir
+    systemctl daemon-reload  
+    Ama henuz bu komutu calistirmiyoruz once dosyada cikariz
+
+    Ctrl-X ile sudo nano /etc/fstab bu dosyadan cikariz ve sonra sistemi  yeniden baslatacak olursak, dosyada tanimladimgz sekilde otomatik olarak baglanti islemi gerceklesecektir
+
+    Henz sistemi baslatmadik, diskimiz herhangi bir konuma baglil degil... kontrol edecek olursak 
+    lsblk
+
+    Konfigurasyon dosyasi (sudo nano /etc/fstab) sistem baslangicinda okunsun diye ayar yaptik ondan dolayi sistem baslangicinda okunacagi icin, icerisine eklemis oldugum konfigurasyon gecerli olacak, dolayisi ile lsblk da baktigmz disk bolumu de tam olarak isteimgi dizine baglanmis olacak, fakat sistemin yeniden baslatilmasini beklemeden gecerli olmasini istersek degiskliklerin o zaman sudo mount -a komutunu kullanabiliriz. Bu sayede aninda bu konfigurasyonlarin gecerli olmasi saglanabcaj
+
+    sudo mount -a 
+    lsblk ile tekrarr calistirip mountpoints e bakacak olursak
+
+    Ayrica konfigurasyon dosyasinda belirtildigi sekilde systemctl daemon-reload   bu komutu calistirarak da degisikligi saglayabilirdik sistemi yeniden baslatmadan 
+
+    sudo systemctl daemon-reload  
+
+    DISKLERI SISTEMDEN CIKARTMAK 
+
+    disk baglamak-mount
+    disk i sistemden ayirmak umount,
+     diski bagladimigz dizinden bagini kurtarmak iicin, once diskin baglandigi, dosya yolu, yani giris kapisi yani mountpoints ini bluruuz lsblk komutu ile sonra da 
+
+    umount  /home/adem/Desktop/disk
+
+    /home/adem/Desktop/disk(giris kapisi, mountpoint)
+    Bu islemden sonra baglantinin koparildigni teyit etmek iicn 
+    lsblk aracini calistirarak ilgili disk bolumunun MOUNTPOINTS inde hicbir dosya yolu olmadingi gorebiliriz  
+
+    !DIKKAT! 
+    Eğer otomatik olarak bağlanması için konfigüre ettiğiniz disk bölümünü sildiyseniz, /etc/fstab dosyasına eklemiş olduğunu otomatik bağlama konfigürasyon satırını da silmelisiniz. Aksi halde sistem başlangıcında hata alırsınız.
+    
+    Diks yonetimi ile ilgili temelde bilmemiz gerekenleri ele almis olduk!!!
+
+    !LVM(LOGICAL VOLUME MANAGER) - DISKI GENISLETME VE KUCULTME
+    Bu yontem daha modern bir yontemdir, yeni disk olusturma vs bunlar hem zahmet li hem de riskli islemlerdir.. Verileri kaybetme vs durumlari olabilir
+    LVM yapisi temel de 3 katmandan olusur
+
+    File System   /boot       /        /home 
+    Logical Volume(Volume grubu olusturan sanal disk bolumleridir)
+    Volume Group(Fiziksel disklerin birlestirilip sanal olarak temsil ettirdigi grubu temsil ediyor )
+    Physical Volume
+    Storage Device(3 farkli device)
+
+        Storage Device(3 farkli device)=>  Physical Volume(3 farki volume)=>Volume Group(1 sanal disk)=>Logical Volume(Tekrar sanal disklere ayirabiliyoruz istedigmiz gibi)
+        Bu yaklasima gore 1 den fazla diski birbirne baglayabiliyoruz, fiziksel olarak birbirinden ayri olmalarina ragmen birbirlerine baglayabiliyoruz
+        Sanki tek bir fiziksel disk mis gibi, daha sonra bunlari istedgiimz gibi bolumendirmemiz de mumkun oluyor, zahmetsizce islemler gerceklestirebiliyoruz
+        Zatne kullanmis oldugmuz LVM ypaisi da kucultme buyutme, parcalama konusunda bize kolayliklar sunuyor.Dolayisi ile islemlerimizi rahatlikla yerine getirebiliyoruz
+        Yani fizksel olarak tek bir diske sahip olmamiz gerekmiyor, birden fazla olsa bile diskler onlari soyutlayarak, cok daha pratik cozmler uretebiliyoruz. Zaten bu yaklasim sayesinde, yedekleme, snapshot veya diger disk yonetimi ile sorunlarimiza kolayca cozumler bulabilyoruz
+
+        !LVM(Logical Volume Manager) Kurulumu
+
+        Storage Device=>  Physical Volume
+        Oncelikle fiziksel olarak sahp oldugumz disk bolumunu fiziksel volume haline getirmemiz gerekiyor
+        Fiziksel olarak sahip oldugumz diskleri sanal olarak yonetebilmemiz icin ilk olarak, Storage Device lari Physical Volume haline getirmemiz gerekiyor
+        Bunun icinde eger tum diski kullanmak istiyorsak tum diski, yok tum diskin bir bolumunu kullanmak istiyrosak da, kullanmak istedigmz bolumu, physical volume haline getirmemiz gerekiyor
+
+        Oncelikle sahip oldugumz diskleri lsblk araci ile listeleyelim
+
+        lsblk
+        adem@adem-ThinkPad-13-2nd-Gen:~$ lsblk
+        NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+        loop0    7:0    0     4K  1 loop /snap/bare/5
+        loop1    7:1    0  63,5M  1 loop /snap/core20/2015
+        loop2    7:2    0  63,9M  1 loop /snap/core20/2105
+        loop3    7:3    0  74,1M  1 loop /snap/core22/1033
+        loop4    7:4    0  73,9M  1 loop /snap/core22/864
+        loop5    7:5    0 240,3M  1 loop /snap/firefox/3290
+        loop6    7:6    0 240,3M  1 loop /snap/firefox/3358
+        loop7    7:7    0 349,7M  1 loop /snap/gnome-3-38-2004/140
+        loop8    7:8    0 349,7M  1 loop /snap/gnome-3-38-2004/143
+        loop9    7:9    0   497M  1 loop /snap/gnome-42-2204/141
+        loop10   7:10   0 496,9M  1 loop /snap/gnome-42-2204/132
+        loop11   7:11   0  91,7M  1 loop /snap/gtk-common-themes/1535
+        loop12   7:12   0   9,6M  1 loop /snap/htop/3873
+        loop13   7:13   0  45,9M  1 loop /snap/snap-store/638
+        loop14   7:14   0  12,3M  1 loop /snap/snap-store/959
+        loop16   7:16   0   304K  1 loop /snap/snapd-desktop-integration/49
+        loop17   7:17   0  40,9M  1 loop /snap/snapd/20290
+        loop18   7:18   0   452K  1 loop /snap/snapd-desktop-integration/83
+        loop19   7:19   0  55,7M  1 loop /snap/core18/2812
+        loop20   7:20   0 105,8M  1 loop /snap/core/16202
+        loop21   7:21   0   140K  1 loop /snap/gtk2-common-themes/13
+        loop22   7:22   0  42,6M  1 loop /snap/leafpad/91
+        loop23   7:23   0  40,4M  1 loop /snap/snapd/20671
+        sda      8:0    0 238,5G  0 disk 
+        ├─sda1   8:1    0    94M  0 part /boot/efi
+        ├─sda2   8:2    0 188,5G  0 part /var/snap/firefox/common/host-hunspell
+        │                                /
+        ├─sda3   8:3    0  27,9G  0 part 
+        └─sda4   8:4    0   3,3G  0 part 
+        adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+    
+        Eger bizim elmizde tum bir disk var ama biz bu tum diski tamamen sanallasitrip kullanmak istemiyorsak o zaman once o diski bolumleme yapariz ondan sonra bolumledgimz diskin istedgimiz bolumunu kullaniriz. 
+        Ya da zaten bolumlenmis bir disk var ise onun dogrudan istedigmz bir bolumunu sanallasitririz
+
+        !Bolumleme islemi icin de fdisk aracini kullanarak, istedigimz bir disk bolumunu bolumleyip o bolumu LVM uzerine dahil edebiliriz
+        !Physical Volume haline getirmk icinde pvcr(phsyical volume create) aracini kullanabiliirz
+        !sudo pvcreate /dev/nvme0n2 /dev/sdb1 
+        /dev/nvme0n2, /dev/sdb1 bu diskleri biz lsblk araci ile bulabiliriz...
+        
+        Disklerin konumu vs bunlari gormek icin, sudo fdisk -l komutunu kullaniriz
+        Diskler /dev/ altinda b ulunuyor, device demektir dev, ve de lsblk komutu ile tek bir butun disk olarak karsimza gelen bir disk ismi olarak varsayiyiruz nvme0n1 diskini 
+
+           !sudo pvcreate /dev/nvme0n2 /dev/sdb1  bu sekkilde 2 tane diskimizden fiziksel volume haline getirmek istiyoruz
+           !Bize bir uyari verecektir, /dev/sdb1 diski dosya sistemi olarak ext4 u kullandigi ve bu islemi yapinca bu dosya sisteminin silinecegi uyari si veriyor...Bu dosya sistemi ve dolayisi ile bu disk icindeki veriler de silinmis olacaktir.
+           Yes dersek ilerleriz ve /dev/nvme0n2 /dev/sdb1  bunlarla ilgili Physical volume ler olusmus olacaktir
+
+           !sudo pvs(physical volume scane) diyerek physical volume haline getridigmz disklerimizin bilgilerini goruntuleyebiliriz
+
+           !Sahip oldugjmz diskleri physical volume haline getirdikten sonra, bu phsyical volume leri kullanabilmek icin ortak bir havuz yani volume group olusturmamiz gerekiyor.OLusturmus oldugmzu phsiycal volume leri tek bir grupta toplayip, daha sonra istedgimz zaman istedgimz kadar bolumleyebiliyor olacagiz. 
+
+           !NASIL VOLUME GROUP OLUSTURURUZ 
+           !sudo vgcreate(volume group create) disk-group(kendimiz veriyoruz bu ismi) /dev/nvme0n2  /dev/sdb1(bu dosya yollari da en bastaki disklere ait dosya yollaridir)
+
+           !Volume group un olusup olusmadigini kontrol etmek icin sudo vgs(volume group scane)
+
+           !sudo pvs - sudo vgs  kactane fiziksel volume nin bagli oldugu ve ne kadar yer kapladigi goruluyr
+           Sanki tek bir diskm is gibi 2 physical volume u birlestirip 1 tane volume group olusturduk ve artik tek bir disk mis gibi artik uzerinden islem yapabiliyor olacagiz. Tek bir disk gibi islem yapabildgiimz icin de istedgimz kadar parcaya bolebiliyoruz. 
+           Bu bolme islemi icind ise logical volume olusturmamiz gerekiyor
+
+           !sudo vlcreate(logical volume create) -L(buyukluk) 3G(Gigabyte) -n test (nerden alinacagi) disk group(volume group ismi)
+
+           !OLusuturulan volume u gormek icin sudo lvs(logical volume scan) 
+           LOgical volune olusturmus olduk, olusturdugm logical volume yi kullanabilmek icin, buna bir doays sistemi atamamiz gerekir
+           Bunun icin 
+
+           sudo mkfs.ext4 /dev/mapper/disk--group-test(hangi aygitin dosyas sistemi olusturuulacaksa onun dosya yolunu-adresini gir)
+
+           sudo lvs dersek  burda LV=test  VG=disk-group olarak bulundugu icin ondan dolayi burda boyle belirtildi :sudo mkfs.ext4 /dev/mapper/disk--group-test
+
+            sudo mkfs.ext4 /dev/mapper/disk--group-test  bu sekilde yapinca /dev/mapper/disk--group-test logical bolumu belirtmis oluyoruz.
+            Dosya sistemini tanimlamis oluyoruz
+
+            lsblk ile kontrol eedelim, nvme0n2 disk inini disk--group-test dosyasini ext4 dosyas sistmeinin olusturuldugunu gorebiliriz
+            Boyle likle dosya sistmei olarak ext4 atamis oldugmuz logical volume u sistemde istedigmz bir dizine baglayip kullanabiliriz, icerisine veirler atabiliriz
+
+            !Simdi logical volume yi baglayalim 
+            ! mount /dev/mapper/disk--group-test(baglamak istedgimz aygit ismi)  /mnt/(direk buraya baglayabiirz)
+
+            lsblk ile bakacak olursak 
+            logical volume ye nvme0n2 de logical volume e bakariz size:3G type-lvm  mountpoints de /mnt oldugunu gorebiliriz
+            Yani artik ben 3Gigibyte lik bolumu /mnt/  klasoru uzerinden kullanablirim, istegimz sekilde veriler eklyip sisteme depolayabilirz 
+            Tabi biz mount komutu ile bu baglama islemini gecici olarak yapioruz ama kalici yapmak istersek o zaman daha oncdden yaptgimz gibi  sudo /etc/fstab dosyasina bu tanimlamayi daha once ypagimz gibi ekleyebiliirz. Sistem baslangicinda logical volume otomatik olarak bu dizine baglaniyor olacak!!!
+
+            !LVM BOYUTLANDIRMA!!!!
+            Boyutlari genisletme kucultme gibi islemler
+
+            !Volume Group a nasil yeni bir disk ekleyebiliriz?
+
+            Storage Device(3 farkli disk)=>Physical Volume(3 phsyical volume)=>Volume Group(1 volume group)=>Logical Volume(istedgmiz kadar bolumlendirebiliriz)
+
+            Bildigmiz gibi diskleri fisizksel diskleri physical volume haline getirmeden volume group a ekleyemiyoruz ,
+            
+            Oncelkle disklerimiz gormek icin lsblk komutunu calistiririz 
+            Diskerlimizden secegimz 1 tanesini volume group a ekleyebilmek icin oncelkle Physical volume haline getirmeliyiz 
+
+            Disklerin yollari /dev/ altindadir zaten, sudo fdisk -l den de gorebiliriz ama lsblk da disklerin isimleri geliyor onlari direk olarak /dev/ altina isimlerini yazarak yollarini bulabiliriz
+
+            sudo pvcreate /dev/sdc(olusturmak istegimz disk in yolu)  
+            sudo pvs   ile olusuturlan phsiycal volume u gorebiliriz 
+
+            Olusturudgmz phsiycal volume yi daha once sahip oldugmzu volme group a eklemek istersek
+
+            sudo vgs(volume group scan) volume gruplarini goreblirz 
+            disk-group isimli volme grubunu gorebiliriz burda
+
+            Bu gruba olusturgumz phycial volume u eklecek olursak 
+
+            sudo vgextend(volume grup extend) disk-group(hangi grupta genisletme )  /dev/sdc(hangi disk)
+            sudo vgs(kontrol et) burdan PV  sayisi 3 den phsical volume sayisini 3 e ciktgini gorebiliriz ve VSize in da artmis oldugnu da gorebiliriz 
+
+            PHYSICAL VOLME UN VOLUME GORUP TAN CIKARMAK ICIN ISE 
+            sudo vgreduce disk-group(hangi grupta genisletme ) /dev/sdc(hangi disk)
+            sudo vgs(kontrol et) phsical volume sayisini 2 ye dustu, VSize da azaldi
+
+            !ISTERSEK BU ISLEMLERI LOGICAL VOLUME UZERINDE DE GERCEKLESTIREBILIRIZ , eger VOLUME GROUP DA YETERINCE ALAN VAR ISE
+
+            sudo lvextend -L(buyukluk) +2G /dev/mapper/disk--group-test(bu volme ismi) (Hatirlamzsak kontrol edebilirz lsblk ile)
+            Alanini genisletmis oluruz 
+            sudo lvs(logical volume scale)
+            Eklenmis olan alani cikarmak istersek, YANI ALAN AZALTMAK, KUCULTMEK
+            sudo lvreduce -L(buyukluk) -1G /dev/mapper/disk--group-test(bu volme ismi) 
+            Kuculturken kuculttugumz alan da veriler var ise o veriler kaybolacaktir, bu konud ada bizi uyaracaktir Yes DERSEK devam edebilriz 
+            sudo lvs ile kontrol edebliriz
+            !BUNU ANLAYALIM IYICE LOGICAL VOLUME DE BU ISLERI GERCEKLESTIREBILMEK ICIN  VOLUME GROUP DA YETERLI ALAN OLMASI GEREKIYOR, YOKSA BUYUTME ISLEMI LOGICAL VOLUME DE GERCEKLESTIREMEYIZ. VOLUME GROUP DA YETERLI ALAN YOK ISE O ZAMAN DA EN BASTAN FIZIKSEL DISK I PHSYICAL VOLUME HALINE GETIRIP ORDAN DA VOLUME GROUP A EKLEYEREK VOLUME GROUP DA ALAN GENISLETMESI YAPABILIRIZ
+
+            !LOGICAL VOLUME SILME ISLEMI DE GERCEKLESTIREBILIRIZ
+
+            sudo lvremove /dev/mapper/disk--group-test 
+            Dosya sistemi kullanildigi icin, yani daha once bu logical volume /mnt ye baglandigi icin silemiyor, bunu da zaten 
+            lsblk araci ile disk listesinde disk--group-test  un oldugu satirda type:lvm Mountpoints:/mnt den gorebiliriz
+            Bunu hemen umount komutu ile ayirabiliriz
+
+            umount /mnt 
+            sonra  tekrar lsblk komutu ile kontrol edersek baglntiyi kopardigmiz gorebiliriz
+            Simdi silem komutunu tekrarr calistiralim
+
+              sudo lvremove /dev/mapper/disk--group-test 
+              Bu sefer bize gercekten silmek isteyip istemedigmizi sorar eger yes dersek o zaman siler, ve icerisindeki h ersey de yok olacaktir
+              Silindigini teyiet etmek icin 
+              sudo vgs dersek LV karsinda 0 gelecektir, VFree alaninin arttigini da gorebilirz 
+
+              !Istersek Phsiycal volume leri de silip phsycal disklerin eski halleerine donmelerini saglayabliriz
+
+              sudo pvs(phsiycal volume scale) den sahip oldgugumz phsical volume listesini gorebliriz
+
+              Bunlardan /dev/sdc yi silmek istersek
+
+              sudo pvremove /dev/sdc(silmek istedgimz aygitin ismi)
+              sudo pvs ile tekrar kontrol ederek goreiblirz silindignini        
+              
+              !Olusturmus oldugumuz grubu da silebilirz
+              sudo vgs ile disk-group isimli volume group u da silebiliriz 
+
+              sudo vgremove disk-group  diyerek silebiliriz
+
+              sudo vgs
+
+
+              !PROCESS ISLEM YONETIMI 
+              Process-islem
+
+              Process- Program calistirildiginda, diskteki data RAM e yuklenir
+              Sonra CPU(islemci) RAM deki talimatlari alip isler..Iste islem budur
+
+              Bash(Kabuk) un baslattigi islemler
+              Kabuktan bagimsiz olarak baslatilan islemler
+
+              Bash(Kabuk) un baslattigi islemler
+              1-Onplandaki(Foreground) islemler(terminal araclarina bagimli islemler-konsol, kullanici etkilesimine bagimli)
+              2-Arkaplandaki(Background) islemler(Terminal araclarindan bagimsiz olan islemlerdir. Konsole, Kullnicin etkilesiminden bagimsizdir. KUllanici etkilesimine ihtiyac duymadan bu islemler arka planda calismaya devam ederler, kendi islevlerini yerine getirirler)
+
+              Onplandaki Islem Ornekleri
+
+              !firefox komutunu girersek gidip firefox browser i calistirir va on planda biz bunu actgmz icin, konsole uzerinde firefox aracini calistirmak la mesgul oldugu icin, biz konsoele da baska komutlar calistiramayiz.
+
+              !Ayni firefox komutunu arka planda baslatmak istersek o zaman:
+              firefox & komutu ile calistiririz ve firefox acilir, ve biz ayni konsole da ls, echo gibi komutlari calistirabildigmizi gorebiliriz
+
+              !DIKKAT
+              adem@adem-ThinkPad-13-2nd-Gen:~$ firefox &
+              [1] 240985
+              Benzersiz islem numarasini da ekrana bastiriyor arka planda islemi baslattiginda ki biz bu islemi yonetmek icin bu id numarasini kullanabiliriz
+
+              !BASH KABUGUNDA IS KONTROLU | JOB CONTROL
+
+              BAsh kabugu araciligi ile baslatilan islemler yine bash kabugu uzeirnden kontrol edilebiliyor
+              
+              adem@adem-ThinkPad-13-2nd-Gen:~$ firefox &
+              [2](Mevcut Bash kabugu uzerinde temsil edilen islem) 241886(PROCESS ID)
+              Bash uzerinde ki islemleri numaralandiriyor..1,2,3 diye ki kac islem varsa ona gore sirayla numara veriyor. Biz kabuk uzerindeki islemleri yonetirken, iste bu bash kabugu uzerinde temsil edilen numarayi kullanacagiz
+
+              !Bash kabugunun-shell arka planda calisan isleerini gormek icin jobs komutu kullanilir
+              jobs
+              [2]+  Running                 firefox &
+              adem@adem-ThinkPad-13-2nd-Gen:~$ 
+              
+              jobs komutu bash kabugu uzerinde olan bir komuttur.BAsh kabugu kendi kontrolundeki firefox isleminin ciktsini ekrana bsmis oldu
+              Su an sistemimiz uzerinde pekcok islem calisiyor ama, bash kabugu  yalnizca jobs yazinca ekrana basilan islemlerden sorumludur
+
+              !ANLAMAK COK ONEMLI BURAYI COK DIKKAT EDELIM
+              Biz bu durumu gormek icin yeni bir konsole acariz. Biz yeni bir konsole actigimiz zaman, yeni actigmiz consle un arka da calisan bash kabugu tabi ki, bir onceki console uzerinden jobs yazinca gelen islemlerden olan arkada calisan firefox islemlerinden sorumlu degildir!!!!!!! 
+              Is olarak, islem hangi console,  yani hangi bash kabugu tarafindan baslatilmis ise o bash kabugu o islemden sorumludur
+              !HER BIR CONSOLE UN ARKADA AYRI BIR BASH KABUGU VARDIR
+              Yen i actigmiz console da jobs komutu herhangi bir cikti vermeyecektir. Cunku bu bash kabugu herhangi bir islem baslatmadi henuz!!!!
+             adem@adem-ThinkPad-13-2nd-Gen:~$ jobs
+             !Peki nasil kontrol edebiliriz...
+             Arka plandaki firefox aracni onplana almak icin
+
+             fg(foreground) 2(Bash kabugunda temsil edilen islem numarasi)
+
+
+
+
+
+
+    */
 
 
 ?>
