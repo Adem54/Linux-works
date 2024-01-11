@@ -10443,11 +10443,379 @@ BAGLAMA ISLEMLERI ICIN
               Yen i actigmiz console da jobs komutu herhangi bir cikti vermeyecektir. Cunku bu bash kabugu herhangi bir islem baslatmadi henuz!!!!
              adem@adem-ThinkPad-13-2nd-Gen:~$ jobs
              !Peki nasil kontrol edebiliriz...
-             Arka plandaki firefox aracni onplana almak icin
+             
+             !Arka plandaki firefox aracni onplana almak icin
+               -fg(foreground) 2(Bash kabugunda temsil edilen islem numarasi)
+               -fg(foreground) 241886(ProcessId) sini vererek de yapabiliriz
 
-             fg(foreground) 2(Bash kabugunda temsil edilen islem numarasi)
+               Islemi onplana aldgini da ayni console veya terminalde herhangi bir komut ornegin ls, echo ..calistiramayiz, ordan anlayabiliriz. Ama arka planda calistigi zaman, console veya terminalde ls,echo... gibi komutlar calistirabiliriz
+
+               !Foreground-ONplanda calisan isi nasil backgrounda aliyoruz!!!
+
+               !Oncelikle durdurmak gerekir- CTRL-Z Ile durdurabiliriz
+
+               !Bash kabuğunda ön planda çalışan bir işlemi kesintiye uğratmak-durdurmak için hangi kısayolu kullanabiliriz ? CTRL-C
+
+               !Bash kabuğunda durdurulmuş bir işlemi arka plana almak için hangi komutu kullanabiliriz ? bg pid(process id)
+               Asagidaki gibi sonuc aliriz
+                ^Z
+                [1]+  Stopped                 firefox
+
+               Sonra da durdurulmus olan islemi arka plan da devam ettirebilmek icin 
+
+               adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ bg 1
+              [1]+ firefox &
+              Artik arka plan da calisiyor, bu nu teyit etmek icin, once gidip firefox a bakariz calisip calismadignina bir de conolse. veya terminale, yani arka planda firefox u calistirmak icin kullandigmz konsole da eger ls, echo komutlrini kullanip cikti aliyorsak o zaman, arka planda calisiyor demektir
+
+              !BU ISLEMI TAMAMEN SONLANDIRMAK ICIN
+
+              kill %1(processnumber)
+
+              adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$  kill %1
+              jobs komutu ile de islemin sonlandirildgini gorebilirz
+              adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ jobs
+              [1]+  Terminated              firefox
+              adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ 
 
 
+              !Kabuk kendi baslattgi islemlerini kontrol edebilecegi icin biz bazen bash kabugunun kontrolunden kurtulmak isteyebiliriz
+
+              Arka plan da firefox u baslattigmz zaman
+
+              adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ firefox &
+              [1](is numarasi) 256204(benzersiz islem numarasi)
+
+            [1](is numarasi):Bu su an mevcut kabugun yonetiminde oldugu numara. Mevcut kabugun baslattigi isi yonetirken burdan yapariz
+            256204(benzersiz islem numarasi):Tum sistem genelindeki islemleri yonetirken kullanacagimz numaradir
+
+            Biz bu sekilde firefox arkada calisirken, kapatirsak console veya terminalde herhangi birsey gerceklesmmeyecek
+            Eger ben firefox u kapatmadan direk console u kapatacak olursam, mevcut bash-shell kapatilacagi icin, bu firefox aracini baslatan bash  kabugu da bu console a ait oldugu icin, firefox araci da otomatik olarak kapatilacaktir. Cunku bu firefx islemini kontrol eden yapi console veya terminal ile beraber arka planda komutlarimizi yorumlayan bash-shell kabuk yapisiidir. Console kapaninca o an o console da baslatilan islemlerini sahipligi kyabolacagi icin, o islemlerde kapatilcaktir
+
+            !Eger firefox aracini arkada baslattiktan sonra biz console veya terminal i kapatigimzda firefox da kapanmasin ya da firefox un bash kabuguna bagli olmasin,bash kabugunun kontrolunden ciksin istersek, biz console-terminal i kpapatsak bile arac calissin dersek :
+            disown %1(Bu is numarali islemi sahiplikten kurtar, yani bash sahipliginden kurtararak, artik console veya terminal kapatilma ile o bash kabugunun baslattigi islemler kapatilmamis olacaktir!)
+
+            !Kabuğun başlattığı bir işlemi, kabuğun kontrolünden çıkarmak için hangi komutu kullanabiliriz ? disown %1
+            is numaralarini da muhtemelen jobs araci ile gorebilriz
+
+            Herhangi bir sonuc almayiz cuknku firefox aracini mevcut bash kabugunun job kontrolunden cikarmis olduk
+            disown %1
+            Yani artik mevcut bash kabugu, bu firefox aracini yonetmiyor..Ondan dolayi jobs bos geliyor
+            adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ jobs
+
+            !Artik console u biz kapatsak bile, firefox aracim calismaya devam edecektir
+
+            !BASH KABUGU KENDI BASLATTGI ISLEMLER UZERINDE SAHIPLK BILGISI VARDIR ONEMLI!!!!
+
+            !COKLU ISLEMLER BASLATMAK | KOSUL OPERATORLERI
+            BIRDEN FAZLA ISLEMI KOSUL OPERATORLERI ILE BASLATMAK
+            & Bir islemi arka planda baslatmak icin kullanilir
+            mousepad &  diyerek baslatabiliriz
+
+            ||  yada kosulu(ilk komut basarisiz olursa 2. komutun calistirilmasi saglanabilir)
+            komut1 || komut2  (1.komut basarili olursa 1.komut claisir, 2. calismaz, ama 1.komut basarisiz olursa o zamanda 2.komut calisir)
+
+            echo bir || echo iki
+            bir
+            asdf || echo iki
+            iki
+
+            && VE operatoru
+            Tum komutlar hatali isleme denk gelinceye kadar sirasi ile calistirilir 
+
+           adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo "one" &&  echo "two" && adfasdf && echo "fire"
+            one
+            two
+            adfasdf: command not found
+
+            && Bu komut genellikle sistemi guncellerken kullanilir!!!!!
+            sudo apt update && sudo apt upgrade
+            (ONce repostroy ler guncellensin ki, komutlar da guncellenenegi zaman guncellenmis repostoryler uzerinden guncellenmis olsun...yok ilk komut basarisiz olursa da o zaman hic upgrade yapmasin..)
+            echo bir && echo iki && asddf && echo dort
+            
+            ;  BU SEMICOLON ILE DE SIRASI ILE TUM KOMUTLARIN CALISTIRILMASI ICIN KULLANILIR
+            echo "bir" ; echo "iki" ; dfadsas;  echo "dort"
+            TUM KOMUTLAR HATALI BILE OLSA CALISTIRACAKTIR...HICBIRYERDE DURMAYACAK!!
+
+            adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo "one" ; echo "two" ; dsaf; echo "four"
+            one
+            two
+            dsaf: command not found
+            four
+            adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ 
+
+            BU MANTIKSAL OPERATORLERI BIRLIKTE DE KULLANABILIRIZ!!!!!
+
+            dfasdfsad || echo "one" ;  sadfad ; echo "two" ; xyzt ; echo "three";
+            one
+            sadfad not found
+            two
+            xyzt not found
+            three
+
+            echo "one"  || dfasdfsad;  sadfad ; echo "two" ; xyzt ; echo "three";
+            one
+            sadfad not found
+            two
+            xyzt not found
+            three
+            !Buraya dikkat ilk once || isaretine gore 1.komut calistigi icin 2 .komut calismayacak ama, 2. komut u gecince ; ile karsilastigi icin diger komuta gececek calisitirmak icin....Cunku || kosulu sadece onun saginda ve solunda olan komutlar arasinda gecerlidir, ve ondan sonra bakar devaminda baska komutlar var ise sirasi ile onlara devam edecektir!!!
+            !AMA BIZ || KOSULUNU BIRDEN FAZLA KOMUTUN KENDI ARASINDAKI DIGER KOSUL OPERATORUNUN SONUCUNDAN CIKAN NETICEYE BAGLAMAK ISTERSEK O ZAMAN DA ONLARI PARANTEZ ICINE ALMAK GEREKIR, BUNA DA KOMUT GRUPLAMA DENIYOR
+            echo "one"  || (dfasdfsad;  sadfad ; echo "two" ; xyzt ; echo "three");
+
+            adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ echo "one"  || (dfasdfsad;  sadfad ; echo "two" ; xyzt ; echo "three");
+            one
+
+            adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ pirie  || (dfasdfsad;  sadfad ; echo "two" ; xyzt ; echo "three");
+            pirie: command not found
+            dfasdfsad: command not found
+            sadfad: command not found
+            two
+            xyzt: command not found
+            three
+
+            SEKLINDE CALISTIRABILIRIZ!!!!
+
+            !İlk komut başarılı ise ikinci komutu çalıştıracak komut bütünü hangisidir ?
+            komut1&&komut2
+            !İlk komut başarısız ise ikinci komutu çalıştıracak komut bütünü hangisidir ?
+            komut1||komut2
+
+            !Mevcut bash kabuğunun yönettiği işleri listelemek için hangi komut kullanılır ? jobs komutu
+
+            !ISLEMLERIN TAKIBI
+            ONCELIKLE SISTEMSEL ISLEMER YANI SADECE BASH KABUGUNUN KONTROUNDE OLAN DEGIL DE TUM SISTEMSEL ISLEMLERI NASIL TAKIP EDECEGIZ!
+
+            !ANLIK OLARAK ISLEMLERI TAKIP ETMEK - top komutu
+            
+            PID(ProcessId) USER %CPU(YUZDESEL) %MEM(YUZDESEL) TIME
+            BU BILGILERI ALABILIRIZ
+            Q YA BASARAK DA CIKARIZ
+
+            !htop araci ile top dan daha gelismis bilgileri alabiliriz,anlik olarak sistemsel islem kontrolu yapabilirz
+
+            Bu arac htop araci dahili bash komutu veya araci degildir ondan dolayi eger sistemimizde bulunmuyor ise bunu oncelikler kurmamiz gerekir sudo apt htop diye...
+
+            F3:SEARCH
+            F4:FILTER
+            F5:TREE(SECTIGMIZ ISLEMI AGAC GIBI ALT ISLEMLERI ILE GOREBILIRIZ)
+            F6:SORTBY
+            F7:NICE
+            F9:KILL(SECILEN ISLEMI SONLANDIRABILIRIZ)
+            F10:QUIT
+
+            !ps(Process Status) araci ile yalnizca sua nda calismakta oldugmuz mevcut bash-shell kabugumz uzerindeki islemler hakkinda bilgi almak icin kullnaabiliriz!!!
+            !ps -aux(all user) 
+            Tum kullanicilarin user-kullanici bilgilerini de gormek istiyorum ve terminallerle kontrol edilmeyen, yani herhangi bir terminalin kontrolunde olmayan islemleri de gormek icin x secenegini ekleriz.
+
+            !Anlik olarak veri takibi - htop
+            !O andaki prosess lerin durumunun ciktisini almak icin de ps -aux  komutu kullanilir
+
+            !ISLEMLERIN YONETIMI | SINYALLER
+            Linux isletim sisteminde islemleri yonetmek icin, o islemlerle iletisim kurmak icin, sinyaller gondermemiz gerekir
+            Bu sinyal gonderme islemi icinde kill isimli araci kullanabiliriz! 
+
+            !kill araci ile gonderebilecegimiz sinyaller 
+
+            adem@adem-ThinkPad-13-2nd-Gen:~$ kill -l
+            1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+            6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+            11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
+            16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
+            21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
+            26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
+            31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+            38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+            43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+            48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+            53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+            58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+            63) SIGRTMAX-1	64) SIGRTMAX	
+            adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+            BU SINYALLER OZEL AMACLAR VE PROGRAMLAMA ICIN KULLANILIYOR
+            TEMEL SISTEM YONETIMI ICIN BUNLARDAN BIRKAC TANESI ISIMIZI GORUR
+
+            !Calismakta olan birislemi duraklatmak istiyorsak, 19 numarali SIGSTOP isimli sinali kullaniriz
+            !Calismakta olan birislemi aninda zorla sonlandirmak istiyorsak da , 9 numarali SIGKILL isimli sinali kullaniriz
+            !Durdurmus oldugumuz bir islemi devam ettirmek icinde 18 numarali SIGCONT secenegini kullanabiliriz
+
+
+            Oncelikle gidip libre offici acariz icine bir kelime yazariz
+            Sonra ise, su anda calisan status u gormek icin de,  
+            ps aux ile 
+            adem      262853  0.0  0.0  90820  4864 ?        Sl(Sleep-arka planda oldugu icin)   01:03   0:00 /usr/lib/libreoffice/program/oosplash --writer
+            adem      262870  6.1  1.7 1038356 286780 ?      Sl   01:03   0:03 /usr/lib/libreoffice/program/soffice.bin --writer
+            PID(PROCESS ID) yi  de bildgimize gore pid uzerinden istegimiz sinyalleri gonderebiliriz
+
+            19 SIGSTOP
+            262870 PID 
+            adem@adem-ThinkPad-13-2nd-Gen:~$ kill -19 262870
+            adem@adem-ThinkPad-13-2nd-Gen:~$ kill -19 262853
+            DIYEREK LIBREOFFICE ARACINI DURDURMUS OLURUZ, 
+            VE TEKRAR PROCESS STATUSE BAKACAK OLURSAK 
+
+            ps aux 
+            adem      263508  0.0  0.0  90820  4736 ?    Tl(Durduruldugunu gosterir)   01:16   0:00 /usr/lib/libreoffice/program/oosplash --writer
+            DURDURULAN ISLEMIN KALDIGI YERDEN DEVAM ETTIRMEK ICIN ISE 
+
+            adem@adem-ThinkPad-13-2nd-Gen:~$ kill -18 263508
+
+            ps aux 
+            adem      263508  0.0  0.0  90820  4736 ?        Sl   01:16   0:00 /usr/lib/libreoffice/program/oosplash --writer
+
+            LIBRE OFFICE ISLEMINI SONLANDIRMAK ICIN ISE ASAGIDAKI KOMUTU CALISTIRIRIZ
+            adem@adem-ThinkPad-13-2nd-Gen:~$ kill -9 263525
+
+            BIRAZ DAHA NAZIK SEKLIDE KAPATMAK VE RAM UZERINDE TEMIZLIK DE YAPMASINI ISTERSEK
+            15) SIGTERM
+            kill -15 263525
+
+            !NORMALDE BIZ SADECE KILL KOMUTUNU GIRERSEK DE 15 NUMARALI SIGTERM SINAYLI GONDERILEREK NAZIKCE KULLANILAN PROGRAM KAPATILIYOR
+            EGER BIR ARAC BU SINYALE YANIT VERMEZSE O ZAMAN -9 NUMARALI SINAYLI GONDEREREK FORCE-ZORLA KAPATTIRMS OLURUZ 
+            kill 297346(PID-PROCESS ID NO BUNU ps aux komutu ile o anda calisan process satutsu nde gorebiliriz ya da htop ile gorebiliriz)
+
+          
+            Ornegin biz calismakta olan , islemin ismi ile sonlandiradabiliriz
+            Cunku islem sonlandirmak icin bizim PROCESS ID -PID  e ihtiyacimz vardi, ve bunu ps aux o anki process statusu ile ya da htop ile gorebiliyorduk...
+
+            Calismakta olan islemin ismi ile ilgli isleme sinyal gondererek islemi sonlandirabiliyoruz bunun icin 
+            killall
+
+            Arka planda calismak uzere 3 tane islem baslatiryoruz oncelikle 
+            sleep 1000 & sleep 400 & sleep 200 &
+            [4] 298162
+            [5] 298163
+            [6] 298164
+            [2]   Exit 1                  sleep
+            [3]   Exit 1                  sleep
+            adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ 
+
+          !Tum islemleri yalnizca isilmeri ile sonlandirmak icin killall isimli araci kullanacagiz 
+          !sudo killall -9 sleep(islem ismi sleep olanlari,  sonlandir)
+
+          !Gormek icin ise, jobs komutu kullanilir
+
+          killall -9 sleep komutundan once ;
+          adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ jobs
+          [1]   Running                 sleep 1000 &
+          [4]   Running                 sleep 1000 &
+          [5]-  Running                 sleep 400 &
+          [6]+  Done                    sleep 200
+
+          adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ killall -9 sleep
+          [1]   Killed                  sleep 1000
+          [4]-  Killed                  sleep 1000
+          [5]+  Killed                  sleep 400
+          adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ jobs
+          Gordugumz gibi, jobs deyince arkada calisan tum islemleri kaldirdigi icin, hicbir calisan islem goremiyoruz
+
+      adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ killall -9 sleep
+      BOYLE YAPTIGMZDA HANGI KULLANCIDA CALISIRSA CALISSIN, SLEEP ILE BSALAYAN TUM ISLEMLER TUM KULLANICILARDA SONLANDIRILACAKTIR
+
+      BIZ BU SLEEP ISLEMINI HEM adem hem de ademtest kullanicisinda baslatacak olursam eger : 
+      adem@adem-ThinkPad-13-2nd-Gen:~$ sleep 1000 & sleep 400 & sleep 200 &
+      [1] 298652
+      [2] 298653
+      [3] 298654
+      adem@adem-ThinkPad-13-2nd-Gen:~$ su -ademtest
+      su: invalid option -- 'a'
+      Try 'su --help' for more information.
+      adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+      Password: 
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ sleep 1000 & sleep 400 & sleep 200 &
+      [1] 298669
+      [2] 298670
+      [3] 298671
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+
+      Ve bu sleep islemelrini yalnizca ademtest kullanicisinda sonlandirmak istersem:
+
+      ! killall -u ademtest -9 sleep yapariz
+
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ jobs
+      [1]   Running                 sleep 1000 &
+      [2]-  Running                 sleep 400 &
+      [3]+  Running                 sleep 200 &
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ sleep -u ademtest -9 sleep
+      sleep: invalid option -- 'u'
+      Try 'sleep --help' for more information.
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ killall -u ademtest -9 sleep
+      [1]   Killed                  sleep 1000
+      [3]+  Killed                  sleep 200
+      [2]+  Killed                  sleep 400
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ jobs
+      ademtest@adem-ThinkPad-13-2nd-Gen:~$ exit
+      logout
+      adem@adem-ThinkPad-13-2nd-Gen:~$ jobs
+      [1]   Running                 sleep 1000 &
+      [2]-  Running                 sleep 400 &
+      [3]+  Running                 sleep 200 &
+      adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+      Gordugumz gibi sadece ademtest kullanicisinda sleep ile ilgili komutlari sonlandirmis oldu
+
+      kilall --help diyerek nelere gore filtreleme yapabilecegmizi gorebiliriz
+
+      ! pgrep araci ile process grep, yani islemleri filtrelememizii sagliyor
+
+    sleep islemi ile ilgili tum processleri bu arac ile arayip getirtebiliyoruz ve id lerini  de gormus oluyourz
+      adem@adem-ThinkPad-13-2nd-Gen:~$ pgrep sleep
+      298652
+      [2]-  Done                    sleep 400
+      [3]+  Done                    sleep 200
+      adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+      adem@adem-ThinkPad-13-2nd-Gen:~$ kill -9 $(pgrep sleep)
+      $(pgrep sleep) bu PROCESS ID YI BIZE VERDIGINDEN DOLAYI...BU SEKILDE YAPABILIYORUZ
+      adem@adem-ThinkPad-13-2nd-Gen:~$ jobs
+      [1]+  Killed                  sleep 1000
+      adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+       !ISLEMLERIN ONCELIK SIRASI | NICE | RENICE 
+       htop veya top aracini run ettgimzde, PRI VEYA PR KOLONU ILE PRIORITY YI GOREBILIYORUZ
+      BU ISLEM ONCELIGINI GOSTERIYOR
+      NI- DEGERI DE NICE DEGERI YANI BU ISLEMIN NE KADAR KIBAR OLDUGUNU YANI, BASKALARINA NE KADAR ONCELIK VERDGINI GOSTERIR
+      NICE-RENICE ARACLARI ILE ILGILI ISLEM ONCELIKILERINI AYARLAYABILYORUZ
+
+      !TMUX ARACI
+      Bu arac sayesinde console uzderindeki verimliligimizi arttirabilyoruz
+      Bu bash kabugnda inbuilt dahili olmadig i icin bunu sudo apt install tmux ile install etmeliyz
+      sudo apt install tmux ile tmux u install ederiz
+
+      Bu arac sayesinde tmux araci ile mevcut konsolumuzu birden fazla parcaya boolerek kullanabiliyoruz
+
+      tmux diyerek calistirabiliriz araci 
+
+      CTRL-B YE BASARIM SONRA DA % ISARETINE BASARSAK 
+    AYNI CONSOLE U DIKEY OALRAK IKIYE BOLEREK 2 AYRI ALANDA ACABILMEMIZII SAGLAR
+
+    EGER CONSOLU YATAY OLARAK BOLMEK ISTER VE ALT ALTA CONSOLE LARI KULLANMAK ISTERSEK O ZAMAN DA YINE 
+    CTRL-B VE " BASARAK YAPABILIRIZ
+
+    AYNI CONSOLE DA KI FARKLI TERMINALLER ARASINDA GECIS YAPARKEN CTRL-B BASTIKTAN SONRA YON TUSLARI ILE GECIS YAPABILIRIZ
+    AYRICA SONLANDIRIP CIKMAK ISTEDGIMZ KONSOLE ICINDE EXIT YAZMAMIZ YETERLIDIR
+    KOMUT SATIRINI KAPATMAK ISTEMEYIP DE ARKA PLAN DA CALISMASINI ISTERSEK EGER: BU NE ZAMAN KULLANISLIDIR, BIZ EGER DIREK SERVER I CONSOLE DAN Y ONETIYOR VE GRAFIK ARAYUUZMUZ YOK ISE O ZAMAN, MEVCUT CALISAN CONSOLE U ARKA PLANDA CALISMAYA DEVAM EDERKEN MEVCUT OTURUMUMUZDAN AYIRMAK ISTEYEBILIRIZ
+    ORNEGIN top araci, o uzerinde calistirildigi console kapatilirsa duracktir ama biz console u kullanmaya devam etmek ama ayni zamanda top aracinin da calismaya devam etmesini istiyoruz arka planda....bu nasil olacak peki?
+    CTRL-B D(detached)  tusanlarna basarsak eger 
+    o zaman, tmax aracinin oturumu ayrilmis oluyor, ve top araci arka plan da calismaya devam edecektir..
+    tmux attach -t(terminal no bu numara tmux CTRL-B-D ye basildiginda gelecektir zaten)
+
+    CTRL-B-D
+    adem@adem-ThinkPad-13-2nd-Gen:~$ tmux
+  [detached (from session 0)]   
+  adem@adem-ThinkPad-13-2nd-Gen:~$ tmux attach -t 0
+  0 session no dur
+  yazarak tekrardan top aracinin calisma durumun getirebilirz
+
+  !bu ozellige ozellikle , server lara baglandigmiz da bir oturum actimigmizda bash console da ve o arada top veya htop gibi bir arac calistirip sonra da, o calisan arac calisirken komut yazamiyoruz ama biz hem aracin calismaya devam etmsini hem de mevcut oturumu korumak istiuyoruz, ve komut yazmak istyourz ayni komutta o zaman, mevcut calisan islemi arka plan a iste yukarda tarif ettgimz gibi aliriz
+
+  tmux araci sayesinde, kopyalama islemi yapabiliriz!!
+  KOMUT SATIRINDA CALSIRKEN MOUSE KULLANAMIYORZ OZELLIKLE, SERVER A BALANTI YAPTGIMZDA 
+  VE MOUSE KULLANILMADIGNDAN KOPYALAMA YAPMAK COK ZORLASIYOR. TMUX ARACI ILE KOPYALAMAYI DA KOLAY YAPABILIIRZ
+
+  CTRL-B [ ARACLARINA BASARSAK KOPLAYALAMA YAPABILIRZ CTRL-SPACE E BASARAK KAVLYE YON TUSLARI ILE ISTEDIGMIZ GIBI SECIM YAPABLIRI
+  SECILEN ALANIN KOPYALANMASI IICN CTRL-W YA BASARIZ
+  YAPISTIRMAK ICN ISE: CTRL-B ] TUSLARNA BASILIR
 
 
 
