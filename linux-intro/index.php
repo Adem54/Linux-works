@@ -10817,7 +10817,117 @@ BAGLAMA ISLEMLERI ICIN
   SECILEN ALANIN KOPYALANMASI IICN CTRL-W YA BASARIZ
   YAPISTIRMAK ICN ISE: CTRL-B ] TUSLARNA BASILIR
 
+!SERVISLERIN YONETIMI
+Servisler sistemimize islevsellik saglayan arka plan islevleridir 
+Genellikle sistem basladiginda otomatik olarak baslatiliyorlar ve sistem calistigi sure boyunca da , aksini gerektiren bir durum olmadigi muddetce calismaya devam ediyorlar
+Ornegin network ayarlari biz her seferinde bir konfigurasyon yapmiyoruz ama bunlar kendisi otomatik olarak baslatiliyor
+Yani sistemimiz baslatilirken bizim ihtiyac duydugumuz pekcok yapi arka planda biz farketmden baslatilip calisiyor, biz sistemi kapatan kadar
+Bunlar deamon olarak gecen servislerdir, arka planda calisirlar surkeli olarak
 
+!systemd servis yoneticisi ve systemctl araci
+!systemd hakkinda
+systemd(d-daemon-arka planda calisan yazilim programi veya islem) araci
+Bu arac kendi kontrolu altindaki yapiolari unit-birim diye ale aliyor
+
+Unit Type      File Extension
+
+Service unit    .service 
+Target           .target 
+ ..               .. 
+
+Biz yalnizca  service unit e bakacgiz
+
+!Systemctl araci
+Systemd uzerinde servisleri yonetmek istedgimizde systemctl aracimizi kullaniriz
+
+!systemctl list-units => Systemimizde aktif olan tum birimleri listelemk icin 
+Karsimiza cok uzun bir liste gelecektir ve sonlarinda . uzantilari ile belirtilmistir, sistemimizde arka planda calisan servis birimleridir, daha dogrusu bircok farkli birim vardir, .service,.timer,.target,.socket....gibi var karsilarinda hangi fonksiyonu yerine getirdgi gorulebilir, ve su anda aktif olarak calisan birimleri gorebiliyoruz
+Space tusuna bastikca daha asagi dogru inerek gorebilriiz
+Sistemimizde aktif olan ve o anda calisan biirmlerdir bu karsimiza gelen birimler
+EGer sistemimizde tum birimleri gormek istersek
+!systemctl list-units --all  seklinde komutumuz girebiliriz
+SPACE TUSU ILE ASAGI DOGRU ASAGIDA KALAN KISIMLARI GOREBILIRZ 
+!systemctl list units --all --state=inactive (Yalnizca durumu inaktif olanlari listele demis oluuyoruz)
+
+!systemctl status apache2.service(Spesifik olarak tek bir birim hakkinda bilgi almak istedgimzde)
+apache2.service diye belirtmek gerekiyor cunku, sistem uzerinde apache2 isminde farkli birimlerde olabilir ondan dolayi biz apache2.service yazarak servis brimindekini kastettigmizi belirtmis oluyoruz aslinda
+
+systemctl status apache2.service
+ apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled(Sistem baslatildiginda otomatik olarak baslatilacagini gosteriyor, aktif oldugunu gosteriyor); vendor preset: enabled(sistem baslatildiginda otomatik olarak, varsayilan olarak sistem baslarken baslatilacagini isaret ediyor))
+     ilk enabled su anki durumunu aktif mi degil mi onu, 2. enabled ise varsayilan olarak, default olarak baslatilip baslatilmadingi belirtiyor
+     /lib/systemd/system/apache2.service; burasi da servisin hangi konfigurasyon dosyasindan yuklendigini belirtir
+
+          Active: active (running) since Thu 2023-12-21 00:59:16 CET; 3 weeks 0 days ago
+      Su an aktif olarak calistigini gosteriyor
+
+    !Bir servise nasil baslatilir :sudo systemctl start  dedikten sonra, service ismi girilir
+    !sudo systemctl start apache2.service
+
+    !adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl start apache2.service
+[sudo] password for adem: 
+!adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl status apache2.service(Servisimizin calisip calismadingi ve durumunu bu sekilde kontrol ederiz)
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+     Active: active (running) since Thu 2023-12-21 00:59:16 CET; 3 weeks 0 days ago
+       Docs: https://httpd.apache.org/docs/2.4/
+       Process: 321375 ExecReload=/usr/sbin/apachectl graceful (code=exited, status=0/SUCCESS)
+       (Hangi dizindeki aracin calistirildigi) 
+Main PID: 883 (apache2)(Servisin islem numarasi-process id-pid)
+
+!sudo systemctl stop apache2.service(servisimzi durdurmak icin)
+!systemctl status apache2.service(diyerek statusu kontrol edecek olursak eger)
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl stop apache2.service
+[sudo] password for adem: 
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl status apache2.service
+○ apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Fri 2024-01-12 01:08:21 CET; 8s ago
+       Docs: https://httpd.apache.org/docs/2.4/
+    Process: 321375 ExecReload=/usr/sbin/apachectl graceful (code=exited, status=0/SUCCESS)
+    Process: 325302 ExecStop=/usr/sbin/apachectl graceful-stop (code=exited, status=0/SUCCESS)
+   Main PID: 883 (code=exited, status=0/SUCCESS)
+        CPU: 2min 38.241s
+
+! sudo systemctl restart apache2.service(Yeniden baslatmak icin)
+Birim dosya uzerinde, bir konfigurasyon degsikligi yaptik ve ilgil dosyanin konfigurasyon degisikligi ni okuyup tekrar baslatsin istersek o zaman kullaniriz
+Yani kisacasi konfiugrasyonda degiskilik yaptiktan sonra , apache2.service sini yeniden baslatarak degisikligi gorebilmesini sagliyoruz aynen web de sayfa yenileyerek yaptigimz degisikligin gecerli olmasni saglagimz gibi
+
+!sudo systemctl reload apache2.service(Eger servisi yeniden baslatmak istemezsek ama, konfigurasyon degisiklklerinin okunmasini istersek kullaniriz)
+Sadece konfigurasyon dosyasinin tekrar okunmasi saglanir, ve surekli calismaya devam eder
+
+!sudo systemctl enable apache2.service(Servisi aktif veya pasif hale getirebilirz, servisin sistem baslangicinda otomaik olarak baslatilip baslatilmaycagini ayarlayabiliriz)
+
+!sudo systemctl disable apache2.service
+
+ Loaded: loaded (/lib/systemd/system/apache2.service; enabled(servisimzin sistem baslangicinda otomaik olarak baslatilacak sekilde konfigure edilmis); vendor preset: enabled)
+
+Biz apache2.service yi aktiflestirdigmz zaman, aslinda baska bir birim altinda baska bir birim dosyasina apache2.service dosyasina sembolik olarak baglandigini goruyoruz. 
+Sistemin baslangicinda otomatik olarak baslatilabilmesi icin, hali hazirda aktif olarak otomatik olrak baslatilan bir birim altinda topluyoruz, bir grup altinda topluyoruz ve bu gruba dahil oldugu iincde bu servise baslangicta baslatilmis oluyor
+
+!Disable yapip, tekrar enable a cevirecek olursak 
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl disable apache2.service
+Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install disable apache2
+Removed /etc/systemd/system/multi-user.target.wants/apache2.service.
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl status apache2.service
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; disabled(cunku disabled yaptik systemctl disable apache2.service ile); vendor preset: enabled)
+     Active: active (running) since Fri 2024-01-12 01:09:06 CET; 13min ago
+
+
+     adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl enable apache2.service
+Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable apache2
+Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+     Biz apache2.service yi aktiflestirdigmz zaman, aslinda baska bir birim altinda baska bir birim dosyasina apache2.service dosyasina sembolik olarak baglandigini goruyoruz. 
+Sistemin baslangicinda otomatik olarak baslatilabilmesi icin, hali hazirda aktif olarak otomatik olrak baslatilan bir birim altinda topluyoruz, bir grup altinda topluyoruz ve bu gruba dahil oldugu iincde bu servise baslangicta baslatilmis oluyor
+
+!Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
+Dikkat edelim, burda .target biriminden yonlendiriiyyor
 
 
     */
