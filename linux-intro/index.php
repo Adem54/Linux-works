@@ -11386,6 +11386,46 @@ adem@adem:~$
 
 !Basariz oturum acma kayitlari da /var/log/btmp dosyasinda tutuluyor
 
+Ve normal cat ile acamiyoruz tabi ki... 
+adem@adem:~$ sudo cat /var/log/btmp
+[sudo] password for adem: 
+��pts/22root���ek�adem@adem:~$ 
+
+bu dosyayi da lastb araci ile acabiliyoruz ancak
+!sudo lastb -f(file) /var/log/btmp.1
+
+ sudo lastb -f /var/log/btmp.1
+
+btmp.1 begins Mon Jan  1 00:00:04 2024
+adem@adem:~$ sudo lastb -f /var/log/btmp
+root     pts/2                         Mon Jan  1 11:01 - 11:01  (00:00)
+
+btmp begins Mon Jan  1 11:01:57 2024
+adem@adem:~$ 
+
+Bu sekilde lastb araci ile btmp dosyasini nasil acabildigmizi gorebiliriz
+
+last-basarili oturum acma bilgilerini gorebilirz bu aracla
+lastb(bad)-basarisiz oturum acma bilgilerini gorebiliriz bu aracla
+
+!cron.log
+Eger sistemimizde crontab ile zamanlanmis bir goreve tanimlamis isek, bu zamanlanmis gorev kaytilarini cront.log dosyasi icerisinde gorebiliriz
+
+Gunumuzde kendimiz crontab tanimlamamis isek, cron.log log dosyasi da bulunmayacaktir
+Eger biz crontab olusturur da sistemin kayitlarinin tutulmasini istiyrosam, yani log kayitlarini o zaman rsyslog aracina bildirmemiz gerekiyor, bu log islem kaytilarini tutan araca 
+sudo nano /etc/rsyslog.conf  dosyasina gideriz 
+Bu dosya icerisine tutulmasini istedgimz kayit bilgilerini ekleyebiliriz
+
+cron.*  ~/var/log/cron.log  diye eklememiz gerekir bu dosyaya
+
+!Degsikliklern gecerli olablmesi icin sudo systemctl restart rsyslog.service(kayit tutmayi saglayan rsyslog servisi yeniden baslatilarak, yapilan degisikligi okumus olacak!!!!!)
+!Servislerde yapilan degisiklik sonrasinda mutlaka o servisler aynen burda yaptigmiz gibi yeniden baslatilmali ki, degisiklikleri algilayabilsin
+
+!adem@adem:/etc$ sudo nano crontab
+
+sudo nano /etc/crontab a gidip en alt tarafa:* * * * * adem echo "This is a crontab-task"
+
+
 */
 
 
