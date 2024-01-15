@@ -11308,10 +11308,85 @@ Jan 15 01:04:40 adem-ThinkPad-13-2nd-Gen su: FAILED SU (to adem) ademtest on pts
 Jan 15 01:05:01 adem-ThinkPad-13-2nd-Gen CRON[413139]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
 Jan 15 01:05:01 adem-ThinkPad-13-2nd-Gen CRON[413139]: pam_unix(cron:session): session closed for user root
 
-
 !boot.log
+On yukleme, boot asaamasindan(on yukleme) yani sistemimiz baslatilana kadar gerceklestirilmis olan, tum kayitlara /var/log/boot.log uzerinden erisebilriz 
+Bu kayitlar onemli , cunku, onyukleme ve boot islemleri genellikle cok hizli gectigi icin, gerektiginde sistem baslangicna dair mesajlari hata mesajlari okumak istersek boot.log dosyasini kontrol edebliriz
 
-    */
+adem@adem:~$ sudo cat /var/log/boot.log
+adem@adem:~$ sudo nano /var/log/boot.log
+
+!kern.log
+Cekirdegin, yani kerneli n urettigi log dosyasidir
+Dosya icerigi cok uzun olabiliri o zaman da filtreleme yaparak arariz hata mesajlarini
+
+
+!grep -i(insensitive search)
+   KUCUK BUYUK HARF DUYARLILIGI OLMADAN ARASTIR DERSEK-INSENSITIVE(DUYARSIZ)
+    adem@adem:~$ grep -i "ahmet can" names.txt
+    Ahmet Can Yazar
+    ahmet can durmus
+    adem@adem:~$ 
+!grep -i "error" /var/log/kern.log 
+Ornegin bir surucu  yukledik ve bu surucu dogru sekilde calismiyorsa, bu kayitlari incleyerek nerde hata ypatigmza bakabiliriz
+Sistemle ilgili hersey ile ilgili kernel-cekirdek dolayli yonden cikti urettigi icin, bu dosyayi inceleyerek kernel-cekirdegin reaksiyonlarini da inceleyebiliriz
+
+!apt.log 
+apt aracinin urettigi ciktilari burdan bulabliriz
+!DIKKAT EDELIM ,BAZI ARACLARIN KENDILERINE AIT KLASORLERI VAR, DOSYALAR O KLASORLERIN ALTINDA TUTULUYOR, DIREK /VAR/LOG ALTINDA DEGIL....BU ONEMLI
+apt aracinin kendine ati folder i da vardir 
+
+cat /var/log/apt/
+
+adem@adem:/var/log/apt$ ls
+eipp.log.xz       history.log.5.gz  term.log.1.gz  term.log.7.gz
+history.log       history.log.6.gz  term.log.2.gz  term.log.8.gz
+history.log.1.gz  history.log.7.gz  term.log.3.gz  term.log.9.gz
+history.log.2.gz  history.log.8.gz  term.log.4.gz
+history.log.3.gz  history.log.9.gz  term.log.5.gz
+history.log.4.gz  term.log          term.log.6.gz
+adem@adem:/var/log/apt$ 
+
+!history.log dosyasini okuyarak en son hangi kayitlar in bulundugunu gorebiliriz
+(Son 5 kaydi alabiliriz)
+adem@adem:/var/log/apt$ tail -n 5 history.log
+
+Start-Date: 2024-01-12  06:44:35
+Commandline: /usr/bin/unattended-upgrade
+Remove: linux-modules-extra-6.2.0-39-generic:amd64 (6.2.0-39.40~22.04.1), linux-modules-6.2.0-39-generic:amd64 (6.2.0-39.40~22.04.1)
+End-Date: 2024-01-12  06:44:37
+adem@adem:/var/log/apt$ 
+
+!dpkg.log 
+dpkg araci kullanilarak gerceklestirilmis olan islem kayit lar burda tutuluyor
+
+!wtmp last  | btmp last
+!wtmp last:Kullanicilarin ne zaman giris yapip, ne zaman cikis yaptigi ve hangi oturumlari kullandiklarini bu arac sayesinde ogrenebiliriz
+Fakat bu kayitlar duz metin sekilde tutulmadiklari icin biz de duz meting gibi okuyamiyoruz
+
+cat /var/log/wtmp dersek anlamisz, tekstler gorecegiz, tum harlfer cevrilememis olarak gelir, cunku wtmp dosyasi standart metin dosyasi olarak tutulmuyor ve ondan dolayi da cat gibi bir arac ile dosya icerigini dogru bir sekilde acamiyoruz
+Bu dosyayi bu dosyay ozel olan last isimli arac ile acabiliriz
+
+!last-hatasiz olan oturum bilgileri
+adem@adem: last
+last komutu sayesinde hatasiz olan,basarili sekilde gerceklestirilmsi olan oturumlarin bilgisni veriyor
+
+adem     tty2         tty2             Fri Mar 31 16:10 - down   (00:08)
+reboot   system boot  5.19.0-38-generi Fri Mar 31 16:10 - 16:18  (00:08)
+adem     tty2         tty2             Fri Mar 31 14:25 - down   (01:44)
+reboot   system boot  5.19.0-38-generi Fri Mar 31 14:25 - 16:09  (01:44)
+
+!lastb(lastbad)-hatali olan oturum bilgileri
+
+adem@adem:~$ sudo lastb
+[sudo] password for adem: 
+root     pts/2                         Mon Jan  1 11:01 - 11:01  (00:00)
+
+btmp begins Mon Jan  1 11:01:57 2024
+adem@adem:~$ 
+
+!Basariz oturum acma kayitlari da /var/log/btmp dosyasinda tutuluyor
+
+*/
 
 
 ?>
