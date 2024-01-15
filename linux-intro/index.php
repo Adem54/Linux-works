@@ -11425,7 +11425,57 @@ cron.*  ~/var/log/cron.log  diye eklememiz gerekir bu dosyaya
 
 sudo nano /etc/crontab a gidip en alt tarafa:* * * * * adem echo "This is a crontab-task"
 
+!dmesg(sistemimizin baslangicindan beri kerne-cekirdegin aygitlarla ilgili uretmis oldugu tum kayitlara ulasmak istersek bu araci kullanabiilirz)
 
+!sudo dmesg
+kernel-cekirdegin aygitlarla ilgili urettigi her turlu detay mesaji burdadir
+Kayit cok fazla oldugu icn filtreleyerek arama yapabiilriiz 
+
+!adem@adem:~$ sudo dmesg | grep -i "intel"
+sudo dmesg one bouyle basliyoruz ki bunun sonucunu grep islemi nde bu gelen sonuc icerisinden arama yapilsin diye!!!!
+adem@adem:~$ sudo dmesg | grep -i 'USB'
+USB HAKKINDA URETILEN CIKTILARI, BILGILERI OKUYABIILRIIZ.... 
+
+!DIGER LOG KAYITLARI HAKKINDA!
+
+Ornegin biz web sitemiz acilmiyor ve apache2 log kayitlarini okumak istiyoruz onun icin once geliri /var/log altinda apache ile ilgili neler var ona bakariz ve orda apache2 isminde klasor var o klasorun alitna gitigtimzde error.log dosyasinin var oldugunu goruruz iste burdan okuyabiliriz 
+
+Bunun gibi ihityacimz olan log dosylari icin burda arastiririz, aradgimzi burda bulamaz isek de internet arastirmasi yaparak da halledebiliriz.Aslinda internetten kastimz aracin kendi dokumantasyonuna gidip bakabiliriz
+
+!journald | journalctl
+icerisinde systemd yi bulunduran modern sistemlerde, kayit tutjmak icn journald serviside mevcuttur
+systemd araciinin yonetiminde olan biirmler disinda
+
+!journalctl
+En son kayittan ilk kayita dogru tum kayitlar burda siralaniyor
+Ve space tusu ile de kaydin devamini bize getirecektir
+
+Eskiden yeniye dogru...en tepe de eski asagi dogru yeni kayitlari goruyorz defaultta ama tam tersi sekilde gormek istersek de 
+!journalctl -r(reverse) ters cevirerek goster diyoruz
+
+!Ciktilar systemd tarafindan yonetilen birimlere ek olarak yetkilendirme ve cron gibi ek yapilar hakkinda pekcok kayit bilgsine bu arac uzerinden rahatlikla erisebiliyoruz... 
+
+!Bu tarz cok fazla kayit durumunda biz, filterleme yapmaiz gerekiyor 
+journalctl --help diyerek bakabilriz
+
+!journalctl -u NetworkManager.service(aranan kayitlari getirir) Ayni islemi grep ile de y apaibliriz su sekilde 
+!journalctl | grep -i "NetworkManager"
+-i(insensitive demektir)
+
+!Ekranimizda canli olarak(anlik takip) takip edebiliriz 
+!jornalctl -fu(following) NetworkManager.service
+
+!ademtest kullanicisinin oturum acma ve yetkilendirme ile ilgili kayitlarina bakabiliriz
+
+!adem@adem:~$ journalctl -r | grep -i "adem54"
+(En guncel kayitlardan guncel olmayanda dogru getir diyoruz -r(reverse), ve grep araci gelen veri icinde calissin demis oluyoruz ve gelen veri icinde adem54 kullanmicisinin loglarini getir bize...)
+
+!Sistemin on  yuklenme-boot olma tarihlerine gore listeleyelim!
+adem@adem:~$ journalctl --list-boots
+
+journalctl -b 10(tarihe gore)
+
+journalctl -n 5(kayitlardan 5 tane getir)
 */
 
 
