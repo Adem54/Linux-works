@@ -10929,6 +10929,387 @@ Sistemin baslangicinda otomatik olarak baslatilabilmesi icin, hali hazirda aktif
 !Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
 Dikkat edelim, burda .target biriminden yonlendiriiyyor
 
+systemd uzerinde cesitli target unit-birimleri var. Biz bu gruplara istedgimiz durumda istedgimz birimleri dahil ederek, istedgimz ortami, olusturabiliyoruz 
+Ytarget-k.service,b.mount, x.service, apache2.service 
+Xtarget-t.service,z.mount,x.service,apache2.service 
+target-y.service,z.mount,x.service, apache2.service
+
+Farkli durumlar icin birimlerin sistem acilisinda, otomatik olarak aktiflestirilmesini istedgimz durumlarda systemd uzerinde, target ismi verilern bu birimleri kullaniyoruz
+Target sayesinde sistem baslangicinda baslatilmasini istedgimiz tum birimleri, ayni gruba dahil edebiliyoruz
+!Target birimleri
+poweroff.target(systemd nin tum birimleri sonlandirmasinn sonucu, sistemin kapanmasini saglayan bir grup)
+rescue.target()
+multi-user.target() 
+graphical.target()
+reboot.target ()
+
+
+! systemctl get-default(sistemdeki varsayilan target bilgisini ogrenmek icin)
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl get-default
+graphical.target(Biz bunu kullandgimiz icin otomatik olarak grafik ara yuze sahip olan ve aga baglanabilen cok kullanicisi olan tum birimler baslatilmsi oluyor, )
+!Varsayilan target birimini degistirmek icin:
+systemctl list-units --type target --all 
+ile target birimlerini acariz once...
+Network target i(Ag baglnantsini barindiran targettir)
+
+sudo systemctl set-default multi-user.target
+
+sudo systemctl isolate multi-user.target 
+sudo systemctl isolate reboot.target(Bu anlik olarak, sistemi  yeniden bslatilcacka seklide birim dosyasini konfigure eder ve aninda sistemi yeniden baslatacaktir) 
+
+
+In systemd, a target unit is a special kind of unit that represents a specific system state or a group of services rather than a single service. Target units are used to manage the startup or shutdown of services and other units in a more organized and predictable way. 
+In Ubuntu and other Linux distributions using systemd, you can use target units to control the system's runlevel and to manage services efficiently. Commonly used target units include multi-user.target (for console-based multi-user mode), graphical.target (for graphical desktop mode), and others for specific purposes.
+
+
+!SErvisler sudo nano /etc/systemd/system/
+
+!YENI BIR SERVIS OLUSTURULMASI
+
+User
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat > time.sh
+#! /usr/bin/bash
+
+while true; do
+	date >> /home/adem/Desktop/time.log
+	sleep 60
+done
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod +x time.sh
+
+#!/usr/bin/bash: This is called a shebang line. It tells the system which interpreter to use to execute the script. In this case, it specifies that the Bash shell (/bin/bash) should be used. Bash kjabugunda calistrilmasi icin shebang sekinde belirtmemiz gerekir!!!ONdan dolayi bu sekilde blirtirirz... ve de bash in tabi ki dosya yolu
+
+./time.sh  dersek Desktop altinda time.log dosyamizin olustugunu gorebiliriz ve script dosyamizin sorunsuzca calistigini gorebiliriz
+
+ARka plan da servis olarak calismaya devam etmesi icin kendimize yeni bir servis tanimlayalijm
+Yen bir servis tanimlayabilmemiz icin sudo nano /etc/systemd/system/time.service buraya ekliyoruz
+sudo nano /etc/systemd/system/time.service/time.service
+[Unit](Ilgili servisin ne is  yaptigi aciklamasi)
+Description=time.sh script file description 
+
+[Service](Servis ile ilgil konfigurasyonlari tanimalyabilecegim basliktir, bu baslik altinda servisin calisma sekli hakkinda ihtiyaca gore, islemler yapabilirz, git asgidaki dosyayi calistir, script dosyasini calistir)
+ExecStart=/home/adem/time.sh
+
+[Install](Bu birimn hangi target ile baslatilcagini soyluyor. Biz standart olark, multi-user.target grubunu belirtiyoruz, bu sayede sistem baslangicinda bu servisi baslatip script dosyasi calistiriliyor olacak..Sistem baslangicinda otomatik baslatilacak olan birim )
+WantedBy=multi-user.target
+
+Bu dosyayi kaydedip cikariz:
+
+Bu degisikliklerin systemd uzerinde gecerli olmasi icin, y eni bir servis tanimladigmiz icin, 
+!sudo systemctl daemon-reload  diye konfigurasyonlari guncellesin diye calisitririz
+
+!adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl status time.service
+○ time.service - time.sh script file description
+     Loaded: loaded (/etc/systemd/system/time.service; disabled; vendor preset: enabled)
+     Active: inactive (dead)
+!adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl enable time.service
+Created symlink /etc/systemd/system/multi-user.target.wants/time.service → /etc/systemd/system/time.service.
+!adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl status time.service
+○ time.service - time.sh script file description
+     Loaded: loaded (/etc/systemd/system/time.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl start time.service
+!adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl status time.service
+● time.service - time.sh script file description
+     Loaded: loaded (/etc/systemd/system/time.service; enabled;(Bu olusturumus oldugmz servisimiz multi-user.target isimli birim-unit dosyasi ile iliskili olan dizine sembolik olarak baglanmis oldu.Boylelikle, sistemimiz multi-user.target olarak baslatildiginda time.server birim dosyamizda otomatik olarak baslatilacak. Bu durumu teyit etmek icin sistemi yeniden baslatarak gorebilirz) vendor preset: enabled)
+     Active: active (running) since Sun 2024-01-14 18:33:06 CET; 9s ago
+   Main PID: 395499 (time.sh)
+      Tasks: 2 (limit: 18954)
+     Memory: 556.0K
+        CPU: 6ms
+     CGroup: /system.slice/time.service
+             ├─395499 /usr/bin/bash /home/adem/time.sh
+             └─395505 sleep 60
+
+jan. 14 18:33:06 adem-ThinkPad-13-2nd-Gen systemd[1]: Started time.sh script file description.
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+!Gidip multi-user.target.wants directory sine bakacak olursak asagida time.service dosyasinin oldugnu gorebiliriz
+!adem@adem-ThinkPad-13-2nd-Gen:~$ ls /etc/systemd/system/multi-user.target.wants/
+
+!lrwxrwxrwx 1 root root 32 jan.  14 18:32  time.service -> /etc/systemd/system/time.service
+
+ anacron.service                kerneloops.service            snap-core20-2015.mount                  'snap-gnome\x2d3\x2d38\x2d2004-140.mount'        'snap-snap\x2dstore-638.mount'
+ apache2.service                ModemManager.service          snap-core20-2105.mount                  'snap-gnome\x2d3\x2d38\x2d2004-143.mount'        'snap-snap\x2dstore-959.mount'
+ avahi-daemon.service           mysql.service                 snap-core22-1033.mount                  'snap-gnome\x2d42\x2d2204-132.mount'              systemd-oomd.service
+ console-setup.service          networkd-dispatcher.service   snap-core22-864.mount                   'snap-gnome\x2d42\x2d2204-141.mount'              systemd-resolved.service
+ cron.service                   NetworkManager.service        snapd.aa-prompt-listener.service        'snap-gtk2\x2dcommon\x2dthemes-13.mount'          thermald.service
+ cups-browsed.service           openvpn.service               snapd.apparmor.service                  'snap-gtk\x2dcommon\x2dthemes-1535.mount'         time.service
+
+!Yani ozetle biz, olusturdgmzu time.service dosyasmmizi multi-user.target  a isaret ettgimiz icin, multi-user birimi baslatildiginda, sembolik olarak time.service dosyamizda tetiklenip baslatilacak. Dolayisi ile sistem baslatildiginda  otomatik olarak time.service  dosyasi baslatilmis olacak
+
+
+
+!.sh dosyasi nedir?
+A .sh file in Linux is a shell script file. Shell scripts are used for automating tasks in a Unix-like operating system such as Linux. These scripts are essentially a series of commands that are executed sequentially by the shell interpreter. Here are some key points about .sh files:
+Scripting Language: The commands in a .sh file are written using the syntax of a shell scripting language, usually the Bourne shell (sh) or Bash (Bourne Again SHell).
+Execution: To run a .sh file, you can either pass it as an argument to a shell interpreter like bash (e.g., bash script.sh) or execute it directly by setting the execute permission and invoking it (e.g., ./script.sh).
+Permissions: For a .sh file to be executable, it must have execute permissions. This can be set using the chmod command (e.g., chmod +x script.sh).
+Shebang Line: Often, .sh files start with a shebang line (e.g., #!/bin/bash). This line specifies the path to the interpreter that should be used to run the script. If this line is present, you can run the script directly without having to specify the shell interpreter.
+Purpose: Shell scripts can be used for a wide range of tasks, from simple file
+
+manipulations to complex program executions. They are commonly used for system administration tasks, automating repetitive tasks, running a series of commands in sequence, and even for creating simple programs.
+
+Portability and Compatibility: While .sh files are primarily associated with Unix-like operating systems, they can also be run on other platforms that have a compatible shell interpreter, like Bash on Windows (through WSL or Cygwin).
+Editing: These scripts can be created and edited using any text editor. Common editors include Vim, Nano, and Gedit.
+Debugging: Shell scripts can be debugged using various methods, including echoing variables and commands to the terminal, or using more sophisticated tools like shellcheck.
+Environment Variables and Arguments: Shell scripts can access and modify environment variables, and they can take arguments when executed, making them flexible for different runtime conditions.
+Environment Variables and Arguments: Shell scripts can access and modify environment variables, and they can take arguments when executed, making them flexible for different runtime conditions.
+
+Comments: In .sh files, comments start with # and are ignored by the shell interpreter. They are useful for explaining parts of the script or for temporarily disabling a command.
+
+
+
+In summary, .sh files are a powerful tool in the Linux environment, enabling the automation and scripting of complex tasks in an efficient and effective manner.
+
+!Zamanlasmis Gorevler | systemend timer 
+Belirli gorevlerin tanimlandiklari araliklarla calistirilabilmesi icin, kron ismi verilen zamanlasmis gorevler yapisini kullanabiliyoruz
+Biz burda kron yapisindan ziyade systemd aracinin sunmus oldugu timer aracina bakacagiz.
+
+Tanimlayacagimz bir servisin, tanimlanan zaman araliginda clismasin timer ile saglayabiliriz
+
+Biz nasil bir servisi tanimyacagimizi yukarda gordgumz icin, bu islem ondan cok da farkli degil zaten
+
+Daha once olusturmus oldugmz servisi kullanarka, script dosyasinin spesifik bir zaman araliginda calismasini istedgimz icin tanimlamada bulunacagiz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo nano /lib/systemd/system/time.timer
+
+[Unit]
+Description=description of time.service
+
+[Timer](Hangi servisin hangi sklikla calisacagini tanimlayacabilecegimz bir kisim)
+OnBootSec=1min(systemd aracinin zamanlanmis gorevi sistem basladiktan 1 dakika sonra tetiklemesi gerektigini belirten bir secenektir,aninda gecerli olmasi icn 1 min yerine 0 min yazilir)
+OnCalendar=*:*:0/30(Bu birim-unit dosyasini hangi sklikla calisacagini belirtmemizi sagliyor YEAR-MONTH-DAY HOUR:MINUTE:SECOND. Burdaki tanimlama da her gun calistirilacagi icin, kisaca, yalnizca saat tanimi gerceklestirildi. Her 30 saniyede bir calisacak sekilde tanimlandi)
+Unit=time.service
+
+[Install]
+WantedBy=multi-user.target
+
+!Ornegin 2023 yilinin 12.ayinin 1.gununde 23:59 da calismasini istiyorsak
+!OnCalendar=2023-12-01 23:59:00  seklinde belirtilir, /lib/systemd/system/time.timer  dosyasi icerisinde
+
+!Her gun saat 09.30 da calismasini istersek 
+! *-*-* 09:30:00 seklnde belirtiriz. Yilin her gunu olmasini istegimz icin, tum yillar, tum aylar, tum gunleri aliyoruz * ifadesi ile
+
+!Her gun sabah 12 ve aksam 12 de calismasini istersek eger, 2 ayri satirda belirtiriz asagidaki gibi
+! OnCalendar=*-*-* 12:00:00(Her gun 12 de calisir)
+! OnCalendar=*-*-* 00:00:00(Her gece 12 de calisir)
+
+!Her gun her saat calismasini istersek eger:
+! OnCalendar=*-*-* *:00:00
+
+!Her gun 2 saatte bir calismasini istersek eger:
+! OnCalendar=*-*-* 00/2:00:00(/ forward-slash dan sonraki sayi her gun tekrar edecek olan sayinin katlarini belirtiyor)
+
+!Her gun 30 saniyede bir calismasini istersek eger:(Burdaki tanimlama da her gun calistirilacagi icin, kisaca, yalnizca saat tanimi gerceklestirildi.)
+! OnCalendar=*:*:0/30
+
+!Her gun her dakika bir calismasini istersek eger:
+! OnCalendar=*-*-* *:*:00
+
+!Her gun 5 dakika bir calismasini istersek eger:
+! OnCalendar=*-*-* *:00/5/00(Her saat oldugu icin saate *  koyariz sonra dakikayi 00/5 yaparak dakikayi 5 er 5 er attirimis oluruz)
+
+!Her gun 20 saniyede bir calismasini istersek eger:
+! OnCalendar=*-*-* *:*:00/20(Saati ve dakikayi * yapariz, her saat ve her dakika demis oluruz, sonra da saniyeyi 00/20 yaparak, 20 snaiyede bir calismasini saglariz..)
+
+!Pazartesiden-cuma ya her saat calistirilmasini istersek eger:
+! OnCalendar=Mon..Fri *-*-*  *:00:00 
+
+!Hafta sonlari 6 saate bir calismaini istersek eger:
+! OnCalendar=Sat,Sun *-*-*  00/6:00:00 
+
+!Pazartesi,Carsamba ve cumar gunleri her saat  calismasni istersek eger
+OnCalendar=Mon,Wed,Fri *-*-* *:00:00
+
+!Yilin ilk alti ayninda 10 gunde bir calismaini istersek eger
+OnCalendar=Jan..Jun/10 *-*-* 00:00:00(10 gunde 1 kez calistirilacagi icin, saat-dakika-saniye 00:00:00 olur) 
+
+!Simdi zamanlanmis gorevi aktiflestirmek icin:
+  !sudo systemctl enable time.timer(Zamanlasmis gorev uzantisi .timer idi)
+  Sembolik link olusturacaktir...
+
+  !systemctl status time.timer dan durumuna bakacagiz...ARtik otomatik olarak sistem baslatildiginda otomatik olarak sistem basladginda baslayacak, ve belirtilen zaman araliginda ilgili script dosyasi calistiriliyor olacak!
+
+
+  adem@adem-ThinkPad-13-2nd-Gen:~$ sudo nano /lib/systemd/system/apache2.service
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl disable /etc/systemd/system/time.service
+Warning: Can't execute disable on the unit file path. Proceeding with the unit name.
+Removed /etc/systemd/system/multi-user.target.wants/time.service.
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo systemctl enable /etc/systemd/system/time.service
+[sudo] password for adem: 
+Created symlink /etc/systemd/system/multi-user.target.wants/time.service → /etc/systemd/system/time.service.
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo nano /lib/systemd/system/time.timer
+adem@adem-ThinkPad-13-2nd-Gen:~$ sudo nano /lib/systemd/system/time.timer
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl enable time.timer
+Created symlink /etc/systemd/system/multi-user.target.wants/time.timer → /lib/systemd/system/time.timer.
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl status time.timer
+○ time.timer - description of time.service
+     Loaded: loaded (/lib/systemd/system/time.timer; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+    Trigger: n/a
+   Triggers: ● time.service
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl start time.timer
+adem@adem-ThinkPad-13-2nd-Gen:~$ systemctl status time.timer
+● time.timer - description of time.service
+     Loaded: loaded (/lib/systemd/system/time.timer; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2024-01-14 23:32:38 CET; 6s ago
+    Trigger: n/a
+   Triggers: ● time.service(Burda her 30 saniye de bir tetiklenecekk bunu time.timer i nano ile acarsak gorebiliriz)
+
+jan. 14 23:32:38 adem-ThinkPad-13-2nd-Gen systemd[1]: Started description of time.service.
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+!enable yaptiktan sonra bir de time.timer, zamanlanmis gorev servisini, systemctl start ile baslattiktan sonra calismaya basladi. 
+
+
+!Servisi sistem başlangıcında otomatik olarak başlatılacak şekilde ayarlamak için hangi komutu kullanabiliriz=>systemctl enable apache2.service
+
+!Sistem başlangıcında otomatik olarak başlatılan bir servisin, otomatik başlatılmasını önlemek için hangi komutu kullanabiliriz ?=>systemctl disable apache2.service
+
+!LOG DOSYALARI HAKKINDA
+Sistemimizde meydana gelen hatalar, degisiklikler, ve nerdeyse her faaliyet kayit altina alinarak saklaniyor
+Kayit altina alinan bu bilgileri log deniyor 
+
+Kontrol edilmesinin kolay olmasi icin, bunlar ayri ayri yerlerde tutuluyor, ve herhangi bir servis veya bir islem ile ilgili hata aldigmz da, gidip log dosyasini okuyarak, hata sebebini gorebiliyoruz
+
+!SORUNLARI,PROBLEMERLI, HATA NEDENLERI TESHIS ETTIGMIZ YERDIR, BIR NEVI LOG DOSYALARI
+
+!LOG KAYIT DOSYALARI 
+rsyslogd yapisi kullaniliyor loglari tutmak icin
+rsyslogd journald loglama cozumu de bulunyor
+
+!Log Dosyalari Hakkinda(/var/log)
+Genellikle istisnalar haric, log dosyalari /var/log/ var dizinin altindaki log klasoru icerisinden ulasabiliyoruz
+Burda genellikle, rsyslogd aracinin urettigi log kayitlari bulunmaktadir
+!Tabi ki istisna durumlri da bulunabiliyor
+
+bu /var/log altinda kullanmis oldugmz yazilijmlara gore bircok farkli klasor bulunabilir burda ama biz burda rsyslogd aracinin urettigi log dosyalari ve kaytlarina bakacagiz
+
+Bu log dosyalari standart dosyalar olduklari icin, cat,grep,head,tail araclari ile metinsel verileri isleyebiliriz. Cunku tum log kayitlari duz text olarak tutulmaktadir 
+Sadece kayitlari okumak icin, y onetici ayricaliklarina sahip olmak gerekiyor!!!!!
+!Cunku standart kullanicilarin , yani admin olmayan, kullanicilarin log kayitlarini okumasi, uygun olamdigindan ddolayi...
+
+!syslog - messages
+Sistemimiz uzerinde yer alan, cesitli hizmetler uygulamalar veya yapilar tarfindan uretilmis olan cesitli hata mesajlari veya uyari mesajlari gibi cesitli mesajlar genellikle syslog dosyasi icerisine kaydediliyor
+
+!adem@adem-ThinkPad-13-2nd-Gen:/var/log$ sudo nano syslog
+
+
+!adem@adem-ThinkPad-13-2nd-Gen:/var/log$ ls
+syslog ile ilgili asagidaki gibi dosyalar goruruz /var/log directory altinda , bunlar su analama geliyor
+Burda syslog dosyasinin numarasiz olan yalin hali en son, en guncel halini temsil ediyor...su an hala bu dosya icerisine veriler ekleniyor, dolayisi ile bu dosyanin herhangi bir uzantisi yok.
+Mesela uzantisiz yalin hali ile bulunan syslog dosyasi doluluk oranina ulasinca bu sefer bu dosya da numarandirilip tekrar syslog dosyasi yalin haline en son log kayitlari girilmeye devam edilerek, gecmisteki kayitlar da bu sekilde korunmus oluyor!!!
+Dolan dosyalar da belirli bir sure sonra .tar ile arsivlenip .gz ile skstirilarak, daha az yer kaplamasi saglaniyor
+
+
+syslog
+syslog.1
+syslog.2.gz
+syslog.3.gz
+syslog.4.gz
+
+!Tekrardan hatirlatalim, en guncel ve en son kayitlar syslog dosyasinda tutuluyor, syslog dosyasini en yalin hali olan syslog dosyasinda tutuluyor
+!BU MANTIK LOG DOSYALARININ HEPSINDE BU SEKILDEDIR!!!!
+
+ dpkg.log(En guncel kayitlar bu dosya altinda bulunmaktadir)
+ dpkg.log.1
+ dpkg.log.2.gz
+ dpkg.log.3.gz
+ dpkg.log.4.gz
+
+!AYNI MANTIKTA /var/log/apache2/error.log dosyasi icerisinde buluruz, apache2 web server  en guncel hata kayitlarini
+
+!ORNEGIN BIR LOG DOSYASINDA EN SON URETILMIS 5 CIKTIYI GORMEK ICIN!!
+! tail -n 5 /var/log/syslog
+
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ tail -n 5 syslog
+Jan 15 00:17:01 adem-ThinkPad-13-2nd-Gen CRON[410198]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Jan 15 00:17:09 adem-ThinkPad-13-2nd-Gen dbus-daemon[251541]: [session uid=1000 pid=251541] Activating via systemd: service name='org.freedesktop.Tracker3.Miner.Extract' unit='tracker-extract-3.service' requested by ':1.9' (uid=1000 pid=251613 comm="/usr/libexec/tracker-miner-fs-3 " label="unconfined")
+Jan 15 00:17:09 adem-ThinkPad-13-2nd-Gen systemd[251509]: Starting Tracker metadata extractor...
+Jan 15 00:17:09 adem-ThinkPad-13-2nd-Gen dbus-daemon[251541]: [session uid=1000 pid=251541] Successfully activated service 'org.freedesktop.Tracker3.Miner.Extract'
+Jan 15 00:17:09 adem-ThinkPad-13-2nd-Gen systemd[251509]: Started Tracker metadata extractor.
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ 
+
+!Kucuk buyuk harf farketmeksizin, networkmanager(ag yonetiminden sorumlu yapi hakkinda bilgi sahpi olmak istiyorum..Bilgisayarda bu ag ile ilegili mesaj var mi diye bilmek istiyrouz)
+
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ grep -i "networkmanager" /var/log/syslog 
+!Bazen dosyaya anlik olarak o anda eklemey yapildigi icin, grep: /var/log/syslog:binary file match seklinde hata alabiliriz
+Boyle bir durumda grep aracinin buldugu dosyayi text dosyasi olarak ele almasi  icin,a option u da ekleriz
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ grep -ia "networkmanager" /var/log/syslog 
+
+Sistemin urettig Network ile ilgili tum log kayitlari gorebiliyoruz... 
+Hangi host uzerinde, ne zaman oldugu vs gibi bircok bilgiyi alabiliyoruz...
+
+!Eger biz en son guncel bilgileri degil de en son-guncel bilgilerden bir onceki bilgileri okumak istersek o zaman da syslog.1 dosyasini okuruz 
+syslog-en son , en guncel log dosyalari 
+syslog.1 en son, en guncel log dosyalarindan bir onceki log dosyalari
+syslog.2.gz de syslog.1 den , onceki log kayitlarini gosterir..bu sekilde geriye dogru gideriz
+Yani numara arttikca, dosya eskiye dogru gidiyor
+
+! ls -lt /var/log/syslog* (syslog dosyalarini ayrintili bir sekilde tarihlerine gore listeleyelim dersek)
+!Burdan da anlariz, ki syslog en guncel, syslog.1 dosyasi syslog dan sonra ve sayi arttikca da dosya eskiye dogru gidiyor
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ ls -l syslog*
+-rw-r----- 1 syslog adm  722240 jan.  15 00:49 syslog(En guncel, en yeni log dosyasidir)
+-rw-r----- 1 syslog adm 1653499 jan.  14 00:00 syslog.1(En guncel dosyadan sonra gelen dosyadir, bu dosya belirli bir boyuta ulasinca arsivleniyor ve syslog.2.gz oluyor ve digerleri de ona gore 3,4,5..oluyor...)
+-rw-r----- 1 syslog adm  175098 jan.   8 00:00 syslog.2.gz
+-rw-r----- 1 syslog adm  179943 des.  31 00:00 syslog.3.gz
+-rw-r----- 1 syslog adm  215579 des.  24 00:00 syslog.4.gz(En eski log dosyasidir)
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ 
+
+
+!auth.log | secure 
+Oturum acma,kimlik dogrulama gibi islemler hakkinda bilgi alamk istersek, auth.log ismindeki log dosyasini okyabiliriz
+
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ ls -lt auth.log*
+-rw-r----- 1 syslog adm  72137 jan.  15 00:45 auth.log
+-rw-r----- 1 syslog adm 295617 jan.  13 23:59 auth.log.1
+-rw-r----- 1 syslog adm  11951 jan.   7 23:59 auth.log.2.gz
+-rw-r----- 1 syslog adm  21006 des.  30 23:59 auth.log.3.gz
+-rw-r----- 1 syslog adm  17436 des.  23 23:59 auth.log.4.gz
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ 
+
+
+tail -f following
+!tail -f secenegi sayesinde bir dosyaya en son eklenen verileri anlik olarak takip edebiliyoruz
+!tail -f /var/log/auth.log
+
+adem@adem-ThinkPad-13-2nd-Gen:/var/log$ tail -f /var/log/auth.log
+Jan 15 00:35:01 adem-ThinkPad-13-2nd-Gen CRON[410835]: pam_unix(cron:session): session closed for user root
+Jan 15 00:39:01 adem-ThinkPad-13-2nd-Gen CRON[410969]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+Jan 15 00:39:01 adem-ThinkPad-13-2nd-Gen CRON[410969]: pam_unix(cron:session): session closed for user root
+Jan 15 00:45:01 adem-ThinkPad-13-2nd-Gen CRON[411353]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+Jan 15 00:45:01 adem-ThinkPad-13-2nd-Gen CRON[411353]: pam_unix(cron:session): session closed for user root
+Jan 15 00:54:21 adem-ThinkPad-13-2nd-Gen sudo:     adem : TTY=pts/5 ; PWD=/var/log ; USER=root ; COMMAND=/usr/bin/nano auth.log
+Jan 15 00:54:21 adem-ThinkPad-13-2nd-Gen sudo: pam_unix(sudo:session): session opened for user root(uid=0) by (uid=1000)
+Jan 15 00:54:40 adem-ThinkPad-13-2nd-Gen sudo: pam_unix(sudo:session): session closed for user root
+Jan 15 00:55:01 adem-ThinkPad-13-2nd-Gen CRON[412127]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+Jan 15 00:55:01 adem-ThinkPad-13-2nd-Gen CRON[412127]: pam_unix(cron:session): session closed for user root
+
+
+adem kullanicisindan ademtest kullanicsina gecerek /var/log/auth.log dosyasini takip edecek olursak, anlik olarak log dosyalarinin degisiini ve eklenen kayitlari takip edebilriiz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ su - ademtest
+Password: 
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ su - adem
+Password: 
+
+! /var/log/auth.log dosyasi ile her turlu login islemleri veya kullanici degisimi gibi islemleri,n hepsini loglar, bu log dosyasna kaydeder
+
+Ornegin biz parolayi yanlis giriyoruz ademtest kullanicisinda iken adem kullanicisina login olurken
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ su - adem
+Password: 
+su: Authentication failure
+ademtest@adem-ThinkPad-13-2nd-Gen:~$ 
+Bu islemin kaydi hemen /var/log/auth.log  dosyasina basilacaktir
+
+!adem@adem-ThinkPad-13-2nd-Gen:/var/log$ tail -f /var/log/auth.log
+Jan 15 01:04:39 adem-ThinkPad-13-2nd-Gen su: pam_unix(su-l:auth): authentication failure; logname= uid=1004 euid=0 tty=/dev/pts/6 ruser=ademtest rhost=  user=adem
+Jan 15 01:04:40 adem-ThinkPad-13-2nd-Gen su: FAILED SU (to adem) ademtest on pts/6
+Jan 15 01:05:01 adem-ThinkPad-13-2nd-Gen CRON[413139]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+Jan 15 01:05:01 adem-ThinkPad-13-2nd-Gen CRON[413139]: pam_unix(cron:session): session closed for user root
+
+
+!boot.log
 
     */
 
