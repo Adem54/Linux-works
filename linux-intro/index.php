@@ -11476,6 +11476,112 @@ adem@adem:~$ journalctl --list-boots
 journalctl -b 10(tarihe gore)
 
 journalctl -n 5(kayitlardan 5 tane getir)
+
+!TEMEL AG EGITIMI
+
+!NETWORK TEMEL KAVRAMLAR
+
+Ag-Network nedir?
+Ne az iki cihazin(pc) birbirleri ile veri transferi kurmak uzere aralarinda kurmus oldugmz baglantiya verdigmiz genel bir isimdir
+Iki olmak zorunda degil 3,4,5 ve daha fazla olabilir
+Host nedir?
+Ag baglantisi saglamis onlan, veri gonderen veya alan cihazlara biz host diyoruz. Yani her bir cihaz hostdur
+Yalnizca pc ler degildir host, ag baglantisi olusturan veri gonderip veri alan, mobilephone, tablet, ipad bunlar da host olabilir
+Hatta akilli tv de host olabilir...akilli buzdolabi ag baglantisi kurabiliyordur bu da host olabilir 
+
+Bu hostlarin ag uzerinde, burundukleri roller geregi verilmis isimlerdir
+Client:linuxdersler.net web sitesini ben ziyaret ederken, bu istegi sunucuya,server a gonderiyoruz, istek gonderiyoruz.. 
+Server:Talebe cevap veren, bu web sistesinnin dosyalrini client a gonderendir...
+Server-sunuclar da normal pc gibidir icerisinde cesitli yazillimlar kurularak kendilerine yapilan isteklere dogru cevaplar verilmesi saglaniyor
+Kendi pc lerimizden bile biz bir web suncusuyukleyip bir web sitesi sunabiliriz... 
+Client-server olma durumu bazen duruma gore degisebiliyor ornegin
+Bir server web sitesini sunarken, dosyalarini baska bir server a istek gondererek aliyor ve o dosyalari kullanarak web sistesini sundugu zaman, onun dosyalari almak  icin istek gonderdigi pc ile arasindaki iliskiye bakacak olursak, normal websitesi sunan sunucu o iliski de client rolu almis olurken, dosyalari gonderen file-server ise server rolundedir
+File-server da ornegin, gunbcellemleri baska bir update-server dan alabilir, bu durumda da yine update -server server olurken file-server client rolune burunecektir
+
+!LAN(Local Area Network)
+Kucuk capli, lokal capli kurulmus olan ag baglantilardir
+Bizim internetimiz olmasa bile, kendi evimizdeki pc ler, mobile cihazlari birbirine baglayip ag olusturaibliiriz. Bu sayede bu cihazlar bu ag icerisinde veri trransferi vs  yapacak sekilde birbirleri ile iletisim kurabilirler
+Benzer sekilde ofisler de bu yaklasim kullaniliyor 
+Ornegin diyelim ki bir ofis agi ve ofisteki cihazlarin hepsi yaziciya bagli, tum cihazlar internet olmasa bile, yaziciya erisebiliyor cunku lokal de tum cihazlar yaziciya bagldir
+
+!WAN - Wide Area Network
+Bu ag turu de birden fazla lokal agin birbirine baglanarak daha genis bir ag olusturulmus olma halidir. 
+Her bir lokal agdaki cihazlar, birbirleri ile iletisim kurabilmesi icin yapilir ve daha genis bir ag baglantisi olusturuluyor
+En buyuk WIDE ARE NETWORKU INTERNETTIR
+
+!IP ADRESI 
+Ip adresi cihazlarin ag uzerindeki benzersiz kimlik numaralaridir
+
+Iki cihaz birbiri ile iletisim kurarken, bir server a istek gonderirken o server in ip adresini bilmesi  gerekiyor, kafamiza gore herhangi bir cihazdan talep edilemez. Ayni sekilde iste gonderen pc nin de ip adreini server in bilmesi gerekiyor ki, o istege cevap gondersin, yani her istek gonderene dosyalarai vermez server da onun icin, istek gonderen cihazin ip adresini bilmesi gerekir 
+AG uzerinde cihzlar birbilrerini ip adresleri uzerinden ayirt ederler!
+
+Yani pc1 cihazi pc2 cihazina istek gonderdigi zaman 
+Kanyak IP:159.132.45.192 
+Hedef IP:185.199.108.153(www.linuxdersleri.net) 
+istek paketiine hem hedef ip adresini , hem de istegin kimden geldigni belirten kaynak ip adresini de belirtir ki, istek dogru adrese gitsin yerine ulassin
+
+Sunucu istege cevap verirken de response paketine yine 
+Kaynak IP:185.199.108.153(www.linuxdersleri.net) 
+Hedef IP:159.132.45.192 
+
+hedef ip adresi ve kaynak ip adreslerini ekleyecektir
+
+!IP ADRESLERI NASIL TANIMLANIR 
+Binary: 0 1(Bilgisyar dunyasinda en kucuk veri birimi bittir, o da 0 ya da 1 dir)
+Ip lerde 32 bit uzunlugunda olabiliyorlar 
+Bir ip adresi 32 bitlik deger alabiliyor. Bu 32 bitte 8 er bitlere ayrlimis oktet lerden olusuyor 
+
+Ilk deger: 00000000.00000000.00000000.00000000
+00000000-8 bittir ve bir karakteri temsil eder , 1 oktettir
+Son deger: 11111111.11111111.11111111.11111111
+11111111-8 bittir ve bir karakteri temsil eder, 1 oktettir
+
+Bir ip adresine verebilecegimiz en kucuk deger  00000000 dir yani bu 8 bit 1 karakteri temsil ediyordu
+Bir ip adresne verebilecegimz en buyuk degerde  11111111 dir
+
+Peki biz ip adreslerini normal ondalik gosterimde oldugu gibi 185.199.108.153 boyle goruyoruz, nasil bu hale donusturuluyor 
+Yani bizim ip adresi olarak okudugmz degerler 185.199.108.153 bunlar, binary(2 li sayi) den decimal(10 lu sayi sistemi) e cevrilmis halidir 
+Yani ornegin 
+10101010=> sirasi ile soldan saga dogru su sekilde hesaplariz
+0*(2 uzeri 0=1)=0
+1*(2 uzeri 1=2)=2
+0*(2 uzeri 2=4)=0
+1*(2 uzeri 3=8)=8
+0*(2 uzeri 4=16)=0
+1*(2 uzeri 5=32)=32
+0*(2 uzeri 6=64)=0
+1*(2 uzeri 7=128)=128
+Tum sonuclari topladgimzda = 170 yapiyor. 
+
+10101010 binary ifadesi yani 8bit=1byte decimal-ondalik gonsterimde = 170 e karsilik geliyor
+11111111 binary ifadesi de ayni mantiklar 8bit decimal-ondalik gostrimde 255 e karsilik geliyor
+
+!185.199.108.153 Boye bir ip adresi her 4 parcadan olusuyor ve arlarinda nokta var. Her bir parca binary olarak 8 bit e karsilik gelen 1 ve 0 lardan olusan 8 bitlk binary nin ondalik-decimal sayi birimine cevrilmis halidir....
+
+En kucuk ip adresi: Binary(ikili) = 00000000  Decimal(ondalik)=0 a karsilik gelirken 
+En buyuk ip adresi:Binary(ikili) =  11111111  Decimal(ondalik)=255 e karsilk gelir 
+
+!Bir ip adresinin alabilecegi enckucuk deger veya ilk deger : 0.0.0.0(Bu 0 lardan daha dusuk olamaz) 
+!Bir ip adresinin alabilecegi enbuyuk deger veya son deger : 255.255.255.255(Her bir bolum maks 255 olur daha buyuk olamaz...) 
+
+!Tanimlanabilir IP SAYISINA BAKACAK OLURSAK DA Ip adresi decimal-ondalik oalrak 4 bolumden olsuuyor. Her bir bolum binary-8 bitten olusan 1 ve 0 lardan olusuyor dolayisi ile her bir bolumun kendi arasindaki kombinasyondan yola cikilarak 2 uzeri 8 farkli deger alabilir 
+Tanimalnabilir IP SAYISI : 2^8 + 2^8 + 2^8 + 2^8=2^32=4.3~ milyar 
+Yetersiz IP sayisina cozum olarak, alt ag olusturma yani, subnetting yaklasimi kullaniliyor
+
+Intrenete baglanabilen her turlu telefojn,pc, akilli tv, akilli buzdolabi, nintendo(oyun),tablet, akilli saat her birisinin benzersiz ip adresi almasi gerekiyor
+
+!IP Subnetting
+Aglari daha alt aglara bolerek, ip adreslerini daha tasarruflu sekilde kullanabiliyoruz 
+Ayni lokal agda bulunan pc ler -LAN(lokal area network) birbirlerinin network numaralari ndan taniyorlar birbirlerini ve host olarak da hepsine sirasi ile 1 ,2 diye degerler ataniyor v ebirbirlerini kolayca taniyabiliyorlar 
+
+x network u once olsturulur 
+pc-1= 192.168.1.2
+pc-2= 192.168.1.3
+pc-3= 192.168.1.4
+
+Bu pc ler birbirlerini network numaralarindan tanirlar = 192.168.1
+Sonra da sirasi ile host lar numarlarindirilmistir = 192.168.1.2, 192.168.1.3, 192.168.1.4...gibi
+
 */
 
 
