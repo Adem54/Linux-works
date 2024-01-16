@@ -11574,13 +11574,134 @@ Intrenete baglanabilen her turlu telefojn,pc, akilli tv, akilli buzdolabi, ninte
 Aglari daha alt aglara bolerek, ip adreslerini daha tasarruflu sekilde kullanabiliyoruz 
 Ayni lokal agda bulunan pc ler -LAN(lokal area network) birbirlerinin network numaralari ndan taniyorlar birbirlerini ve host olarak da hepsine sirasi ile 1 ,2 diye degerler ataniyor v ebirbirlerini kolayca taniyabiliyorlar 
 
-x network u once olsturulur 
+x network u once olsturulur ve LAN(LOCALAREANETWORK) kurulur ortamdaki pc ler arasinda
 pc-1= 192.168.1.2
 pc-2= 192.168.1.3
 pc-3= 192.168.1.4
 
 Bu pc ler birbirlerini network numaralarindan tanirlar = 192.168.1
 Sonra da sirasi ile host lar numarlarindirilmistir = 192.168.1.2, 192.168.1.3, 192.168.1.4...gibi
+
+Peki Local Area Network icinde olmayan yani kendi iclerinde LAN baglantisi bulunan farkli cihazlarla ise yine ip adreslerini kontrol ediyor, kendi aginda bulunmadigi icin farli bir ip adresine sahip, bu ip adresi ile iletisime gecmek istedigi zaman kendi lokal networkunde olmadigini anlayarak, dis ip adresleri ile nasil iletisime gecmesi gerekiyorsa o sekilde iletisime geciyor...
+
+Y NETWORK 
+pc-1= 192.168.5.2
+pc-2= 192.168.5.3
+pc-3= 192.168.5.4
+
+!Yani bilmemiz gereken aglari daha alt aglara bolerek, ip adreslerini daha tasarruflu sekilde kullanabiliyoruz 
+
+!Ip adresleri yalnizca cihazlarin degil, mevcut cihazlarin bulundugu agin bilgisini de verir
+!IP adresine bakinca hem network bilgisi hem de host bilgsi ogrenilmis olur!
+
+!Network ve Host Ayrimi Nasil Yapilir?
+network ve host ayrimini yapabilmek icin, subnet mask ya da alt ag maskesi olarak bilinen adrese bakilir
+
+!Bu ip adresi 192.168.1.10 agindaki 10 numarali hosta isaret ediyor
+!192.168.1 BURAYA KADAR OLAN KISMI NETWORK BILGISIDIR, YANI ARALARINDA . OLAN ILK 3 BOLUM.
+!.10 HOSTS A ISARET EDIYOR 
+Ve diyelim ki subnet Mask  degri de : 255.255.255.0 
+Subnet mask degeri 255 olan bolumler network adresini belirtiler.Geri kalan kismi host bilgisidir 
+!Burdan sunu anlayacagiz Subnet mask degerinde 255 sayisini gordugumzde tam olarak ip adresine karsilik gelen oktet in, aslinda network bilgisni verdigini, simdilik bilmemiz yeterlidir
+
+IP:192.168.1.10
+SubnetMask:255.255.255.0
+
+Ip adresi ve SubnetMaski yukardaki gibi olan bir cihazi gordugumzde ne anlariz:
+!COOOK ONEMLI BIR BILGI!!!!!
+!IP:192.168.1.10 un IP:192.168.1.0 agindaki bir cihaz oldugunu ve bu cihazin bulundugu agda 192.168.1.0 ile 192.168.1.255 degerleri arasinda hostlara-cihazlara ip tanimlanabilecegini anlamis ve ogrenmis oluyoruz!!!
+
+
+!Dikkat etmemiz gereken bir nokta var.192.168.1.0 - 192.168.1.255 arasindaki ip adreslerinin hepsinin hostlar icin kullanilamayacagi bilgisidir !!!
+192.168.1.0 bu adres network-agin kendi adresidir, ondan dolayi hostlar icin kullanilamaz, ayni sekilde 92.168.1.255 adresi de boradcast icin ayrilmis bir adrestir y ine hostlar icin kullanilamaz
+
+192.168.1.0=>Ag(Network) Adresi
+92.168.1.255=>Broadcast adresi
+
+!NETICE ITIBARI ILE:IP:192.168.1.10 BOYLE BIR IP AD RESINI GORDUGUMDE SUNU ANLAMALIYIM: 
+AG-NETWORK ADRESI:192.168.1.0
+TANIMLANABILECEK IP ADRESLERI:192.168.1.1-192.168.1.254 arasindadir 
+!192.168.1.0 aginda 192.168.1.1 ile 192.168.1.254 araliginda IP adresi tanimlanabilir
+
+!NETWORK VE HOST AYRIMININ HESAPLANMASI
+ip:192.168.1.10 
+Subnet Mask:255.255.155.0 
+Oncelikle ip adresi ve Subnet adresinin ayrimin yapabilmemiz icin ondalik gosterimden-decimal binary-ikili gosterime cevirmemiz gerekiyor
+
+!ip:192.168.1.10
+192=>11000000
+168=>10101000
+1=>00000001
+10=>00001010
+
+!Subnet Mask:255.255.155.0 
+255=>11111111
+255=>11111111
+255=>11111111
+0=>00000000
+
+!ip:192.168.1.10 NIN BINARY HALI
+11000000.10101000.00000001.00001010:IP ADRESI(BINARY)
+!Subnet Mask:255.255.155.0 IN BINARY HALI
+11111111.11111111.11111111.00000000:SUBNET MASK(BINARY)
+
+Alt alt ip-subnet in binary halini yazip, matematkte ki and-mantiginda yani programlamadaki and mantiginda 1-true 0 false diye dusunelim--Her ikisi de 1 olursa 1 yok bir tanesi 0 olursa 0 olacak sekilde bir alt alta sonuc cikaririz
+            !11000000.10101000.00000001.00001010
+            !11111111.11111111.11111111.00000000
+!SOUNUC:     11000000.10101000.00000001.00000000
+
+Elde ettigmiz sonucu binary(ikili) den tekra decimal-ondalika cevirecek olursak
+
+Sonuc olarak:
+ 11000000.10101000.00000001.00000000 = 192.168.1.0(AG ADRESI-NETWORK ADRESINI BIZE VERIR)
+
+ !Yani sonuc olarak bir pc nin ip:192.168.1.10- Subnet Mask:255.255.155.0  bu degerler ise bunun network-ag adresi:192.168.1.0 ve broadcaset adresi:192.168.1.255 oldugunu anlayabiliriz..yukardaki hesabi kafamizda dusunerek
+
+ !Ve de 192.168.1.0 aginda 192.168.1.1-192.168.1.254 araliginda IP adresi tanimlanabilir
+ 
+ !network-ag adresi:192.168.1.0 ve broadcaset adresi:192.168.1.255 -bu degerler agadres-network ve broadcast degerleri oldugu icin IP adresi olarak atanamazlar
+
+ FARKLI ORNEKLERE BAKACAK OLURSAK
+ IP:192.168.1.10
+ SUBNETMASK:255.255.0.0
+ Decimalden binary ye cevirip alt alta and- operatoru ile toplarsak...asgikdaki adres-network adresi oolarak karsimiza cikar
+!Ag-networkadressi:192.168.0.0
+!Broadcast-adresi:192.168.255.255
+
+Ag-networkadressi:192.168.0.0 aginda-networkunde ip adresi 192.168.1.10 host adresi bu olan bir cihazdir ve 
+192.168.0.0 aginda 192.168.0.1-192.168.255.254 araliginda IP adresi tanimlanabilir 
+(2bolum var 255-255 her bir bolumun 2^3 farkli alternatifi var)2^3+2^3=16
+2^16-2(network-broadcast)=65534 farkli IP ADRESI 192.168.0.0 aginda-networkunde hostlar(65534) atanabilir...
+
+
+ IP:192.168.1.10
+ SUBNETMASK:255.0.0.0
+
+!Ag-networkadressi:192.0.0.0
+!Broadcast-adresi:192.255.255.255
+192.0.0.0 aginda-networkunde 192.0.0.1-192.255.255.254 araliginda IP ADRESI TANIMLANABILIR
+
+(3bolum var 255-255-255 her bir bolumun 2^3 farkli alternatifi var)2^3+2^3+2^3=24
+Dolayisi ile 2^24-2(network-broadcast i cikar) 16777214 farkli IP ADRESI 192.0.0.0 aginda atanabilir
+
+!SUBNET MASK DEGERLERI KISACAS BITLERIN TOPLAMI SEKLINDE DE GOSTERILEBILIR 
+255.255.255.0
+
+11111111.11111111.11111111.00000000
+11111111=>8
+11111111=>8
+11111111=>8
+00000000=>0
+Toplam = 24
+
+!Subnetmask 255.255.255.0 degerini kisaca 24 degeri ile de prefix olarak temsil edebiliyoruz
+
+Ornek Submask degerleinin kisaca prefix olarak gosterimleri
+
+255.255.255.0=>24
+255.255.255.255=>32
+255.255.0.0=>16
+255.0.0.0=>8
 
 */
 
