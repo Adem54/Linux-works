@@ -11703,6 +11703,66 @@ Ornek Submask degerleinin kisaca prefix olarak gosterimleri
 255.255.0.0=>16
 255.0.0.0=>8
 
+!60 HOST ICIN TANIMLANMASI GEREKEN SUBNET MASK?
+Ornegn biz bir network olusturacagiz ve bu agda sadece 60 tane ip adresi olsturabilmemiz yeterli
+O zaman network adresi ve subnet mask ve ip adresini nasil ve neye gore ayarlamaliyiz?
+
+Subnet Mask degerinde, 255 disindaki 0 olan degerler network-ag adresine karsilik deger le aralarinda AND opearatoru ile kullanildigi icin, ne kadar cok binary de 0 olursa o kadar cok, ip adresi tanimlama firsati elde ediyorduk...IP ADRES SAYISI HESPALAMADA GORMUSTUK 
+
+255.255.255.0
+255=>11111111
+255=>11111111
+255=>11111111
+0=>00000000
+
+11111111.11111111.11111111.00000000
+Kac tane ip adresi tanimlamak istiyorsam subnet mask degerinde de sondan itibaren o kadar 0 olmasi gerekiyor
+
+soldan saga dogru binary yi decimal e cevirecek olursak 
+
+1-0=>2^0=>1*0=0  ama en soldaki deger 0 degilde  1 olursa 2^0=>1*1=1 
+2-0=>2^1=>2*0=0  ama en soldaki deger 0 degilde  1 olursa 2^1=>2*1=2 
+3-0=>2^2=>4*0=0  ama en soldaki deger 0 degilde  1 olursa 2^2=>4*1=4 
+4-0=>2^3=>8*0=0  ama en soldaki deger 0 degilde  1 olursa 2^3=>8*1=8 
+5-0=>2^4=>16*0=0  ama en soldaki deger 0 degilde  1 olursa 2^4=>16*1=16 
+6-0=>2^5=>32*0=0  ama en soldaki deger 0 degilde  1 olursa 2^5=>32*1=32 (Tam buraya gelindiginde eger su ana kadar olan hepsi 1 olsa idi su anda toplamda 63(1+2+4+8+16+32) adet ip degeri uretebilecek rakama ulasmis oluyrouz!!!!)
+7-0=>2^6=>64*0=0  ama en soldaki deger 0 degilde  1 olursa 2^6=>64*1=64 
+8-0=>2^7=>128*0=0  ama en soldaki deger 0 degilde  1 olursa 2^7=>128*1=128 
+
+11111111.11111111.11111111.11000000
+!Burdan da sunu anliyoruz , biz 6.0 a geldgimzde 63 tane ip adresi tanimlayabilecek seviyeye gelmistik...Bu da su demektir, bizim bu sayiya erisebilmemiz icin, submask in en son ki 8 bitin son 6 rakamii 0 olmasi gerekiyoir ki, 60 tane daha dogrusu 63 tane ip adrsi tanimlanabilsin!!!!!!!!!!!!!!!
+!CUNKU SUBNET MASK DE 1 DEGERLERI NETWORK U TEMSIL EDERKEN, 0 LAR ISE HOST-YANI URETILECEK IP ADRESLERI ICIN AYRILMISTI BUNU ZATEN YUKARDA SOYLEMISTIK
+
+!11111111.11111111.11111111.11000000 => kISACA PREFIX OLRAK GOSTERIRSEK=> 8 + 8 + 8 + 2
+Ornegin : 192.168.1.10/26: gosterimi
+(Kisa gosterim  26 yi gorunce hemen aklimiza 8+8+8+2 seklinde gelsin ve son 2 ye 1+1 sagdan sola dogru gelecek!!)
+
+192.168.1.0 agindaki 192.168.1.10 IP adresine sahip hostu temsil eder
+192.168.1.0 agindaki hostlara 192.168.1.1 ile 192.168.1.62 araliginda IP tanimlamasi yapilabilir 
+Yani 192.168.1.0 aginda toplam 62 host icin IP tanimlamasi yapilabilir
+
+
+  inet 192.168.115.191  netmask 255.255.255.0  broadcast 192.168.115.255
+  Ornegin burda   192.168.115.191 ip adresi =>192.168.115.0 network adresi 
+  Broadcast=192.168.115.255 Toplam = 254 adet ip adresi kullanilabilir
+
+  !Burda Subnetmask calculater diye aratacak olursak eger internette nasil hesaplanacagini bulabilriz
+  !Yani ip adersi ve subnetmask adresini girerek detayli bilgileri alabiliyoruz...Kullnilabilir host-ip adeti, binary subnetmassk-vs gibi bircok bilgi gorebiliriz
+
+
+  IP:192.168.1.10
+  NETWORKADDRESS: 192.168.1.0
+  
+  Network Address  Usable Host Range                   Broadcast Address
+  192.168.1.0      192.168.1.1  - 192.168.1.62          192.168.1.63
+  192.168.1.64     192.168.1.65 - 192.168.1.126         192.168.1.127 
+  192.168.1.128    192.168.1.129 - 192.168.1.190        192.168.1.191
+  192.168.1.192    192.168.1.193 - 192.168.1.254        192.168.1.255
+
+
+
+
+
 */
 
 
