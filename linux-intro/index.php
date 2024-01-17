@@ -11759,6 +11759,109 @@ Yani 192.168.1.0 aginda toplam 62 host icin IP tanimlamasi yapilabilir
   192.168.1.128    192.168.1.129 - 192.168.1.190        192.168.1.191
   192.168.1.192    192.168.1.193 - 192.168.1.254        192.168.1.255
 
+  !Genel(Public) ve Ozel(Private) Ip Adresleri Hakkinda
+  Ozel(private) ip adresleri:
+  Internet uzerinde hicbir cihaza verilmeyen, sadece lokal networklerde(LAN-LOKAL-AREA-NETWORK) kullanilabilir
+  Bu lokal-ip adrsi veirlen cihaz internet e baglanacagi zaman ona public ip adersi verilmek zorundadir
+
+  Ahmetin EV Networku
+  LAN-LOCAL-AREA-NETWORK-LAN-DA IKEN PRIVATE IP ADREESLERI VERILEBILIR
+  Cihaz-1=>ip:192.168.1.2
+  Cihaz-2=>ip:192.168.1.3
+  Cihaz-3=>ip:192.168.1.4
+
+  AMA INTERNETE BAGLANARAK, KENDI LOCAL AREA NETWORKU DISINDA, BASKA BIR NETWORKDEKI BIR CIHAZ ILE INTERNET UZERINDEN ILETIISME GECMEK ISTEDIGINDE, PUBLIC-IP-ADRESI YANI HERKESIN ERISEBILECEGI IP ADRESINE SAHIP OLACAKTIR 
+  143.32.44.12 GIBI ORNEGIN
+  
+  !INTERNET UZERINDEKI TUM CIHAZLAR HEM OZEL(PRIVATE) HEM DE GENEL(PUBLIC) OLMAK UZERE 2 TUR IP ADRESINE SAHIPTIR
+
+  !BU ARADA SUNU ANLAYALIM.. IKI FARKLI LAN(YEREL AG NETWORKUNDE) DA BAGLI OLAN FARKLI CIHAZLAR ORNEGIN AHMET IN NETWORKUNDE BAGLI OLAN BIR CIHAZ ILE AYSE NIN NETWORKUNDE BAGLI OLAN BIR CIHAZ AYNI IP ADRESI KULLANABILIR BUNUN HICBIR ONEMI YOKTUR, CUNKU PRIVATE OLDUGUINDAN DOLAYI , SADECE KENDI LOKAL AGLARINDA-LOCAL-AREA-NETWORK-LAN-LARINDA ILETISIM KURDUKLARI ICIN BU HIC SORUN DEGILDIR, CUNKU BU IP ADRESLERI ILE INTERNET ORTAMINA CIKAMIYORLAR
+
+  Internete baglanirken ornegin cihaz-1 ip adresi public bir ip adresi ile internete cikiyor ki bu cihaza veri gondermek, cihaz la iletisime gecmek isteyenler, bu public ip adresi uzerinden iletisime gecebiliyorlar
+!Ancak su nu bi lelim ki internet uzerindeki public ip adresleri tamamen benzersizdir...Yani internete baglanirken kullanilan cihazlarini ip adresleri tamamen benzersizdir!!!!!
+
+!Simdi ornegin bizim evimizde toplam 3 cihazimiz olsun, biz bu cihazlar tek bir ip adresi uzerinden internete cikiyor.Ornegin evimizde ayni internete bagli olan cihaazlarimiz ayni public ip adresi uzerinden internete cikiyorlar
+
+!Hem pc mizde , hem de telefonumuzdan interntten what is my ip adress yazarak ip adreslerimizi karsilastirabliriz
+
+
+!Ozel IP adresleri-Pviate IP Adresses
+Bunlar lokal aglarda kullanim ihtiyaclarina gore ihtiyac duyulabilecek cesitli buyukluklerde bazi IP araliklari ayrilmistir 
+
+10.0.0.0 - 10.255.255.255 = 10.0.0.0/8=>Cok buyuk sirketler icin LAN(private ip adresleri icin)
+172.16.0.0 - 172.31.255.255 = 172.16.0.0/12=>Biraz daha buyuk sirketler icinLAN(private ip adresleri icin)
+192.168.0.0 - 192.168.255.255 = 192.168.0.0/16=>Kucuk sirket ve evler icinLAN(private ip adresleri icin)
+
+Ev ve ofislermizdeki kucuk aglarda, genellikle
+
+!ip adreslerini asagidaki komutlarla windows-linux de ogrenebiliriz
+windowscommand- ipconfig
+linux- ifconfig-ia 
+
+!Loopback Adresi:(127.0.0.1):Bu dis aga cikmadan,  yani internete cikmadan, hatta lokal agimiza bile baglanmadan , bilgisayarimzdaki ag kartimizda bilgisyarimiz uzerinden iletisim kurmamizi saglayabiliyor. Ornegin kendi pc miz uzerinden bir https sucunu baslatip websitemizi test ederken, aslinda bu websitemizi kendi agimiz ile acmadan, kendi bilgisyarimiz uzeirnden test edebiliiriz
+(127.0.0.1) adresi kendi pc mizi temsil eden, internet baglantisi saglayan ara  yuzumuzun kendisini temsil eden bir ip adresidir
+!BroadCast Adresi:(255.255.255.255)
+
+!IPV4-IPV6 NEDIR?
+
+!IPV4(IP VERSION 4)
+32BIT UZUNLUK 
+2^32 YANI YAKLASIK 43 MILYAR ADRES
+ONDALIK SISTEMDE 192.168.1.10
+!IPV6(IP VERSION 6)
+IPV6 IPV4 UN EKSIKLIKLERINI GIDERMEK UZERE GELISTIRILMIS OLAN BIR COZUMDUR 
+128 BIT UZUNLUK 
+2^128 YANI YAKLASIK 3.4028237e+38 adres
+ONDALIK SISTEMDE 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+Toplam 28 bit uzunlugunda, 4 er basamakli, 16 lik gosterimde IPv6 tanimlaniyor
+
+!IPv6, IPv4 ile uyumlu calisacak sekilde  tasarlanmistir
+!Ipv6 ile artik tum cihazlara ip tanimlamak mumkun hale gelmistir..
+
+!AG AYGITLARI-AG KARTI, REPEATER, HUB, BRIDGE, SWITCH, ROUTER
+
+VERI ILETIM KANALI
+
+
+Coaxial-Veriler elektrik sinyalleri yolu ile iletilir
+Ethernet-Veriler elektrik sinyalleri yolu ile iletilir(Cat5-Cat6)
+Fiber-veriler isik yolu ile iletilir(Smf-single mode- mmf-multi mode)
+Wifi-kablosuz, verileri radyou dalgalari ile iletilir
+
+Veri Iletiminde Hangisi Tercih Edilir
+Yuksek hiz-cok maliyet-Fiber:Kitalar arasi internet baglantisni saglayan kabolar fiber kablolar
+Cok uzun mesafe ye gerek y ok - maliyetsis-Ethernet 
+Kablosuz, ve her yerden baglanmak istenirse:Wifi.. eger tracking sistemi takip edeceksek o zaman...wifi.. 
+!Yani hangi veri iletisim kaynagi tercih edilecegi:Fiziksel kisitlamalara, maliyete ve ihtiyac a gore degisiklik gosterir..... 
+
+!Network Interface Card(NIC)-Ag arayuz kartlari 
+Bu kartlar veri alma ve veri gonderme konusunda bize yardimci olan kartlardir
+Eger pc cde wifi teknolojisi yok ise network-interface-cart in usb seklinde olan aygitini alip pc mize takarak wifi teknolojinsi kullanabiliriz
+
+Repeater:Veri iletimini daha  uzun bir alanda gerceklesmesini saglarlar.
+Ornegin ethernet kablolu elektrik sinyalleri uzerinden veri iletim 100 mye kadar islev gormektedir, iste repeatar sayesinde bu mesafe daha da uzatilabiliyor
+Wifi de de gecerli olabiliyor...Repeatre kendisine iletilen sinyalleri daha guclu bir sekilde kendsine bagli olan kabloya iletebiliyor...Dogru yere konulduklarinda, verilerin cok daha uzun noktalara kadar sorunsuz gonderilmebilmesini saglarlar
+
+!Ornegin evimiz cok buyuk veya 2 katli ve biz wifi cihazi 1.kata koyuyrouz ama 2.katta internet baglnti sorunu yasama gibi durumlarda, repeater harika bir cozum sunuyor bize, uygun bir noktaya koyarak, internet in 1.katta durdugu halde 2.katta da cok verimli bir sekilde kullanilabilmesini saglar
+Radyo dalglarini tekrarlayip dah da uzaga gidebilmesin saglar
+Almis oldugu sinyalleri veya radyo dalglaarni tkerarlayarak, daha uzak mesafelerden ulasilmasini saglamak 
+
+!Hub:Agdaki cihazlarin birbirne baglamanin kolay ca cozumunu sunar bize 
+Cihazlarin Lokal baglanti kurmalarini saglar-LAN
+HUB CIHAZINA birbiri ile baglanti kuracak pc leri baglayarak cihazlarin kolay bir sekilde birbiri ile iletisim kurabilmelerini saglamis oluruz
+Her cihaz sadece 1 baglanti ile tum networke baglanmis oluyor..
+Ornegin cihazlardan birtanesi hub aracilig  i ile bagli oldugu networkteki cihazlardan bir tanesine veri gonderirken yine bu hub uzerinden yapiyor bunu. Yani hub gonderilen veri yi alir kendisine bagli olan diger tum pc ler le paylasir..
+Ama bu yaklasim son derece verimsiz bir yaklasimdir.Cunku HUB verilen veriyi kendisne bagli olan tum cihazlara gonderiyor..Ag  uzerinde gerekesiz yuk olsuturarak ag trafiginin olumsuz etkilenmesine neden olyor
+
+!Bridge
+Birden fazla lokal agi(LAN) lari birbirine baglyarak (WAN-WIDE AREA NETWORK) bu agdaki cihazlarini birbiri ile iletisim kurmasini VE verialisverisini saglar
+
+Bridge-cihazlarin birisi ornegin kendi LAN-local-area-nwtwork icindeki baska bir cihaza veri gonderiyorsa hub o veri yi o lan icindeki tum cihazlarla paylasir ayni skeilde bu veri bridge e gelir ve bridge de birbirine bagli olan tum LAN- lara icindeki cihaz ip leri var oldugu icin ve veriyi gonderen cihazin kendi lan i icindeki baska bir cihaza gonderidigi icin bridge o verileri bosu bosuna diger LAN lar ile paylasmaz.... 
+
+!Switch
+Hub cihazlarinin daha akilli versiyonlaridir
+Hub cihazlari bir cihazdan baska bir cihaza gonderilen veriyi o LAN- uzerindeki tum cihazlara ileterek , ag uzerinde gereksiz bir trafik olusturuyordu 
+Ama switch bunu yapmiyor bir cihazdan gondeirlen veri o LAN-LOCAL AREA NETWORK DEKI hangi cihaza gonderilmis ise dogrudan o cihaza gonderiyor
 
 
 
