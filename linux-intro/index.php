@@ -11752,7 +11752,7 @@ Yani 192.168.1.0 aginda toplam 62 host icin IP tanimlamasi yapilabilir
 
   IP:192.168.1.10
   NETWORKADDRESS: 192.168.1.0
-  
+
   Network Address  Usable Host Range                   Broadcast Address
   192.168.1.0      192.168.1.1  - 192.168.1.62          192.168.1.63
   192.168.1.64     192.168.1.65 - 192.168.1.126         192.168.1.127 
@@ -11862,9 +11862,38 @@ Bridge-cihazlarin birisi ornegin kendi LAN-local-area-nwtwork icindeki baska bir
 Hub cihazlarinin daha akilli versiyonlaridir
 Hub cihazlari bir cihazdan baska bir cihaza gonderilen veriyi o LAN- uzerindeki tum cihazlara ileterek , ag uzerinde gereksiz bir trafik olusturuyordu 
 Ama switch bunu yapmiyor bir cihazdan gondeirlen veri o LAN-LOCAL AREA NETWORK DEKI hangi cihaza gonderilmis ise dogrudan o cihaza gonderiyor
+Bunu basarmak icn de hangi cihazin hangi porta baglandigini bildigi icinde , cihaz1 cihaz2 ye veri gondermek istedgini switch e  soyluyor ve switch de verinin hedefindeki cihazi hangi portuna bagl i oldugu icin bu veriyi o port uzerinden iligili cihaza yonlendirerek diger cihazlari mesgul etmeden veri alisverisin hedeften hedefe, noktadan noktaya sagliyor
+
+!Switch ile olusturulmus ag lokal bir agdir, kendi lokal agimizi switch aracilgi  ile kurabiliyoruz.LAN(local area network)
+
+Lokal agda baglanan tum cihazlarin benzersiz ip adresleri oluyor
+Switch sayesinde, aglarimizi alt aglara bolebiliyoruz
+
+Ag-network: 192.168.1.X Networku  
+Cihaz1-ip: .10
+Cihaz2-ip: .20
+Cihaz3-ip: .30
 
 
+Ag-network: 192.168.2.X Networku  
+Cihaz1-ip: .10
+Cihaz2-ip: .20
+Cihaz3-ip: .30
 
+Her bir switch aracilig ile biz, ayri LAN-LOCAL AREA NETWORK ORTAMI OLUSTURABILIYORUZ
+
+!ROUTER
+Biz im ornegin 2 tane switchimiz var ise biz 2 tane LAN Olusturup her bir LAN da 3 er cihaz oldugunu dusunursek, iki switch ile iki tane LAN ortami-networku kurabiliuyoruz. Peki LAN1 denki cihaz1 LAN2 deki cihaz1 ile iletisim kurmak isterse bunu nasil yaparz, iste burda da router devreye giriyor
+Router yonlendirme gorevi ile, switch ler arasinda swictchleri bibrine yonlendirme islemi yaparak, LAN1  deki cihaz1 ile LAN2 deki cihaz1 deki araca veri gonderebilmesini sagliyor 
+
+Router 1 bolumu ile LAN1 deki bir cihaz gibi bu switche baglanarak bu LAN DAKI CIHAZLARDAN BIRI GIBI OLURKEKN AYNI ZAMANDA DA , LAN2 DEKI ORTAMADA SANKI O LAN2 DEKI CIHAZLARDAN BIRI IMIS GIBI DE BAGLANARAK, TABIR I CAIZ ISE, HER IKI LAN DAKI CIHAZLAR ARASINDA BIR GETWAY  GIBI...BIRBIRLERINE GECIS YAPABILMELERINI SAGLIYOR,....
+
+Her iki LAN a bagli olan cihazlar getway-router in default getwway adresini biliyorlar ve 
+router in LAN1 icin ornegin DEFAULT GETWAY-LAN1: 192.168.1.1 IKEN LAN2 DEFAULT GETWAY : 192.168.2.254 TUR..BU ROUTER ADRESINI BILDIKLERI ICIN GEREKLI YONLENDIRME DE MUMKUN HALE GELIYOR...ASLINDA AYNI ANDA HEM LAN1 HEM DE LAN2 DEKI NETWORKE SANKI CIHAZ GIBI, DAHIL OLMUS OLUYOR
+
+!BIZ EVLERIMIZDE LOKAL AGIMZDAN, INTERNET-DAHA GENIS BIR AGA CIKARKEN, MODEM(ASLINDA ROOTER) KULLANYORUZ.
+!BIZIM LOKAL AGIMIZIN INTERNET UZERINDEKI BIR IP-ADRESINE ULASMASI ICIN YONLENDIRMEYI YAPIYOR 
+!BU ROOTER CIHAZINA DA DEFAULT GETWAY
 
 */
 
