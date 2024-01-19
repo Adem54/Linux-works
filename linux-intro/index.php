@@ -11893,7 +11893,54 @@ router in LAN1 icin ornegin DEFAULT GETWAY-LAN1: 192.168.1.1 IKEN LAN2 DEFAULT G
 
 !BIZ EVLERIMIZDE LOKAL AGIMZDAN, INTERNET-DAHA GENIS BIR AGA CIKARKEN, MODEM(ASLINDA ROOTER) KULLANYORUZ.
 !BIZIM LOKAL AGIMIZIN INTERNET UZERINDEKI BIR IP-ADRESINE ULASMASI ICIN YONLENDIRMEYI YAPIYOR 
-!BU ROOTER CIHAZINA DA DEFAULT GETWAY
+!BU ROOTER CIHAZINA DA DEFAULT GETWAY diyoruz
+
+!IINTERNETE NASIL BAGLANIYOR!!!!!
+Windows da ipconfig ile ip bilgilerini alabiliriz 
+Bize 
+IPv4 Address.... 
+Subnet Mask 
+Default Gateway  
+
+192.168.1.1(Bu adres pc mizin internete cikmak icin kullandigi, ip adresidir, yani modem-router a ulasmak icin kullandigi ip adresini tasvir ediyor, aslinda modemin lokal agdaki adresidir... diyebiliriz..)
+!INternete cikmak icin kullanilan varsayilan-default-ag gecidi bizim modemimizin ip adresini temsil ediyor!!!!!!
+!192.168.1.1 bunu alip eger browser a yazarsak modem-rooteru imizin login sayfasina gidecektir                           
+ipconfig-windows
+ifconfig-linux
+
+!Router , bizim lokal IP adresimizi ISS tanimladigi public IP adresine NAT ile donusturuuyor(NAT:Network Address Translation)
+
+Oregin local-ip adresi:192.168.1.10 adresli cihazimiz internete baglanmak icin router(modem) a basvuruyor, rooter da internet servis saglayicimizin bize saglamis oldugu public ip adresine  149.144.39.184 lokal ip adresini donusturuyor. Bu sayede bizim lokal agimzida farkli ip adresine sahip olsa da cihazlarimiz, hepsi ayni public ip adresi uzerinden internete cikiyuorlar!!!!
+Ancak sunu unutmayalim ki, Router kendisi uzerinden internete cikan her bir cihazin hangi porttan baglandigini bildigi icin cihazlari da ayirt edebiliyor bu sayede
+Router da NAT-NETWORK ADRESS TRANSLATION-NETWORK AG-ADRESINI DONUSTURME PROTOTOLKOLU SAYESINDE LOKAL ADRESI-PRIVATE IP ADRESINI PUBLIC IP ADRESINE DONUSTUREREK, CIHAZLARIN INTERNETE CIKMASINI SAGLIYOR
+!SUNU UNUTMAYALIM...BIR ORTAMDA BULUNAN CIHAZLAR AYNI MODEM-ROUTER A BAGLI OLDUKLARI ZAMAN HEPSI AYNI PUBLIC IP UZERINDEN INTERNETE CIKARLAR, ROUTER BU CIHAZLARI PORT NUMARLARINDAN AYIRT EDER
+
+ROUTER SAYESINDE AGLAR HIYERARSIK SEKILDE ALLT AGLARA BOLUNUP YONETILEBILIYOR
+ORNEGIN ULKE GENELI BIR SIRKETIN FARKLI SEHIRLERDEKI SUBNETWORKLER KULLANABILIRIZ 
+
+SIRKET NETWORK-AGI: 10.X.X.X
+ISTANBUL SUBESI: 10.10.X.X
+SATIS:10.10.20.X 
+PAZARLAMA:10.10.30.X 
+MUHASEBE:10.10.40.X 
+
+IZMIR SUBESI:10.20.X.X 
+SATIS:10.20.20.X 
+PAZARLAMA:10.20.30.X 
+MUHASEBE:10.20.40.X 
+
+!Diger Aygitlar 
+!Access Point: Kablosuz internet baglantisi saglayan cihaz-aygittir,ve bu baglantinin surdurulmesi...Agimzi  access point ile kabolsuz hale getirerek yayin yapmasini saglayabiliriz
+!Firewall:Guvenlik duvari-agimzdaki trafigi inceleyip gerekli kurallari koyarak, belirli ip adreslerinden gelecek istekleri kabul ederi..Normalda rooter lar kendi icinde firewall sunuyor, ip adreslerini izleme ve filtreleme gibi, ama ozellikle sirket hatlari gibi guvenligin onemli oldugu kurumlarda, ve buyuk.-networklerde , firewall gorevi icin ayri cihazlar bulunyor. Bu cihazlarda cok daha fazla konfigurasyon yapilmasi ve cok daha fazla islemin ayni anda yurutulmesi gibi durumlar... 
+!Proxy:
+!Load Balancer
+!Virtual Switch
+!IDS/IPS
+
+
+
+!OSI - TCP-IP MODEL - TCP UDP  
+
 
 */
 
