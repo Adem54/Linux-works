@@ -377,4 +377,32 @@ INTERNET UZERINDE VERI ALISVERISI ICIN..
 !BIR CIHAZ AGA KATILDIGINDA ILK BASTA HICBIR BILGISI YOKTUR, IP,SUBNETMASK,GATEWAY,DNS AGA KATILDIGINDA DHCP SUNUCUSU NA KESIF MESAJI GONDERIYOR CIHAZ, DHCP SUNUSU DA IP,SUBNET,GATEWAY VE DNS BILGILERINI ATAMA YAPIYOR
 
 !DHCP SUNUCUSU EGER EV VEYA KUCUK OFIS TE ISEK MODEM YA DA ROTUER DIR AKSI DURUMLARDA BUYUK ISLETMELERDE DHCP SUNUCUSU KURULUUYOR AYRI OLARAK
+
+!TEMEL AG KOMUTLARI 
+!ping araci
+bu arac sayesinde agimizdaki-networkumuzdeki cihazlarin erisilebilrlgini ve tepki surelerini kontrol edebiliriz
+ping araci hedefteki cihaza kontrol paketi gonderiyor ve bu kontrol paketinin karsi tarafa ulasip ulasmadgi ve paketin ne kadar surede gidip ne kadar surede geri geldigi gibi bilgileri bize sunmasidir. 
+Bu sayede aramizda iletisimi agin kontrolunu gerceklestirebiliyoruz
+
+!ping www.linux.com  seklinde kullaniriz 
+Ve  biz CTRL-C ile durduruna kadar kontrol etmeye devam edecektir 
+
+adem@adem:~/utv/test/Linux-works$ ping www.linux.com
+PING www.linux.com (23.185.0.3) 56(84) bytes of data.
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=1 ttl=58 time=4.90 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=2 ttl=58 time=4.78 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=3 ttl=58 time=5.31 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=4 ttl=58 time=5.20 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=5 ttl=58 time=5.37 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=6 ttl=58 time=5.11 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=7 ttl=58 time=5.40 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=8 ttl=58 time=5.07 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=9 ttl=58 time=5.21 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=10 ttl=58 time=5.37 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=11 ttl=58 time=5.37 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=12 ttl=58 time=4.93 ms
+^C
+
+
+
 -->
