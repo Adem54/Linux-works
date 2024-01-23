@@ -11937,11 +11937,159 @@ MUHASEBE:10.20.40.X
 !Virtual Switch
 !IDS/IPS
 
-
-
 !OSI - TCP-IP MODEL - TCP UDP  
+Network dedgimiz yapinin varliginin amaci, aslinda iletisimi mumkun kulacak protokol saglamak
+Protokol kavrami, ortak iletisim yolunu ifade etmek icin kullanilan bir kavramdir
+
+Network uzerinde tum cihazlarin isletim sistemi ve donanimdan bagimsiz olarak iletisimi, aradan akmis olan veriyi anlayip isleyebiliyor olmasi gerekiyor.. 
+Biz bir dili anlamamiz icn ornegin o dilin kurallarini, gramerini bilmemiz gerekiyor bu durum aynen network uzerindeki iletisim icin de gecerlidir.  iletisimin herkes tarafindan sorunsuzca ve tarafsizca anlasilabilmesi icin, bu iletisim protokollerinin onceden tanimlanmis olmasi ve iletisime katilan herkesin bu kurallara uyuyor olmasi gerekiyor
+Iste bu OSI modeli de protokol kurallarini tanimlayan basit bir modeldir
+
+OSI MODEL KATMANLARI 
+1-Layer-1 - Physical
+fIZIKSEL KATMANDIR, verileri bitler halinde cihazdan cihaza aktarilmasini saglayan, Coaxial,Ethernet,Fiber,Wifi, Repeater, Hub, gibi teknolojiler bulunuyor
+Wifi: Radyo dalgalari ile hat uzerinde veri iletimimni sagliyor
+Fiber:Isik akimi, ile...veriler iletiliyor
+Ethernet: Verileri elektrik yolu  
+
+Layer-2-Data Link 
+
+MAC media access control -
+Bu cihazlar sayesinde bilgisyarimizin fiziksel katmanlar araciligi ile gelen veriyi cihaza aktarilmasini sagliyor
+Fiziksel katmanla cihaz imiz arasinda ara birim gorevi goruyor 
+Bu cihazlarin kendilerne ozel bir mac- adresi bunlari benzersiz bir mac numarasidir, bu sayede cihazlar birbrinden farkli oluyor ve bu cihazlar bilgisayarlarda gomulu olarak geliyor 
+Bu cihazlar sayesinde cihazlar arasi(yani pc,mobile,tv,smart-clock,nintendo) arasinda veri aktarimi mumkun hale gelioyr
+
+Cihaz-1  Cihaz2 ye veri atktarirken Cihaz1 verileri uretiyor ve ag kartina aktariyor ag karti kabolda, verilerin iletilebilecegi, fiziksel katman olan ornegin ethernet te tasinabilecek hale gelmesi icin, gerekli donusumu sagliyor ve verinin Cihaz2 ye iletilmesini sagliyor ki Cihaz2 nin MAC-ag karti sayesinde verinin gidecegi cihaz olan Cihaz2 nin versini aliyor ve cihaza aktarimini sagliyor, yani ethernet araciligi ile veriyi alip cihazin onun alabilmesini sagliyor Mac-ag karti
+
+Switch cihazlari da bu katmanda sayilablir
+swich aygitlari kendilerine bagli olan cihazlarin uniq mac adreslerini bildikleri icin, mac adresleri sayesinde gelen verinin hedef pc ye dogrudan gitmesini sagliyor
+Mac uniq adresleri ag kartlarinin taninarak, cihazlar tarafindan verilerin birbirleri arasinda gonderilmesine ve verilerin hefef cihazlari bulabilmesine imkan saglamis oluyor
+
+Layer-3-Network 
+Network de artik mac adresleri yerine ip adresleri devrye giriyor 
+Yani cihazlar arasi iletisimde ip adresleri uzerinden yapiliyor
+Veriyi gonderen cihaz veriyi gonderecegi cihazin ip adresini bilir, ve veri gonderirken veri paketini icine kendi ip adresini de koyarkei verinin gittigi cihaz, veri nin kimden geldgini bilsin..
+Verinin hat uzerinde tasinmasi icin veri paketinin rooter-modem e iletilmesi gerekiyor,... 
+Veri gonderirken modem e gonderen pc veri paketi icine kendi mac-ag karti uniq-numarasini de gonderiyoir ve gonderecegi cihazin mac-uniq adersini veri paketine koyarak gonderiyor
+!Rooter-modem kendisine gelen veriyi aldigi zaman orda bu veri hangi ip adresinden gelmis hangi mac adresi ile gelmis hangi ip adresine gidecek ve hangi mac adresine gidecek bunlarin hepsini biliyor....
+Rooterlarin network kartlari vardir ve bunlar sayesinde bunlar
+MAC-media access control
+hem ip hem de mac adresini birlikte kontrol ediyor rooter gonderilen verinin gidecegi cihaza veriyi aktarmadan once ve bu adresler dogru ise eslesir ise o zamn veriyi hedef cihaza iletiyor
+
+Verinin gonderildig i cihazada gelen veriyi kontrol ederken, gelen veri paketi icnde gonderilen-hedef ip-mac adresini kontrl ederek kendisini geldigni anliyor
+IP ADRESI SAYESINDE VERIYI GONDERIYORUZ AMA, MAC UNIQ ADRESI SAYESINDE DE, AYNI IP YI KULLANAN FARKLI CIHAZLAR ARASINDAKI FARKLILKLARI AYIRT EDILEBLIYOR 
+!BIR VERI BIR CIHAZDAN FARKLI BIR CIHAZ A INTERNET YOLU ILE ILETIRKENK, REQUEST GONDERIRKEN ORNEGIN, IP ADRESI KULLANILIOR AMA MAC-ADRESI(AG ADRESI) SAYESINDE, VERI HEDEF CIHAZA ULASABILIYOR, VE HEDEFINI BULUYOR BUNLAR COOOK ONEMLIDIIR
+
+!CIHAZLAR ARASI VERI ILETILMSI ICIN MAC ADRESLERI KULLANILIRKEN, UZAK AGLAR ARSINDA VERI ILETILEBILMESI ICIN IP ADRESLERI KULLANILIYOR YANI HEM MAC HEM DE IP ADRESLERINI IHTIYAC OLUYOR
+
+LAYER-4-TRANSPORT 
+BIZ INERNETTEN AYNI ANDA, HEM FIREFOX UN INTERNET ADRESINE, HEM DISCORDA HEM DE SPOTFIYA BAGLANIYORUZ PEKI NASIL OLUYOR DA TEK HAT UZERINDEN FARKLI FAKRLI ADRESLERE AYNI ANDA BAGLANABILIOYRUZ, BUNLAR NASIL AYIRT EDILEBLIOYR 
+CEVAP, PORT ADRESLERI SAYESINDE 
+HER BIR PROGRAMIN KENDISINE OZEL OLAN STANDART BIR PORT ADRESI OLUYOR...   BU ADRES SAYESINDE, INTERNET HATTI UZERINDEN HEDEF E ULASTIRILIYOR
+
+ORNEK https://www.linuxdersleri.com adresini ziyaret etmek istedgimz zamn, dogrudan tarayicimz uzerinde rastgele bir port acilioyr
+Cihazimiz: 1.1.1.1 ip adresi ve 
+1.1.1.1 :1525(port adresi) bu gelen verinin benim cihazima iletilebilmesi icin acilmis olan port numarasidir
+Yani kisacasi demis oluyoruz ki bu ip adresi ve port numarasi uzerinden basna veri gonderebilirsiniz demis oluyoruz 
+Ornegini react ugyomasi actimgzda 
+localhost(127.0.0.1):3000 portunda aciliyor ki, bu ip adresi ve port numarasi uzerinden veri gonderilebilmesi icin, respoinse gonderilebilmesi icn
+Request gonderilirken hem clientin hem de server in ip adresnin sonnda port numarasi ile gonderiliyor
+Kaynak(Client)=>127.0.0.1:3000
+Hedef(Server)=>5.5.5.5:80
+
+!Simdi cok enteresan bir bilgi biz ornegin lokal pc mizden 3 farkli domain-ip adresine  yani bir websitesine baglaniyorsak 3 farkli sekmeden acilmis olan her bir sekme icin, farkli port numaralari kullanilacaktir lokalimzde..HATTA 3 FARKLI SEKMEDE AYNI WEBSITESINE AYNI ANDA 3 SEKMEDEN ISTEK GONDERILRSE LOKAL DE 3 SEKME ICIN DE FAKRLI PORT ADRESLERI VERILECEKTIR 
+
+1.1.1.1:1515 <--> 5.5.5.5:80(www.linuxdersleri.net)
+1.1.1.1:2515 <--> 5.5.5.5:80(www.linuxdersleri.net)
+1.1.1.1:3515 <--> 5.5.5.5:80(www.linuxdersleri.net)
+
+!Birdaha anlayalim, port numarasi ile birlikte istek gonderen cihaz in bilgisini ipadresi ve port numarasi beraber gonderiliyor ve bu sayede bu port nujamrasina gonderebilirsin diyoruz responsu....Birden fazla sekmeden ayni websitesine ait farkli sayfalarda dolasabliyoruz ve her bir sekme ayni serverdan bu portlar sayedsinde, farkli hizmetle alabiliyorlar
+
+!Bu portlar rastgele belirleniyor... 
+
+!Standart portlar
+Http:80
+Https:443 
+FTP(File Transfer Protocol):21 
+SSH(Secure shell):22
+Telnet:23
+SMTP(simple mail transfer porotocol):25
+
+Bazi konfigurasyonlari bozulmadan kulanilasi icin, bu portlar standart olarak  kullanilablioyr ama bunlar kullanilmak zorunda degil tabi ki...ama ona gore de ayarlarin duzenlenmesi gerekiyor 
+Server tarafindan da ayni server in farkli services lerinde kullanilmak icin ozellikle, farkli portlar kullanilaibilir
+
+!Neden serverlar port numarasi kullaniyor?
+Web Server and FTP Server on the Same Server:
+
+Imagine you have a single server, Server X, that hosts both a web server and an FTP server.
+The web server listens on port 80 for incoming HTTP requests, and the FTP server listens on port 21 for FTP transfers.
+When a client wants to access a webpage, it sends an HTTP request to Server X's IP address on port 80.
+When the same client wants to perform an FTP file transfer, it sends an FTP request to Server X's IP address on port 21.
+Server X, using the port number, directs the requests to the appropriate service (web or FTP) running on the same physical server.
+Mail Server with Multiple Protocols:
+
+A single mail server, Server Y, can support multiple email protocols such as SMTP (port 25 for sending emails) and IMAP (port 143 for retrieving emails).
+Clients use port 25 to send emails through SMTP to Server Y and port 143 to access their emails using IMAP.
+Server Y, based on the port number, knows which email protocol the client intends to use and processes the requests accordingly.
+In these examples, a single physical server hosts multiple services, each using a different port number. The port numbers help differentiate between the services, ensuring that incoming requests are directed to the correct service running on the same server.
 
 
+VERILERIN TASINMA YONTEMLERI 
+TCP PROTOKOLOU -TRANSMISSION CONTRL PROTOKOL 
+
+CLIENT-SERVER ARASINDAKI ILETISIMIN DAHA ONCEDEN TEST EDILIP KONTROL EDILMESI GEREKIYOR  
+CONNECTION ORIENTED-THREE WAY HANDSHAKE 
+
+1-SYN(SENK) FROM CLIENT TO SERVER
+2-RESP(SENK-ACKNOWLEDEG) FROM SERVER TO CLIENT 
+3-ACKNOWLEDGE FROM CLIENT TO SERVER 
+
+GENELLIKLE VERITBUTUNLUGUGNUN ONEMLOI OLDUGU DURUMLARDA KULLANILIR 
+GONDERLEN EPOST UN ONEMLI BILGI GONDERILDIGI ZAMAN YA DA DOSYA GONDERILME DURUMLARINDA..  
+
+UDP PROTOKOL-USER DATAGRAM PROTOCOL 
+HIZIN GEREKLI OLDUGU, GORUNTULU, VE SESLI ILETISIM DE KONUSMLAARDA...GORUNTLU KONUSMALARDA 
+ARADA DTA KAYIPLARININ COK PROBLEM OLMADIGI DURUKMLARDA BAZEN SES,GORUNTU KESILEBLIR AMA ILETISIM COK HIZLI GERCEKLESIR 
+SUNUCUUNN AYAKTA OLUP OLMADIGIA BAGKMAKSIZIN DOGRUDAN VERI GONDERILIR
+EGER KARSIDAKI SUNUCU HAZIR DEGIL ISE, ILETISIM SAGLANABMAYABILIYOR
+
+!EMAILLER TCP PROTOKOLU UZERINDEN GONDERILIR. CUNKU VERI BUTUNLUGU ONEMLI VE VERILERIN YOLDA KAYBOLMADAN EKSIKSIZ GITMESI GEREKTIGINDEN DOLAYI1!!!
+
+!Web Browsing (HTTP/HTTPS - Application Layer):
+Use Case: Accessing websites and web applications.
+HTTP (Hypertext Transfer Protocol) and its secure counterpart, HTTPS, are used for fetching and rendering web content in web browsers. When you open a web page, your browser communicates with web servers using these protocols.
+
+!Email Communication (SMTP/IMAP/POP3 - Application Layer):
+Use Case: Sending and receiving emails.
+SMTP (Simple Mail Transfer Protocol) is used for sending emails, while IMAP (Internet Message Access Protocol) and POP3 (Post Office Protocol) are used for retrieving emails from email servers.
+
+!File Transfer (FTP/SFTP - Application Layer):
+
+Use Case: Uploading and downloading files.
+FTP (File Transfer Protocol) and SFTP (SSH File Transfer Protocol) are used for secure file transfer between clients and servers. They are commonly used for website maintenance and data exchange.
+
+!Remote Access (SSH/TELNET - Application Layer):
+Use Case: Remotely accessing and managing servers and network devices.
+SSH (Secure Shell) and TELNET are used to establish secure remote connections to network devices or servers for configuration, administration, and troubleshooting.
+
+!Veriler fiziksel katman yani ethernet-fiber-wifi lerler iletilrken bitler halinde iletiliyor yani 0101100011100110101010 seklinde iletiliyor...
+
+!HOSTLAR NASIL HABERLESIR
+!AYNI AGDAKI CIHAZLAR 
+
+Host-bizim pc mizdir. Bir host-pc(mobile,smartklokke,tv..) baska bir hosta veri godnerecegi zaman veri gonderecgi hostun-cihazin IP ve MAC adreslerini bilmek zorundadir. 
+Aslinda cihazlarin ip adreslerinden once MAC(media access control) adresleri tanimlaniyor, dogru mac adres eslesmesi olmadan IP adresinin kontrolu de gerceklesmeyecegi icin, oncelikli olarak mac adresinin bilinmesi gerekiyor
+
+Ag baglantsi-Network connection network-ag karti ile gerceklesen birseydir, fiziksel katmandan bitler seklinde iletilen veriler, cihazin ag kartina gonderiliyor, dolayisi ile veri tasinirken veri ag-karti ile yani muhatap oluyor, bu ag kartinin benzersiz kimlik adresleri de MAC adresleri oldugu icin, mac adreslerini bilmmeden verileri dogru makineye-dogru ag kartina yonlendiremeyiz..iletemeyiz
+Mac-agkarti adresleri donanimlara dogrudan tanimlanirken, ip adresleri mantiksal olarak tanimlanmistir
+!Simdi buraya dikkat, duruma gore zaman icinde ayni cihaza farkli ip adresleri tanimlanabilirken, ama bu cihazin kullandigi ag-karti nin mac adresi herzaman sabittir...Bu sebeple ip adresleri ile mac adresi arasinda dogrudan organik kalici bir bag  yoktur
+!Biz ip adresi ni bildgimz bir cihaza kendi cihazimizdan veri gonderebilmemiz icin, gonderilecek cihazin mac adresni bilmemiz, ogrenmemiz gerekiyor.
+
+! Bunun icinde ARP-adress resolution protocol u kullanilabiliyor
+Broadcast yayini nedir: It is a one-to-everyone communication method, and all devices within the broadcast domain receive and process the broadcasted message.
+Bir cihaz ip adresini bildgi baska bir cihaza veri gonderirken, mac adresini ogrenmek icin once,broadcast yaparak lokal agdaki tum cihazlara bu ip adresine sahip cihazin mac adresi nedir diye soruyor, bu bir sorgu gibi dusunebilirz
+Burda ip adresinin sahipp olan cihaz bir tek broadcast yayin sorgusunu yanitliyor, yanitlarken sorgunun geldigi ip-mac adresini ogrendigi icin, o ip-mac adrsini kullanarak, ona kendi mac adresini goneriyor
 */
 
 
