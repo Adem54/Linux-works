@@ -11938,8 +11938,18 @@ MUHASEBE:10.20.40.X
 !IDS/IPS
 
 
-
 !OSI - TCP-IP MODEL - TCP UDP  
+
+
+
+!WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
+Windows isletim sistemlerinde bulunur 
+Komutlari otomatik scriptleri veya batch tabanli islemleri cmd komut satirinda komutlar yardimici ile komut satirinda da yapabiliriz
+
+Ozetle windows isletim sisteminde, grafik araa yuzu ile yapabildigimz herseyi cmd-commandpropmt aracilig ile de  yapabiliriz
+Grafical user interfaces-grafik ara yuzleri
+
+cmd yi arama
 
 
 */
