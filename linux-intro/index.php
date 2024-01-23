@@ -11937,6 +11937,10 @@ MUHASEBE:10.20.40.X
 !Virtual Switch
 !IDS/IPS
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e4f3e98c1cd4ffe494ac72775376bd3d9dda95ca
 !OSI - TCP-IP MODEL - TCP UDP  
 Network dedgimiz yapinin varliginin amaci, aslinda iletisimi mumkun kulacak protokol saglamak
 Protokol kavrami, ortak iletisim yolunu ifade etmek icin kullanilan bir kavramdir
@@ -12090,6 +12094,17 @@ Mac-agkarti adresleri donanimlara dogrudan tanimlanirken, ip adresleri mantiksal
 Broadcast yayini nedir: It is a one-to-everyone communication method, and all devices within the broadcast domain receive and process the broadcasted message.
 Bir cihaz ip adresini bildgi baska bir cihaza veri gonderirken, mac adresini ogrenmek icin once,broadcast yaparak lokal agdaki tum cihazlara bu ip adresine sahip cihazin mac adresi nedir diye soruyor, bu bir sorgu gibi dusunebilirz
 Burda ip adresinin sahipp olan cihaz bir tek broadcast yayin sorgusunu yanitliyor, yanitlarken sorgunun geldigi ip-mac adresini ogrendigi icin, o ip-mac adrsini kullanarak, ona kendi mac adresini goneriyor
+
+!WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
+Windows isletim sistemlerinde bulunur 
+Komutlari otomatik scriptleri veya batch tabanli islemleri cmd komut satirinda komutlar yardimici ile komut satirinda da yapabiliriz
+
+Ozetle windows isletim sisteminde, grafik araa yuzu ile yapabildigimz herseyi cmd-commandpropmt aracilig ile de  yapabiliriz
+Grafical user interfaces-grafik ara yuzleri
+
+cmd yi arama
+
+
 */
 
 
