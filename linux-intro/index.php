@@ -11937,10 +11937,7 @@ MUHASEBE:10.20.40.X
 !Virtual Switch
 !IDS/IPS
 
-<<<<<<< HEAD
-=======
 
->>>>>>> e4f3e98c1cd4ffe494ac72775376bd3d9dda95ca
 !OSI - TCP-IP MODEL - TCP UDP  
 Network dedgimiz yapinin varliginin amaci, aslinda iletisimi mumkun kulacak protokol saglamak
 Protokol kavrami, ortak iletisim yolunu ifade etmek icin kullanilan bir kavramdir
