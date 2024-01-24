@@ -12676,8 +12676,128 @@ HOSTNAME BILGISI ISE BIZIM KOMUT SATIRIMZDA DEFAULT OLARAK GELEN KISIMDIR ASLIND
 Hostname:adem@adem-ThinkPad-13-2nd-Gen:~$ 
 
 !ssh-Secure Shell protokolu 
-Bu protokol sayesinde uzaktaki server lari guvenli bir sekilde yonetmemiz, ve baglnti gerceklestirmemiz mumkun oluyor  
+Bu protokol sayesinde uzaktaki server lara guvenli bir sekilde baglanti kurup yonetmemiz, ve baglnti gerceklestirmemiz mumkun oluyor  
 
+Ssh aradaki iletisimi sifreleyen guvenli hale getiren bir protokoldur
+
+ARA BIR BILGI GIRIYHORUZ BURAYA
+!DIZIN ALTINDA GREP ARACI ILE ARAMA YAPMAK ICIN
+  grep -r "bashrc" /etc/  2>/dev/null
+    "bashr" yi git /etc/ dizini altinda ara(mutlaka -r kullanmaliyiiz dizin altinda arama  yapabilmek icin )
+    Ama hatali olan sonuclari listeden cikar diyrouz 2 > dev/null(hatali sonuc-permission denied olanlari)
+    
+    grep -r(-r secenegini belirtmeden dizin altinda arama yapmaya calisirsak asagidaki sonuc elde edilir..)
+    adem@adem:~$ grep  "bashrc" /etc/
+    grep: /etc/: Is a directory
+    adem@adem:~$ 
+
+ssh in iki farkli sekilde kullanilmasi soz konusudur 
+1-ssh client- local den uzak server la baglanti kurmak icin 
+2-ssh server - uzak server veya uzak pc lerden bizim pc mize baglanti kurmak icin(bizde bu yok ondan dolayi da systemctl status ssh.service yazinca bulunamadi geliyor)
+Biz su anda sadece kendi server imiza baglandigmz icin de ssh server a  ihtiyacimz yok , cunku bizde zaten ssh client mevcut
+
+If you are already able to connect to other servers using SSH from your machine, it means you have the SSH client installed and working correctly. The confusion here seems to be between the SSH client and the SSH server, and their respective roles:
+
+SSH Client (Already Working for You)
+Your Current Situation: You have the SSH client installed on your machine (OpenSSH_8.9p1 as indicated by the ssh -V output). This client allows you to initiate SSH connections to other machines that are running an SSH server.
+Usage Example: When you run a command like ssh user@remote-server.com, you are using the SSH client on your machine to connect to a remote server.
+SSH Server (Not Currently Installed)
+Error Message: The "Unit ssh.service could not be found" error indicates that the SSH server is not installed on your machine.
+Function of SSH Server: An SSH server is used to accept incoming SSH connections. If you want other machines to be able to connect to your machine via SSH, you would need the SSH server installed and running.
+Installation: Running sudo apt-get install openssh-server installs the SSH server, which is not necessary if you only need to SSH out to other machines.
+Do You Need to Install openssh-server?
+If You Only Connect Outward: If you're only using your machine to connect to other servers and do not need to accept incoming SSH connections on your machine, you do not need to install the SSH server (openssh-server).
+If You Want to Accept Connections: If you want your machine to be accessible to others via SSH (for example, if it's a server that others need to access remotely), then you should install openssh-server.
+Summary
+Your Current Capability: You can connect to other servers using SSH (outgoing connections).
+No Need for openssh-server: If you don’t need to accept incoming SSH connections on your machine, there's no need to install openssh-server.
+Install openssh-server Only If Needed: Only if you want your machine to accept incoming SSH connections should you consider installing the SSH server.
+
+!Windows makinemizden linux makinemize baglanmak istersek eger!
+1-One baglanacagimzin pc nin ip adresi kullanici adi ve passwordunu bilmemiz gerekir 
+ip addr-ip a - ip address yazarak ip adre sini ogreneb iliriz 
+ifconfig
+
+adem@adem:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether c8:cb:b8:0c:e7:0c brd ff:ff:ff:ff:ff:ff
+    altname enp0s25
+    inet 172.29.29.92/24 brd 172.29.29.255
+
+   Burdan anliyoruz ki linux makinemiziin ip adresi :  172.29.29.92 
+
+   Biz herhangi bir telfonfdan da uzaktaki bir server-pc ye baglanabiliriz 
+   Uzak baglantilar icin ozellikle dikkat etmemiz gereken nokta, public ip adersinini kullanmlaiyiz, ip adresinin uzaktan erisilebilen bir ip adresi olmasi gerekir..
+   Yoksa uzaktan baglnamk mumkun olmayacaktir...
+!scp araci!
+secure copy protocol 
+Dosyalari guvenli bir sekilde uzak server dan kopyalamak, indirmek veya oraya dosya gondermek icin kullaniriz 
+Once IP ADRESINI BULURUZ ip addr- ip a 
+Sonra ssh servisinin aktif olmasi gerekir onu kontrol edelim 
+
+systemctl status ssh.service
+
+!adem@adem:~$ scp ~/text/my-text.txt username@example.no: .
+home altinda text klasoru altindaki my-text.txt dosyasini git httest2 serverinin nss kullanicisina login olarak ordaki login olunca girilen home directory sune kopyala diyoruz : . yazarak...
+!adem@adem:~$ scp ~/text/my-text.txt username@example.no: ~/logs/
+git server daki logs klarosu altina kopyala diyrouz burda da ...
+
+!adem@adem:~$ scp ~/text/my-text.txt nss@example.no:/home/pc/Desktop/mytest.txt 
+Eger dosya ismini istedigmz gibi girersek dosya ismin degistirerek gonderecektir...
+windows bilgisyara gonderdigmz i dusunursek de 
+
+!scp (gonderilecek dosya konumu ) username@serveripaddress:(serverdadosyanin nereyegelecegi )
+
+!UZAK SERVERDAN LOKAL IMIZE DE DOSYA GONDEREBILIRZ TABI KI
+scp  username@example.no:/logs/mytext.txt /home/adem/test/
+
+httest2 adresimde logs klarosu altindaki mytext.txt dosyasini al, mevcut lokal pc mde  onu /home/adem/test/ klasoru altina kopyala, veya indir demis oluyoruz!!
+
+!SCP ILE IKI LOKAL PC MIZI DIREK BIRBIRNE BAGLAYAMASAK BILE EGER HER IKI LOKALINDE BAGLANABILDIGI BIR SERVER VAR ISE O ZAMAN ORNEGIN MAC PC MIZDEN SERVER A ISTEDGIMZ DOSYALARI GONDERIP ONU LINUX PC MIZDEN AYNI SERVER DAN LINUX PC MIZE INDIREREK PC LER ARASINDA DOSYA ALISVERISINI DE BU SEKILDE HIZLICA YAPABILRIZ 
+
+LOKALIMZDEN DOSYA GONDERMEK ICN
+!scp *.png username@example.no:. 
+BIZIM LOKAL PC MIZDE O ANDA UZERINDE BULUNDGUMZ DIRECTORY DEKI TUM PNG DOSYALARINI AL example.no SERVER ININ USERNAME INDE GIRIS YAPARAK DIREK HOME DIRECTORYSUNE(:.) YERLESTIR BU DOSYAYI 
+
+!scp * username@example.no:.(O AN UZERINDE BULUNDGUMZU DIRECTORY DEKI TUM DOSYALARI DEMIS OLURZ) 
+
+SERVERDAN LOKALIMIZE DOSYA INDIRIRKEN 
+
+!scp username@example.no:/home/username/*.png /home/adem/
+uzak serverdaki username kullanici directory si altindaki tum png uzantili dosyalari al, lokal pc mizde adem kullanicimizin home klasoru altina at... demis oluyoruz
+
+!wget araci
+url uzerinden dosya indirmeyi mumkun kilan harika bir aractir!!!!
+Ozellikle server da ornegin geoserver vs kurarken bizim bazi indirmeler yapmamiz gerekiyor, ki server da biz im herhangi bir grafiksel arayuzumuz olmadigi icin , browser acip da indirelim deme gibi bir sansimiz yok ondan dolayi da tabi ki biz wget araci uzerinden yapariz o tarz islemlerimizi ki cok kritik oneme sahiptir
+
+Biz url su sekilde buluruz, browser da tikladgimizda indirmeyi saglayan button hangisi ise o buttona saga tiklayip o buton tiklaninca ki, link-url i kopyalariz ve gelip wget in devamina yazarak ayni islemi server uzerinde de yapabilmeyi saglariz
+
+!Yani bizim browser uzernden linux ubuntuya herhangi yeni bir program yuklelerken once o programin indirme dosyalari indirliyordu, iste bu tarz islemlerin hepsini dosya indirme islemlerinin hepsini bu wget araci yapabiliyor....BU COOOK ONEMLIDIR...
+
+!wget https://......  yapnca biz hangi dizin altinda isek oraya indirecektir dosyalari ama eger spesifik bir dizine indirmesini istersek o zaman -O(output) option i kullanarak yapariz bu islemi 
+Burda -O kullaninca biz indirilecek icerigi getir benim kendi dosyamin icine kaydet diyoruz -O ILE SADECE DIZIN DE BELIRTEBILIRZ TEK URL INDIRIRKEN......Ama TOPLU INDIRMELERDE BIRDEN FAZLA URL I DOSYA ICINDEN OKURKEN getir benim belirttigm dizin altina  indir dosyalari dersek o zaman da P secenegini kullanacagiz..
+!wget https://........ -P ~/Documents 
+
+!wget https://........  -O ~/Documents/  
+!wget https://........  -O ~/Documents/myfile   
+
+wget --help ile hangi durumlarda kullanacagmiza bakabiliriz 
+!Toplu sekilde ilgili dosyalari indirebilmemize imkan sagliyor 
+Bunu su sekilde yapiyoruz , bir dosya acip icerisine tum url leri alt alta yapistiririz ve ornegin indir.txt dosy asi icinde indirme yapilacak url ler var... 
+!wget -i(input) ~/indir.txt
+wget araci dosya icindeki linkleri tek tek taraycak ve hepsi ile ilgili indirmeyi toplu sekilde yapacaktir. Ama yine konum belirtmedigmz icin o an uzeirnde bulundgumz mevcut dizine indiriyor dosyalari 
+
+Hedef dizini toplu sekilde dizin adresini P sayesinde, belirtilen dizin adreisne indirebiliriz
+!wget -i(input) ~/indir.txt -P /Documents 
+
+
+!DNS HAKKINDA 
 
 
 
