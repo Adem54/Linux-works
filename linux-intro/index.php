@@ -12798,6 +12798,158 @@ Hedef dizini toplu sekilde dizin adresini P sayesinde, belirtilen dizin adreisne
 
 
 !DNS HAKKINDA 
+Domain name -DNS sorgusu gerceklestirmek icin, bizim mevcut agimizdaki modem-rooter cihazimiza ip adresine sorgu gonderiiliyor 
+Name server lari sorgulamak icin nslookup araci kullaniliyor
+!nslookup www.google.com (Dns sunucusune bu adresin ip adresi nedir diye soruyoruz)
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ nslookup www.google.com
+Server:		127.0.0.53(Bu sorgunun hangi DNS sunucus uzerinde gerceklestirildigi cevabidir, bu bizim router-modem imize soruldugundan dolayi modem-rotuer in ip adresi dir bu)
+Address:	127.0.0.53#53(Dns sorgularini sunucular 53 numarali port uzerinden kabul ederler)
+
+Non-authoritative answer: Bu bizim verdigmz domainname e karsilik gelen, ip adresi ile ilgili cevap
+Name:	www.google.com
+Address: 142.250.74.132
+Name:	www.google.com
+Address: 2a00:1450:400f:804::2004
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Biz modem-router imizi dns sunucus olarak kullanmak zorunda degiliz 
+!DNS sunucusu aslinda /etc/resolv.conf dosyasi tarafindan gerceklesiyor
+
+nameserver 127.0.0.53
+options edns0 trust-ad
+search .
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+Burdaki adres, bizim DNS adresimizdir, bu adrese alan adlari sorularak o alan adinin ip adresine erisilebiliyor 
+
+! nslookup ve ping i kullanarak biz, domain ismini verddimgz server in ip adresine erisebiliyoruz 
+
+!Biz eger ki  /etc/resolv.conf dosyasi icindeki DNS adresinden degisiklk yapacak olursak, bu default olarak bizim modem-router imzdir, o zaman degisklik yapip router imiz yerne baska ip adresi girdikten sonra, sudo systemctl restart systemd-resolved.service diyerek bu service yi yenilemezsek yaptgimz degisiiklik uygulanmayacaktir!!!!!! Ama bu dosya uzerindeki degisklik pc yeniden baslatilinca gecerli olmayacaktir ondan dolayi... biz eger kalici degisklk yapmak istersek dns suncusu ile ilgili o zaman nmtui(network manager terminal user interface) uzerinden yapabiliriz
+
+!nmtui(network manager user interface)
+
+!HOSTNAME 
+Ag uzerinde ip alabilen cihazlara host diyoruz 
+hostname de localagimzdaki cihazlarimizin ip adresini hatirlamadan hostname ler ile ayirt etmemizi sagliyor 
+
+hostnamectl ile kullandgimz hostname bilgisini alabilirz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ hostnamectl
+ Static hostname: adem-ThinkPad-13-2nd-Gen
+       Icon name: computer-laptop
+         Chassis: laptop
+      Machine ID: ff5025c833274718ba01a35ef3aff0a0
+         Boot ID: 6a2f1c63886d4abea64bd080827288cf
+Operating System: Ubuntu 22.04.3 LTS              
+          Kernel: Linux 6.2.0-39-generic
+    Architecture: x86-64
+ Hardware Vendor: Lenovo
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+hostname i degistirmek istersek eger: 
+!sudo hostnamectl hostname mynewhostname    diyerek hostname i degistirebiliyoruz
+hostname ismin i bu sekilde degistirdik ama birde /etc/hosts dosyasi altinda da degisiklikleri eklememiz gerekiyor. Cunku bu /etc/hosts dosyasi local olarak adres cozumlemesi saglayan konfigurasyon dosyasidir.
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	adem-ThinkPad-13-2nd-Gen
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Bu /etc/hosts dosyasinda keni pc mizi temsil eden 127.0.1.1 ip adresi hostname adresimiz ile eslestirilmis oluyor bu sayede hostname uzerinden dogrudan ip adresi de temsil edilmis oluyor. 
+Bu hostname bilgisi de pek cok arac tarafindan kullaniliyor ondan dolayi da hostname degisiyorsa bunu hosts aracinda da uygulamamiz gerekiyor
+
+!BU COOOK KRITIK BIR NOKTADIR....UNUTMAYALIM..HOSTNAME DE BIR DEGISIKLIK OLMUS ISE BUNU GIDIP /ETC/HOSTS DOSYASINDA DA UYGULAMALIYIZ
+!HATTA SOYLE SOYLEYELIM, EGER HOSTNAME I DEGISTIRMEYI DUSUNUYORSAK ILK ONCE BUNU /ETC/HOSTS ICERISINDE YAPACAGIZ ONDAN SONRA, GIDIP HOSTNAME I DEGSTIRECEGIZ BU SEKILDE... sudo hostnamectl hostname mynewhostname 
+
+!BAZEN SUDO ARACINI DA KULLANAMAYABILIYORUZ(sudo: unable to resolve host .... TEmporary failure in name resolution-- sudo: error initializing audit plugijn sudoers_audit)....BOYLE DURUMLARDA PROBLEM I COZMEK ICIN YAPACAGIMZ ISLEM SUDUR
+ROOT KULLANICISINA GECIS YAPMAK 
+SU ROOT ILE.... duzenleyemedigmz /home/adem/etc/host dosyasini duzenleyebiliriz
+
+!DOMAINNAME 
+Ag-Network uzerinde birden fazla sunucu var ise bunu hostname ile birbirinden ayiriyoruz, hostname bilgisine ek olarak bu sunucularin ayni agda oldugunu belirtmek icin domain name de kullanabiliriz
+Ornegin: 
+web - web.linuxdersleri.net - 10.16.11.5/24
+mail - mail.linuxdersleri.net - 10.16.11.7/24 
+
+Dolayisi ile bu sayde hangi sunucunun hangi amacla kullanildigini kolaylikla buluruz ve bunlarin da ip adreslerini hatirlamamiza gerek kalmadan, cozumlmis oluruz
+Burda hem domainame hem de hostname i birlikte tanimlamaya yarayan bu yapiya FQDN(FULL QUALIFIED DOMAIN NAME)deniyor ve aralarinda nokta ile ayriliyor,  hostname.domainname 
+
+
+sudo nano /etc/hosts 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	adem-ThinkPad-13-2nd-Gen.mylocaldomain.net(hostname.domainname) seklinde duzenledikten sonra hostname bilginsi de degsitrirecek olursak 
+!hostnamectl hostname adem-ThinkPad-13-2nd-Gen.mylocaldomain.net
+seklinde degistirecek olursak eger
+!hostnamectl(ile kontrol ederiz)
+
+!dnsdomainname(diye arama yaparak da bizim etc/hosts icinde ekledgimz ve hostnamectl ile de alabildigmz domainname i alabiliriz)
+
+!BU MANTIK EGER, LOKAL AGIMIZDA-NETWORKUMUZDE BIRDEN FAZLA SUNUCU VAR ISE HER BIRISINE FARKLI HOSTNAMELER LER VERECEK SEKLILDE BU IP ADRESLERINI N DE BIRBRIDINEN AYRILMASINI VE DE DAHA ANLASILIR OLMASINI ASGLAYABILIRIZ 
+
+192.168.5.55 --> my-device.linux-dersleri.net 
+192.168.5.15 --> mail.linux-dersleri.net
+192.168.5.16 --> web.linux-dersleri.net
+
+BU ISLEMI YAPABILMEMIZ ICIN LOCALAGDAKI CIHAZLARIN AYNI DNS I KULLANIYOR OLMASI VE DNS IN DE O HOSTNAME VE IP ADRESILERNI  TANIYHOR LMASI GEREKIR, BUNUN ICINDE ROUTER DA BIR KONFIGURASYON YAPMAK GEREKIR YA DA DNS ICIN FARKLI BIR SUNUCU BILE KURULABILIR 
+NORMALDE DNS HIZMETINI ROUTER-MODEM CIHAZIMIZ SAGLIYOR, DEFUALT OLARAK..KI ROTUER UZERINDEN KONFIUGRASYON DA  YAPILABILIR
+
+! /etc/hosts
+hosts dosyamiz sistemimizdeki local dns gorevini ustlenen konfigurasyon dosyasidir
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	adem-ThinkPad-13-2nd-Gen
+
+Ornegin biz bir hosta gitmek istedgimz zaman ornegin adem-ThinkPad-13-2nd-Gen hostuna gitmek istedigi zaman, sistemimiz oncleikli olarak etc/hosts dosyasini kontrol ediyor, eger bu dosya icerisinde bu adem-ThinkPad-13-2nd-Gen hostu ile ilgli bilgi var ise dogurdan bu host a karsilik gelen ip adresine yonlendirme yapiyor.. Bu sayede harici olarak bir DNS sunucusuna sorulmadan once sistemimizde kayitli ise bu host ilgili adrese yonlendirm islemini zaten gerceklestiriyor
+
+em-ThinkPad-13-2nd-Gen:/etc/apache2$ sudo nano /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       adem-ThinkPad-13-2nd-Gen
+127.0.1.2       ademtest
+
+diyerek ag-networkumuz verebilecegi ip adreslerinden birine ademtest isminde bir host atamasi yaparsak o zaman, local pc miz de biz ping ile hostname i aradigmz da bize o hostname karsilik yazdigmz ip adresini verecektir
+
+!ping veya nslookup ile hostname imizin ip adresini gormek istersek asagidaki gibi gorecegimz uzere ademtest e karsilik olarak bizim /etc/hosts dosyasindaki gibi 127.0.1.2 gelecektir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ping -c 3 ademtest
+PING ademtest (127.0.1.2) 56(84) bytes of data.
+64 bytes from ademtest (127.0.1.2): icmp_seq=1 ttl=64 time=0.069 ms
+64 bytes from ademtest (127.0.1.2): icmp_seq=2 ttl=64 time=0.069 ms
+64 bytes from ademtest (127.0.1.2): icmp_seq=3 ttl=64 time=0.074 ms
+
+--- ademtest ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2053ms
+rtt min/avg/max/mdev = 0.069/0.070/0.074/0.002 ms
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ nslookup ademtest
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Name:	ademtest
+Address: 127.0.1.2
+
+!Eger biz herhangi bir domainname i engellemek istersek, ornegin kullanicilar benim pc den google.com a gidemesin dersek, o zaman biz karsiliginda bizim pc miz e yonlendirecek, localhost un ip sini o domainname e atayarak , bazi websitelerini yasaklayabiliriz
+Ornegin: 
+
+sudo nano /etc/hosts 
+127.0.0.1       localhost
+127.0.1.1       adem-ThinkPad-13-2nd-Gen
+127.0.1.2       ademtest
+127.0.1.1       www.google.com
+
+ping www.google.com dersek bu ne yapiyor once /etc/hosts  a bakar ve burda eger ki aradgigi domain i bulursa burda, ki ip adresine gider  yok bulamazsa o zaman ne yapar gider DNS protokolune sorarak, www.google.com un ip adresini alip , o ip adrsine istek gonderir
+
+! /etc/hosts dosyamiz bir nevi lokal-dns gorevi goruyor isletim sistemimiz DNS  e gitmeden once buraya gelir burda eger aranan host var ise o zaman o hosta karsilik gelen ip adresini kullanir, eger burda o hostu bulamaz ise o zaman DNS SUNCUUSNA GIDIP ORDA ARAR IP ADRESINI
 
 
 
