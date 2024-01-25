@@ -12951,6 +12951,217 @@ ping www.google.com dersek bu ne yapiyor once /etc/hosts  a bakar ve burda eger 
 
 ! /etc/hosts dosyamiz bir nevi lokal-dns gorevi goruyor isletim sistemimiz DNS  e gitmeden once buraya gelir burda eger aranan host var ise o zaman o hosta karsilik gelen ip adresini kullanir, eger burda o hostu bulamaz ise o zaman DNS SUNCUUSNA GIDIP ORDA ARAR IP ADRESINI
 
+!DHCP 
+DHCP agdaki tum cihzlara ip, subnet, getway ve dns bilgilerini otomatik olaran sunuyor
+Bu sayede biz, client- yani host lara ip ve diger bilgileri tanimlamala ugrasmiyoruz 
+Ama her zaman bu tanimlamalari otomatk yapilmasini istemeyebiliriz ve bazen ip adresleri sabitlemek isteyebiliriz, bazi suncularimizin surekli ip adresinin degismesi bizim isimize gelmeyebilir. DHCP  ip adrslerini otomatik atadigi icin, her seferinde uniq farkli bir ip adresi atayabilir...Biz de 
+!ip r - ip route ile sistemimizdeki route-gateway tanimlammasini gorebiliriz
+
+
+adem@adem:~/utv/NSS-hyttetjenester$ ip r
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+!ip a - ip addr - ip address - ifconfig -  ip r - ip route BIZ IP ADRESIMZI NASIL OGRENIYORUZ
+
+User
+adem@adem:~/utv/NSS-hyttetjenester$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether c8:cb:b8:0c:e7:0c brd ff:ff:ff:ff:ff:ff
+    altname enp0s25
+    inet 172.29.29.92/24 brd 172.29.29.255 scope global dynamic noprefixroute eno1
+       valid_lft 47367sec preferred_lft 47367sec
+    inet6 fe80::cacb:b8ff:fe0c:e70c/64 scope link 
+       valid_lft forever preferred_lft forever
+adem@adem:~/utv/NSS-hyttetjenester$ 
+which one is my pc 's ip address.....and when i run this command also adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+how can I know which one is right when i need to learn my pc 's ip address
+
+adem@adem:~/utv/NSS-hyttetjenester$ ifconfig
+eno1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.29.29.92  netmask 255.255.255.0  broadcast 172.29.29.255
+        inet6 fe80::cacb:b8ff:fe0c:e70c  prefixlen 64  scopeid 0x20<link>
+        ether c8:cb:b8:0c:e7:0c  txqueuelen 1000  (Ethernet)
+        RX packets 17044228  bytes 20539939764 (20.5 GB)
+        RX errors 0  dropped 3287  overruns 0  frame 0
+        TX packets 8282584  bytes 1642579047 (1.6 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 20  memory 0xf7d00000-f7d20000  
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 23363214  bytes 23293075456 (23.2 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 23363214  bytes 23293075456 (23.2 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+ChatGPT
+Based on the output of the ip a and ip route commands you ran on your Linux machine, here's how you can identify your PC's IP address:
+
+IP Address (ip a Command):
+In the output of ip a, the IP address of your machine on the network is listed under the eno1 interface (which is typically an Ethernet connection).
+The line inet 172.29.29.92/24 brd 172.29.29.255 scope global dynamic noprefixroute eno1 shows your IP address:
+IP Address: 172.29.29.92
+This is the address that your machine is using on your local network.
+Loopback Address:
+The lo interface is the loopback interface, with the IP address 127.0.0.1. This is a special address used by the system to communicate with itself and is not used for external communication.
+Default Gateway (ip route Command):
+The output of ip route shows the default gateway and routing information.
+The line default via 172.29.29.1 dev eno1 proto dhcp metric 100 indicates that your default gateway (typically your router's IP address on the local network) is 172.29.29.1.
+This is the address through which your computer accesses the internet and communicates with devices outside your local network.
+Conclusion:
+Your PC's IP address on the network is 172.29.29.92.
+The loopback address (127.0.0.1) is for internal system communication.
+Your network's gateway address is 172.29.29.1.
+When you need to know your PC's IP address for networking purposes, such as setting up an SSH connection from another machine, you'll use 172.29.29.92. This is the address that other devices on your local network will use to communicate with your machine.
+
+!DIKKAT
+172.29.29.1. Bu internet olmadigi zaman, ki lokal aglar arasinda kullanilan ip adresidir... private ip adresi
+172.29.29.92: Bu ise cihazimz internete ciktigi zaman gateway, yani route-modem in ip adresini kullanarak internete public ip adresi ile cikiyordu
+
+!127.0.0.1 - 172.29.29.92 - 172.29.29.1 can you explain me what are theier differences
+
+ChatGPT
+Certainly! Let's break down the differences between these three IP addresses: 127.0.0.1, 172.29.29.92, and 172.29.29.1.
+
+1. 127.0.0.1 - The Loopback Address
+Type: Loopback (localhost) address.
+Purpose: Used for internal testing on the local machine. When you access this address, you're communicating with the local host (your own computer) itself.
+Common Use: Testing network services on your own machine. For example, if you're running a web server on your computer, accessing http://127.0.0.1 will connect to that server. It's a way to specify "this computer" or the local system in network software.
+Accessibility: It is not accessible from outside your computer. This address is only used for communication within your own system.
+2. 172.29.29.92 - Your Computer's Local Network IP
+Type: Private network IP address.
+Purpose: This is the IP address assigned to your computer on your local network (LAN). It's used for communication over your local network.
+Common Use: If other devices on your local network (like other computers, printers, or servers) want to communicate with your computer, they would use this IP address.
+Accessibility: It's only reachable within your local network and is not directly accessible from the internet.
+3. 172.29.29.1 - Your Gateway (Router) IP
+Type: Gateway or router IP address on your local network.
+Purpose: This is the IP address of your network's gateway, typically your router. It's used by devices on your local network to send data to the internet.
+Common Use: When your computer wants to send data to the internet, it sends the data to this IP address. The router then forwards the data to the internet.
+Accessibility: Like your computer's local IP, it's accessible only within your local network and is the local address for your router.
+Summary
+127.0.0.1: Loopback address, referring to the local machine itself. Used for internal communications and testing on the same computer.
+172.29.29.92: Your specific computer’s IP address on the local network. Used for communication with other devices within the same local network.
+172.29.29.1: The gateway/router address in your local network. It's the address through which your computer communicates with the internet.
+These IP addresses represent different layers and types of network communication, from internal and local to broader network interactions.
+
+!ip route- ip r
+adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+default olarak 172.29.29.1 bunu gateway olara kullandigi soy leniyor
+Demekki, bizim kullandigmz ethernet arayuzu, aga baglnti saglayan ag karti, dhcp tarafindan tanimlanan ip adresidir otomatik olarak, 
+
+Ama ip adresimzin, bizim gateway olarak kullandigmiz router-ethernet imizin ip adresinin sabit kalmasini istersek 
+!nmtui ile ara y uzumuzu acariz
+Edit connection - enter 
+Ethernet connection 1 -  enter 
+IPV4 configuration da automatik yerine manuel i seceriz  ve
+IP ADDRESSES:  192.168.1.15/24 
+Gateway : 192.168.1.1(bu default idi ben bunun sabit olmasini istiyorum)
+Bunu yaptiktan sonra bir kez daha ip route komutunu calistirirsak eger artik dhcp  yerine static yazacak
+!ip route- ip r
+adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto static metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+
+!BU COK HASSAS BIR DEGISIKLIKTIR , BURDA EGER DOGRU IP TANIMLAMASI YAPILMAZ, VE IP ADRESLERINDE CAKISMA GIBI VS LER OLURSA O ZAMAN INTERNET BAGLANTISINI DE KOPARABILIRIZ..ONDAN DOLAYI COK HASSAS BIR DEGISIKLIKTIR...NE YAPTIGMIZI BILMEDEN BU AYAR ILE OYNAMAMAK GEREKIYOR
+!EN KOLAYI DHCP NIN OTOMATIK OLARAK TANIMLANMASIDIR... 
+
+!ARP
+Ag  uzerindeki cihazlarin diger cihazlarla iletisim kurmak iicin ihtiyac duydugu ip-mac bilgilerini kendi arp tablolarinda tuttugunu daha once gormustuk
+Arp tablosu sayedinde her bir cihaz iletisim kurabilecegi cihazlarin ip-mac bilgilerini bildigi icin, kolayca iletisim kurabiliyor ve daha sonra kullanmak icin, bu bilgileri kendi arp tablosunda tutabiliyor 
+
+!Biz hostlar ile iletisim kurdukca arp tablosu dolduruluyor olacak 
+adem@adem:~/utv/NSS-hyttetjenester$ arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+172.29.29.228            ether   78:f8:82:d0:f9:ed   C                     eno1
+172.29.29.180            ether   80:ce:62:53:40:63   C                     eno1
+172.29.29.195            ether   f8:94:c2:79:d9:b6   C                     eno1
+172.29.29.94             ether   e4:e7:49:9e:af:bd   C                     eno1
+172.29.29.212            ether   dc:fb:48:77:17:17   C                     eno1
+172.29.29.124            ether   dc:fb:48:77:17:17   C                     eno1
+_gateway                 ether   00:1a:8c:f0:b5:e4   C                     eno1
+169.254.169.254                  (incomplete)                              eno1
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+! Address - ip veya host adresi verir 
+! HWaddress- mac a dresini verir
+
+Bu arp tablosu biz sistemizi kapatip ag baglantisini kapatana kadar tutuluyor, ve tekrar tekrar sorulmak zorunda kalinmiyor
+Normalde bildgimz gbi sadece ip adresi var ise cihazimizda bu arp tablosu o ip adresi uzerinden ip adresine sahip cihazin mac adresini ogrenip onun kaydini tutuyor ve tekrar tekrar ogrenmeye gerek k almiyor
+
+Default gateway modem-router bilgisi neden bulunuyor cunku biz internete ciktik ve internete cikarken default gateway-router iin ip adre sini kullandik..
+Modemimizdeki switch ozelligi, local pc ler kendi arsinda iletisime gercerken router ozelligi kullanilmadan iletisim saglaniyor ve o zaman da defualt-gateway  kullanilmamis oluyor
+Ama biz internetteki bir adres ile yani kendi lokal agimiz disinda bir ip adresi  ile iletisim e gecse idik o zaman biz router imiz-gateway imizin public ip si uzerinden internete cikacaktik, router da internet service saglayicisi tarafindan, ilgili ip adresine pc mizden giden paketin gonderilmesini saglamis oluyor
+
+!Sunu iyi bilelim...router imizin ve lokal cihazlarimizin ip adresleri otomatik olark dhcp tarafindan atandigi icin ip adresinin olmasi gerektigi aralikta surekli degisebilir...ip adresi olmasi gereken aralikta olduktan sonra, bu sorun teskil etmeyecektir herhangi bir cakisma vs yasanmadiktan sonra....
+
+ARP vs Routing: ARP is used for mapping IP addresses to physical network addresses within the local network (LAN). It's not used for routing internet traffic. Your internet connectivity (like pinging www.google.com or 1.1.1.1) involves routing beyond the local network, which doesn't necessarily update your local ARP table with the router's IP.
+ARP Table's Dynamic Nature: The ARP table dynamically changes based on network activity and communication with different devices on the local network.
+In summary, the absence of your router's IP address in the ARP table doesn't indicate a problem, especially if your internet connection is working fine. The ARP table's contents can vary based on recent network activities and interactions between devices on the local network.
+
+Arp tablosu netowrk interface kartina bagli biz su an ethernet kullaniyoruz, ve arp tablosu ona gore tutuluyor, ama wifi kullanirsak o zaman da wifi aracinin network interface e gore tutacaktir arp tablosunu 
+
+!EGer ethernet user interface i kapatmak istersek: sudo ip link set eno1 down
+!Etherneti tekrar acmak icin de:udo ip link set eno1 up
+!Ethernet imizin calistigin konrtol etmek icin de ip a - ip addr- ip address
+
+!ROUTE
+Kullanmakta oldugumz network-userinterface in ornegin ethernet ara yuzunun dis cihzla iletisime gecegi zaman sistemimizde var olan gateway-router bilgisini ogrnemk icin  ip r - ip route ile ogrenebiliriz 
+!ip r - ip route 
+
+adem@adem:~/utv/NSS-hyttetjenester$ ip  route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+adem@adem:~/utv/NSS-hyttetjenester$ 
+Lokal ag disinda bir cihaz la iletisime gecedgimz zaman, kullanacagmz varsayilan aggecidi-gateway-router ip   adresidir:172.29.29.1 
+dev eno1- device ethernet eno1 imis 
+!Dogrudan route tablosunu gormek iicin: route(komutu kullanabilirz)
+adem@adem:~/utv/NSS-hyttetjenester$ route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         _gateway        0.0.0.0         UG    100    0        0 eno1
+link-local      0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~/utv/NSS-hyttetjenester$ 
+!Ya da isim-cozumlemesi yapilmadan dogrudan sayisal adresleri gormek isterde -  route -n 
+adem@adem:~/utv/NSS-hyttetjenester$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.29.29.1     0.0.0.0         UG    100    0        0 eno1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+!172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, bu ip
+
+
+
+
+
 
 
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
