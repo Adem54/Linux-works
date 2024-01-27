@@ -13156,12 +13156,60 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
 adem@adem:~/utv/NSS-hyttetjenester$ 
 
-!172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, bu ip
+!172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, ilgili paketimiz default gateway olarak belirtilmis olan bu adresteki ciahaza 172.29.29.1, teslim ediliyor , bu cihaz da rooter aygtigmiz oldugu icin paketin hedefe ulastilrilmasi icin gerekli yonlendirmeleri y aparak internet servis saglayacimza bu paketi teslim ediyor
+2.satirdaki destination ise 172.29.29.0, bizim su an mevcut bagli oldugjmz network un sinrlarini goruyoruz 255.255.255.0 ile....
+Local area network deki pc ler veya cihazlar, birbirleri ile iletisime gecerken rooter a ugramlaarina gerek kalmiyor SWITCH VASITASI ILE DOGRUDAN ILGILI CIHAZA.AKTARILABILIYOR IP-MAC ADRES BILGILERI SAYESINDE....DEMEKTIR GATEWAY DEKI 0.0.0.0   DEGERLER ...
 
+!0.0.0.0 INTERNET GIBI GENIS BIR IP ARALGINI TEMSIL ETMEK ICIN TANIMLANAN IP ADRESIDRI, BU SAYEDE INTERNETTEKI TUM IP ADRESLERINI TEMSIL ETMIS OLUYOR...
 
+!sudo ip route add 10.0.0.0/24 via 192.168.1.2 (Eger 10.0.0.0/24(subnetmask) ip araldinda bir ip adresi hedeflenirse bunu al 192.168.1.2  bu adrese, adresteki ip li cihaza yonlendir demis oluyoruz..)
 
+Bunu ekledigmz zaman route -n yaparsak o zaman tablomuzda 
+Destination   Gatewat       Genmask
+10.0.0.0     192.168.1.2    255.255.255.0
 
+192.168.1.2 boyle birooter cihazimiz yok ama biz varsayarak yapiyoruz... 
 
+!Tekrardan eklenen root adresini silerken de 
+!sudo ip route del 10.0.0.0/24 via 192.168.1.2
+
+!Bu degisiklikler tabi ki kalici olmuyyor, bunun la ilgili kalici degisklikleri icin nmtui den router a gidip ordan destination,...next hop(yonlendirmenin yapilacagi ip) burdak i ayarlari yuaparak, kalici degisiklikler yapabiliriz
+
+!traceroute araci(komutu) 
+Peketlerin agdaki yolculugunu izlemk istersek bu komutu kullaniriz
+
+adem@adem:~$ traceroute 8.8.8.8
+traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ 1  _gateway (172.29.29.1)(ilk olarak buraya geldi router-modem ip numarasi cunku internete cikarken public ip olan router ip sini kullaniyordu)  1.045 ms  1.003 ms  0.988 ms
+ 2  79.160.72.1.static.lyse.net(internet-service saglay icis) (79.160.72.1)  2.164 ms  2.424 ms  2.412 ms
+ 3  79.160.176.161.static.lyse.net (79.160.176.161)  1.693 ms  2.390 ms  2.641 ms
+ 4  * 252.109-247-30.customer.lyse.net (109.247.30.252)  16.074 ms  15.565 ms
+ 5  108.213-167-114.customer.lyse.net (213.167.114.108)  10.634 ms  10.623 ms  10.854 ms
+ 6  72.14.204.150 (72.14.204.150)  17.484 ms  17.630 ms  17.111 ms
+ 7  * * *
+ 8  dns.google (8.8.8.8)  17.205 ms  17.194 ms  16.524 ms
+adem@adem:~$ 
+
+Zaten biz route -n komutu calistirinca, bizim gateway-ip adresimizi gorebiliyoruz 
+
+adem@adem:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.29.29.1     0.0.0.0         UG    100    0        0 eno1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~$ 
+
+!Burda harici, bir aga, y ani internete cikarken gateway- yani router-modem in ip sinin kullanildigni da burda ispat etmis oluyhoruz bir nevi....
+
+Ama biz direk kendi pc mizin ip adresini verirsek bu kendi lokal agindaki bir ip oldugu icin, bunun icin router-gateway- ip sine basvurmayacak...dogrudan ilgili ip adresine gidecek... 
+
+adem@adem:~$ traceroute 172.29.29.92
+traceroute to 172.29.29.92 (172.29.29.92), 30 hops max, 60 byte packets
+ 1  adem (172.29.29.92)  0.038 ms  0.008 ms  0.007 ms
+adem@adem:~$ 
+
+!traceroute komutu ile router cihazi tam olarak calismaz ise, baglanti kopar ise hata nin nerden kaynaklandigini gormek icin bu araci kullanabiliriz!!!!! En azindan lokal agimizda hata nin nerden kaynaklandigini bulabiliriz...Lokal agdaki router cihazlarin calismasini takip etmek icin
 
 
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
