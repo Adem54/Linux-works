@@ -13210,7 +13210,80 @@ traceroute to 172.29.29.92 (172.29.29.92), 30 hops max, 60 byte packets
 adem@adem:~$ 
 
 !traceroute komutu ile router cihazi tam olarak calismaz ise, baglanti kopar ise hata nin nerden kaynaklandigini gormek icin bu araci kullanabiliriz!!!!! En azindan lokal agimizda hata nin nerden kaynaklandigini bulabiliriz...Lokal agdaki router cihazlarin calismasini takip etmek icin
+!PRTLAR HAKKINDA | ss
+ip adreslerine ek olarak, sistemimiz uzerindeki tum araclarin sorunsuz bir sekilde ayni anda veri alisverisinde bulunabilmesi icin portlar kullaniliyor
+Portlar olmasa ayni ip adresi uzerinden birden fazla araci kullanmamiz mumkun olmazdi
+Network yonetimi icin, gerektiginde portlar hakkinda teml seviye bilgi ediniyor olmamiz ve, onlari ihtiyac durumunda kontrol edior olmamiz, cok onemlidir
 
+!ss(sistemimizdeki aktif portlari sorgulamak icin kullaniriz, sistemimiz uzerindeki tum socket bilgileri)
+Burda bahsi gecen socket ler islemler arasi haberlesme icin kullanilan ozel dosyalar aslinda, linux uzerindeki socket yapiisi bu amc icin kullaniliyor
+Ayni cihaz uzerindeki islemler veya ag baglantisi bulunan farkli hostlardaki islemler arasinda, haberlesmed e socket ler kulaniliyor, bu socketler yardimi ile veri iletisimi mumkun oluyor
+!ss komutu asiri uzun bir liste getiriyor bizde gelen listeyi filtreleriz 
+!adem@adem-ThinkPad-13-2nd-Gen:~$ ss | grep "26882"
+u_str ESTAB      0      0                                            * 26882                                           * 27857         
+u_str ESTAB      0      0                  /run/dbus/system_bus_socket 27857                                           * 26882         
+
+!ss -tuln(tciport udport listening number)
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ss -tuln
+Netid                State                 Recv-Q                Send-Q                                Local Address:Port                                  Peer Address:Port                Process                
+udp                  UNCONN                0                     0                                       224.0.0.251:5353                                       0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                       224.0.0.251:5353                                       0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                           0.0.0.0:5353                                       0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                     127.0.0.53%lo:53                                         0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                           0.0.0.0:631                                        0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                           0.0.0.0:58956                                      0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                              [::]:52727                                         [::]:*                                          
+udp                  UNCONN                0                     0                                              [::]:5353                                          [::]:*                                          
+tcp                  LISTEN                0                     151                                       127.0.0.1:3306                                       0.0.0.0:*                                          
+tcp                  LISTEN                0                     128                                       127.0.0.1:631                                        0.0.0.0:*                                          
+tcp                  LISTEN                0                     4096                                  127.0.0.53%lo:53                                         0.0.0.0:*                                          
+tcp                  LISTEN                0                     70                                        127.0.0.1:33060                                      0.0.0.0:*                                          
+tcp                  LISTEN                0                     244                                       127.0.0.1:5432                                       0.0.0.0:*                                          
+tcp                  LISTEN                0                     511                                               *:80                                               *:*                                          
+tcp                  LISTEN                0                     128                                           [::1]:631                                           [::]:*                                          
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+!ss -tuna(yalnizca listening degil, all diye dinlenen leri degil hepsini getir diyoruz)
+
+!netcat | nc  araci
+Bu arac sayesinde tcp ve udp uzerinden hedefteki sunucu uzerinden veri alisverisinde bulunaarak baglanti testlerimzi gerceklestirebiliyoruz
+
+!TCP ve UDP nedir bir hatirlayalim...
+TCP (Transmission Control Protocol)
+Connection-Oriented: TCP is a connection-oriented protocol, meaning that it establishes a connection between the sender and receiver before data is sent. This involves a handshake process to initiate a session.
+Reliable: TCP ensures the reliable delivery of data. It uses acknowledgments, retransmissions, and sequence numbers to ensure that data is received in order and without errors.
+Flow Control: TCP implements flow control mechanisms to prevent overwhelming the receiver by adjusting the rate of data transmission based on the receiver's ability to process the data.
+Congestion Control: It also incorporates congestion control algorithms to reduce the data transmission rate when the network is congested, minimizing packet loss and ensuring stable network performance.
+Use Cases: Due to its reliability and order guarantee, TCP is commonly used for applications where data integrity is critical, such as web browsing (HTTP/HTTPS), email (SMTP, IMAP, POP3), and file transfers (FTP).
+UDP (User Datagram Protocol)
+Connectionless: UDP is a connectionless protocol, which means it does not establish a connection before sending data. It sends data as independent packets known as datagrams.
+Unreliable: UDP does not guarantee the delivery of packets, their order, or their integrity. There is no acknowledgment mechanism to confirm receipt of data, and packets that fail to reach their destination are not retransmitted.
+Lightweight: It has minimal overhead, making it faster in scenarios where speed is more critical than reliability.
+No Flow or Congestion Control: UDP does not implement flow or congestion control, so it cannot adjust its data transmission rate based on network conditions or receiver capabilities.
+Use Cases: UDP is suitable for applications where speed and efficiency are more critical than reliability, such as streaming media (video and audio streaming), online gaming, and some real-time communication applications (VoIP).
+
+En temel kulanmi hedef ip ve port sayesinde baglanti kurulmasi
+!python3 -m http.server 8080
+8080 portunda calisan bir http sunucus olusturmus oluyoruz 
+
+!Test etmek icin 1 tane python sunucusu baslatalim 
+adem@adem-ThinkPad-13-2nd-Gen:~$ nc 192.168.250.191 8080
+Su anda biz kendi pc mizin sundugu server in 8080 portuna bagli bulunmaktadir...
+
+!ss -tuna ile (hangi port lar ile server imiza baglantilar var bunlari gormek istersek onu goruruz)
+Asagida gordugmz gibi baglanti saglanmis... 
+
+tcp            ESTAB               0               0                                                192.168.250.191:8080                                            192.168.250.191:43760  
+
+!nc -l(listen) -p(port) 9999 -e /bin/bash 
+
+!nc 192.168.1.15 9999(Bir pc den diger pc deki bash-shelle erisip onu kontrol edebiliyoruz..)Bu yaklasim guvenlik testlerinde sizilmis olan sisteme disardan erisilebildigini gostermek icin kullaniliyor...Bu yaklasim baglanti sorunlarinda ki hatayi bulmak icin de kullaniliyor 
+!nc -l -p 9999 -e /bin/bash ile dinleneme moduna gecip sonra dinleme modundaki hedefe nc 192.168.1.15 9999 ile baska pc den baglanmaya calisiiyoruz, eger baglanabilirsek, sorun yokktur, eger baglanamazsak aramizdaki baglanti problemdir... 
+!nc araci ile hedefteki ip adresindeki portlari tarama ve dosya gonderme islemleri de yapmak mumkundur
+
+!iptables firewalld 
+Sistemimize gelen ve sistemimizden cikan tum paketlerin istenilen kosullara gore filtrlenebilmesi icin, iptables veya firewalld araclarini kullanabiliyoruz...
 
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
 Windows isletim sistemlerinde bulunur 
