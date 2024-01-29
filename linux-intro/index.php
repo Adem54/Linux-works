@@ -13294,6 +13294,10 @@ Grafical user interfaces-grafik ara yuzleri
 
 cmd yi arama
 
+cd-change directory
+cd foldername(grilen foldername e giderz)
+cd .. bir alt directory ye ilerleriz
+dir(icinde bulundgum dizinin tum dosyalarini goruruz)
 
 */
 
