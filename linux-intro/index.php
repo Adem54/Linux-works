@@ -6273,7 +6273,6 @@ sikistirilan dosya boyutu, turu, testin yapildigi pc nin ozellikleri de etkilidi
 
 SIKISTIRMA ORANLARI HAKKINDA BILGI ALMAK
 
-
 adem@adem:/tmp$ gzip -l *.gz
          compressed        uncompressed  ratio uncompressed_name
              502603              532480   5.6% max.tar 
@@ -6411,6 +6410,10 @@ SIKSTIRILMIS OLAN ARSIV DOSYALARININ ACILMASI
 adem@adem:~$ tar -xf linux-zip.tar.gz
 
 adem@adem:~$ tar -xf linux-zip.tar.bz2
+
+!Skstirilmis arsiv dosyasinin spesiifik bir klasor altinda acilmasi 
+!tar -xzvf example.tar.gz -C /home/adem
+
 
 
 COK SIK KULLANDIGMZ KOMUTLAR BUNLAR!!
