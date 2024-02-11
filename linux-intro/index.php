@@ -13288,6 +13288,29 @@ tcp            ESTAB               0               0                            
 !iptables firewalld 
 Sistemimize gelen ve sistemimizden cikan tum paketlerin istenilen kosullara gore filtrlenebilmesi icin, iptables veya firewalld araclarini kullanabiliyoruz...
 
+!UBUNTU KOMUTLARI..SIK KULLANILAN VE IVAR IN VE BENIM IHTIYAC HALINDE KULLANDGIMZ KOMUTLAR
+
+adem@adem:~/Android$ htop			
+adem@adem:~/Android$ ps -A			
+    PID TTY          TIME CMD			
+      1 ?        00:00:01 systemd			
+      2 ?        00:00:00 kthreadd			
+      3 ?        00:00:00 rcu_gp			
+      4 ?        00:00:00 rcu_par_gp			
+      5 ?        00:00:00 slub_flushwq			
+
+      adem@adem:~/Android$ ps -A | grep java				
+   6889 pts/2    00:03:06 java				
+adem@adem:~/Android$ sudo kill -9 6889				
+
+
+ls -la ~ | grep '\.AndroidStudio'
+find ~ -name "android-studio.desktop"
+find /usr/share/applications/ -name "android-studio.desktop"
+
+tar -xzvf example.tar.gz -C /home/adem
+
+
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
 Windows isletim sistemlerinde bulunur 
 Komutlari otomatik scriptleri veya batch tabanli islemleri cmd komut satirinda komutlar yardimici ile komut satirinda da yapabiliriz
@@ -13367,7 +13390,6 @@ C:\Users\ae_netsense.no\Desktop>dir /L  tum dosya dizin isimlerini lowercase ile
 
 !C:\Users\ae_netsense.no\Desktop>dir /AD sadece klasorleri gosterir 
 !C:\Users\ae_netsense.no\Desktop>dir /AH sadece gizli klasorleri gosterir 
-
 
 !dir /?  yazarak da yine dir ile ilgili nasil kullanilacagi vs gibi help dir ile aldgimz sonucu aliriz
 
