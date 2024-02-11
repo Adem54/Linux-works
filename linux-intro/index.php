@@ -13159,8 +13159,60 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
 adem@adem:~/utv/NSS-hyttetjenester$ 
 
-!172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, bu ip
+!172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, ilgili paketimiz default gateway olarak belirtilmis olan bu adresteki ciahaza 172.29.29.1, teslim ediliyor , bu cihaz da rooter aygtigmiz oldugu icin paketin hedefe ulastilrilmasi icin gerekli yonlendirmeleri y aparak internet servis saglayacimza bu paketi teslim ediyor
+2.satirdaki destination ise 172.29.29.0, bizim su an mevcut bagli oldugjmz network un sinrlarini goruyoruz 255.255.255.0 ile....
+Local area network deki pc ler veya cihazlar, birbirleri ile iletisime gecerken rooter a ugramlaarina gerek kalmiyor SWITCH VASITASI ILE DOGRUDAN ILGILI CIHAZA.AKTARILABILIYOR IP-MAC ADRES BILGILERI SAYESINDE....DEMEKTIR GATEWAY DEKI 0.0.0.0   DEGERLER ...
 
+!0.0.0.0 INTERNET GIBI GENIS BIR IP ARALGINI TEMSIL ETMEK ICIN TANIMLANAN IP ADRESIDRI, BU SAYEDE INTERNETTEKI TUM IP ADRESLERINI TEMSIL ETMIS OLUYOR...
+
+!sudo ip route add 10.0.0.0/24 via 192.168.1.2 (Eger 10.0.0.0/24(subnetmask) ip araldinda bir ip adresi hedeflenirse bunu al 192.168.1.2  bu adrese, adresteki ip li cihaza yonlendir demis oluyoruz..)
+
+Bunu ekledigmz zaman route -n yaparsak o zaman tablomuzda 
+Destination   Gatewat       Genmask
+10.0.0.0     192.168.1.2    255.255.255.0
+
+192.168.1.2 boyle birooter cihazimiz yok ama biz varsayarak yapiyoruz... 
+
+!Tekrardan eklenen root adresini silerken de 
+!sudo ip route del 10.0.0.0/24 via 192.168.1.2
+
+!Bu degisiklikler tabi ki kalici olmuyyor, bunun la ilgili kalici degisklikleri icin nmtui den router a gidip ordan destination,...next hop(yonlendirmenin yapilacagi ip) burdak i ayarlari yuaparak, kalici degisiklikler yapabiliriz
+
+!traceroute araci(komutu) 
+Peketlerin agdaki yolculugunu izlemk istersek bu komutu kullaniriz
+
+adem@adem:~$ traceroute 8.8.8.8
+traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ 1  _gateway (172.29.29.1)(ilk olarak buraya geldi router-modem ip numarasi cunku internete cikarken public ip olan router ip sini kullaniyordu)  1.045 ms  1.003 ms  0.988 ms
+ 2  79.160.72.1.static.lyse.net(internet-service saglay icis) (79.160.72.1)  2.164 ms  2.424 ms  2.412 ms
+ 3  79.160.176.161.static.lyse.net (79.160.176.161)  1.693 ms  2.390 ms  2.641 ms
+ 4  * 252.109-247-30.customer.lyse.net (109.247.30.252)  16.074 ms  15.565 ms
+ 5  108.213-167-114.customer.lyse.net (213.167.114.108)  10.634 ms  10.623 ms  10.854 ms
+ 6  72.14.204.150 (72.14.204.150)  17.484 ms  17.630 ms  17.111 ms
+ 7  * * *
+ 8  dns.google (8.8.8.8)  17.205 ms  17.194 ms  16.524 ms
+adem@adem:~$ 
+
+Zaten biz route -n komutu calistirinca, bizim gateway-ip adresimizi gorebiliyoruz 
+
+adem@adem:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.29.29.1     0.0.0.0         UG    100    0        0 eno1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~$ 
+
+!Burda harici, bir aga, y ani internete cikarken gateway- yani router-modem in ip sinin kullanildigni da burda ispat etmis oluyhoruz bir nevi....
+
+Ama biz direk kendi pc mizin ip adresini verirsek bu kendi lokal agindaki bir ip oldugu icin, bunun icin router-gateway- ip sine basvurmayacak...dogrudan ilgili ip adresine gidecek... 
+
+adem@adem:~$ traceroute 172.29.29.92
+traceroute to 172.29.29.92 (172.29.29.92), 30 hops max, 60 byte packets
+ 1  adem (172.29.29.92)  0.038 ms  0.008 ms  0.007 ms
+adem@adem:~$ 
+
+!traceroute komutu ile router cihazi tam olarak calismaz ise, baglanti kopar ise hata nin nerden kaynaklandigini gormek icin bu araci kullanabiliriz!!!!! En azindan lokal agimizda hata nin nerden kaynaklandigini bulabiliriz...Lokal agdaki router cihazlarin calismasini takip etmek icin
 !PRTLAR HAKKINDA | ss
 ip adreslerine ek olarak, sistemimiz uzerindeki tum araclarin sorunsuz bir sekilde ayni anda veri alisverisinde bulunabilmesi icin portlar kullaniliyor
 Portlar olmasa ayni ip adresi uzerinden birden fazla araci kullanmamiz mumkun olmazdi
@@ -13244,6 +13296,215 @@ Ozetle windows isletim sisteminde, grafik araa yuzu ile yapabildigimz herseyi cm
 Grafical user interfaces-grafik ara yuzleri
 
 cmd yi arama
+
+!cd-change directory
+!cd foldername(grilen foldername e giderz)
+!cd .. bir alt directory ye ilerleriz
+!dir(icinde bulundgum dizinin tum dosyalarini goruruz)
+
+ Directory of C:\Users\ae_netsense.no\utv\test\Linux-works
+
+22.03.2023  12:17    <DIR>          .
+22.03.2023  12:17    <DIR>          ..
+29.01.2024  09:35    <DIR>          linux-intro
+23.10.2023  14:57    <DIR>          test1
+               0 File(s)              0 bytes
+               4 Dir(s)  11 790 544 896 bytes free
+
+C:\Users\ae_netsense.no\utv\test\Linux-works>
+
+!dir e tam yolu vererek de alt klasor ve dosyalari gorebiliriz
+
+ Directory of C:\Users\ae_netsense.no\utv\test\Linux-works
+
+22.03.2023  12:17    <DIR>          .
+22.03.2023  12:17    <DIR>          ..
+29.01.2024  09:35    <DIR>          linux-intro
+23.10.2023  14:57    <DIR>          test1
+               0 File(s)              0 bytes
+               4 Dir(s)  11 739 303 936 bytes free
+
+C:\Users\ae_netsense.no>
+
+!C den baslarken veya herhangi bir disk den baslarken C:\Users\ae_netsense...seklinde yazarz. Birde dikkat etti isek linux un aksine ters-back-slash kullaniyoruz..windows da
+
+<DIR> bu klasor oldugunu gosterir 
+Dosyalar ise direk isimleri ile listelenir dir komutu ile
+.  Var olan dizini bize referanslar
+!C:\Users\ae_netsense.no>cd .
+C:\Users\ae_netsense.no>
+! .. ise bir alt dizini referans eder..
+C:\Users\ae_netsense.no>cd ..
+
+C:\Users>
+
+!cls-ekrani temizleyebiliriz
+
+!help dir diyerek istedigmz komutlar hakkinda bilgi alabilirz
+
+C:\Users\ae_netsense.no\Desktop>help dir
+Displays a list of files and subdirectories in a directory.=>Ne ise  yaradigndan bahseder
+
+DIR [drive:][path][filename] [/A[[:]attributes]] [/B] [/C] [/D] [/L] [/N]
+  [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]=nasil kullanilacagindan bahseder
+
+  Asagida da parmetrelerin ne ise yaradigini gosterir
+   [drive:][path][filename]
+              Specifies drive, directory, and/or files to list.
+
+  /A          Displays files with specified attributes.
+  attributes   D  Directories                R  Read-only files
+               H  Hidden files               A  Files ready for archiving
+               S  System files               I  Not content indexed files
+               L  Reparse Points             O  Offline files
+               -  Prefix meaning not
+  /B          Uses bare format (no heading information or summary).
+  /C          Display the thousand separ
+
+   /L          Uses lowercase.
+
+C:\Users\ae_netsense.no\Desktop>dir /L  tum dosya dizin isimlerini lowercase ile gosterir
+
+!C:\Users\ae_netsense.no\Desktop>dir /AD sadece klasorleri gosterir 
+!C:\Users\ae_netsense.no\Desktop>dir /AH sadece gizli klasorleri gosterir 
+
+
+!dir /?  yazarak da yine dir ile ilgili nasil kullanilacagi vs gibi help dir ile aldgimz sonucu aliriz
+
+!listelenen dosya ve klasorleri sort etmek icin kullanilir ve dikkat edelim O OPTION VEYA PAREMTRESININ ATTRIBUT LERI VAR
+  /O          List by files in sorted order.
+  sortorder    N  By name (alphabetic)       S  By size (smallest first)
+               E  By extension (alphabetic)  D  By date/time (oldest first)
+               G  Group directories first    -  Prefix to reverse order
+
+ C:\Users\ae_netsense.no\Desktop>dir /ON   ISME GORE SIRALAMA AZDAN COKA DOGRU... A DAN Z YE..     
+ 
+ C:\Users\ae_netsense.no\Desktop>dir /O-N  AZALAN SEKILDE-REVERSE SEKILDE SIRLAAMAK, Z-DAN A YA COKTAN AZA
+
+ !mkdir test ile, test klasoru olusturabilirz ya da arasinda bolsuk olan isimli bir klasor olusturmak istersek  mkdir "my test" seklinde olusturabiliriz
+
+!help mkdir diyerek da daha detayli nasil kullaniriz onlara bakabiliriz
+
+C:\Users>help mkdir
+Creates a directory.
+
+MKDIR [drive:]path
+MD [drive:]path
+
+If Command Extensions are enabled MKDIR changes as follows:
+
+MKDIR creates any intermediate directories in the path, if needed.
+For example, assume \a does not exist then:
+
+    mkdir \a\b\c\d
+
+is the same as:
+
+    mkdir \a
+    chdir \a
+    mkdir b
+    chdir b
+    mkdir c
+    chdir c
+    mkdir d
+  
+ !mkdir \a\b\c\d  => Gordugumz gibi ic ice recursive seklinde klasoru bu sekilde olsutrabiliyor musuz  
+
+!mkdir ile birden fazla klasoru 1 kere de olusturmak istersek
+
+!mkdir folder1 folder2 folder3 - mkdir folder1. folder2. folder3.  nokta koyunca da koymayinca da oluyor
+
+
+!rmdir - rd ile klasor ve dosyalari silme islemi yapabiliriz, ayni islemi yapiyorlar birbirlerinin alyaslaridir
+
+C:\Users\ae_netsense.no\Desktop>rmdir folder1
+
+C:\Users\ae_netsense.no\Desktop>cd folder1
+The system cannot find the path specified.
+
+C:\Users\ae_netsense.no\Desktop>rd folder2
+
+C:\Users\ae_netsense.no\Desktop>cd folder2
+The system cannot find the path specified.
+
+
+C:\Users\ae_netsense.no\Desktop>help rmdir
+Removes (deletes) a directory.
+
+RMDIR [/S] [/Q] [drive:]path
+RD [/S] [/Q] [drive:]path
+
+    /S      Removes all directories and files in the specified directory
+            in addition to the directory itself.  Used to remove a directory
+            tree.
+
+    /Q      Quiet mode, do not ask if ok to remove a directory tree with /S
+
+C:\Users\ae_netsense.no\Desktop>
+
+!Resursive sekilde tum alt klasor ve dosyalari silmek istersek...
+!rmdir /S foldername  ile recursive bir sekidle , klasorun altindaki tum dosya ve klasorler ile silinmesini saglar
+
+!C:\Users\ae_netsense.no\Desktop\test1\test11>echo . > test1.txt  => YENI BOS BIR DOSYA OLUSTURURKEN
+
+C:\Users\ae_netsense.no\Desktop\test1\test11>dir
+ Volume in drive C is Windows
+ Volume Serial Number is FC24-CDDF
+
+ Directory of C:\Users\ae_netsense.no\Desktop\test1\test11
+
+29.01.2024  10:58    <DIR>          .
+29.01.2024  10:58    <DIR>          ..
+29.01.2024  10:58                 4 test1.txt
+               1 File(s)              4 bytes
+               2 Dir(s)  10 406 330 368 bytes free
+
+!C:\Users\ae_netsense.no\Desktop>rmdir /S test1
+test1, Are you sure (Y/N)? y
+
+C:\Users\ae_netsense.no\Desktop>cd test1
+The system cannot find the path specified.
+
+C:\Users\ae_netsense.no\Desktop>
+
+!C:\Users\ae_netsense.no\Desktop\test1\test11>echo . > test1.txt  => YENI BOS BIR DOSYA OLUSTURURKEN
+! echo "My text content" > textfile.txt daha once text var ise onu siler, yok ise zaten sifrdan yazar,boyle bir dosya yok ise de dosyayi olusturur
+! echo "is here!!!!" >> textfile.txt  seklinde... var olan text i silmeden ekleyebilir 
+!type nul > filename.txt
+
+
+!copy komutu ile bir dosyayi baska bir konuma kopyalama 
+
+!copy source destination
+
+
+!To copy a single file from one location to another:
+copy C:\path\to\file.txt D:\destination\
+
+!To copy multiple files into a single destination folder:
+copy C:\path\to\file1.txt C:\path\to\file2.txt D:\destination\
+
+!To copy all text files from one directory to another:
+copy C:\source\*.txt D:\destination\
+
+
+
+!move komutu ile de bir dosyayi baska bir konuma tasima..
+move source destination
+
+!To move a file from one location to another:
+move C:\path\file.txt D:\destination\
+
+!To move a directory to a new location:
+move C:\source\folder D:\destination\
+
+!To rename a file using the move command:
+move C:\path\oldname.txt C:\path\newname.txt
+
+
+
+
+
 
 
 */
