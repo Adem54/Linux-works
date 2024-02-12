@@ -13310,6 +13310,18 @@ find /usr/share/applications/ -name "android-studio.desktop"
 
 tar -xzvf example.tar.gz -C /home/adem
 
+!sudo ls -R / | grep 'pattern'
+Using ls -R piped into grep is a method to search for filenames that match a certain pattern within a directory structure, but it's not typically used to search inside the contents of files. 
+!sudo find / -type f | xargs grep -H 'search_term'
+To search for a specific word in all files under the root directory using a pipe (|), you can combine the grep command with a command that generates a list of files, like find. The pipe is used to pass the output of one command as input to another command. Here's an example using find to generate a list of files and then grep to search within those files:
+
+  sudo: Runs the command with superuser privileges, which is often necessary when searching through all files under the root directory.
+find /: Starts the search from the root directory /.
+-type f: Specifies that you want to search in files (not directories).
+|: The pipe character passes the output of the find command to the next command.
+xargs: Takes input from the previous command and uses it as arguments for the next command. In this case, it takes the list of files found by find and passes them to grep.
+grep -H 'search_term': Uses grep to search for 'search_term' in the files provided by xargs. The -H option makes grep print the filename for each match.
+
 
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
 Windows isletim sistemlerinde bulunur 
