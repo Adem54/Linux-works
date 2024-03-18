@@ -6275,7 +6275,6 @@ sikistirilan dosya boyutu, turu, testin yapildigi pc nin ozellikleri de etkilidi
 
 SIKISTIRMA ORANLARI HAKKINDA BILGI ALMAK
 
-
 adem@adem:/tmp$ gzip -l *.gz
          compressed        uncompressed  ratio uncompressed_name
              502603              532480   5.6% max.tar 
@@ -6413,6 +6412,10 @@ SIKSTIRILMIS OLAN ARSIV DOSYALARININ ACILMASI
 adem@adem:~$ tar -xf linux-zip.tar.gz
 
 adem@adem:~$ tar -xf linux-zip.tar.bz2
+
+!Skstirilmis arsiv dosyasinin spesiifik bir klasor altinda acilmasi 
+!tar -xzvf example.tar.gz -C /home/adem
+
 
 
 COK SIK KULLANDIGMZ KOMUTLAR BUNLAR!!
@@ -13287,8 +13290,51 @@ tcp            ESTAB               0               0                            
 !iptables firewalld 
 Sistemimize gelen ve sistemimizden cikan tum paketlerin istenilen kosullara gore filtrlenebilmesi icin, iptables veya firewalld araclarini kullanabiliyoruz...
 
+<<<<<<< HEAD
 !LINUX COMMANDS
 !ls -l *.png (uzantisi png olanlari listele)
+=======
+!UBUNTU KOMUTLARI..SIK KULLANILAN VE IVAR IN VE BENIM IHTIYAC HALINDE KULLANDGIMZ KOMUTLAR
+
+adem@adem:~/Android$ htop			
+adem@adem:~/Android$ ps -A			
+    PID TTY          TIME CMD			
+      1 ?        00:00:01 systemd			
+      2 ?        00:00:00 kthreadd			
+      3 ?        00:00:00 rcu_gp			
+      4 ?        00:00:00 rcu_par_gp			
+      5 ?        00:00:00 slub_flushwq			
+
+      adem@adem:~/Android$ ps -A | grep java				
+   6889 pts/2    00:03:06 java				
+adem@adem:~/Android$ sudo kill -9 6889				
+
+
+ls -la ~ | grep '\.AndroidStudio'
+find ~ -name "android-studio.desktop"
+find /usr/share/applications/ -name "android-studio.desktop"
+
+tar -xzvf example.tar.gz -C /home/adem
+
+!sudo ls -R / | grep 'pattern'
+Using ls -R piped into grep is a method to search for filenames that match a certain pattern within a directory structure, but it's not typically used to search inside the contents of files. 
+!sudo find / -type f | xargs grep -H 'search_term'
+To search for a specific word in all files under the root directory using a pipe (|), you can combine the grep command with a command that generates a list of files, like find. The pipe is used to pass the output of one command as input to another command. Here's an example using find to generate a list of files and then grep to search within those files:
+
+  sudo: Runs the command with superuser privileges, which is often necessary when searching through all files under the root directory.
+find /: Starts the search from the root directory /.
+-type f: Specifies that you want to search in files (not directories).
+|: The pipe character passes the output of the find command to the next command.
+xargs: Takes input from the previous command and uses it as arguments for the next command. In this case, it takes the list of files found by find and passes them to grep.
+grep -H 'search_term': Uses grep to search for 'search_term' in the files provided by xargs. The -H option makes grep print the filename for each match.
+
+Android studio yu acmaya calistik acilmadi, o zaman demekki arkada ki process de bir cakisma oluyor dedik ve de, arka process de studio ile ilgili calisan birsey var mi diye kontrol ettik
+!ps aux | grep studio
+
+kill 49820 50258
+# Or, if necessary
+kill -9 49820 50258
+>>>>>>> 30e2af8b8845c5536be3b8e0a6aaec5b477febdb
 
 
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
@@ -13370,7 +13416,6 @@ C:\Users\ae_netsense.no\Desktop>dir /L  tum dosya dizin isimlerini lowercase ile
 
 !C:\Users\ae_netsense.no\Desktop>dir /AD sadece klasorleri gosterir 
 !C:\Users\ae_netsense.no\Desktop>dir /AH sadece gizli klasorleri gosterir 
-
 
 !dir /?  yazarak da yine dir ile ilgili nasil kullanilacagi vs gibi help dir ile aldgimz sonucu aliriz
 
@@ -13496,6 +13541,9 @@ copy C:\path\to\file1.txt C:\path\to\file2.txt D:\destination\
 !To copy all text files from one directory to another:
 copy C:\source\*.txt D:\destination\
 
+!To copy a file to another place by changing file name
+copy test1.txt test2.txt
+
 !move komutu ile de bir dosyayi baska bir konuma tasima..
 move source destination
 
@@ -13507,6 +13555,10 @@ move C:\source\folder D:\destination\
 
 !To rename a file using the move command:
 move C:\path\oldname.txt C:\path\newname.txt
+!To rename a file using the move command:
+rename test1.txt test2.txt
+!ayni islemi ren komutu ile de  yapariz
+ren test1.txt test2.txt
 
 !Asagidaki sekillerde de direk olarak sadece dosyalarin ismini degistiriyoruz
 C:\Users\ae_netsense.no\Desktop>rename newfile1.txt newfile11.txt
@@ -13525,7 +13577,109 @@ C:\Users\ae_netsense.no\Desktop>notepad newfile.txt
 C:\Users\ae_netsense.no\Desktop>notepad newfile1.txt
 
 
+!Delete islemi yaparken yani silme
+del test1.txt 
+erase test1.txt
 
+!Ayni anda birden fazla dosya da silebiliriz 
+del test1.txt test2.txt
+
+!!wildcart(*) karatkterini kullanarak silme islemi
+del test1.txt test11.txt test2.txt test22.txt yerine 
+!del test*.txt yaparak kolayca silebiliriz 
+
+!dir *.txt  sadece txt dosyalarini listele demektir
+!adem@adem:~$ ls -l *.tar. aynisini linux de de kullaniriz
+!dir *.jpg sadece jpg uzantili dosyalari goster 
+
+!echo ile yazilan bir mesaji farkli bir dosya icine yazmak 
+!echo "Test test " > test1.txt 
+notepad test1.txt dersek test1.txt nin icerigini gorebiliriz 
+Ama echo "Test test " > test1.txt , bu sekilde test1.txt nin kendi icerigini silip echo ile bizim verdgimzi yazacak
+!test1.txt nin kendi icerginide koruyarak yazdirmak icin ise:
+!echo "Test test " >> test1.txt 
+
+!echo "Test test " > test11.txt
+Gidip test11.txt dosyasi arar eger bulamaz ise kendisi yeni bir dosya olusturarak, test11.txt ismini verir
+
+!Bir dosyanin icerigini gormek icin ise type komutunu kullaniriz 
+!type test1.txt(linux deki cat komutu gibi)
+
+C:\Users\ae_netsense.no\Desktop>type test1.txt 
+"TEST-test"
+"add this text message also"
+
+!Direk olarak txt dosyasinin kendisini acmak icin ise :
+direk olarak test1.txt ya da notepad test1.txt diyerek acabiliriz
+!C:\Users\ae_netsense.no\Desktop>test1.txt(Bu sekilde varsayilan olarak hangi editorle ayarlanmis lar ise o editorde acar)
+!C:\Users\ae_netsense.no\Desktop>notepad test1.txt 
+
+!dir > newfile.txt (newfile.txt icerisine o anda uzerinde bulundugmz directory de bulunan dosya ve klasor isim listesini yazariz) 
+
+!systeminfo komutu ile windows sistemimiz ile ilgili detayli bilgiyi aliriz
+!systeminfo > test1.txt(systeminfo komutu ciktisini yazdirabiliriz)(komut satirina cikti veren komutlarin ciktlarini yazdirabiliyoruz dikkat edelim)
+
+!WINDOWS TA BIR UYGULAMAYI KOMUT SATIRINDAN NASIL AYGA KALDIRIRIZ, NASIL RUN-EXECUTE EDERIZ NASIL CALISTIRIRIZ
+
+!C:\Users\ae_netsense.no\Desktop> dir 
+Visual Studio 2022.Ink  dosyasi ni ornegin acmak istiyoruz..desktop da 
+
+!C:\Users\ae_netsense.no\Desktop> "Visual Studio 2022.Ink " (enter a basarak acariz, arada bosluk oldugu icin tirnak icinde calistiriz)
+Ama bir cok uygulamanin windows ta calistirma dosyasi olan .exe uzantili dosyalar genellikle uygualmarin klasorlerinin bulundugu dosya da kisa yol oalrak bulunurlar
+Masaustundeki bir uygulama ya saga tiklayip properties deyince ordan target a bakarak o uygulamanin klsorlerinn nerde oldugunu goruruz
+Opera nun uzerine gidip saga tiklayinca, adresini goruruz target ta : C:\Users\ae_netsense.no\AppData\Local\Programs\Opera
+cd C:\Users\ae_netsense.no\AppData\Local\Programs\Opera 
+C:\Users\ae_netsense.no\AppData\Local\Programs\Opera dir *.exe 
+opera.exe 
+C:\Users\ae_netsense.no\AppData\Local\Programs\Opera  opera.exe(diyerek opearyi calistiriz, komut satiri uzerinden) 
+
+!PATH KAVRAMI....COOK ONEMLI....
+!PEKI NASIL BIZ ISTEDGIMZ HER DIRECTORY SEVIYESINDE CALISTIRMAK ISTEDGIMIZ UYGULAMALARI CALISTIRACAGIZ 
+ENVIRONMENT-VARIABLE BURDA DEVREYE GIRIYOR 
+!path komutunu yazarsak karsimiza arlarinda ; bulunan(windows da ; , linux da ;)
+Windowsda arama ya env yazarak , ya da Environment yazarsak karsimiza gelir tiklayarak gidince ustteki pencerede path basligina tiklayinca, Edit environment variable diyerek bircok path oldugunu gorebiliriz
+Yani biz windows cmd de path yazinca ekrana Environment variable da, path de bulunan liste aralarinda ; olacak seklde karsimiza cikti olarak gelir 
+!Biz ornegin  C:\Users\ae_netsense.no\Desktop  opera.exe    dedgimz zaman ilk once Desktop altinda opera.exe varmi ona bakar, eger burda bulamaz ise o zaman da Environement variable daki path listesini tek tek kontrol eder..ki aslinda Environemnt variable path demek windows da global olarak , hangi directory den olursa olsun yazildiginda direk calismasi istenilen programlarin path leri burada bulunur ki, boyle durumlarda, ozellile projeler ayaga kaldirilirken veribabani bilgieri gibi onemli konfigurasyon bilgileri enviornment variable a kaydedilip ordan okunurki global tutulusn ve ornegin proje 5 farkli pc de bulunsa bile her pc icin ayri ayri farkli yollarda tutmaya calismak yerine cunku her pc nin username i vs var kendine ozel, environemnt variabla da tutarak biz sadece pc lerde enviornemnt variable path e eklenmesi gereken path i yani dosyasinin yolunu ekkleriz sonra zaten direk olarak projede path deki dosyayi bir fonksiyon aracilgil ile okuyabiliriz...
+
+Ornegin biz opera browser ini pc de command prompt uzerinden istedgimz her yerden,  yani directory olarak nerdde olursak olalim bir komutla operayi acmak istiyorsak operanin .exe dosyasinin buludngu konumu opera ninkisa yolu uzerinde saga tklayip properties deyince gelen pencrede target ten buluruz ve sonrasinda da o opera.exe nin bulundugu yolu kopyalayip environment variable alttaki pencerede pathe tiklayip edit deriz sonra da new diyerek o yolu path olarak eklersek sonra da kaydedip cikariz ve eger acik bir command prompt var ise o command promptun yeni eklkenen pathi tanimasi icin acilip kapatilmasi gerekir ve biz o  sekilde yapip tekrar command promptu acarsak o zaman, artik nerde olursak olalim direk olarak opera veya opera.exe yazdgiimz da artik opeara acilacaktir...COOOOK ONEMLI BIR BILGIDIR BU!!!
+!Cunku biz operayi sistem degiskeni olarak pathe ekledik...
+
+!systeminfo ile calisilan pc hakkinda genel bilgiler elde ederiz
+
+!find ile bir dosya iceriginde arama yapma
+
+C:\Users\ae_netsense.no\Desktop>find "Microsoft" test1.txt		
+		
+--------- TEST1.TXT'		
+09.10.2023  11:58             2 450 Microsoft Teams classic.lnk		
+06.07.2023  11:50             1 282 Microsoft Visual Basic 6.0.lnk		
+03.07.2023  12:58             1 446 Microsoft Visual Studio 2008.lnk		
+29.03.2023  21:23                 0 New Microsoft Word Document.docx		
+		
+C:\Users\ae_netsense.no\Desktop>		
+		
+!help find
+!find /? ile hangi optionslarla birlikte kullanabiliriz bunu gorebiliriz
+
+color /?  vye help color diyerek color ile ilgili neler yapabilirz onu goruruz
+color 07(background black- foreground white default ta budur)
+Bize color cmd terminali icin kullanbilecegimz renkleri color /? diyerek gorebiliriz
+!tasklist ile calisan uygulamalari listesini alma
+!taskkill /PID 25516 diyerek ornegin notepad i kapatabiliyoruz(25516 Yi tasklist deyince gelen listede PID-processid sini aliriz)
+!taskkill /IM notepad.exe
+
+!Cmd komut satirini admin yetkileri ile birlikte acmak icin  arama kutucugunda cmd dedikten sonra cmd ye saga tiklayip run as administrator ile acariz
+
+!PROMPT KOMUTU 
+prompt $D  su anki date i verir
+prompt $T su anki time i verir 
+
+!title newtitle dieyerek cmd nin sol ustteki baslgi degistirebiliriz
+
+!ATTRIB diyerek uzerinde bulundugmuz dizindeki dosya ve klasorleri dosya larin ozellikleri ile goruruz A-ARCHIVE H-HIDDEN R-READONLY
+!ATTRIB -R python.jpg  bu sekilde hem +H dosya hidden hale getirilir hem de uzantisi degistirilmis oluyor
+!ATTRIB -H -R python.jpg hem hidden ozelligi hem de readonly ozelligi kaldirilir 
+!DOSKEY /HISTORY DIEYERK DAHA ONCE YAZLAN KOMUTLARI GOREBILIRIZ
 
 
 
