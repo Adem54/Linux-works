@@ -2342,6 +2342,8 @@ Hatirlarsak cd .. deyince bir ust dizine gidebilyoruz
 Yani soyle anlyalimm... biz nerece olursak olalim...Her dizin de mutlaka , 1 tane tek nokta(.) ve 1 tane 2 nokta(..) karakteri olacaktir cunku bash de bunlar tanimlanmistir ve bunlar uzerinden bash tek nokta ile uzerinde bulundugumuz dizin oldugunu anliyor ornegin ./file.sh ayni sekilde de cd .. deyince de bir ust dizine gitmesi gerektigini biliyor...
 ASAGIDAKI ORNEKLERE BAKARSAK BASH DE OLUSTURULAN HER BIR KLASOR ALTINDA OTOMAIK OLARAK . VE .. KARAKTERLERI NIN GELDGINI GOREBILIRZ...
 
+!ls -l *.png (uzantisi png olanlari listele)
+
 ORNEGE DIKKAT HANGI DIZINDE OLURSAK OLALIM HER DIZIIMIZDE MUTLAKA . VE .. MEVCUTTUR--START
 
 adem@adem-ThinkPad-13-2nd-Gen:/etc$ echo .*
@@ -13285,6 +13287,10 @@ tcp            ESTAB               0               0                            
 !iptables firewalld 
 Sistemimize gelen ve sistemimizden cikan tum paketlerin istenilen kosullara gore filtrlenebilmesi icin, iptables veya firewalld araclarini kullanabiliyoruz...
 
+!LINUX COMMANDS
+!ls -l *.png (uzantisi png olanlari listele)
+
+
 !WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
 Windows isletim sistemlerinde bulunur 
 Komutlari otomatik scriptleri veya batch tabanli islemleri cmd komut satirinda komutlar yardimici ile komut satirinda da yapabiliriz
@@ -13464,6 +13470,7 @@ The system cannot find the path specified.
 
 C:\Users\ae_netsense.no\Desktop>
 
+YENI BOS BIR DOSYA OLUSTURMAK ICIN
 !C:\Users\ae_netsense.no\Desktop\test1\test11>echo . > test1.txt  => YENI BOS BIR DOSYA OLUSTURURKEN
 ! echo "My text content" > textfile.txt daha once text var ise onu siler, yok ise zaten sifrdan yazar,boyle bir dosya yok ise de dosyayi olusturur
 ! echo "is here!!!!" >> textfile.txt  seklinde... var olan text i silmeden ekleyebilir 
@@ -13478,13 +13485,16 @@ C:\Users\ae_netsense.no\Desktop>
 !To copy a single file from one location to another:
 copy C:\path\to\file.txt D:\destination\
 
+!To copy a single file from one location to another with different name:
+C:\Users\ae_netsense.no\Desktop>copy newfile.txt C:\Users\ae_netsense.no\Desktop\newfile1.txt
+        1 file(s) copied.
+
+
 !To copy multiple files into a single destination folder:
 copy C:\path\to\file1.txt C:\path\to\file2.txt D:\destination\
 
 !To copy all text files from one directory to another:
 copy C:\source\*.txt D:\destination\
-
-
 
 !move komutu ile de bir dosyayi baska bir konuma tasima..
 move source destination
@@ -13497,6 +13507,23 @@ move C:\source\folder D:\destination\
 
 !To rename a file using the move command:
 move C:\path\oldname.txt C:\path\newname.txt
+
+!Asagidaki sekillerde de direk olarak sadece dosyalarin ismini degistiriyoruz
+C:\Users\ae_netsense.no\Desktop>rename newfile1.txt newfile11.txt
+C:\Users\ae_netsense.no\Desktop>ren newfile.txt newfile2.txt
+
+!Yeni bir dosya olusturmak ve silmek
+C:\Users\ae_netsense.no\Desktop>echo . > test1.txt =>Yeni dosya olustururken
+C:\Users\ae_netsense.no\Desktop>del test1.txt =>Olusturulan dosyayi silerken
+C:\Users\ae_netsense.no\Desktop>erase newfile2.txt
+
+!Iki dosyayi ayni anda silmek
+del text1.txt text2.txt
+
+!Herhangi bir dosyanin notepadde acilmasi
+C:\Users\ae_netsense.no\Desktop>notepad newfile.txt
+C:\Users\ae_netsense.no\Desktop>notepad newfile1.txt
+
 
 
 
