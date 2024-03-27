@@ -13941,7 +13941,7 @@ Class C            192.168.0.0(192.168.1.0- 192.168.2.0..bu sekilde network icin
 !Loopback adresi: Fiziksel olarak hat guzergahini kontrol etmek icin kullanilir bu cok fazla kullanilmayacak
 
 !SANAL BILGISARLAR NASIL KURULUR VE AYARLARI
-
+BURDA PC MIZE VIRTUALBOX KURULUR, WINDOWS ISO DOSYASI INDIRLIR VE 2 TANE SANAL MAKINE KURULUMU YAPILDIKTAN SONRA, HER IKI SANAL MAKINEYE DE WINDOWS ISLETIM SISTEMI YUKLENIR
 
 
 !IKI BILGISAYARIN BIRBIRINE BAGLANMASI VE MANUEL OALRAK IP ATAMA YAPILMASI
@@ -13955,7 +13955,124 @@ Dikkat edelim benim pc min ip adresine bakacak olursak
    Subnet Mask . . . . . . . . . . . : 255.255.255.0
    Default Gateway . . . . . . . . . : 172.29.29.1
 
+   !Biz iki pc yi birbiri ile gorusturmek istiyoruz, yani birbirleri ile dosya alisverisinde bulunabilmelerini, ya da birbirlerine uzak masaustu baglanti yapabilmelerini istiyoruz 
+   ! Iki bilgisayarin birbiri ile gorusebilmeleri icin ilk olarak bizim bu bilgisayarlara birbirleri ile gorusmeye uygun olacak IP atamalari yapmamiz gerekiyor
+   Simdi biz burda cok fazla pc ile calismayacagimz icin C sinifi bir ip atamasi  yapmak istiyoruz... O zaman C sinifi ip ler icin rezerve edilmis ip bilgiler i ne idi hemen onu hatirlayalim
 
+   !BU TABLO COOK ONEMLI IP ATAMALARINDA, BU TABLOYA GORE IP ATAYABILIRIZ..BU IP LER ICERI-PRIAVATE ATAMALAR ICIN AYRILMISTIR
+
+   CLASS              PRIVATE ADDRESS RANGES 
+Class A            10.0.0.0 - 10.255.255.255(her zaman 10 la baslar ve son 3 oktet pc lere verilecek olan ip adresleri icindir)
+Class B            172.16.0.0 - 172.31.255.255(172.16.0.0- 172.17.0.0-172.18.0.0...son iki oktet host-pc ler icindir)  
+Class C            192.168.0.0(192.168.1.0- 192.168.2.0..bu sekilde network icin ip adresleri verilir 254 adet, son oktet bilgisayarlara verilen oktetir ) - 192.168.255.255(ilk 3 oktetin esit olmasi gerekiyordu ve son oktet te bilgisyarlara verilen oktetti)  
+!ISTE BU ICERISI ICIN PRIVATE ICIN REZERVE EDILMIS IP LER DISINDAKI TUM IP LER INTERNETTE KULLANILAN Y ANI PUBLIC-DISARSI ICIN KULLANILAN IP LERDIR
+
+!Class C            192.168.0.0(192.168.1.0- 192.168.2.0..bu sekilde network icin ip adresleri verilir 254 adet, son oktet bilgisayarlara verilen oktetir ) - 192.168.255.255(ilk 3 oktetin esit olmasi gerekiyordu ve son oktet te bilgisyarlara verilen oktetti)  
+
+!C sinifi ip adreslernde ip lerin-pc lerin birbrini gorebilmeleri icin ilk 3 oktet in ayni olmasi gerekiyordu...cunku ilk 3 oktet netwerki temsil ediyordu
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+!ICERDE-PRIVATE KULLANILACAK-LAN(LOKAL AREAL NETWORK) ICIN KULLANILMASI ICIN ASAGIDAKI IP LER REZERVER EDILMISTIR, BU REZERVE EDILMIS IP LER DISINDA GERIYE KALAN TUM IP LER PUBLIC-DISARYA CIKARKEN  YANI INTERNETE BAGLANIRKEN(WIDELY AREAL NETWORK) KULLANILACAK OLAN IP ADRESLERI ICINDIR
+!Class C ise kesinlikle bu araliklar takip edilmelidir 192.168.0.0 netwerk icin ve netwerk 192.168.1.0, 192.168.2.0...ve ip icin ise  192 .168.1.1, 192.168.1.2, 192.168.1.3 ...192.168.1.254(her bir netwerkte 254 adet)    
+
+!Class B ise kesinlikle bu araliklar takip edilmelidir 172.16.0.0 - 172.31.255.255 netwerk icin ve netwerk 172.16.0.0, 172.17.0.0... 172.32.0.0 ve ip icin ise  172.32.1.0, 172.32.2.0,......172.32.254.254(her bir netwerk icin yaklasik 64.000)
+
+!Class A ise kesinlikle bu araliklar takip edilmelidir 10.0.0.0 - 10.255.255.255  netwerk icin ve netwerk her zaman 10.0.0.0 ve ip icin ise  10.1.0.0, 10.1.0.0,......10.254.254.254..olmak uzere(16 milyon...farkli ip kullanilabilir)
+
+!BU SEKILDE PRIVATE-ICERISI ICIN REZERVE
+
+!ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+!SORU CEVAP-BILGISAYAR ILK ISLETIM SISTEMI YUKLENDIGINDE HERHANGI BIR MODEM E BAGLANMADI ISE IP ADRESI NEYE GORE ATANIR..? 
+PEKI BEN 2 TANE SANAL BILGISAYAR OLUSTRDUM WINDOWS  ISLETIM SISTEMI YUKLEDIM VE HENUZ HERHANGI BIR INTERNET BAGLANTISI YOK BU 2 SANAL BILGISAYAR ACTIM VE CMD YI ACARAK IPCONFIG YAZDIGIMDA PC-1 Autoconfiguration IPv4 169.254.134.20  gelirken diger pc-2 de ise Autoconfiguration IPv4 169.254.88.28  degerlerini goruyorum..peki bizim bu bilgisayar nasil olmus da 192.168....ile baslayan bir deger almamis ve neden boyle bir deger almis..eger rezerver olan degerlerimz benim yazdigim degerler gibi ise o zaman neden bu iki pc bu private-icerisi icin rezerve edilmis ip adreslerine uymamis 
+
+
+IP adresleri 169.254.x.x aralığındaysa, bu, sanal bilgisayarların bir DHCP sunucusundan otomatik olarak geçerli bir IP adresi alamadığını gösterir. Bu tür IP adresleri, "APIPA" (Automatic Private IP Addressing) veya "Link-Local" adresleri olarak bilinir. APIPA, bir ağ cihazı DHCP sunucusundan IP adresi alamadığında ağ cihazının kendisine otomatik olarak atadığı bir IP adresidir.
+
+Neden APIPA Adresleri Kullanılır?
+DHCP Sunucusuna Erişim Yok: Eğer ağ üzerinde bir DHCP sunucusu yoksa veya sanal bilgisayar DHCP sunucusuyla iletişim kuramıyorsa, APIPA mekanizması devreye girer ve otomatik olarak bir 169.254.x.x aralığından bir IP adresi atar.
+
+Ağ Yapılandırması Sorunları: Ağ yapılandırmasında bir sorun varsa (örneğin, yanlış subnet maskesi veya ağ geçidi ayarları), sanal bilgisayarlar DHCP sunucusundan IP adresi alamayabilir ve APIPA adresleri kullanabilir.
+
+Geçici Ağ Sorunları: Ağdaki geçici sorunlar veya ağ bağlantısındaki kesintiler de DHCP adreslemenin başarısız olmasına ve APIPA adreslerinin atanmasına neden olabilir.
+
+APIPA Adreslerinin Özellikleri:
+Otomatik Atama: Cihazlar, 169.254.0.1 ile 169.254.255.254 arasında rastgele bir adres seçer (ilk ve son 256 adet adres hariçtir).
+Yerel Bağlantı: Bu adresler sadece yerel ağ içinde iletişim kurmak için kullanılabilir ve ağın dışına çıkamaz.
+Geçici Çözüm: APIPA adresleri geçici bir çözümdür. DHCP sunucusu tekrar erişilebilir hale geldiğinde, cihazlar normalde DHCP'den geçerli bir adres alır.
+Çözüm Yolları:
+DHCP Sunucusunu Kontrol Edin: Sanal ağınızda bir DHCP sunucusu olup olmadığını ve düzgün çalışıp çalışmadığını kontrol edin.
+Ağ Ayarlarını Gözden Geçirin: Sanal ağ adaptörlerinin doğru yapılandırıldığından ve sanal bilgisayarların DHCP sunucusuna ulaşabileceği bir ağda olduklarından emin olun.
+Ağ Bağlantısını Kontrol Edin: Sanal bilgisayarların ağ bağlantısının düzgün kurulduğundan ve ağ geçidi, subnet maskesi gibi diğer ağ ayarlarının doğru yapılandırıldığından emin olun.
+Manuel IP Ataması: APIPA adresleriyle ilgili sorunlar devam ederse ve DHCP sunucusuyla ilgili sorunları çözemezseniz, sanal bilgisayarlara manuel olarak bir IP adresi atayabilirsiniz. Bu durumda, 192.168.x.x, 10.x.x.x, veya 172.16.x.x - 172.31.x.x gibi özel IP aralıklarını kullanabilirsiniz.
+
+!ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+IP ADRESLERINI ETHTERNET KARTLARINA GIRIYORUZ
+
+BILGISAYAR IN AG AYARLARINA GIDERLIM-NETWORK AYARLARI INSTILLINGER FOR NETWORK OG INTERNET-ETHERNET-ENDRE KONTROLL ALTERNATIVER- GELEEN PC ICONLU ETHERNET E CIFT TIKLA-EGENSKAPER E TIKLA-INTERNET PROTOCOL VERSION 4 E TIKLA-- VE ARTIK KARSIMIZA GELEN PENCERE DE MANUEL OLARK  IP-ADRESSE:  NETWERKSMASKE(SUBNETMASK) -STANDART GATEWAY(DEFAULT GATEWAY)  AMA BU DEGERLERI MANUEL OLARAK KENDIMZ GIREBILMEK ICIN BRUK FØLGENDE IP-ADDRESSA CHECKBOX INA TIKLARIZ
+
+!ORTAM DA EGER DHCP SERVISI YOK ISE YANI MODEM YOK ISE(YA KAPALI YA DA HIC YOK) O ZAMAN, ORTAMA CIKAN PC LER BENIM IP ADRESIM YOK BANA IP ADRESI VEREEK BIRISI LAZIM DIYE ORTAMA MESAJ GONDERIYOR, ORTAMDAN MESAJINA KARSILIK ALAMAZSA YANI BU CEVABI VERECEK MODEM(DHCP SERVISI) O ZAMAN DA PC KENDI KENDINE OTOMATIK IP ATAMASI YAPIYOR
+
+ADEM PC SI NIN ATADIGI OTOMATIK IP ADRES:
+ Autoconfiguration IPv4 169.254.134.20 
+ZEYNEP PC SI NIN ATADIGI OTOMATIK IP ADRES:
+ Autoconfiguration IPv4 169.254.88.28 
+
+ !EGER IP ADRESI 169 ILE BASLIYORSA BU IP APIPA(AUTOMATIC PRIVATE IP ADDRESING) TARAFINDAN PC KENDI KENDINE ATAMISTIR, CUNKU ORTAMDA DHCP SERVISI YANI MODEM BULAMAMISTIR
+!INTERNETE BAGLANMA SORUNLARINDAN BIR TANESI DE BUDUR, BAZEN PC LER OTOMATIK YAPILANDIRMA DA OLABILIR VE MODEM I GORMUYOR OLABILIR, O ZAAMAN MODEM KONTROL EDILMELI VE MODEM IN CALISTIGINDAN EMIN OLUNMALI
+
+!ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
+
+IP-ADRESS KISMINA -
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+BU ADRESLERI GIRIP DE OKE BASARSAK HEMEN UYARI VERECEKTIR ALT-AGMASKESI EKSIK DIYE-YA DA SUBNETMASK(NETVERKSMASKE EKSIK DIYE) 
+!BIR BILGISAYARA IP ADRESI VERIRKEN SUBNETMASK DA VERMEK ZORUNDAYIZ 
+
+!SUBNETMASK NEDIR VE NEDEN GEREKLIDIR ? 
+BIR BILGISAYAR KENDISINE VERILEN IP NIN NETWORK ID SINI BERLILEMEK ICIN SUBNETMASK A IHTIYAC DUYAR-NETWORK ID SINI HATIRLAYALIM C SINIFI IP LERDE NETWORK U ILK OKTET NETWORK ID SINI BELIRLIYORDU
+
+!IP ADRESINI VERDIKTEN SONRA BILGISAYAR OTOMATIKMEN BIR SUBNETMASK OLUSTRURUR
+
+Adem pc- 192.168.1.100
+SUBNETMASK: 255.255.255.0
+Zeynep pc- 192.168.1.101
+SUBNETMASK: 255.255.255.0
+
+!VE BILGISIAYAR O SUBNETMASK A BAKARAK, IP ADRESININ HANGI NETWORK ID DE OLDUGUNU ANLAR
+
+EGER BIZ B SINIF BIR IP ADRESI VERSE IDIK PC LERE 
+Adem pc- 172.16.1.100
+SUBNETMASK: 255.255.0.0
+Zeynep pc- 172.16.1.101
+SUBNETMASK: 255.255.0.0
+
+EGER BIZ A SINIF BIR IP ADRESI VERSE IDIK PC LERE 
+Adem pc- 10.100.100.100
+SUBNETMASK: 255.0.0.0
+Zeynep pc- 10.100.100.101
+SUBNETMASK: 255.0.0.0
+
+C sinifi icin 
+Adem pc- 192.168.1.100
+SUBNETMASK: 255.255.255.0
+Zeynep pc- 192.168.1.101
+SUBNETMASK: 255.255.255.0
+
+!SEKLINDE SUBNMET MASK ATAMASINI A-B-C CLASS IP LERINE GORE BU SEKILDE ATAYACAKTIR BIZ IP ADRESINI GIRP DE TAB TUSUNA BASITIGMZDA 
+
+DEMEKKI:
+ 
+C SINI IPLERDE STANDART SUBNETMASK: 255.255.255.0
+B SINI IPLERDE STANDART SUBNETMASK: 255.255.0.0
+A SINI IPLERDE STANDART SUBNETMASK: 255.0.0.0
 */
 
 
