@@ -14025,6 +14025,7 @@ ZEYNEP PC SI NIN ATADIGI OTOMATIK IP ADRES:
  Autoconfiguration IPv4 169.254.88.28 
 
  !EGER IP ADRESI 169 ILE BASLIYORSA BU IP APIPA(AUTOMATIC PRIVATE IP ADDRESING) TARAFINDAN PC KENDI KENDINE ATAMISTIR, CUNKU ORTAMDA DHCP SERVISI YANI MODEM BULAMAMISTIR
+ !BU APIPA IP SI KULLANILMIYOR SADECE BIR GOSTERGEDEN IBARETTIR
 !INTERNETE BAGLANMA SORUNLARINDAN BIR TANESI DE BUDUR, BAZEN PC LER OTOMATIK YAPILANDIRMA DA OLABILIR VE MODEM I GORMUYOR OLABILIR, O ZAAMAN MODEM KONTROL EDILMELI VE MODEM IN CALISTIGINDAN EMIN OLUNMALI
 
 !ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
@@ -14069,10 +14070,161 @@ SUBNETMASK: 255.255.255.0
 !SEKLINDE SUBNMET MASK ATAMASINI A-B-C CLASS IP LERINE GORE BU SEKILDE ATAYACAKTIR BIZ IP ADRESINI GIRP DE TAB TUSUNA BASITIGMZDA 
 
 DEMEKKI:
- 
+
 C SINI IPLERDE STANDART SUBNETMASK: 255.255.255.0
 B SINI IPLERDE STANDART SUBNETMASK: 255.255.0.0
 A SINI IPLERDE STANDART SUBNETMASK: 255.0.0.0
+
+
+C sinifi icin 
+Adem pc- 192.168.1.100
+SUBNETMASK: 255.255.255.0
+Zeynep pc- 192.168.1.101
+SUBNETMASK: 255.255.255.0
+
+!Adem pc-IPADRESS- 192.168.1.100 - ILK 3 OKTET I IP ADRESININ NETWORK ADRESI DEMEKTIR...HATIRLAYALIM..192.168.1.0 - HOSTLAR ICIN ISE HATIRLAYALIM  4.OKTET YANI SON OKTET1-254 ARASI OLMALIDIR, SOK OKTET 0 VE 255 OLMAZDI
+
+!BIR IP ADRESININ SUBNETMASK UZERINDEN NETWORK ADRESI NASIL BELIRLENIYOR
+
+IP(decimal-10luk duzen)-192.168.1.100 ONLUK DUZENDEKI HALI-her bir bolume oktet diyoruz
+BINARY(2lik duzen)- 11000000.10101000.00000001.01100100
+Bilgisayarlar kendi aralarinda onluk duzende iletisime gecerler 
+
+192.168.1.100 ip adresini bunu verdikten sonra tab a basinca  subnetmask otomatik olarak 255.255.255.0 olarak geldi 
+ 255.255.255.0 bunun binary-ikilik duzendeki karsiligi- 11111111.11111111.11111111.00000000  dir    
+ Bilgisayarlar kendi iclerinde and-carpma islemi gerceklestiriyorlar ip adresine bakiyorlar binary formdaki ve subnetmaskina bakiyorlar binary form daki ve her bir basamagi  bir birleri ile carpiyor  
+
+ IP         11000000.10101000.00000001.01100100
+ SUBNETMASK 11111111.11111111.11111111.00000000
+
+ RESULT     11000000.10101000.00000001.00000000  
+ !CIKAN SONUCU ONLUK DUZENE CEVIRIRSEK NETWORK ID YI BIZE VERECEKTIR... KI BU DA  192.168.1.0 DIR-NETWORKADRESININ BULUNUSU BU SEKILDEDIR 
+
+ ! 192.168.1.0 C SINIFI BIR IP DIR VE C SNIFI BIR IP DE ILK 3 OKTET AYNI OLUR VE NETWORK ID YI BELIRLER
+
+ !SON DURUMDA ETHERNET E CIFT TIKLAYIP IP YI ACTIK VE 
+ ADEM : IP: 192.168.1.100
+ SUBNETMASK:  255.255.255.0 
+ 
+ ADEM : IP: 192.168.1.101
+ SUBNETMASK:  255.255.255.0
+
+ !LAN-LOCAL-AREAL-NETWORK ICIN NE GEREKIYORDU NETWORK ID LERI YANI C SINIFI IP LER ICIN ILK 3 OKTET NETWORKID-AYNI OLMASI GEREKIYORDU BUNU UNUTMAYALIM
+ 
+ !DEFAULTGATEWAY(STANDART GATEWAY)-VARSAYILAN AG GECIDI VERECEK MIYIZ?
+ DEFAULTGATEWAY MODEMIMIZDI HATIRLAYACAK OLURSAK 
+ SU ANDA INTERNETE CIKMAYACAGIMZ ICIN VE SADECE PC LER LOKAL AREAL NETWORK-LAN BIRBIRINE BAGLAYACAGIM ICIN DEFAULT GATEWAY E HERHANGI BIR SEY VERMIYORUM 
+ OK E BASIP CIKIYORUZ ADEM-ZEYNEP PC LERINDE
+
+ !SIMDI ADEM-ZEYNEP PC SININ BIRBIRINE BAGLANTININ ARKA PLAN DA GERCEKLESIP GERCEKLESMEDIGINI TEST EDELIM
+ ORNEGIN ELIMIZDE 2 TELEFON NUMARASI VARKEN NE YAPARIZ, TELEFONLARI BIRBIRINI ARAYIP TEST EDERIZ...ISTE AYNI MANTIGI BURDA YAPACAGIZ   
+ BU ISLEMI !PING KOMUTU ILE YAPARIZ  
+
+ !ADEM-PC DEN CMD YI ACARIZ VE ZEYNEB E BAGLANTI KURABILIYOR MU DIYE ADEM PC DEN ZEYNEP PC YE REQUEST GONDERIRIZ PING ARACILIGI ILE 
+
+ !ping 192.168.1.101  (ADEM DEN ZEYNEBE)
+
+ Result: Requested timed out diye gelir  
+ Bunun sebebi windows defender network ayar inin aktif olmasidir windows defender dan new Microsof Defender Brannmur(Firewall) i deaktif edersek o zaman bekledigmiz sonuc gelecektir  
+
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128 
+
+!ZEYNEP PC DEN ADEM E REQUEST GONDEREREK BAGLANTI TESTI YAPARIZ
+!ping  192.168.1.100(ZEYNEP TEN ADEM E)
+
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128 
+
+ !BU SEKILDE ADEM VE ZEYNEP PC LERININI BIRBIRLERI ILE BAGLANTILARI OLDUGUNU GORMUS OLDUK!!!
+
+ !Bir pc de ip adresini ogrenmek icin ya ipconfig ya da direk ethernet-internet ayarlarina gidip aktif ethernete cift ya da saga tikalariz properties den gorebiliriz
+
+ !PEKI BIZ ADEM PC SININ IP ADRESINDE NETWORK U DEGISTIRIRSEK 
+ !192.168.1.100 u 192.168.2.100 olarak degistirirsek eger o zaman Zeynep pc sinden ping ile Adem Pc sine request gonderirsek 
+ 
+ ping 192.168.1.100 
+ result: Reply from 192.168.1.101: Destination host unreachable 
+ boyle bir host a ulasilmaadi  
+ 
+ ping 192.168.2.100
+ PING: transmit failed. General failure.
+ !Cunku Adem Zeynep Pc lerinin network adresleri degisti Adem(192.168.2.100)Zeynep(192.168.1.101) ve artik baglanti kuramiyorlar normalde C sinif ip lerde ilk3 oktet network id idi ve 4.oktet 0 olarak gosterilirdi network id de ve biz bunu degistirdigmz icin iki pc artik baglanti kuramaz hale geldi!!!!  
+
+ !ping -t 192.168.1.101 dersek bu da sonsuza kadar istek gonderir
+ Bu komutu anlik olarak bir pc nin diger bir pc ye baglantisinin aktif pasif oldugunu takip etmek icin kullaniriz...Eger ip adresleri nde network id leri esit olursa o zaman baglanti oldugu sonucunu aliriz, yok network id leri farkli ise o zman da network id lerinin ayni olmadigni anlariz 
+ ping -t den cikmak icin CTRL-C ile cikariz
+
+ !BAGLATNTI SORUNLARINA COZUMLER
+
+ result: Reply from 192.168.1.101: Destination host unreachable 
+ Boyle bir sonuc aliyorsak ve ping request gonderdigimz ip adresinin var oldugunu biliyorsak o zaman, ulasmak istedigmz pc kapali olabilir
+ Ethernet kablosunun kablosu cimis olabilir bunu da Internet-network/Ethernet(pc iconu) uzerinde kirmizi carpi isareti gelir
+ Ip adresi nin networku farkli olabillir
+ 
+ Ethernet karti kontrol edildi, pc acik ip adresleri de ayni o zaman bir sonraki secenek Firewall dan kaynaklaniyor olabilir 
+ Denetim Masasi-Windows Guvenlik Duvari(Bilgisayarlar ilk kurulduklarinda diger pc lerden gelecek olan ping requestlere karsi kapalidirlar, bunu Windows Firewall dan Advance settings den)
+
+ Advance settings-Incomingrules-Inkommende regeer-> Fil og skriverdeling (ekkoforespørsel-yanki istegi) 4 satirda bulunan hepsi birden secilir saga tiklanarak aktivate the rule yapilarak, artik ping ile disardan gelen isteklere acmis oluruz
+ Veya windows defender firewalll diyoruz- offentlig netwerk  i pasifize ederiz..
+
+ !ping 192.168.1.100  den eger hicbir bilgi alamiyorsak hicbir sonuc gelmezse o zaman bu ethernet kartinin goremedigi anlamina gelir cunku  
+  ping 192.168.1.100 komutuna cevabi ethernet kartinin aktif olmasi ile alabiliyoruz..Zaten gidip ethernet kartina bakarsak internet ayarlarindan , renginin gri oldugunu goruruz
+  !DenetimMasasi-Ag ve Internet- Ethernet karti gri ise ssaga tiklariz etkinlestir deriz ve ethernet kartini aktiflestiririz
+
+  !Ethernet karti tanimlaniyor.... tanimlanamayan ag  gibi seyler gorursek gidip hemen ipconfig i kontrol ederiz ve orda 169.254.147.161 ip sini goruyoruz yani APIPA yani pc herhangi bir dhcp(modem-router) servisi bulup ondan ip almaya calismis ama bulamamis.. ve ne yapmis APIPA-BILGISAYAR KENDI KENDISINE IP VERMIS
+
+  !EN SON ETHERNET KART TESTI  YAPILABILIR 127 ILE BASLAYAN 127.0.0.1 IP ADRESI BIZIM PC MIZIN ETHERNET KARTIMIZI TEMSIL EDER...PING ILE KENDI ETHERNET KARTIMZI YANI KENDI LOKAL PC MIZIN IP ADRESI TEST EDILEBILIR 
+  
+  !HATIRLAYACAK OLURSAK
+  A SINIFI IP LER=>0-127 ARASI IDI 127 ILE BASLAYAN IP LER KULLANILAMAZ TEST AMACLIDIR.. 
+  B SINIFI IP LER=> 128-191 
+  C SINIFI IP LER=> 192-223 
+  D SINIFI IP LER=> 224-239 
+  E SINIFI IP LER=>240-255
+
+  !SANAL VE GERCEK BILGISAYARLARIMIZ ARASINDAKI ILETISIM 
+  KENDI PC MIZE IPCONFIG YAZARSAK BIRKAC TANE IP ADRESI GELEBILIR BUNUN NEDENI NEDIR BIZDE DEMEKKI BIRDEN FAZLA EHTERNET KARTI VAR 
+
+  1-ETHERNET(KABLOLUDUR BUNU ICON DAN ANLARIZ)
+  2-WIFI (KABLOSUZDUR BUNU DA WIFI ISMINDEN ANLARIZ)
+  3-ETHERNET 2(VIRTUALBOX HOST-ONLY NETWORK)(BU SANAL PC LERLE GECEK PC NIN ILETIISM KURABILMESI ICIN, ORTAMDA SANAL BIR EHTERNET KARTIDIR VE VIRTUALBOX KURDUGUMUZ ZAMAN GORURUZ) 
+
+  Gercek bilgsiayarimizin ip adresini gormek icin gelirsek
+  ipconfig yazinca karsimiza gelen ciktiyi inceleyecek olursak 
+
+  Tunel adapter local Area connection ..Tunel ile geliyorsa bu virtual ethernet kartidir
+!IP mizi bulmak icn nerye bakariz, internete biz eger wifi  uzerinden baglanmis isek wifi basliginin altindaki ip ye bakariz ama kablolu ethernet uzerinden baglandi isek o zaman da ehternet basligina bakariz...burdan hangisi uzerinden baglandigmzi da internet ayarlarinda gidip kontrollpanel-network-internet-internet connections altinda gorebilriz
+  Wireless LAN adapter Wi-Fi:
+  ALTINDA ip adresini gorebilriz
+
+  !Link-local IPv6 Address .....  : fe80::79b6:45f4:f117:2e51%10(bu kullanilmiyor su an)
+  !ipv4 Address: 172.29.29.102
+  SubnetMask 255 255 255.0
+  Default Gateway  172.29.29.1(bu eger internete bagli isek gelir, internete giris kapsidir)(Bu adres pc mizin internete cikmak icin kullandigi, ip adresidir, yani modem-router a ulasmak icin kullandigi ip adresini tasvir ediyor, aslinda modemin lokal agdaki adresidir... diyebiliriz..bu adres uzerinden modem e ulasir ve modem NAT islemi yaparak internete cikis ip sine cevirir)
+    
+  !yapilmasi gereken sey adem ve zeynep pc sinden bu ipv4 Addressine( 172.29.29.102) ping atmak:
+  !ping atmadan once bu ip adresi B sinifi bir ip adresi ve dikkkat edlim...B sinifi ip lerde network kismi ilk 2 oktet ti ve pc lerin lokal areal network baglantisi icin, birbirlerini tanimalari icin ilk 2 oktet in esit olmasi gerekirdi, o zaman biz adem,zeynep pc sinin ip adreslerini ona gore ayarlamamaiz gerekir, B sinifi bir ip  ve network id leri ayni olan 172.29.0.0 network id 
+  Adempc sindene 172.29.29.103 olaarak atadik ve SUBNET mask biz tab a basinca bu B snifi bir ip oldugu icin 255.255.0.0 olarak subnetmask in atamasini yapiyor normalde..ama biz yine de subnetmask i bir onceki 192.168.1.100 den kalan C sinifi ip adresi gibi biraktik.. ve de ping atiyoruz adem virtual pc sinden gercek pc mize
+
+  ping 172.29.29.102 
+  Request timed out. geliyor sonuc 
+  !Bu durumda 
+  !1-Gercek pc nin network-firewall ayarlarinda yukarda gosterdigimz ayarlarin duzenlenmesi, disardan gelen ip lerin istek atmasi izin verilmesi
+ !Virtual pc lerin settingslerinde network de host-only adapter degil, bridge adapter secilmelidir cunku host-only adapter ile sadece virtual pc ler kendi aralarinda gorusebilirler. Ama biz virtual-pc yi biz bridge adapter secersek o zaman virtual pc ler gercek pc gibi davranarak eger ortamda bir modem var ise o modem den ipalirlar...
+ !Biz adem pc sini yi bridge adapter yapmamiza ragmen, gidip ip adresini ipconfig den kontrol edince bizim atadigmz manuel ip adresini goruyoruz yine, modem den atanan ip degil neden cunku...biz ip yi static yaptik ve manuel atadik, bundan dolayi da ilk once adem inpc sini yine ip yi atadimgz yerde  automatik e almaliyiz ve de gitsin modem den ip adresi alsin, tabki burda modem e eger baglatnisi var ise o zaman ip adresi alabilir...yani daha dogrusu wifi-modem inin DHCP servisi atar ip yi, ya da kablolu baglatni ise orda da ethernet DHCP SERVISI ip yi atar, kablolu baglanti gerceklestiginde.Eger hicbir DHCP servisi ile baglnti kuramazsa o zamanda APIPA-Pc nin kendisi kendisine gecici otomatik bir ip adres atmasi yapar(169.254.x.x)
+  Bunu yapinca ademin pc den gercek pc ye ping atabildik ve sonuc alabildik 
+
+  !Zeynep pc yi ise 172.29.1.10 ip sini atadik B sinifi oldugu icn ilk 2 oktet i network idi ve bilgisayarlarin baglanti kurabilmeleri icin network id leri ayni olmasi gerekiyrdu B sinif ip lerde ve subnetmask icin ise tab a basark 255.255.0.0 olustrdu kendisi.. ve de bu ayari yaparak istek gonderdik gercek pc mize zeynep virtual pc sinden ve sonuc
+  ping 172.29.29.102 
+  Request timed out
+
+
+
 */
 
 
