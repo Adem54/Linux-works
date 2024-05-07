@@ -14218,13 +14218,522 @@ Bilgisayarlar kendi aralarinda onluk duzende iletisime gecerler
  !Virtual pc lerin settingslerinde network de host-only adapter degil, bridge adapter secilmelidir cunku host-only adapter ile sadece virtual pc ler kendi aralarinda gorusebilirler. Ama biz virtual-pc yi biz bridge adapter secersek o zaman virtual pc ler gercek pc gibi davranarak eger ortamda bir modem var ise o modem den ipalirlar...
  !Biz adem pc sini yi bridge adapter yapmamiza ragmen, gidip ip adresini ipconfig den kontrol edince bizim atadigmz manuel ip adresini goruyoruz yine, modem den atanan ip degil neden cunku...biz ip yi static yaptik ve manuel atadik, bundan dolayi da ilk once adem inpc sini yine ip yi atadimgz yerde  automatik e almaliyiz ve de gitsin modem den ip adresi alsin, tabki burda modem e eger baglatnisi var ise o zaman ip adresi alabilir...yani daha dogrusu wifi-modem inin DHCP servisi atar ip yi, ya da kablolu baglatni ise orda da ethernet DHCP SERVISI ip yi atar, kablolu baglanti gerceklestiginde.Eger hicbir DHCP servisi ile baglnti kuramazsa o zamanda APIPA-Pc nin kendisi kendisine gecici otomatik bir ip adres atmasi yapar(169.254.x.x)
   Bunu yapinca ademin pc den gercek pc ye ping atabildik ve sonuc alabildik 
+  !VIRTUAL BOX INTERNET BAGLANTI COZUMU!!!!!!!!!!!!
+  !Virtual box daki internet baglanti sorunu cozumu...Virtual box uzerinden Adem pc sinin settings lerine gidersek orda  Atached to Bridget Adapter yaptiktan sonra, Advanced da Promiscuous Mode ise Allow All yapmamiz gerekiyor
+  !Bunlari yapmamiza ragmen internete yine de baglanmiyor ve modemin DHCP servisinden ip adresi alamiyorsa biz automatik yapmamiza ragmen o zaman bu durumlarda, biz ip adresini elle atayacagiz, neye gore tabi ki gercek pc mizin ip sine bakarak ayni network id si olacak sekilde... 
+  Gercek pc mizin ip adresi: 172.29.29.102 biz adem pc:172.29.29.103 yaptiktan sonra subnetmask i da gercek pc nin ki gibi 255.255.255.0 yapariz ardaindan da Default Gateaway i de yine gercek pc nin ki ne ise aynisini veririz neden cunku bu ne idi iste bu modem in lokal ip si idi hatirlayalim...internete baglanilmasi icin gerekli idi ayrica yine gercek pc nin ayarlarindan orda Dns1,Dns2 degerlerini de alip yine adem pc sinde manuel olarak ayni dns1,dns2 degerlerini gireriz ve bu sekilde internet baglantisi sorunu cozulmus olacaktir 
+  BU BIR COZUM YOLU OLABILIR AMA BIZ MANTIK OLARAK VIRTUAL BOX SETTINGS AYARLARI YAPTIKTAN SONRA IP ADRESI OTOTMATIK ATA DIYE AYAR YAPARIZ SORNA WIFIMODEM I UZERINDEN IP SI OTOMATIK OLARAK ATANACAKTIR
+  !Otomatik olarak ip atamasin i ayarladiktan sonra adem pc si wifiye baglandiginda modem adem pc sine 
+  ip,subnetmask,default gateway adreslerinin hepsinin atamasini yapacaktir ve ip yi de gercek pc mizin ip si ile ayni network de ve gercek pc ip sinin devami olarak atamasini bekliyoruz... ve sonra da artik adem-zeynep pc sinden gercekpc ye baglanti gerceklestirebiliriz
 
   !Zeynep pc yi ise 172.29.1.10 ip sini atadik B sinifi oldugu icn ilk 2 oktet i network idi ve bilgisayarlarin baglanti kurabilmeleri icin network id leri ayni olmasi gerekiyrdu B sinif ip lerde ve subnetmask icin ise tab a basark 255.255.0.0 olustrdu kendisi.. ve de bu ayari yaparak istek gonderdik gercek pc mize zeynep virtual pc sinden ve sonuc
   ping 172.29.29.102 
   Request timed out
+  !NEDENINI BULDUM CUNKU SUBNETMASK ILE BIZ SUNU ANLARIZ ORNEGIN IP:172.29.29.102 SUBNETMASK 255.255.255.0 BU BIZIM INTERNETE BAGLI GERCEK PC MIZI IPCONFIG DEN BAKINCA GELEN IP-SUBNETMASK INFOSU AYRICA DA DEFAULT GATEWAY:172.29.29.1 BURDAN NE ANLIYRUZ BU EVET B CLASS BIR IP ADRESI ANCAK DHCP SERVISI IP-SUBNETMASK-DEFAULTGATEWAY VERIRKEN SUBNETMASK 255.255.255.0 ILE SUNU DIYOR SENIN IP ADRESININ 172.29.29 KISMI SABIT OLACAK SEN, 4.OKTETI DEGISTIREREK AYNI NETWORK DE IP ADRESI ATAYABILIRSINL... KI BUNU ZATEN MODEMIN LOKAL IP SI OLAN DEFULTGATEWAY DEN DE ANLIYROUZ...DEFAULT-GATEWAY:172.29.29.1  
+  
+  SIMDI DE GERCEK PC MIZDEN VIRTUAL ADEM-ZEYNEP PC SINE BAGLNMAYA CALISALIM BAGLANTININ GERCEKLESTIGINI ASAGIDAKI GIBI GOREBILIRIZ
+
+  C:\Users\ae_netsense.no>ping 172.29.29.103
+
+Pinging 172.29.29.103 with 32 bytes of data:
+Reply from 172.29.29.103: bytes=32 time=95ms TTL=128
+Reply from 172.29.29.103: bytes=32 time=2ms TTL=128
+Reply from 172.29.29.103: bytes=32 time=3ms TTL=128
+Reply from 172.29.29.103: bytes=32 time=2ms TTL=128
+
+Ping statistics for 172.29.29.103:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 2ms, Maximum = 95ms, Average = 25ms
+
+C:\Users\ae_netsense.no>ping 172.29.29.104
+
+Pinging 172.29.29.104 with 32 bytes of data:
+Reply from 172.29.29.104: bytes=32 time=70ms TTL=128
+Reply from 172.29.29.104: bytes=32 time=1ms TTL=128
+Reply from 172.29.29.104: bytes=32 time=2ms TTL=128
+Reply from 172.29.29.104: bytes=32 time=2ms TTL=128
+
+Ping statistics for 172.29.29.104:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 1ms, Maximum = 70ms, Average = 18ms
+
+C:\Users\ae_netsense.no>
+
+!DHCPS SERVISI -  MODEMLE ILETISIM KURMAK...-MODEM BAGLANTI SORUNU VE COZUMU
+Biz bir bilgisayarda ip mizi ogrenirken ipconfig yazarak sadece kendi ip sini degil modem in ip sini de Default gateway e atnan deger den ogrenebilir
+    ipconfig
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+  Bu bilgiye bakarak anlamamiz gerkenler sunlardir 
+  1-Benm network id adresim: (default gateway adresine bakarak) 172.29.29.0 adresidir, neden bu onemli cunku eger ip adresi tanimlamasi yapacaksam o zaman iste bu network e gore yapmamiz gerekir...172.29.29.0 - 172.29.29.1, 172.29.29.2,... 172.29.29.254 e kadar ip tanimlamasi yapabilirz ayni networkde 
+  2-
+
+ !Hemen real hayattan ornek le daha da netlestirelim 
+ Class - lokal areal network icin atanabilecek ip adresleri siniflarina gore bu sekilde idi, YANI ICERDE KULLANILABILECEK IP LER
+ A    10.0.0.0
+ B    172.16.0.0-172.32.0.0
+ C    192.168.0.0
+
+ ISP(INTERNET SERVICE PROVIDER)TELIA-TELENOR=>MODEM E INTERNETI GONDERIR 
+ MODEM(72.141.137.29) TELIA MODEM IN DIS BACAGINA YANI INTERNETE CIKACAGI KISMINA BIR IP ADRESI ATAMASI YAPIYOR VE O MODEM E BAGLANAN TUM CIHAZLAR, PC,MOBILE,TABLET,SMARTPHONE,VSS HEPSI internete baglanirken modem in ip si ile baglanirlarki, bu modem ip sinden internete baglanan cihazlar tarafindan herhangi bir illegal islem yapilma durumunda, telia bu islemin bu modem e verilen ip den internete cikan bir cihazin bunu yaptigini bilir ve hemen adresi tespit edebilir..
+ !MODEM I PC LER NEDEN GOREMEYEBILIR!!!!
+ !ornegin 3 tane pc miz var ve 1 modemimiz var modemimizin ic-lokal-privat-ipsi:172.29.29.102 - disabakan-public ip si:72.141.137.29
+ !Ama biz geldik pc1:10.10.10.100 pc2:10.10.10.101 pc3:10.10.10.102 ip atamalarini yaparsak tamam bu 3 pc kendi aralarinda iletisime gecebilir ama internete baglanabilmek icin default gateway leri yani modem in lokal ip adresi ile ayni network de olmak zorundadirlar...ISTE KIMI ZAMAN INTERNET PROBLEMINDEN DOLAYI EGER BAGLANTI SORUNU YASANIYORSA O ZAMAN MODEM IN LOKAL IP SI KONTROL EDILMELI VE PC LERIN DEFAULT GATEWAY LERI MODEM IN LOKAL IP SI ILE AYNI MI VE DE BILGSAYARLARIN IP ADRESLERI DE MODEM IN LOKAL IP ADRESI ILE AYNI NETWORKDE MI.....COOK ONEMLI BIR BILGIDIR
+
+ !INTERNET BAGLANTISINN GERCEKLESEBILMESI ICIN....
+ !COOOOOK ONEMLI.... TUM CIHAZLARIN INTERNET BAGLANTISININ GERCKLESEBILMESI ICIN MODEM I TANIYABILMELERI ICIN MODEM ILE AYNI NETWORK DE OLMALARI GEREKIR.....MODEM IN IP ADRESI YANI INTERNET BAGLI OLDUGUNDA IPCONFIG ILE GELEN DEFAULT GATEWAY DEGERI MODEM IN LOKAL IP ADRESI, ILE AYNI NETWORK DE OLMASI GEREKIYOR MODEM E BAGLANACAK PC LERIN DOLAYISI ILE BUU COOOK ONEMLIDIR
+ CIHAZLAR A MANEL IP ATARKEN MODEM ILE ILETISIM KURACAK VE AYNI NETWORK DE IP LER ATMAK GEREKLIDIR VE BU SEKILDE CIHAZLAR MODEM I TANIDIKTAN SONRA MODEM CIHAZLARIN MAC ADRESLERI UZERINDEN CIHAZLARI TANIR VE LOKAL IP ADRESINI-PRIVATE-ICERDEKI,   PUBLIC-INTERNETE CIKMA-DISARI IP ADRESINE DONSTURUR(NAT) VE TUM KENDISI ILE LOKAL DDE AYNI NETWORK DE BULUNAN KENDISINE BAGLANABILEN CIHAZLARI INTERNETE CIKARACAKTIR 
+
+LOKAL-ipsi:172.29.29.102 OLAN MODEM E KARSILIK pc lere eger pc1:172.29.28.1 pc1:172.29.28.2 verirsek yine modem e baglanamazlar cunku ayni sinifta olmalarna ragmen, ayni network de degillerdir...BUNLARI KARISTIRMAAYLIM...COOOK ONEMLIDIR!!!
+
+!PC LERE AYNI NETWORK DEKI IP ADRESLER ATADIKTAN VE INTERNET BAGLANTISI GERCEKLESTIKTEN SONRA ORNEGIN PC1 INTERNTETTE GOOGLE.COM YAZIP ENTERE BASARAK A ISTEK GONDERDIGINDE , MODEM BU ISTEGI PC NIN LOKAL IP SI UZERINDEN ALIR VE MODEM KENDI LOKAL IP ADRESI YANI PCLERIN DEFAULTGATEWAY ADRESINI PRIVATE-IP(172.29.29.102) YI PUBLIC, INTERNETE CIKABILECEK IP(79.160.72.2) ADRESINE CEVIREREK TUM CIHAZLARI BU PUBLIC IP ADRESI UZERINDEN INTERNETE CIKARACAKTIR
+ 
+
+ DNS SERVISINI ANLAMAK
+ ping ile biz sadece ip adreslerine degil domain adreslerine de request gonderebiliriz..ki zaten 
+ 
+ ping www.google.com
+C:\Users\ae_netsense.no>ping www.google.com
+
+Pinging www.google.com [142.250.74.100] with 32 bytes of data:
+Reply from 142.250.74.100: bytes=32 time=12ms TTL=58
+Reply from 142.250.74.100: bytes=32 time=14ms TTL=58
+Reply from 142.250.74.100: bytes=32 time=12ms TTL=58
+Reply from 142.250.74.100: bytes=32 time=12ms TTL=58
+
+Ping statistics for 142.250.74.100:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 12ms, Maximum = 14ms, Average = 12ms
+
+    !Dikkat edelim google.com a ping ile request gonderdik ve bu google.com hizmet veren serverin aktif olup olmadignin kontrol etmek icin ve de ayni zamanda biz connection kurabiliyor muyuz onu gorebilmek icin ve bize google.com un ip adresini de veriyor burda dikkat edlim
+    zaten https:://www.google.com domain adresidir ve DNS serverinde bu domain adresi google.com un ip sine karsilik geldigi icin biz ping ile sorgulayinca o zaten once DNS SERVER A GIDER VE ORDA 
+    !DEMEKKI WEBSITELERINE PING ATARAK WEBSITELERININ IP ADRESLERINI OGRENEBILIYORUZ
+    !ht123.no olan kendi serverimizin domain ine ping atinca kendi serverimizin ip adresini almis oluruz
+C:\Users\ae_netsense.no>ping ht123.no
+
+Pinging ht123.no [79.160.72.43] with 32 bytes of data:
+Reply from 79.160.72.43: bytes=32 time<1ms TTL=64
+Reply from 79.160.72.43: bytes=32 time<1ms TTL=64
+Reply from 79.160.72.43: bytes=32 time<1ms TTL=64
+Reply from 79.160.72.43: bytes=32 time=1ms TTL=64
+
+Ping statistics for 79.160.72.43:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 1ms, Average = 0ms
+
+!ping ataklari
+!Bazi sitelere ping atinca request timed out gelir bunun sebebi o siteler-serverlar ping e kapatmis lar istekleri firewall uzerinden, firewall a ping istekleri gelirse ona cevap verme demis....
+!ping ataklarina maruz kalmamak icinde yapabilirler ping -t 142.250.74.100 dedigmzde biz durduruna kadar surekli olarak bu ip adresine istek gonderir duru ve bunu 1000 pc de ayni anda yaparsak ne yapar o zaman da gidip surekli olarak bu ip adresli server i mesgul ederk ona ping ataklari gerceklestirir
+
+!ip adress domain..
+Biz browser a gidip www.google.com yerine ping ile ogrendigmz google in ip adresini girdigmz zamanda (142.250.74.100) gorecegiz ki google sayfasina gidebilecegiz
+DNS IP ADRESLERINI DOMAINLERE, DOMAIN ADRESLERINI IP ADRESLERINE CEVIRIYOR...BUNU BILELIM...
+BILGISAYARLAR IP ADRESLERI UZERINDEN HABERLESEBILIRLER YANI SERVER LARDA BIR PC DIR ZATEN...DOLAYISI ILE DE TUM HIZMET VEREN WEBSITELERI ESASINDA BIR SERVER DAN BIR PC DEN HIZMET SUNARLAR VE IPI ADRESLERI UZERINDEN SUNARLAR VE DNS BIZ WWW.GOOGLE.COM YAZDIGMZ DA ONCE DNS SERVER A GIDER DNS SERVER WWW.GOOGLE.COM A KARSILK GELEN IP YI BULUR VE O IP LI SERVER A YONLENDIRIR ISTEGI VE BU SEKILDE GONDERILMIS OLAN ISTEK SERVER A GITMIS OLUR VE DE SERVER RESPONSE VEREREK BIZE GOOGLE UN SAYFASININ ONUMUZE GELMESINI SAGLAR
+!YANI KISACA IP-ADDRESS COZUMLEMESI YAPAR DNS, DOMAIN(ISIM) LERI IP ADRESLERINE, IP ADRESLERINI DE DOMAINLERE CEVRILMESINE YARAR
+
+!windows ta
+!ipconfig - ipconfig /all ile daha detayli ip bilgisi elde edebiliriz
+
+!ipconfig /all
+Ethernet adapter Ethernet:
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Intel(R) Ethernet Connection (4) I219-V
+   Physical Address. . . . . . . . . : E4-E7-49-9E-AF-BD
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8(Preferred)
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : fredag 5. april 2024 08:40:23
+   Lease Expires . . . . . . . . . . : lørdag 6. april 2024 08:40:19
+   Default Gateway . . . . . . . . . : 172.29.29.1
+   DHCP Server . . . . . . . . . . . : 172.29.29.1
+   DHCPv6 IAID . . . . . . . . . . . : 115664713
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-2A-E3-5C-02-E4-E7-49-9E-AF-BD
+   DNS Servers . . . . . . . . . . . : 172.16.3.11
+                                       172.16.3.12
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+!Ilk olarak default gateway e bakacak olursak Default Gateway . . . . . . . . . : 172.29.29.1  bu modem in lokal ip sidir ve buna bakarak biz direk network id mizin 172.29.29.0 oldugunu anlariz 
+
+!DNS SUNUCU BILGLERIMIZE BAKALIM 
+
+DNS Servers . . . . . . . . . . . : 172.16.3.11
+                                    172.16.3.12
+YANI DNS SUNUCUSU-SERVER ININ IP ADRESI DE BUDUR BU COK KRITIKTIR COK ONEMLIDIR...DOMAIN -IP COZUMLEME ISLEMINI YAPAN DNS SERVER IP SI DIR BU
+YANI DNS SERVER IP ADRESI BURDA , VE BURDAKI DNS SERVER IP UZERINDEN , BIZ HERHANGI BIR WEBSITESI ISMINI GOOGLE -CHROME DA ARADGIMZDA REQUEST GONDERDIMGZ DE ILK ONCE DEVREYE DNS SERVER GIRER DNS SERVER IP SININ BILGISAYARIMIZ MODEM DEN MODEM E BAGLANDIGINDA ALIR VE ILK OLARAK DNS SERVER A GIDER ISTEGIMZ DNS SERVER IP UZERNDEN DNS SERVER BULUNUR SONRA DA ORDA ORNEGIN WWW.GOOGLE.COM DOMAIN NAME ININ HANGI IP E KARSILK GELDIGNI BULUNR VE ORDAN DA BULUNAN WWW.GOOGLE.COM UN IP ADRESINE YONLENDIRIR
+
+!AMA BU NORMALDE DNS SERVER IP ADRESI DE MODEM IN IP ADRESI ILE AYNI OLUYOR, KI MODEM BU ISLEMMI BIZIM ICIN GERCEKLESTIRMIS OLUR....
+
+!KI BIZ KENDIMIZ IP ADRESININ MANUEL OLARAK GIRERKEN BIZ DEN 
+!IP,SUBNETMASK, DEFAULT GATEWAY, PREFERRED DNS SERVER(FORETRUKKET DNS-SERVER), ALTERNATE(ALTERNATIV) DNS SERVER
+
+! EGER IP ADRESINI ELLE VERECEKSEK KENDIMIZ MANUEL OLARAK O ZAMAN.... INTERNETE BAGLANIRKEN DIKKKKAT EDECEGIMMZ NOKTALAR 
+1-IP ADRESIMIZ MODEM ILE AYNI NETWORK DE OLMALIDIR
+2- SUBNETMASK TI TAB A BASINCA KENDISI VERIYOR 
+3-DEFAULT GATEWAY MODEM IN LOKAL IP SI OLACAK INTERNETE BIZI CIKARABILMESI IICIN
+4-DNS SERVER- MODEM BENI INTERNETE CIKARDIKTAN SONRA, INTERNETTE GEZINMEMI SAGLAYACAK OLAN IP ADRESI VE BU DA EGER AYRI BIR MODEM IP SI BULAMIYORSAK O ZAMAN MODEM IN IP SINI YINE DNS SERVERIP YE GIRERIZ KI, BIZIM INTERNETTE GEZINMEMIZI VE IP-DOMAIN COZUMLENMESINI SAGLASIN
+
+! DHCP 
+Biz ip leri manuel oalrak vermek istemezsek zaten pc miz ortama ciktiginda acildiginda hemen ip bilgilerini alabilecek bir DHCP SERVISI YANI modem arayacaktir ve BU SERVISI BULDUGUNDA TUM IP-SUBNETMASK-DEFAULT GATEWAY - DNS SERVER BILGILERINI ALACAKTIR
+!DHCP SERVISI MODEMLERIN ICINDE BULUNUR
+!HEMEN MODEMIMIZIN IP SINI BULALIM NASIL BULUYORDUK IPCONFIG /all veya ipconfig DEFAULT GATEWAY IP ADRESI MODEMIMIZIN LOKAL IP ADRESIDIR 
 
 
+Ethernet adapter Ethernet:
 
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+   Modem ip adresimz budur: Default Gateway . . . . . . . . . : 172.29.29.1
+   !BU BILGIYE DAYANARAK BIZ NETWORK ID SINI DE BULABILIRIZ 172.29.29.0 DIR NETWORK ID SI
+   !GENELLIKLE NETWORK ID SININ ILK IP SI MODEM E VERILIR ONDAN DOLAYI DA MODEM 172.29.29.1 BU SEKILDE GELIR BIZE...
+
+   !MODEMIMIZIN ARAYUZUNE NASIL ERIRIZI MODEMIMIZIN IP ADRESINI BROWSER A GIREREK MODEMIN ARA YUZUNE ULASIRIZ
+   172.29.29.1 BUNU GIRDIK KULLANICI ADI VE SIFFRE GELECKTIR BUNLARI MODEM IN KITAPCIGINDAN EDINEBILIRIZ, LOGIN OLURUZ
+   MENU DE DOLASAARK DHCP NIN NERDE OLDUGUNU BULABILIRIZ 
+   DHCP IP ATAMASI YAPIYORDU , IP DAGITIMI YAPIYORDU UNUTMAYALIM 
+   !asagida veirlen adres bilgileri ornek vermek icindir
+   DHCP START IP  192.168.0.10  
+   DHCP END IP  192.168.0.200  GORURSEK ANLARIZ KI BU DHCP IP LERI 192.168.0.10  DAN BASLAYARAK 192.168.0.200 A KADAR DAGITIYOR  - 190 TANE IP DAGITIYOR---AMA BUNLAR DEGISTIRILEBILIR...
+   KENDI IP ADRESINI DE PRIVATE LAN IP ADDRESS:192.168.0.1  ve Subnetmask 255.255.255.0 ORNEGI GIBI GOREBILIRIZ
+
+   !modem de verilmis olan network id sini degistirmemeliiyiz problemler yasaabiliriz buna dikkat edelim!!!
+   !Ama modem de hangi araliklarda ip dagitacagini degistirebiliyorduk onu da  diyelim ki 
+   DHCP START IP  192.168.0.10  
+   DHCP END IP  192.168.0.200 dan 
+   DHCP START IP  192.168.0.100  
+   DHCP END IP  192.168.0.200 ' e degistirip modem ara yuzunden ciktik mesela sonra ne yapariz  
+
+   ipconfig ile kendi ip mizi buluruz ve 
+   orneign kendi ipmiz 192.168.0.11 olsun 
+
+   ipconfig /release  diyerek ip yi birak deriz ve karsimiza hicbir ip adresi getirmez cunku ip adresimizi birakmis oldu 
+   ipconfig /renew diyerek de ip adresimzi yenile diyoruz yeniden ip adresi veriyor 
+
+   !Bu islemleri yapmadan once, ip verme islemini manuel den otomatige cevirmemiz gerekiyor yoksa kendisi ip atamaz, venormalde de bizim ipconif relase-ipconfig renew demesek de bilgisayar kapatip actimgzde veya yeniden baslattigimizda otomatk olarak yeni pc ip alacaktir zaten
+   !Ve aslinda eski ip yi ceek, yeni bir ip ver demis olduk 
+   
+   !YANI KISACASI DHCP NIN IP ARALAGINDA YAPTIGMZ DEGISIKLKIN PC LERI ACIP KAPATINCA YA DA IPCONFIG RELEASE-IPCONFIG RENEW YAPARAK GUNCELLENE IP ARALGININ NASIL PC LERE VERILDGINI GOREBILIRIZ
+
+   !ARTIK PC LERE IP ATAMALRI YAPARAK BIRBIRLERI ILE GORUSEBILMELERINI SAGLAYABILIYORUZ
+   
+   !UZAK MASAUSTU BAGLANTISI GERCEKLESTIRMEK 
+  
+   Baglanmak istedgimz pc nin ip adresini biliyorsak, o pc ye uzaktan baglanabiliriz
+
+   1.Baglanilmak istenen pc de uzak masaustu baglanti ayari etkin hale getirilmelidir, uzak baglanti ayarlari-izin ver(tillat eksterne tilkoblinger til denne datamaskinen(bunu arama cubugunda arayarak bulabiliriz))
+   2-Ilk yaparken, once ping ile baglanilmak istene pc ye baglanti var mi ping 172.29.29.103
+   3-Uzak masaustu baglantiya gideriz..Baslattan veya windows-r(mstsc yaz) (Tilkobling til ekstern skrivebord)
+   4-Baglanmak istenilen pc nin ip adresi yazilir ve karsimiza brukernavn-password istegi gelir..ki baglanilmak istenen pc de var olan bir kullanici adi ve password girilmesi beklenir, oraya kullanici adi Zeynep deriz kullanici adina gidip bakalim o pc de pc altina users altinda bulunan klasor isimleri kullanici adi dir...password de pc acilirken istenen paswworddur...Bu bilgiler de girilince artik baglanti gerceklesecektir ve biz Zeynebin pc sine baglandigmz icin bizi login yaparken Zeynebin kendsini otomatik olarak logout olacaktir
+   5-Uzak pc den baglandigmz bilgisyar in ip adresi baglandimgz pc de ekranin ust tarafinda gozukur ona tiklarsak pc mizin ekraninda 
+   6-Baglandgmiz uzak pc nin kullanicis kendi pc sine girerse bizim uzaktan baglanti oturumumuz sonlanacaktir, yada kendimz de oturumun x isaretine basarsak uzak-pc baglnti oturumunu sonlandirmis oluruz
+   7.Dosya tranferleri nasil uzak pc den yapabiliriz, oncelikle bizim yereldiskleri de paylasmamiz gerekiyor pc ler arasinda, uzak baglanti yaptgimz pc nin C-D yerel diskini de pc mizde gorursek o zaman uzak pc nin dosyalarini kendi pc me alabilirm
+   8.Uzak pc baglantisini gerceklestirmeden uzakpc baglantisi icin gelen ekranda (Tilkobling til ekstern skrivebord) sol altta vis alternativer-secenekelri goster e tiklariz, sonra menu elemanlarindan lokale ressurser-yerel kaynaklar, ordan da Mer(Daha fazla bolumu), Suruculer(Statsjoner) + ya  tiklariz ve ordan da C,D ne varsa seceriz OK DERIZ...SONRA UZAK PC YE BAGLANIRIZ VE ARDINDAN DA, PC YE C DISKININ OLDUGU EYRE GIDINCE ARTIK UZAK PC NIN DE DISKININ ORAYA GELDIGNI GORURUZ VE ORDAN UZAK MASAUSTU DISKINE GIRIP ISTEDGIMZ HERHANGI BIR DOSYAYI COPY YAPIP KENDI MASUSTUMUJZE YAPISTIRABILIRIZ
+  
+!SIMDI BU BAGLANTI LOCAL DE YANI PRIVATE IP LER ICINDI YANI INTERNETE CIKMAMIS, PUBLIC OLMAYAN IP LER ARASINDA PC LER ARASINDAKI BAGLANTI IDI BU BAGLANTIMZ, SIMDI DE PUBLIC IP LI PC LERE, YANI INTERNETE CIMIS PC LERE BAGLANACAGIZ 
+
+  BIZ IP LERI MANUEL OLARAK VERMISTIK AMA ZATEN BIZ MANUEL BILEREK VERDIK NORMALDE MODEM DEN ALIYORLAR IP LERI , MODEM VERIYOR IP LERI.... 
+   
+  !SIMDI DE SUNU YAPALIM... BIZ KENDI EVIMIZDEN, BASKA SEHIR DE VEYA ULKEDEKI BIR PC YE NASIL BAGLANIRIZ!!!!!!!!!
+  SIMDI BIZ NORMALDE BAGLANIRKEN WINDOS-R YE MSTSC YAZIP UZAK MASAUSTU BAGLANTISI GERCKEKLESTIRIDIGMZDE GIRILE IP ADRESINI VERDIGMZDE BIZ IP ADRESI OLARAK PRIVATE IP ADRESI VERDIGMIZDE ORNEGIN 172.29.29.103 O ZAMAN BU IP ADRESINI ICERDE, LOKALDE ARAYACAKTIR, PRIVATE IP ADRESI OLDUGU ICN, BUNU GIDIP DE DISARDA, YANI INTERNETE BAGLANAN INTERNETI OLAN PC LERDE ARAMAZ....CUNKU IP OLARAK BIZ PRIVATE --ICERDE KULLANILAN IP YI ARADIK, 
+  
+  !ASAGIDA GORDUGMZ IP ADRESLERI ICERDE KULLANILAN PRIVATE IP ADRESLERIDIR...MODEM TARAFINDAN ATANIRLAR YA DA KENDIMZ MANUEL DE ATAYABILIRIZ, ORTAM DA MODEM YOKSA NE OLUYORDU PC VEYA CIHAZ KENDISI GECICI OLARAK APIPA ATIYRDU(Autoconfiguration IPv4 169.254.134.20 169.254 ILE BASLADIGINDAN ANLARIZ ATANAN IP NIN APIPA OLDUGUNU )
+  !192.168.0.1, 192.168.0.2,...  
+  !172.16.0.1, 172.16.0.2,172.16.0.3...172.32.0.1, 172.32.0.2..., 10.0.0.1,10.0.0.2...  
+
+  ONCELIKLE BULUNDUGMZ YERDE INTERNETE BAGLANDGIMIZ ANDA O ORTAMDA BULUNAN MODEM-DHCP SERVISI BIZE BIR LOKAL-PRIVATE IP ADRESI ATAMASI YAPAR VE DISARI CIKMAK ICIN YANI INTERNETE BAGLNMAK ICINDE PUBLIC MODEM IN KENDI IP ADRESINI KULLANABILECEGIMZI SOYLER PC YE...
+  UZAK MASAUSTU BAGLANTISINI BIZ BULUNDUGUMZ YERDEN BASKA SEHIRDE BIR PC YE YAPARKENM, YANI ORNEGIN BIZ TATILE GITTIK ISPANYA YA VE ORDAN KENDI EVIMIZDEKI PC MIZE BAGLANMAMIZ GEREKTI...O ZAMAN ONCELIKLE KENDI EVIMIZIN MODEM-IP YANI DISARIYA CIKARKEN KULLANILAN PUBLIC IP SI NE ISE ONU KULLANARAK BAGLANMAYA CALISIRIZ KENDI PC MIZE...MODEM IN IP ADRESI DE INTERNET SERVIS SAGLAYCISI TARAFINDAN ATANIR KI ORNEGIN TELIA-TELENOR.. VE BU SERVIS SAGLAYICILAR DA EGER HERHANGI BIR BANKA VEYA WEBSITESINE KENDI VERDIGI IP UZERINDEN BIR YASAL OLMAYAN ISLEM YAPILMIS ISE O ADRESI BULUR VE ILGILI YERLERE BUNU ILETIR
+
+  SIMDI BIZ AYNI CATININ ALTINDA IKEN, ICERDEYIZ OK ONDAN DOLAYI LOKAL IP LER ICIN AYRILMIS IP ADRESLERI UZERINDEN BAGLANTI GERCEKLESETIREBILIYORDUK, AMA BIZ UZAK BIR  YERDEN EVIMIZE BAGLANIRKEN ONCE BIZIM EVIMIZE BAGLNMAYA CALISIRKEN BIZ EVIN MODEM ININ IP ADRESI  UZERINDEN BAGLANMAYA CALISIRIZ VE BIZ BAGLANIRKEN EV KOMPLE BIR BINA OLARAK DUSUNELIM... BIZI MODEM KARSILAR DAHA EVE GIRMEDEN....VE BIZ O MODEM IN IP ADRESINI VERIRSEK MODEM E DIYORUZ KI BEN SANA BU IP DEN GELIYORUM... DER..ISTE BURDA MODEM ONCESINDEN DISARDAN MASAUSTU BAGLANTI ISTEGI GELIRSE ONU ICERDEKI PC LERDEN ORNEGIN BENIM PC ME YONLENDIR GIBI BIR AYARLAMA YAPMAMIZ GEREKIR...BUNUN ADI PORTFORWARDING..UZAK MASAUSTU BAGLANTI ICIN PORT FORWARDING(YONLENDIRME)..NORMALDE MODEM IN DISARDAN GELEN HER ISTEK ICIN BELIRLI KAPILARI VARDIR, BU KAPILARA PORT DIYORUZ..NORMALDE MODEM DE BINLERECE KAPI VARDIR, BIZIM BASVURAAGIMZ KAPI UZAK MASAUSTU BAGLANTI ISTEKLERINI KARSILAYAN KAPIDIR..YANI PORTTUR.. BU PORTTA 3389 NUMARALI PORT OLDUGUNU VARSAYALIM MESELA..TABI KI BU AYARLAMA NASIL GERCEKLESECEK, MODEM AAYARLARINDAN BU MODEM IP SINE 3389 PORT NUMARASI ILE GELEN ISTEKLERIN BENIM PC ME YONLENDIRILMESI GEREKTIGI AYARI YAPILMALIDIR..KI MODEM DE KENDINE GELEN BU ISTEGI N PORT NUMARASINDAN NEREYE GOTURMESI GEREKTIGINI BILSIN
+  UZAK MASAUSTU BAGLANTILARI HER ZAMAN 3389 NO LU PORT U TIKLATIRLAR...
+  !The port number 3389 is commonly used for the Remote Desktop Protocol (RDP), which allows users to connect to and control another computer remotely. This functionality is often used in various environments, including corporate networks, for remote administration, and for accessing systems across the internet or within private networks.
+
+  BU KONUYU TAM OLARAK ANLAYALIM, MODEM DE BU AYARLAR YAPILMAZ ISE DISARDAN HICBIR MODEME REMOTE-CONNECTIN YAPAMAYIZ, CUNKU BU TEHLIKELIDIR...ANCAK KENDIMIZE AIT MODEM VE PC ICIN YAPABILIRIZ BOYLE SEYLERI
+  MODEMDE AYAR OLARAK SUNU DEMEMIZ GEREKIYOR SANA ISTEK 3389 PORT NO ILE YAPILMIS ISE ONU SEN BENIM SU IP LI PC ME YONLENDIR DIYECEGIZ 
+
+  !MODEMIMIIZE NASIL ERISIYORDUIK..HATIRLAYALIM...DEFAULT GATEWAY-VARSAYILAN AG GECIDI UZERINDEN ERISIYORDUK
+
+  
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   !Default Gateway . . . . . . . . . : 172.29.29.1
+    (!Default Gateway . . . . . . . . . : 172.29.29.1)ISTE BU ADRES MODEM IN IP ADRESIDIR, 
+    BUNU ADRES CUBUGUNA YAZARAK MODEM E LOGIN OLUJRUZ SONRA DA MODEM DEN PORT YONLENDIRMESINI BULURUZ-PORT FORWARDING....
+    UZAK MASAUSTU BAGLANTILARI TCP PROTOKOLUNU KULLANIR BUNU BILELIM
+    PUBLIC PORT RANGE-PRIVATE PORT RANGE BUNLMARIN IKISI DE 3389 NO
+    LOCAL IP ADRESS OLARAK DA HANGI PC YE YONLENDIRMEK ISTERSEK UZAK MASAUSTU BAGLANTI REQUESTINI ONU YAZARIZ...
+    MODEM UZERIJDEN YINE HER TURLU REMOTE ADDRESI KABUL ET DE DIYEBILIRIZ YA DA SPESIFIK DIYEREK SADECE BELLI IP ADRESLERININ GONDERECEGI ISTEKLER KABUL EDILSIN DIYEBILIRIZ
+
+    https://whatismyipaddress.com/
+    ? 79.160.72.2 GENELLIKLE DISARI CIKARKEN KULLANILAN IP ADRESI MODEM IP ADRESININ(DEFAULT GATEWAY) IN 1 FAZLASIDIR
+  
+    !BU BILGI COOOOK ONEMLI BUNU BILELIMMM.SABIT IP ADRES UYELIMIGMZ YOK ISE IP MIZ GUN VE GUN DEGISECEKTIR...
+  !MODEM LERRE INTERNET SERVIS SAGLAYICILAR TARAFINDAN VERILEN IP ADRESLERI KONUSUNDA DA SUNU BILMELIYIZ KI EGER BIZ OZELLIKLE PARA VERIP SABIT BIR IP ADRESI SATIN ALMAMIS ISEK, INTERNET SERVIS SAGLAYICIMIZ, MODEM E VERILEN IP ADRESINI GUNDEN GUNE DEGISTIRECEKTIR ONDAN DOLAYI ZATEN BIZ DISA BAKAN  IP ADRESIMIZI OGRENMEK ICIN WHAT IS MY IP ADRESS YAZARIZ INTERNETE VE ORDAN OGRENIRIZ PUBLIC-DISABAKAN, INTERNETE CIKARKEN KULLANDGIMZ IP ADRESIMIZI
+
+  !NOT : UZAK MASAUSTU BAGLANTILARA SIFRE KONULMAMIS PC LERE GERCEKLESMIYOR BU WINDOWSUN BIR PRENSIBIDIR
+
+  MODEM-POINTER-ROUTER...HEPSI AYNIDIR
+
+  IP-MODEM-VS ILE HIC UGRASMADAN UZAK PC YE BAGLANMAK- TEAMVIEWER VEYA DIGER PROGRAMLARI KULLANARAK BAGLANABILMEK!!!!!!!!!!!
+
+  !MAC ADRESLERI NEDIR NEDEN MAC ADRESLERINI BILMELIYIZ
+
+  MODEM IN 1 TANE ICERIYE BAKAN BIR DE DISARIYA BAKAN KAPISID VARDIR... DOLAYISI ILE  
+   Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1 
+
+   DEFAULT GATEWAY-DEFAULT GECIS KAPISI BU MODEM IN ICERIYE BAKAN IP ADRESIDIR...VE BU IP ADRESI SAYESINDE MODEM ORTAMDAKI CIHAZLAR KENDISINE INTERNETE BAGLANMAYA GELDIKLERINDE ONLARLI TANIR VE ONMLARI INTERNETE CIKARIR...NAT.... (NAT:Network Address Translation) ILE DONUSTURUR..
+   WHAT IS MY IP DEDGIMZ DE ISE MODEM UZERINDEN INTERNETE CIKARKEN KULLANILAN PUBLIC IP ADRESI GELECEKTIR KARSIMIZA 
+  https://whatismyipaddress.com/
+    ? 79.160.72.2 GENELLIKLE DISARI CIKARKEN KULLANILAN IP ADRESI MODEM IP ADRESININ(DEFAULT GATEWAY) IN 1 FAZLASIDIR
+
+  79.160.72.1 ISE MODE MIN DISA BASKAN IP ADRESIDIR...
+
+!TEKRAR ICDERDEKI BIR PC NIN INTERNETE BAGLANIRKEN KI SERUVENINE BAKACAK OLURSAK!!!!!!!!!!!!!!!!
+  User
+  Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1    ,   https://whatismyipaddress.com/
+     79.160.72.2  , AND modem's ip adress:79.160.72.1   But what i don't understand modem has two different ip adresss or???????
+
+ChatGPT
+Yes, what you are observing are indeed two different types of IP addresses that your modem is using, and this is completely normal. Here’s a breakdown to help clarify how your modem can have multiple IP addresses:
+
+Local/Private IP Address (172.29.29.83):
+This is the IP address assigned to your computer within your local network. It’s in the range of IP addresses reserved for private networks (172.16.0.0 - 172.31.255.255 for Class B private addresses). This type of IP is used for communication within a local network and is not routable on the internet.
+Modem’s Local IP Address (172.29.29.1):
+This is typically the default gateway for your local network, which is the IP address of your router or modem. All devices on your local network send their requests to the internet through this IP. It acts as an intermediary, routing traffic between your local network and the internet.
+Public/External IP Address (79.160.72.2):
+This is the IP address assigned to your modem by your Internet Service Provider (ISP). It is used on the internet to ensure that data reaches your network from outside and vice versa. This is the IP address that websites and other online services see when you connect from your network.
+ISP Modem’s IP Address (79.160.72.1):
+This is likely the next hop or gateway IP address provided by your ISP, which is outside of your home network. It is the ISP’s router to which your modem connects. Data from your modem is sent to this IP next before it reaches the broader internet.
+How These IPs Work Together:
+Internal Communications: Devices within your home use the private IP addresses (like 172.29.29.83 and 172.29.29.1) to talk to each other and to the modem/router, which manages local network traffic.
+External Communications: When data needs to go to the internet, it is directed from your device to the modem/router (172.29.29.1), which then sends it out via its public IP address (79.160.72.2). Incoming data from the internet follows this path in reverse.
+Routing Between ISPs and Your Network: The ISP’s infrastructure uses its own IP addresses (like 79.160.72.1) to route the data through multiple nodes in their network until it reaches your modem and then your internal device.
+
+
+!!!!!LOKAL DE KI PC LERIMIZ INTERNETE BAGLANIRKEN - DISARI CIKARKEN NELER OLUYOR BAKALIM SIMDI -----  !!!!
+
+!!!!!!!BIZ BIR OFISTE CALISIYORUZ VE BIZIM PC MIZIN LOKAL IP ADRESI 192.168.1.5  OLARAK VERILDIGINI FARZEDELIM SONRA  DEFAULT GATEWAY YANI- MODEM IN ICE BAKAN IP SI - 192.168.1.1 OLDUGUNU PC MIZIN IP SINDEN ZATEN ANLAYABILIRIZZZZ, SONRA INTERNETE CIHAZIMDAN BBAGLENIRKEN MODE MIMIZ BIZE PUBLIC IP YI VEREK BIZIINTEREE GONDERIR..ORNEGIN BU PC DEN FACEBOOK-INSTAGRAM VS GIRIP UYGUN OLMAYAN , HAKARET ICERIKLI BIR YORUM YAZILDI YANI SUC OLAN DIYELIMM.. PEKI O ZAMAN MADEM KI HERKES INTERNETE CIKARKEN MODEM IN IP SINI KULLANIRSA BIR IS YERINDE 20 TANE PC VAR ISE BUNLAR NASIL BIRBIRINDE AYIRT EDEIBLIRIZ KIM HANGI PC DEN INTERNETTE NERELERDE GEZINIYOR BUNU NASIL  ANLARIZ !!!COK ONEMLI 
+!SUNU DA BILELIM ICERDEKI IP ADRESLERI TESPIT EDILEMEZ, CUNKU GUVENILIR DEGILDIR ZATEN, CUNKU DEGISIME ACIKTIR INSAN KENDISI ICERDKEI IP ADRESINI MANUEL OLARAK DEGSTIRILEBILIR...BIRDE SUNU UNUTMAYALIM KI HER GUN PC YI TEKRAR ACARKEN MODEM PC MIZE YENI BIR IP ADRESI ATADIGI ICIN, HERGUN BIZIM PC NIN LOKAL IP SI DE DEGISECEKTIR
+
+!KIMLIK TESPTINDE MAC ADRESININ KRITIK ONEMI 
+EVET INTERNET SERVICE PROVIDER BIZIM MODEMIZE AIT IP UZERINDEN YASA DISI VEYA SUC OLAN YORUMLAR YAZILDIGNI BULDU AMA BU MODEM ALTINDA 20 TANE PC VAR, BU PC LERIN LOKAL DEKI IP ADRESLERI SUREKLI DEGISIYOR ONDAN DOLAYI LOKAL IP ADRESINE BAKILMAZ, ONUN  YERINE HER PC NIN UNIQ MAC ADRESI VARDIR, MAC ADRESI BILGISAYARLRIM ETHERNET KARTLARINDA BULUNAN UNIQ DEGERDIR, ETHERNET KARTI UZERINDE BULUNAN UNIQ SERI NUMARASI DIR VE BIR PC MODEM IP SI UZERINDEN INTERNETE CIKSA BILE, BIRAZ DETAYLI BIR INCELEMEDE INTERNETTE BAGLANILAN WEBSITGELERINDE PUBLICIIP ADRESI ILE BERABER HANGI MAC ADRESI ILE BAGLANILMIS ODA GORULUR YANI HANGI UNIQ ETHERNET KARTI MAC ADRESI ILE BAGLANILMIS, YANI HANGI PC ILE O WEBSITESINE BAGLANILMIS O HEMENCECIK TESPIT EDILEBILIR. YETKILI KISI INTERNET SERVICE SAGLAYICISINDAN GELDI, DIYELIM KI SIRKETE GELDI , CUNKU MODEM IN IP SINI BILDIGI ICIN SIRKETIN ADRESINI HEMEN BULUP GELIR VE SONRA DA ELINDE MAC ADRES NUMARASI DA OLDUGU ICIN PCLERI CHECK EDEREK MAC ADRESININ HANGI PC DEN YAPILDIGINI DA BULABILECEKTIR
+
+!BU ARADA TABI KI KABLOSUZ INTERNET BAGLANTILARDA DA, LAPTOPLARDA ETHERNET KARTI VARDIR VE BILGISYAARLARIN ARKASINDA WIFI-CARD -WIRELESS ADAPTER CARD DIR VE BU NI INCELERSEK BU WIRELESS ADAPTER CARD UZERINDE, UNIQ MAC: NUMARASINI GOREBILIRIZ, 48 BITLIK BIR ADRESTIR...2^48 ADET(COK BUYUK BIR RAKAM) MAC ADRESI VARDIR DUNYA UZERINDE HER CIHAZIN SORUNSUZ BIR SEKILDE UNIQ BIR MAC ADRESI ALABILIR. MAC ADRESI INTERNETE BAGLANAN CIHAZIN UNIQ SERINUMARASIDIR VE DOGRUDAN ISTE INTERNETE MODEM IN IP UZERINDEN INTERNTE CIKAN CIHAZ IN HANGI CIHAZ OOLDGUNUN BULUNMASI MAC ADRESI UZERINDEN GERCEKLESIR
+
+!INTERNET SERVICE SAGLAYICISININ ELINDE YASAL OMLAYAN ISLEMI IP SI VE YASAL OLMAYAN ISLEMIN YAPILDIGI MAC ADRESI BULUNUR , YASAL OLMAYAN ISLEMI YAPAN IP ADRESININ ONCE HANGI MODEME AIT OLDUGUNU BULUP  O MODEMI TESPIT EDER VE SONRA O MODEM NERDE ISE ORAYA GIDER VE ORDAN DA MAC ADRES NUMARASINDAN O MODEM UZERIDNEN INTERNETE BAGLANAN HANGI PC DEN OLDGUNU MAC ADRESINI CHECK EDEREK BULUR
+
+ARABALARDA PLAKA DEGSITIRILEBILIR ORNEGIN ARAC EGER BIZ SATIN ALMADAN ONCE BIR SUCA KARSIMIS ISE, AMA SASE NUMARASI HICBIRZAMAN DEGISTIRILEMEZ, CUNKU URETIMDEN ITITBAREN VERILMISTIR... PLAKA BURDA LOKAL IP ADRESI GIBDIR, MAC ADRESI ISE SASE NUMARASI GIBIDIR
+
+!MAC ADRESINE PCMIZDEN NASIL ULASIRIZ ONA BAKALIM
+!MAC ADRESI FABRIKADA CIHAZ URETILIRKEN CIHAZIN UZERINE DIREK BASILIR VE O CIHAZ NERYE GIDERSE GITSIN O MAC ADRESI ARTIK DEGISMEZDIR
+
+!ipconfig /all
+komutunu yazarsak cmd de 
+
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Intel(R) Dual Band Wireless-AC 8265
+   !Physical Address. . . . . . . . . : 1C-1B-B5-13-4A-84
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10(Preferred)
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : torsdag 25. april 2024 08:41:29
+   Lease Expires . . . . . . . . . . : lørdag 27. april 2024 08:41:17
+   Default Gateway . . . . . . . . . : 172.29.29.1
+   DHCP Server . . . . . . . . . . . : 172.29.29.1
+   DHCPv6 IAID . . . . . . . . . . . : 136059829
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-2A-E3-5C-02-E4-E7-49-9E-AF-BD
+   DNS Servers . . . . . . . . . . . : 172.16.3.11
+                                       172.16.3.12
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter Bluetooth Network Connection:
+
+   !Physical Address. . . . . . . . . : 1C-1B-B5-13-4A-84
+    ISTE BU ADRES BIZIM, MAC ADRESIIMZDIR, Physical Address cunku fabrika uretiminde uzerine basilmis ve degistirilemez..ONDAN DOLAYI SUNU IYI BILELIM KI BIZ ISLEM YAPRKEN KIMLIGIMZ HICBIR ZAMAN GIZLI DEGILDIR VE YAPTIGMIZ TUM ISLEMLER ARKA PLANDA BIR YERLERDE LOGLANIYOR VE ZAMANI GELDIGINDE EGER YAPTGIMZ ISLEMLERDE BIR SORUN VAR ISE BUNLAR KARSIMIZA MUTLAKA CIKACAKTIR BUNU IYI BILELIM!!!!!!!!
+    !WINDOWS ARAYUZUNDE INTERNET SETTINGS-AG VE BAGDASTIRICI AYARLARI - ETHERNET KARTINMIZE GELIP CIFT TIKLA AYRINTILARA GELIRSEK ORDA DA PHYSICAL ADDRES DIYE YAZAN MAC ADREZIMIZI GOREBILIRIZ
+
+!YA ETHERNET KARTINI YA DA WIRELESS ADAPTERKARTINI CIKARIRSINIZ KIMLIGNIZI GIZLEMEK ICIN YA DA TASINABILIR WIRELESS USB ETHERNET ANTENTLERI-KARTLARI KULLANARAK INTRNETE BAGLANIP SONRA BU KARTI YOK EDERSENIZ O ZAMAN SIZI BULAMAZLAR
+
+!PEKI INTERNET KAFE DE NASIL TESPIT EDEBILIRLER SIZI...SADECE SUNU BULURLAR SIZIN HANGI PC DE HANGI SAATTE ISLEM YAPTGIGNIZI BULURLAR VE KAMERA KAYTILARINDAN DA O PC YE O SAATTE KIM GELMIS ONU GORURLER...VE DE TELEFON SINAYLINDEN DE O SAATLARDE KIMLER VARMIS KAFE DE ONU GOREBILIRILER...VE YUZ TESPTI VS DEN COK KOLAY BIR SEKIKLDE BULABILIRLER 
+
+!BU ARADA MODEM E AIT IP ADRESINDEN YAPILAN YASAL OLMAYAN BIR ISTE SORUMULUUK O MODEM-IP ADRESI KIMIN UZERNE ISE ONA AITTIR...ONDAN DOLAYI DA BU KONU DA WIFI SIFREMIZI HERKESLE PAYLASMAMAKTA FAYDA VARDIR
+
+!OFIS AGI - OFIS NETWORKU NASIL KURULUR 
+BILGISAYAR, ETHERNET KABLOLAR, MODEM
+!Ofislerdeki bilgisayar aglarni,networklerini kurma islemini tamamen ip lerle yapiyoruz
+!Ip adreslemeyi yapabiliyorsak, bilgisayarlara ip nasil verilir bunu biliyorsak, ortamdaki modem uzerinden-(gateway) uzerinden internete cikacagiz, bunlari da biliyor sak , o zaman biz bir ofiste pc leri  birbirlerine baglayabiliriz 
+
+!Ihtiyacimz olan sey, modem, internet ve bilgisayarlar 
+
+!1-Oncelikle modem in ip adresini ogrenmeliyiz, bulmaliyiz
+!Modem in ip adresini nasil ogreniyorduk hatirlayalim
+!ipconfig yazariz pc ye 
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+!Iste burdaki Default Gateway degeri modem in icerdeki ip adresidir..internete cikmadan onceki
+
+!2.Modem in ip sini ogrendigmize gore o zaman sunu anliyoruz, modem(Dhcp servisi) pc lere ip adresi atamasi yapacak su sekilde 172.29.29.2, 172.29.29.3, 172.29.29.4....
+!Peki biz modem imizin mi pc lere ip atamasi yapmasini isteriz yoksa, kendimiz manuel olarak ip atamasi mi yapacagiz
+!Eger ofiste bilgisuyar sayisi cok fazla degil ise 10-15 adet ise o zaman ip leri kendimiz vermemiz daha iyi olur...Yok cok fazla pc var ise o zaman artik modem(DHCP SERVISINE) in kendsinin atamasini saglariz.
+SIRASI ILE PC LERE IP ADRES ATAMASI YAPALIM...BUNU DA ZATEN INERTNET AYARLARINDAN YAPABILDIGMIZI BILIYOURUZ income-btn
+!PC LERE IP ATAMASI YAPARKEN AYNI NETWORKDE OLACAK SEKILDE IP ATAMASI YAPACAKTIK UNUTMAYALIM...CUNKU BIRBIRLERI ILE NETWORK-BAGLANTI OLUSTURACGIZ..
+
+PC-1
+NETWORK : 192.168.1.0 
+IP ADDRESS: 192.168.1.2 
+Subnet mask: 255.255.255.0
+Default Gateway: 192.168.1.1(modem)
+DNS:192.168.1.1(MODEMI VERIYORUZ MODEM BIZM ICIN DNS SERVER I HANDLE EDECEKKI KULLANICILAR ISTEDIKLERI WEB SITESINE BAGLANABILSIN)
+!Bildigimiz gibi ip adresini verdikten sonra tab a basinca subnetmask i kendisi atiyor zaten
+!Bilgisyarin internete cikabilmesi icin Default gateway i dogru verilmesi ve Dns in dogru verilmesi sarttir bunu unutmayalim..
+
+PC-1
+NETWORK : 192.168.1.0 
+IP ADDRESS: 192.168.1.3 
+Subnet mask: 255.255.255.0
+Default Gateway: 192.168.1.1(modem)
+DNS:192.168.1.1(MODEMI VERIYORUZ MODEM BIZM ICIN DNS SERVER I HANDLE EDECEKKI KULLANICILAR ISTEDIKLERI WEB SITESINE BAGLANABILSIN)
+
+!Bilgisyarlara ip atamalarini yaptik, peki bundan sonra pc lerin birbiri ile network baglantisi kurabilmemiz icin, bilgisayarlar arasinda bir baglnti kujrulmasi gerekiyor...Yani bilgisayarlarin 
+
+!Once sunu anlayalim, bizim sirketimizde 1 tane modemimiz var ve modem lerin 4-5 tane portu olur ethernet kablolari icin, ancak, sirkette ornegin var 15 pc , bu durumda ne yapariz peki. Boyle durumlar icin ise : 
+Netwerk kablolarinin adi Cat5 kablolaridir, bu saniyede 100 mbit veri transferi gerceklestirebilirler, Cat6 lar daha hizli olanidir ve 1 Gbit hizinda hizmet verir, yani saniyede 1 Gbit veri transferi gerceklestirebilirler
+
+!Bit denildigi anda, verinin hizindan bahsediliyor, byte denildiginde ise veri niin buuyuklugunden bahsediliyor bunu bilelim
+!Modem de yeterli port olmadigindan dolayi bir sorun ile karsilasiyoruz araya bir network cihazi koyuyoruz bunun adi switch cihazi, ve bu swtich cihazi sayesinde modem den switche swtich den de pc lere baglanti kurulmus oluyor(Eskiden swithc yerine hub kullanilirdi)
+Swtich cihazlari, her bir portuna baglanan pc nin ip adresini biliyorlar ama eskiden hub kullanildiginda hub cihazlari bilemiyorlardi
+Biz switch in bir portuna bagladgimz pc den yine swtichin diger bir portuna baglanan pc yi birbirine baglarken switch her iki pc nin ip sini bildigi icin hizli bir sekilde pc leri birbirne baglyablir.ama hub lar ise gelip port lara tek tek soruyordu cek ediuyordu, ve bu da ekstra yuk getiriyordu eskiden 
+!Modem imiz yeterli portu saglayamayacagi icin her zaman sirketlerde modem den swtiche kablo ile baglanti saglanip sonra pc ler switch portuna baglanirlar
+!Kisaca modemimiz, de pc ler de hepsi switch uzerinde toplanmis oluuyor ve burda bilgisayarlar birbirlerini gorebiliyor, bilgisyalar modem i gorebiliyorlar cunku ayni ortamdalar, tum cihazlari ayni havuzda toplayarak bize bu ortami switch cihazlari saglamis oluyor
+
+!KISACASI NE YAPTIK, 1 PC LERE AYNI NETWORDDE OLACAK SEKKILDE IP LERINI VERDIK VE DE TUM PC LERI MODEM LER BIRLITKE SWTICH CIHAZI KULLANIARAK AYNI ORTAMDA BULUSTURMUS OLDUK VE BU SEKILDEE BIZ BIR OFISTE BILGISAYAR NETWORK I NASIL KURULUR BUNU GORMUJS OOLDUK
+
+!LOCAL AREA NETWORK - LAN(TEK BIR CATI ALTINDAKI PC LER ARASINDA KURULAN NETWORKDUR)
+!WIDE AREA NETWORK -WAN(AMA BIR SIRKETIN ULKENIN FARKLI SEHIRLERINDE OFISLERI VAR VE BURALARDAKI PC LER UZAKTAN AYNI NETWORK LERI OLDUGUNU DUSUNELIM BURDA BANKALAR BUNA GUZEL BIR ORNEKTIR )
+
+!KATLI YAPILARDA NETWORK YAPILANDIRMASI 
+BURDA DA ORNEGIN 5 KATLI BIR BINANIN HER KATINA BUYUKK OFISLER VAR VE HER OFISTE 50 PC VAR VE HER KATTA BIR SWTICH VASITASIYLA PC LERI BIRBIRNE BAGLADIK VE DE HER KATTAKI PC LER AYNI NETWORK ALTINDA IP ADRESLERI ATAMASI YAPILDI... BUNU HER KAT ICIN YAPTIK, SONRA ISE BIZ BU 5 KATTAKI TOPLAM 250 PC NIN DE BIRBINE BAGLI OLMASINI ISTIYORUZ O ZAMAN NE YAPARIZ O ZMAN DA BU BINANIN BIR IT ODASI VARDIR O IT ODASINDA DA 5 FARKLI KATTA BULUNAN 5 FARKLI SWTICH CIHAZININ HEPSINI BINANIN IT ODASINA DA BIR TANE SWITCH KOYUP O SWTICH DE TOPLARIZ DIGER TUM SWITCH LERI YANI TEK BIR SWITCHE BAGLARIZ, DOLAYISI ILE TUM YAPIYI TEK BIR SWITCH UZERINDE TOPOLAMIS OLUSRUZ VE MODEM IMIZI DE BU ANA SWITCHE BAGLARIZ
+DHCP SERVISI SUNAN CIHAZ MODEM, ROOTER, INTERNET SERVIS SAGLAYICISININ SUNMUS OLDUGU FARKLI BIR CIHAZ DA OLABILIR AMA MESELE DHCP 
+
+!BIR AGDA DOSYA VE KLASORLER NASIL PAYLASTIRILIR?
+BIR SENARYO UZERINDEN KONUSALIM...
+3 ARKADAS BIR EVDE BULUSTULAR VE HER BIRININ 1 PC SI VAR VE AHMETPC SINDE FILMER VAR, AYSEPC SINDE MANZARA RESIMLERI VAR, MEHMETPC SINDE DE MUZIKLER VAR , VE BU UC ARKADAS KENDILERINDE BULUNAN DOSYALARI BIRBIRLERI ILE PAYLASMAK ISTIYORLAR, BUNU NASIL YAPACAKLAR
+!BU UC PC AYNI ORTAMDA MODEM IN OLDUGU BIR ORTAMDE ACILIYOR VE ACILDIGI ANDA ORTAMDAKI PC LERE MODEM TARAFINDAN PRIVATE IP LER, AYNI NETWORK ALTINDA PRIVATE IP LER ATANMIS OLUYOR
+!YAPMAMIZ GEREKEN TEK SEY SU, PAYLASILMAK ISTENILEN KLASORLER PAYLASIMA ACILMALIDIR, KLASOR UZERINDE SAGA TIKLANIP OZELLIKLER E GIDERIZ, MENU TAB INDA PAYLASIM-ADVANCE VE BI KKLASORU PAYLAS DERIZ VE EVERYONE E TAM YETKI VERIRIZ KI ARTIK BU KLASORU HERKES GOREBILSIN.... 
+YANI BIZ BIR PC DEN DIGER 3 PC YE UZAK-YEREL BAGLANTI TOOL UNU ARMAA YAPIP
+
+windows-r ye tiklayarak, bilgisyalar ayni network de olduklari zaman, birbirleri ile paylasilan klasor ve dosyalara erismek cok zor degildir,
+    \\(baglanmak istedgimz pc nin ip adresini gireriz)
+    girecegimz, baglanacagimzi pc nin ip adresini de ipconfig den ogrenebiliriz 
+    \\192.168.0.14 diyerek bu pc ye baglanabiliriiz 
+    pc bizden username-password isteyecek
+    !Baglanacagmiz pc de ana kullanici haricinde de bir baska kullanici olusturmak icin ise mypc-saga tiklanip yonet dendikten sonra lokal-brukere ogr upper e tiklayip ordan brukere nin uzerine tikla yuip o sayfada saga tiklayip yeni bruker olustur diyerek yeni kullanici olustururuz, kullanici adi ve password veririz
+
+    !PEKI BIZ BAGLANDGIMZ DIGER PC YE KULLANICI ADI VE SIFREYI GIRDIKTEN SONRA, YETKI SORUNU YASADIK, YANI KLASOR PAYLASILMIS AMA KLASOR ICERIISNE GIRME VE O KLASORDE BULUNAN DOSYA LARI KENDISINE ALMA YETKISI YOK, ONDAN DOLAYI KLASOR PAYLASIMA ACMANIN YANINDA BIR DE KLASORE KLASOR U OKUMA,GORUNTULEME DIGER YETKILERINDE VERILMESI GEREKIR....
+    
+    !KAYNAK PAYLASIMLARINDA YETKI VE IZINI ATAMALARI NASIL YAPILIR
+    IZIN ATAMALARI YAPILIRKEN,  KLASORUMUZE SAG TIKLAYIP PROPERTIES DEDIKTEN SONRA GELEN MENU DE GUVENLIK-SECURITY KISMI VAR , UST BOLUME KULLANICIYI EKLEMMIZ GEREKIR, IZIN VERECEGMZ KULLANICI UST KISMDA DUZENLE-EKLE DIYEREK EKLERIZ SONRA DA ALT KISM DA DA O KULLANICIYA DOSYA YETKI IZINLERINI VERIRIZ, kullanici adi windows da USERS altidna nasil isimlendirilmis ise o isimi yazariz ve zaten kendisi sonrasinda otomaik olarak getirmesi gerekir
+    DOSYA IZINLERINDE YAZMA IZNI VERDIGMIZ ZAMAN AYNI ZAMANDA YENI DOSYA VE KLASOR OLUSTURMA IZNI DE VERILMIS OLUYOR ASLINDA, YANI NORMMAL OLARAK VAR OLAN DOSYA ICERISINE YAZABILMENIN YANINDA
+    YINE IZINLERDE EXECUTE IZNI VARDIR BUDA ULASINAN KAYNKTA EGER .EXE UZANTILI DOSYA VAR ISE YANI RUN EDILEBILIR BIR DOSYA VAR ISE BU TARZ DOSYALARIN RUN EDILMESI YETKISNIN VERILMESI ANLAMINA GELIR, BIR NEVI .SH UZANTILI DOSYA GIBI LINUX-UBUNTU DAKI
+
+    DEGISTIRME IZNI ISE OKUMA, YURUTME, YAZMA, LISTELEME GIBI IZINLERIN HEPSINE SAHIP OLAN IZINDIR, EKSTRA OLARAK SILME IZNI DE VEREN IZINDIR
+
+    PAYLASMAYA ACTGIMGZ KAYNAKLARIMIZ UZERINDE BIZIM VERDGIMZ IZINLER OLCUSUNDE ISLEM YAPACAKTIR KULLANICILAR
+
+    !Tam denetim izni tehlike li bir izindir, onun icin herkese verilmez, cunku diger kullanicilarin izinlerine mudahele edilebilecek bir yetkidir
+    !Sadece klasorlerimizin kullanicinin kendi pc sine cekmesi icin verilmesi gereken izinler, sadece klasor icerigini listeleme ve okuma izni yeterlidir..Bu izinloer verilmesi ile kullanici dosyalari kendi pc sine surukle birak yontemi ile gonderebilir
+
+    ! HATIRLAYALIM WINDOWS+R YAPIP \\192.168.0.104 diye hangi ip adrsni girersek o ip adresine girebiliyorduk eger ayni network de isek.... ve klasor paylasiminda bu sekilde yapabiliyorduk hatirlayalim...
+
+
+    !IP ADRESLERININ SOUNDAKI SAYILAR NE ANLAMA GELIR
+    Bu sayilar ip adresinin CIDR degeridir, yani subnetmask ini da verir, yani alt ag maskesini vermis olur
+
+    IP: 192.168.1.100\24 :  Bu 24 bize sunu verir, Bu ip adresinin subnet maskindaki bitlerin soldan saga 24 tanesini degeri 1 dir diyor ona gore bunu sen hesapla diyor, sonuc ta subnet mask da ip adresi gibi 32 bitlik bir sayidir, 24 sayisi bize soldan saga dogru subnetmaskin 24 tanesi 1 dir geri kalani 0 dir demis oluyor
+
+    !192.168.1.100\24 
+
+    SubnetMask: 11111111.11111111.11111111.00000000(binary)=>255.255.255.0(decimal-onluk duzen) YANI DEMEKKI C SINIFI IP ADRESLERINDE, STANDART SUBNETMASK 255.255.255.0 BU IMIS
+
+    IP ADRESI: 172.16.10.100\16 => BU DA B SINIFI BIR IP ADRESIDIR VE STANDART SUBNETMASK DEGERI 255.255.0.0 DIR KI ZATEN 16 DEMEK SOLDAN SAGA DOGRU 16 TANESI 1 GERISI O DIR DEMEKTIR KI BUNUN DA ZATEN ONLUK DUZENDE KARSILIGI 255.255.0.0 OLUYOR BUNU DA MANUEL OLARAK IP AADRES ATAMASI YAPARKEN TAB A BASINCA OTOOMATIK GELECEKTIR
+    11111111.11111111.00000000.00000000=> 255.255.0.0
+
+    IP: 192.168.1.100\20 (SOLDAN SAGA DOGRU 20 ADET 1 gerisi 0  DEMEKTIR)
+    11111111.11111111.11110000.00000000=>255.255.240.0 SUBNET MASK BUDUR
+
+    !CIDR-STANDART SUBNET MASK 
+
+    C sinifi \24  255.255.255.0 
+    B Sinifi \16  255.255.0.0
+    A Sinifi \8  255.0.0.0
+
+    !Subnet mask ile ilgili 24,16,8 goruyorsak, hersey yolundadir, ama bu sayilardan farkli sayilar gorursek, o zaman ip ile oynanmis demektir o zaman da devreye subnetting girer ve bu da apayri bir konudur buna ihityacimz oldugunda ekstra ogrenmemiz gerekir 
+
+    !BAYT- BIT - BUYUKLUK VE HIZ BIRIMLERI 
+
+    !BYTE-BUYUKLUK
+    !Harddisk kapasitesi 500 gigabyt 
+    !Bu video dosyasi 50 megabayt buyuklugunde
+
+    !HIZ-BIT
+    !Internet hizim 20megabit hizinda 
+    !Fiber internete gectim 100 megabit hizim var
+
+    
+    1 bit = 1 ya da 0 dir, bilgisayarin anladigi binary ikili sayi sisteminde ki tek bir karakter 1 ya da 0 iste bu bittir 
+    1 byte = 8bit 
+    !Bizim icn 1 bit in hic bir anlami yoktur ama 8bit=1byte bizim icin bir karakteri temsil ediyor ama tabi ki 8 bit-1byte a karsilik gelen 128 tane ASCI TABLOSUNDAN BILDIGIMZ KARAKTERLER VARDIR AMA BU KARAKTERLERIN HEPSI 1 KARAKTERDEN OLUSMUYOR...BAZI 8BIT-1BYTE LAR 2 VEYA 3 KARAKTERDEN OLUSABILIYOR, AMA SAYILAR, OPERATORLER, SEMBOLLER, YANI KLAVYEDE BULUNAN SEMBOLLLER BUNLAR 1 KARAKTERDIR...  ASCCI TABLOSUNU INCELERSEK BU NU DAHA IYI ANLARIZ
+    1 kilobyte = 1024 byte
+    1 megabyte = 1024 kilobyte 
+    1 gigabyte = 1024 megabayt
+    1 terabyte = 1024 gigabyte
+
+    !bIR METIN BELGESI ACINCA O METIN BELGESINE GIDIP ISMIMIZI YAZALIM VE SONRA PROPERTIES DEN BU DOSYA BUYUKLUGUNE BAKARSAK, ADEM  YAZARSAK 4BYTE LIK YER KAPLADIKLARINI ANLARIZ 
+    A->1BYTE SPACE-BOSLUK KARAKTERI 1 BYTE DIR, ; BIR BYTE DIR.. 1 SAYISI BYTEDIR 
+
+    !100 Mbps - 779,-/md. MEGABIT PER SEKUND . BU SU DEMEK SANIYEDE 100 MEGABIT HIZINDA,  YANI SANIYEDE YAKLASIK 12 MEGABYTE LIK VERI INDIREBILIRSIN...
+
+    !CAT-5 ETHERNET KABLOSU SANIYEDE 100MEGABIT HIZ SUNARLAR- YANI 100Mbps-100 megabit per second , YANI YAKLASIK 12MEGABYTE BUYUKLUGUNDE VERI TRANSFERI VERI INDIRILEBILIR SANIYEDE 
+    !CAT-6 ISE ETHERNET KABLOSU ISE SANIYEDE 1GBPS- GIGABIT PERSECOND INTERNET SUNARLR, YANI SANIYEDE YAKLASIK 120 MEGABYTE LIK VERI TRASNFERI SAGLAR, VERI INDIRILEBILIR DEMEKTIR
+!CAT6 KABLOSUNU BIR PC DEN DIGER PC YE BAGLARSAM 1 GB LIK FILMI BIR PC DEN DIGERINE YAKLASIK 10 SANIYEDE TRANSFER EDEBILIRM DEMEKTIR, AMA CAT-5  KABLOSU KULLANIRSAM TOTAL DE 100 SANIYE SURECEKTIR YANI YAKLASIK 2 DAKIKAYI BULACAKTIR
+  
 */
 
 
