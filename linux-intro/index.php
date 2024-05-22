@@ -14884,6 +14884,338 @@ BOTTLENECK-PERFORMANS TERIMIDIR, SISENIN AGZI NE KADAR DAR ISE SISENIN BOSALMASI
 !SERVER DA EN ONEMLI PARAMETRELERINDEN BIRISI STABILLIKTIR, BU CIHAZLAR UZUN SURE ACIK KALMAK VE CALIMSAYA DEVAM EDEBILMEYE YONELIK YAPILMISTIR, KESINTIYE UGRAMAMSAI ICIN..DOLAYISI ILE YUKSEK ERISIRLILIK, STABILLIK(UZUN SURE VE PERFORMANSLI CALISMASI DEMEKTIR), 
 
 !AG PROTOKOLLERI VE MIMARILERI 
+NETWORKUN YARARLARI¨
+
+PROGRAM PAYLASIMI
+DOSYA PAYLASIMI
+YAZICI PAYLASIMI(MALIYET ACISINDAN ONEMLIDIR)
+GUVENLIK(kimlik dogrulamasi,kaynaklar yetkiler dahilinde kullanilmasi saglanir)
+MERKEZI YONETIM(sistem yoneticileri tarafindan tum cihazlar ve bilgisyarlar uzaktan yonetilebilir..uzaktan pc nin ekrani izlemek, yedegini almak, ve o pc kullanicisina sinirli izinler vermek, onun kullanim yetkilerini kontrol etmek)
+
+!SERVER TARAFINDAN BASKA SERVER DA BULUNAN VERITABANININ KULLANILMASI
+!KOLLEKTIF CALISMAYI SAGLAMAK, TAKIM CALISMASI
+
+!NIC-NETWORK INTERFACE CART, ETHERNETIN KULLANDIGI KARTA VERILEN ISIMDIR, ETHERNET ARAYUZDUR
+
+!AG ORTAMINDA CALISAN ISLETIM SISTEMLERI 2 FARKLI ROL USTLENIR 
+1-SERVER - AG KAYNAKLARI ELINDE TUTAN VE DIGER BILGSAYRLARA YETKILER DAHILINDE SUNAN ISLETIM SISTEMIDIR 
+2-CLIENT - SUNULAN KAYNAKLARA ERISEBILEN ISLETIM SISTEMLERIDIR 
+
+HOST-EVSAHIBI 
+SERVER LARDAN BAZEN HOST DIYE BAHSEDILEBILIR..
+!MODEM SEMBOLU USTUNDE HOST YAZABILIR, INTERNET VERDIGI VE IP DAGITTIGI ICIN 
+!AHMET IN PC SINDEN FATMA NIN PC SINE DOSYA PAYLASIP, DOSYA VERIRSE BURDA AHTMET PC SI HOST OLMUS OLUR..AMA AHMET IN PC SI SERVER DIR DIYEMEYIZ 
+
+!AG BILESENLERI VE MIMARISI 
+AG ARAYUZ KARTI-NETWORK INTERFACE CARD
+AGA BAGLNMAK ISTYEN HER CIHAZDA OLMASI ZORUNLU BIR DONANIMDIR
+!AGA GONDERILECEK VERIYI ELEKTRIK SINAYLINE DONUSTURUP KABLO VE ANTENE ILETIR 
+!GUNUMUZDE ANAKRTA TUMLESIK-ONBOARDA DE URETILIRLER 
+
+!REPEATER(TEKRARLAYICI) VE HUBMERKEZI 
+AGDA KULLANILAN KABLOLARIN MAKSIMUM ERISIM MESAFELERI VARDIR
+ORNEGIN UTP KABLO SINYALI MAX 100 METRE MESAFEYE TASIYABILIR. DAHA UZAK MESAFEYE TASINMASI ICIN ARAYA REPEATER VEYA HUB KONULMASI GEREKIR
+REPEATER VE HUB AZALAN SINYAL GUCUNU YUKSELTEREK DAHA UZAK MESAFEYE VERI ILETIMINI SAGLAR
+REPEATER TEK PORTLU
+HUB COK PORTLU
+
+!NETWORK SWITCH
+BILGISAYAR VE DIGER DONANIMLARI BIRBIRINE BAGLANMASI SAGLANIR
+
+EV MODEMLERININ ARKASINDAKI PORTLAR SWITCH GIBI DAVRANIR YAZILMSAL OLLARAK 
+SWITCHLER KOMUT ARAYUZU-CLI VEYA WEBARAYUZU HTTP UZERINDEN KONFIGURE EDILEBILIR
+
+!ROUTER-YONLENDIRICI - WAN(WIDE ARE NET)
+GENIS AGLARDA VE INTERNETTE KULLANILIR
+YAPISI BIRBIRINDEN FARKLI NETWORKLERI HABERLESTIRIR
+
+VERILERI BIR NETWORKDEN DIGERINE YONLENDIRIR 
+KENDSINE GELEN VERIYI HEDEFE EN KISA YOLDAN ERISTIRME HSAPLAMALARI YAPAR
+
+!MODEM
+ETHERNET KARTINDAN GONDERILEN VERIYI INTERNET SAGLAYICIDAN(INTERNET SERVICE PROVIDER) KIRALANAN HATTIN TURUNE GORE DONUSUM YAPAR 
+
+!FIREWALL(GUVENLIK DUVARI) VE ONEMI 
+BILGISAYARDAKI ANTIVIRUS NE YAPIYORSA NETWORKDEKI FIREWALL ONU YAPAR 
+YAZILIMSAL-DONANIMSAL OLARAK IKIYE AYRILIR 
+!YAZILIMSAL OLANLAR ISLETIM SISTEMLERI UZERINE UYGULAMA OLARAK KURULABILIRLER 
+IC VE DIS AG ARASINDA GELEN-GIDEN VERILERIN(PAKETLERIN) KONTROLUNU YAPAR.ZARARLI VERILERI VE SIBER TEHDITLERI BLOKLAR income-btn
+DOGRU YAPILANDIRILMASI GEREKIR, SISTEM YONETICISI TARAFINDAN
+WEB ARAYUZU VEYA KOMUT ARAYUZU(CLI) ILE YAPILANDIRILABILIR
+BIRDEN COK GUVENLIK ONLEMI ALABILME OZELLGIINE SAHIP PLAN FIREWALL LAR DA VARDIR 
+ROUTER GIBI DE DAVRANABILIR VERILERIN -PAKETLERIN YONLENDIIRLMESINI SAGLAYABILIR
+
+!YAZILMSAL FIREWALLAR HIRSIZ EVE GIRDIKTEN SONRA ODAYI KORUMAYA CALISIR
+!DONANIMSAL FIREWALL DA BAHCEYI, DIS KAPIYI KORUR
+
+!VERILER NETWORK ARASINDA DOLASIRKEN PAKET HALINDE DOLASIRLAR 
+!ATAKLAR HERZAMAN DISARDAN GELMEZ, GELEN BIR MAILE TIKLANMASI ILE YAYILAN BIR VIRUS ICERDEN YAYILABILIR, VEYA USB ILE
+
+!FIREWALL SUZ NETWORK YONETILMEZ...BU COOK ONEMLIDIR
+!Networkumuzu disariya karsi koruyan network cihazlari
+!Onceden belirlenmis guvenlik kurallarina gore , networke gelen giden trafigi izleyen ve kontrol eden donanim ve yazilim tabanli network sistemidir firewall
+
+!DONANIIMSAL FIREWALL LAR VE YAZILIMSAL FIREWALL LAR MEVCUTTUR 
+ORNEGIN BILGISAYARIN ISLETIM ISTEMI DE INTERNETTEN GELEBILECEK TEHDITLERE KARSI KORUMAK ICIN YAZILMISAL TABANLI GUUVENLIK DUVARLARI ICEREBILIYOR, WINDOWS,MACOS..KENDI ICERISINDE YAZILIMSAL FIREWALLAR ICERIYOR..
+!BIZIM SU AN ASAGIDA YAZDIGIMZ DONANIMSAL FIREWALL
+FIREWALL WAN-WIDER AREA NETWERK YANI INTERNET ILE LAN-LOCAL AREA NETWORK ARASINA YERLESTIRILEREK, LOCAL NETWORKUMUZ KORUMAK AMACI ILE KULLANAILABILIYOR
+LAN-SWITCH-ROUTER-FIREWALL-INTERNET SEKLKINDE YA DA 
+LAN-SWITCH-FIREWALL-ROUTER-INTERNET OLACAK SEKILDE DE YERLESTIRILEBILIYOR
+TEMEL OLARAK NETWORK UZERINDEN KENDISINE GELEN PAKETLERIN ONCEDEN KENDISINE TANIMLANMIS KURALLARA GORE GECIP GECMEYECEGINE KARAR VERIYOR
+KURALLARA UYMAYAN PAKETLERE IZIN VERMIYOR 
+BIRCOK FARKLI FILTRELEME OZELLIGI IILE NETWORKUN, GELEN VE GIDEN PAKETLERINI KONTROL ALTINDA TUTUYOR
+!IP FILTRLEME, PORT FILTRELEME, WEB FILTRELEME, ICERIK FILTRELEM GIBI FARKLI FILTRELEME YAPABILIYOR 
+1-FIRST GENERATION FIREWALL-PACKET FILTERING FIREWALL:BU SADECE PAKET BASLIGINA GORE HAREKETE EDIYOR 
+2.SECOND GENERATION FIREWALL-STATEFULL INSPECTION FIREWALL: PAKETLERIN BASLIKLARININ YANINDA ICERIKLERINI DE KONTOL EDIYOR 
+BU ILK 2 FIREWALL LAR GUNUMUZDEKI NETWERK TEHDITLERI ILE BASA CIKMAK ICIN YETERSIZ KLAMAKTADIR
+3.3.GENERATION FIREWALL:NEXT GENERATION FIREWALL(NGFW): 
+IDS:INTRUSION DETECTION SYSTEM:SALDIRILARI TESPIT EDIP LOGLAR
+IPS:INSTRUSION PREVENTION SYSTEM:SALDIRI DURDURMA VE ONLEME SISTEMI 
+
+!ORNEGIN SIRKETIMIZDE HTTP 80 PORTUNU INTERNETE ERISMEK ICIN, ERISIME ACABILIORUZ VE 80 PORTUNDAN ARTIK BAKA UYGULAMLARDA GECEBILIYOR VE 1. VE 2. GENERATION FIREWALL LAR BUNU ONLEYEMIYOR ONDAN DOLAYI 3.GENERATION FIREWALL LAR KULLANLIYOR CUNKU, 3.GENERATION FIREWALL LAR UYGULAMA KATMANININ FILTERLIYOR VE DIREK FTP, DNS, GIBI UYGULAMALARI ANLAYABILIYOR VE ISTENMEYEN UYGULAMALARI FARKEDEBILIYOR, BIR PORTUN KOTUYE KULLANILIP KULLANILAMAYCAGINI DA ANLAYABILIYORLAR 
+LOG YONETIMI,VPN, VS GIBI ISLEMLER ICIN DE KULLANILABILIIYOR 
+FIREWALL NERELERDE KULLANILIR 
+NETWORK TRAFIGININ YOGUN OLDUGU VE GUVENLIK IHTIYACI DUYULAN ISYERLERINDE KULLANILIR 
+FIREWALL OLMADAN NETWORK MIMARIS NASIL OLUYOR 
+MODEMLER NE YAPIYOR INTERNETI SERVIS SAGLAYICIDAN ALIR VE ISYERINDEKI PC LERE BIR LOCAL NETWERK OLUSTURUR GOREVI BUDUR, YA DA MODEM YERINE BU ISLEMI SWTICH LER YAPAR
+MODEM VEYA SWITCH LER GUVENLIGI YETERLI DUZEYDE SAGLAYAMADIKLARI ICIN FIREWALL A IHTIYAC DUYARIZ..
+MODEM-INTERNETI ALIR DAGITIR, IP ADRESLERINI ALIR DAGITIR, PORT ACMA ISLEMI YAPAR, IP SABITLEME VS BUNLARI YAPAR AMA PROFESYONEL BIR NETWERK ALT YAPISINI MODEM VE SWTICH ILE YAPAMAYIZ
+SWITCH YA DA MODEM FIREWALL A KABLO ILE BAGLANIYOR, VE MODEM ARTIK SORNRASINDA NETWORK ISLEVINI YITIRIYOR O ISLEVI FIREWALL A AKTARIYOR SADECE INTRNET HATTINI AYATKTA TUTUMAKLA GOREVI OLUYOR...VE NETWORKK YONETIMINI FIREWALL A BIRAKIYOR
+FIREWALL SERVER A BENZER BIR CIHAZDIR.
+FIREWALL KORUMA ISLEMINI YANINDA DAHA KAPSAMLI NETWORK YONETIMI YAPILABILMESINI SAGLIYOR
+GUVENLIK ITIBARI ILE PERSONALLERDEN BAZILARININ , YONETIMIN KULLANDIGI SERVER I KULLANMALARINI ISTEMEZ ISEK, FIREWALL VASITASI ILE,  2 BIRBIRINDEN BAGIMSZIZ NETWORK OLUSTURARAK, PERSONELIN KULLANDIGI NETOWRK I FARKLI BIR NETWORK, SERVERLARIN KULLANDIGI NETOWRKU DE FARKLI BIR NETWORK YAPABILIYORUZ,AYNI NETWORK ALTINDA OLUNMASINA RAGMEN, SANKI PERSONELIMIZ ILE SERVER LARIMZ FARKLI MODEMLERDEN FARKLI NETWERKLERE SAHIP GIBI DAVRANMASINI SAGLAYABILIOYRUZ
+
+MISAFIR AGI ICIN DE GECERLIDIR 
+MISAFIR HATTI OLMADAN WIRESS SIFRESI NI DIREK VERDIGMZ DE EGER NETWORK BILGISI IYI ISE MISAFIR SERVER A BAGLANIP ORDAN ISTEDIGI DOSYAYI CEKEBILIR...VS AMA FIREWALL SYESINDE MISAFIRE OZEL SIFRELI BIR NETWORK OLUSTURURSAK SADECE ONLARA AYRIDGIMZ NETWORKE BAGLANABILECEKLER VE BU SEKIKLDE SISTGEMIMIIZ KORUYABLMIS OLACAGIZ
+RESTARUANTTA YONETIMIN KULLANDIGI, WIRELESS VARDIR BIR DE MUSTERILERE VERILEN WIRESS VARDIR, BUNLAR AYNI DEGILDIR TABI KI, YOKSA COK GUVENLIK PROBLEMI OLACAKTIR
+!FIREWALL COK KRITIK ONEME SAHIP OLAN LOG TUTMA ISINI YAPARAK, GERIYE DONUK KONTROL EDEREK NERDE PROBLEM VAR, KIM NERDE YAPMIS...BUNU GOREBILIRIZ
+!FIREWALL ILE ERISIM KISITLAMA , FIREWALL ILE FARKLI GRUPLAR OLUSTURLUYOR PERSONEL GRUBU ORNEGIN, ONLARI ICIN MESELA FACEBOOK GIRISI KAPATILABILIYOR PERSONEL IN GIRDIGI CIHAZLARDAN VE BU SAYEEDE PERSONEL KENDI BILGISYARLARINDAN GIRIDIGNDE FIREWALL UN ONLARA SUNDUGU AYRI NETWORK DEN GIRDIKLERI ICIN, ERISIM KISITLANMIS BIR SEKILDE OLDUGUNDAN DOLAYI ARTIK ONLARA KISITLANAN SITELERE GIREMEYCEKLERDIR
+
+!INTERNET KESILME DURUMUNDA, ORNEGIN BIZ 2-3 HAT ALDIK AYRI AYRI, VE FIREWALL A DA BIR KURAL TANIMLIYORUZ EGER 1.HATTA INTERNET KESILME DURUMU OLURSA, 2.HATTI DEVREYE SOK, O DA GIDERSE 3.HATTI DEVREYE SOK DIYE KURAL YAZABILIRIZ..KI BU HARIKA BIR STABILLIK KAZANDIRIYOR BIZE..
+
+!FIREWALL CIHAZINA DIUYELIM KI, ISYERINDEKI PC LERI TANIMLADIK MAC ADRSLERINI TANIMADIK VE BU CIHZLAR DISINDA BASKA BIR PC, VE CIHAZLA NETWERKIMIZE GIRILMESIN DIYE KURAL YAZARSAK, O ZAMAN ISTE BASKA CIHAZLARDAN NETWORKUMUZ KORUMUS OLURUZ
+
+AG KABLOLARI(NETWORK CABLES)
+AG MIMARISI(NETWORK ARCHITECTURE) VE PROTOKOLLERI
+!TUM NETWORKU ANLAMAYA BASLADIGMIZ YER, PROBLEMIN GELECEGI YER BURASIDIR BURAYI COK IYI BILIRSEK, PROBLEMLERI COZEBILIRIZ
+
+Bir agin mimarisini belirleyen 2 temel ozellik vardir 
+1)Network topolojisi:Cihazlarin kablo ve baglanti yerlesim haritasi gibi dusunulebilir
+!En onemllisi Star Toplojisi
+2)Networkun buyuklugu
+1-LAN
+2-WAN(COGRAFI OLARAK BIRBIRINDEN UZAK LAN LARIN BIRLESTIRILMESI ILE OLUSAN AGDIR, ORNEGIN INTERNET NETWORK)
+!EGER BIR DAIRE LAN ISE APARTMAN WANDIR. EGER BIR APARTMAN LAN ISE , SITE WAN DIR
+!BIR SIRKETIN AYNI ULKE ICINDE FARKLI SEHIRLERDEKI OFISLERINDE BULUNAN LAN NETWORKLERI BIRBIRINE BIRLESTIREN DE WAN DIR
+
+!2 FARKLI NETWORKUN HABERLESMESINI SAGLAYAN CIHAZIN ADI ROUTER DIR, MODEMLER KIMI ZAMAN ROUTER GOREVI DE GORURLER...BUNU DA BILELIM
+!ROUTER LAR INTERNET ARACILIGI ILE FARKLI LAN NETWORKLERINI BIRLESTIREREK O CHIAZLARIN BIRBIRLERI ILE ILETISIME GERCMESINI SAGLAYABILIIR...
+!MODEM-ROUTER ARKASINDAKI PORTLARIN 4 TANESI ILE ORNEGIN 4 PC YE HIZMET VERIRKEN, 1 PORTU ILE DE WAN A HZMET VERIYOR, VE ROUTER ROLU ILE HER IKI LAN I BIRBIRI ILEBIRLESTIRIYOR
+
+!NETWORK PROTOKOLU
+Agda calisan cihazlarin iletisim kurabilmeleri icin gerekli kurallar butunudur
+Ag protokollerini dillere benzetebilriiz, insanlarin anlasabilmesi gibi bilgisyarlarinda anlasabilmeleri icin ayni protokolleri kullanip anlasabillmeleri gerekir
+!Gunumuzde en yaygin protokol TCP/IP(Transmisson Control Protocol/Internet Protocoldur).TCP/IP her turlu agda kullanilabilen esnek,gelismis ve hizli bir protokoldur 
+!Kullanilmak istenen protokolu isletim sistemleri saglar
+!Bu kurallar IETF(INTERNET ENGINEERING TASK FORCE) tarafindan RFC(Request for Comments) bildirileri ileberlilenir ve standartlasitrilir
+!ARTIK HER TURLU AGDA TCP/IP PROGOTOKOLU KULLANILIYOR...NETWORK CIHZLARINDA KENDI ICLERINDE KULLANDILARI DILLER FARKLI OLABILIR TIPKI ISLETIM SISTEMLERI GIBI NETWORKDE KULLANDIKLARI DIL AYNIDIR, BU DIL TCP/IP DIR... SADECE BU YOK, TCP/IP DEN ONCE OSI REFERANS MODELI VARDI, TCP/IP ISE ONA ALTERNATIF OLARAK GELISTIRILDI, HER TURLU AGDA KULLANILABILLEN ESNEK, HIZLI VE GELISMIS BIR PROTOKOLDUR
+
+KULLANILMAK ISTENEN PROTOKOLU ISLETIM SISTEMLERI SAGLAR
+!TCP/IP MODEL
+
+Step-by-Step Process of Streaming a Video
+1. Application Layer
+Protocols Involved: HTTP (or HTTPS for secure communication).
+What Happens: When you select a movie on Netflix, your browser or app sends an HTTP request to Netflix’s servers. This request is formatted according to the HTTP protocol’s rules, specifying what resource (video data) is being requested.
+Role in Streaming: Netflix uses adaptive bitrate streaming technology (like HLS or MPEG-DASH) which operates over HTTP. This technology divides the movie into small chunks or segments. Based on your current internet speed, it determines which quality of video to send you (low, medium, or high resolution).
+2. Transport Layer
+Protocols Involved: TCP (Transmission Control Protocol), occasionally UDP for other types of streams (like live broadcasts).
+What Happens: TCP takes the HTTP request generated by your application and breaks it down into smaller packets that are sent across the Internet. TCP ensures that these packets are reliably delivered to Netflix’s server and that the packets received back (video data) are in the correct order and without errors.
+Role in Streaming: TCP manages the flow of data packets between your device and Netflix’s servers, using mechanisms like congestion control and error correction to adjust to varying network conditions. This ensures a smooth streaming experience without interruptions.
+3. Internet Layer
+Protocol Involved: IP (Internet Protocol), including routing functionalities with protocols like ICMP (Internet Control Message Protocol) for diagnostic or error messages.
+What Happens: IP is responsible for taking the TCP packets and delivering them to the right destination. Each packet is tagged with source and destination IP addresses. Routers along the path use this information to forward packets to the destination.
+Role in Streaming: IP routes each video packet from Netflix’s servers back to your device. It handles the addressing and routing across various networks that the packets must travel through.
+4. Link Layer (Network Interface Layer)
+Protocols Involved: Ethernet, Wi-Fi (802.11 protocols), and others depending on your connection type.
+What Happens: This layer is where the physical transmission of data occurs. If you are connected via Wi-Fi, the Link Layer protocols manage how data is encoded into radio signals transmitted by your router and received by your device.
+Role in Streaming: Handles the actual data transmission over your local network, ensuring that the packets are delivered between your device and the local router/modem.
+Illustrative Example:
+Application Layer: You click "Play" on a movie. Your device sends an HTTP request to fetch the video stream.
+Transport Layer: TCP takes this request and divides it into packets, managing the data transfer to ensure all packets reach Netflix's server correctly.
+Internet Layer: The packets are sent across various network paths using IP. They travel across multiple routers and networks until they reach the server.
+Link Layer: The first and last leg of this journey involves the physical network connections, like your home Wi-Fi and Netflix’s data center infrastructure.
+Visualization
+plaintext
+Kopier kode
+[Your Device] ---HTTP Request---> [Application Layer] ---TCP Segmentation---> [Transport Layer]
+---IP Routing---> [Internet Layer] ---Physical Signals---> [Link Layer] ---> [Netflix Server]
+And the response follows the reverse path:
+
+plaintext
+Kopier kode 
+!TCP/IP TEK BIR PROTOKOL DEGILDIR, BUNYESINDE COK FAZLA PROTOKOL VARDIR, HEPSININ AYRI ISLEVLERI VARDIR
+TCP/IP PROTOKOLLERIN TOPLANMIS HALIDIR
+PEKI DIGER PROTOKOLLERDEN FARKI NEDIR?
+
+TCP/IP KULLANILAN BIR NETWERK DE CIHAZLAR UC PARAMETRE ILE TANIMLANIR
+
+1-CIHAZ ADI(PC LERE KENDI KOYDUGMZ PC ADLARI)
+2-IP ADRESI
+3-MAC ADRESI
+
+!IP ADRESI YALNIZCA TCP/IP PROTOKOLUNE OZELDIR, DIGER PROTOKOLLERDE IP ADRESI BULUNMAZ
+!NETWORK UZERINDEKI ILETISIM, YALNIZCA MAC ADRESLERI ILE GERCEKLESIR. BU YUZDEN "CIHAZ ADLARININ IP ADRESLERINE, IP ADRESLERININ DE MAC ADRESLERINE DONUSTURLMESI GEREKIYOR"
+
+!TCP/IP KULLANAN 2 PC NASILHABERLESTIGINE BAKARSAK 
+CIHAZ ADI-ADEMPC  CIHAZ ADI IP ADRESINE DONUSTURULUR,
+IP ADRESI:192.168.0.154  IP ADRESI MAC ADRESINE DONUSTURULUR
+MAC:00:46:9A:B5:2A:CB MAC ADRESI ILE DE ARTIK NETWORK UZERINDE AYNI NETWORK DE BULUNAN BASKA BIR PC ILE ILETISIME GECEBILIRIZ 
+
+CIHAZ ADI-ZEYNEPC  CIHAZ ADI IP ADRESINE DONUSTURULUR,
+IP ADRESI:192.168.0.151  IP ADRESI MAC ADRESINE DONUSTURULUR
+MAC:00:1B:63:84:45:E6
+
+!PEKI IP ADRESI BILINEN MAC ADRESI BILINMEYEN BIR CIHAV VAR ISE O ZAMANDA DEVREYE ARP-ADRESS RESOLUTION PROTOCOL DEVERYE GIRER
+SOURCEIP: GONDREN IP , YI VERIRIZ, SONRA DEST:0.0.0.0 VE ALICI, YANI IP ADRESI OLAN PC NIN IP ADRESINI VERIRIZ VE BIZE MAC ADRESNI YOLLSMASI GEREKGIGINI SOYLERIZ
+BROADCAST(TUM AGA-NETWERKE GONDERILEN MESAJLAR ICIN KULLANILIR, BROADCAST SANKI SOYLE DUSUNLEIM, BAGIRARAK KONUSRAK SESI HER TARAFA YAYILMIS, YANI TABIR I CAIZSE BAGIARARAK HOPERLORLE DUYURU YAPAN INSAN GIBI DUSUNELIM), IP ADRESI UZERINDEN BLUNAN PC DONUS OLARAK, HEDEF IP YE MAC ADRESINI GONDERIYHOR BROADCAST  YAPMIYOR BUNA DIIKKAT EDELIM
+
+!Bilgisayar bir ortama girdigi zaman ortamdaki tum cihazlara, 1-dhcp-discover paketini broadcast yapar, yani tum cihazlara gonderir ki ortamda dhcp var mi onu ogrenip ondan ipi alabilmek icin,sonra dhcp sunucusu bilgi veriyor ve ben sana ip-subnet-dns-default gateway hepsini vereblirim diye 2-dhcp-offer response gondriyor, ve sonra da pc miz dhcp yi ogrenince, direk olarak dhcp ye request gonderir 3-dchp request ve tekrardan dhcp de 4.asama da ip ve diger adresleri alabiliyor
+
+1-Source ip:0.0.0.0(ip yok) SourceMac:00:1B:63:84:45:F6(kendi mac adresini gonderir)
+Dest Ip:255.255.255.255(Broadcast yapilacagi zaman ip bu sekidle verilir)
+Dest Mac:FF:FF:FF:FF:FF:FF (Direk hedef Mac adresi bilinmeyip de broadcast atilacagi zaman bu sekilde yapilir)
+2-DHCp kendi ip ve mac adresini gonderir DestIP henuz olmaidig icin 0.0.0.0 ve des mac adresini de ip talep eden pc den geldigi icin onu da bilir,dest-mac:00:1B:63:84:45:F6
+3-
+4-
+
+
+!TCP/IP NIN 4 KATMANI VARDIR 
+1-APPLICATION(UYGULAMA)
+2-TRANSPORT(ILETISIM/TASIMA)
+3-INTERNET
+4-NETWORK
+
+
+!TCP/IP INTERNETIN DILI OLARAK ADLANDIRILIR 
+CIHAZLARA IP KATMANI, IP ADRESLERI SAGLAYARAK CIHAZLARIN BIRBIRLERI ILE KOLAYCA ILETISIMI VE KENDI ARALARINDA GUVENLI, ESNEK VE KOLAYCA PAKET ALISVERISI YAPILABILMESINI SAGLAR.
+TCP KATMANI EN USTTE BULUNUR, IP KATMANI UZERINDE BULUNUR TCP KATMANI 
+TCP KATMANI DA TUM VERILERIN, BOZULMADAN HATASIZ OLARAK TESLIM EDILMESINI SAGLAR..AYRICA GUVENLIR
+!TCP/IP protokol mimarisi, internet üzerinden iletişim ve veri aktarımı için güvenilir ve güvenli bir temel sağlar. Tüm bilgisayar sistemlerinde kullanılan, farklı ağlar ve cihazlar arasında kolay birlikte çalışabilirlik sağlayan açık ve yaygın olarak benimsenen bir standarttır. TCP/IP mimarisi güvenlik konusunda da önemli bir rol oynamaktadır
+
+!TCP/IP mimarisi aynı zamanda yönlendirme ve ağ adresleme protokolleri gibi ağlar üzerindeki bilgi ve kaynakların yönetiminden de sorumludur. Bu protokoller, her bağlantıyı manuel olarak yapılandırmak zorunda kalmadan veri ve bilgilerin bir ağ üzerinden gönderilmesini sağlar. Bu, büyük ölçekli, heterojen ağların yönetimini kolaylaştırır ve tüm verilerin güvenilir, güvenli ve hızlı bir şekilde iletilmesini sağlar. Protokoller ayrıca verilerin aktarım sırasında kaybolmamasını veya bozulmamasını ve uygulamaların farklı ağlar üzerinden birbirleriyle konuşabilmesini sağlamaya yardımcı olur.
+
+!TCP/IP modeli olmasaydı, dünyadaki tüm farklı cihazların birbirleriyle iletişim kurması imkansız olurdu. Model, bilgisayarların birbirleriyle konuşmaları için standart bir yol sağlar, bu nedenle modern ağlar için önemlidir.
+
+!Ayrıca, görevleri yönetilmesi ve anlaşılması daha kolay olan daha küçük aşamalara ayırarak iki sistem arasındaki iletişimin karmaşıklığını azaltmaya yardımcı olur. Bu, video akışı veya çevrimiçi oyun gibi daha karmaşık uygulamaların gecikme veya kesinti olmadan gerçekleştirilmesini mümkün kılar.
+
+TCP Nedir?
+ 
+
+TCP, bilgisayarlar arasındaki iletişimin, küçük paketler halinde ve kayıpsız olarak gerçekleşmesini sağlayan bir protokol olarak tanımlanabilir. TCP protokolünün en önemli özelliği kimlik doğrulaması yapması ve veriyi karşı tarafa gönderip alırken veri bütünlüğünü korumasıdır. Günlük hayatta sık sık kullanılan HTTP, HTTPS, POP3, SSH, SMTP gibi protokollerin veri aktarımı TCP aracılığı ile gerçekleşir. TCP port nedir konusu ise bu bilgiler ışığında kimlik doğrulaması sağlayan bir port türü olarak nitelendirilebilir. TCP bağlantısı nedir sorusunun cevabı ise veri bütünlüğü sağlanmış bir bağlantı türü olarak verilebilir.
+
+
+IP Nedir?
+ 
+
+İnternet protokolü olarak isimlendirilen IP, bilgisayarların birbiri ile iletişimindeki en önemli nokta olan ağ adreslemesinde kullanılan düzeni ifade eder. Bir nevi yönlendirme protokolü olan IP veri için gerekli olan yönlendirmelerin kurallarını belirler.
+
+ 
+
+TCP / IP Protokolleri Nedir?
+ 
+
+TCP / IP protokolleri nedir konusunu merak edenler için TCP ve IP protokollerinin birleşmesi ile ortaya çıkmış internet üzerindeki bir iletişim metodu olduğunu söyleyebiliriz. Bu metot sayesinde internete bağlı tüm cihazların birbiri ile haberleşmesi mümkün hale gelir. Kısacası TCP/IP protokolü bilgisayarlar arası veri iletişiminin kurallarını belirleyen bir iletişim protokolleri bütünüdür. Bilgisayarlar arası iletişim farklı protokol aileleri üzerinden gerçekleşir. Bu protokolleri birbirinden ayıran özellik ise kullanım amaçlarıdır. Örneğin FTP bir dosya iletim protokolü iken SMTP e-posta iletmek için kullanılır.  TCP IP katmanları nedir konusu ise merak edilen bir diğer nokta. Bu katmanlar “Ağ, İnternet, Taşıma ve Uygulama” olmak üzere 4 adettir. Bu katmanların her birinde farklı protokoller bulunur. Örneğin uygulama katmanında bulunan en önemli protokoller DNS protokolleridir. DNS sayesinde alan adları çözülür ve bu alan adlarına karşılık gelen IP adresleri belirlenir. Aynı zamanda HTTP ve HTTPS protokolleri de bu katmanda yer alır.
+
+TCP/IP BILGISAYARLAR ILE VERI ILETMEK/ALMA BIRIMLERI ARASINDA ORGANIZASYONU SAGLAYAN, BOYLECE BIRYERDEN DIGERINE VERI ILETISMINI OLANAKLI KILAN PEK COK VERI ILETISIM PROTOKOLUNE VERILEN GENEL ADDIR. KISACA TCP/IP PROTOKOLLERI BILGISAYARLAR ARASI VERI ILETISIMININ KURALLARINI ORTAYA KOYAR
+!TCP/IP PROTOKOL KUMESI 
+ALTI CEKIRDEK VE 5 PROTOKOLDEN OLUSUR 
+-TCP-TRANSMISSION CONTROL PROTOCOL
+-UDP-USER DATAGRAM PROTOCOL
+-IP-INTERNET PROTOCOL
+-ICMP-INTERNET CONTROL MESSAGE PROTOCOL
+-IGMP-INTERNET GROUP MANANGEMENT PROTOCOL 
+ARP-ADDRESS RESOLUTION PROTOCOL 
+
+TEMEL TCP/IP PROTOKOLLERI
+
+FTP(FILE TRANSFER PROTOCOL)
+TFTP(TRIVIAL FILE TRANSFER PROTOCOL)
+HTTP(HYPERTEXT TRANSFER PROTOCOL)
+HTTPS(SECURE HYPERTEXT TRANSFER PROTOCOL)
+SMTP(SIMPLE MAIL TRANSFER PROTOCOL)
+
+
+In the TCP/IP model, which is designed to facilitate communications across diverse networks using standard protocols, the layers are structured from the bottom up as follows:
+
+Bottom Layer: Link Layer
+Also Known As: Network Interface Layer
+Purpose: This layer handles the physical and data link aspects of network communication. It deals with the actual physical connection between the network devices and the medium over which the data travels, such as Ethernet cables, Wi-Fi signals, etc.
+Role in the Stack: It is responsible for getting data across one particular link or network segment, including addressing, framing, error detection, and more.
+Second Layer: Internet Layer
+Core Protocol: Internet Protocol (IP)
+Purpose: This layer is responsible for routing the packets of data from the source to the destination. Essentially, it moves packets across multiple networks (internetworking) and helps achieve host-to-host communication.
+Role in the Stack: It handles the logical addressing part through which it is possible to identify every device uniquely on the network through an IP address.
+Third Layer: Transport Layer
+Core Protocols: Transmission Control Protocol (TCP) and User Datagram Protocol (UDP)
+Purpose: The Transport Layer is crucial for managing the delivery of data packets between computers and hosts. It provides services such as connection-oriented data stream support, reliability, flow control, and multiplexing.
+Role in the Stack: It ensures that data are transferred from point A to point B reliably and without errors. TCP provides a connection-oriented service, and UDP provides a connectionless service.
+Top Layer: Application Layer
+Examples of Protocols: Hypertext Transfer Protocol (HTTP), File Transfer Protocol (FTP), Simple Mail Transfer Protocol (SMTP), and more.
+Purpose: This layer is where end-user software applications interact with the network stack. It defines protocols for specific data-communication services according to the application’s requirements.
+Role in the Stack: It provides process-to-process communication services for applications. It is the layer where user-intended operations like browsing the web, sending an email, or transferring files are initiated and managed.
+Hierarchical Summary:
+Top Layer: Application Layer
+Third Layer: Transport Layer
+Second Layer: Internet Layer
+Bottom Layer: Link Layer
+This structure illustrates that data handling starts at the top layer in applications, moves down through the layers gaining the necessary header information and error checking at each step, travels across the network at the bottom layers, and then moves back up through the layers on the receiving end. Each layer serves distinct roles but works collectively to ensure seamless, efficient, and reliable network communication.
+
+
+!---- TUM SURECI BASTAN SONA BURDAN OKUYABILIRIZ 
+
+ The TCP/IP model organizes network communication into layers, with each layer having specific protocols that perform distinct tasks. The entire process of data communication from one device to another involves these layers working sequentially, where each layer has a unique role in ensuring the data reaches its destination correctly and efficiently. Here’s a breakdown to reinforce your understanding:
+
+Overview of the TCP/IP Model:
+Application Layer:
+
+Role: This is where network applications operate. The application layer deals with protocol details that are specific to different types of data and applications, such as web browsing, emailing, file transfer, etc.
+Protocols: HTTP (for web browsing), SMTP (for email), FTP (for file transfers), etc.
+Function: These protocols format the data in a way that is understood by the application receiving it on the other end. For instance, HTTP structures data into web pages, while SMTP structures data into email formats.
+Transport Layer:
+
+Role: Provides communication session management between host computers. It divides the data into smaller units if needed, ensures the data segments are reliably networked, and error-checks the assembled data segments.
+Protocols: TCP (Transmission Control Protocol) and UDP (User Datagram Protocol).
+Function: TCP provides reliable, ordered, and error-checked delivery of a stream of data so that programs on the networked devices can manage data transmission smoothly. UDP, in contrast, focuses on low-latency transmission without built-in error checking and correction.
+Internet Layer:
+
+Role: Handles the packing of data into data packets known as IP datagrams, which contain source and destination address information that is used to forward the datagrams between hosts and across networks.
+Protocols: IP (Internet Protocol), ICMP (Internet Control Message Protocol), etc.
+Function: IP ensures that datagrams are routed across network boundaries from the source to the destination which may involve traversing multiple networks (routing).
+Link Layer (sometimes referred to as the Network Interface Layer):
+
+Role: Concerns itself with the media data actually travels over. This layer defines the protocol details that operate directly on the hardware itself and are specific to the hardware interface and media that are being used.
+Protocols: Ethernet, Wi-Fi, and others that operate on a more physical level, handling connections to the hardware itself and transmission across it.
+Function: Transmits the datagrams to and receives them from the network.
+How It All Works Together:
+When you send an email, play an online game, or request a web page, your request starts at the Application layer. Depending on the task, it will use protocols like HTTP, SMTP, or others.
+The request then goes down to the Transport layer where it is segmented and verified for reliability via TCP or for speed via UDP.
+It then moves to the Internet layer where it is packaged into IP datagrams and routed across various network paths to its destination.
+Finally, it reaches the Link Layer where it is actually transmitted over physical media.
+Each layer in the TCP/IP model abstracts certain details of how data is transmitted over the network, allowing each layer to perform its task independently yet interactively, supporting the layers above and below seamlessly. This abstraction makes the model not just functional but also incredibly flexible and robust for internet communications.
+
+!----
+
+
+!TCP/IP DE OSI GIBI UST USTE SIRALANMIS KATMANLARDAN OLUSUR
+!OSI MODELI 7 KATMANA, TCP/IP MODELI 4 KATMANA SAHPTIR
+
+!TCP DATA NIN SAGLIKLI ULASIP ULASMADIGINI TAKIP EDER, YAPTIGI ISIN ARKASINI TAKIP EDER. VERI ALICIYA ULASMAZ ISE VERIYI BIR DAHA GONDERIR. BAGLANTI TEMELLII GUVENILIR BIR ILETISIM PROTOKOLUDUR YANI STABILLIGI GOZETIR. VERI ILETIMINE BASLAMADAN ONCE, GONDERICI VE ALICI ARASINDA ANLASMA SAGLAR(THREE-WAY HANDSHAKE), YANI 3 LU EL SKSMA..ALICIYA ULASMAYAN VERIYI, TEKRAR GONDEREBILMEK ICIN BUNU YAPAR
+!UDP GONDERIR GECER, VERI ULASTI MI ULASMADI MI BUNLARLA ILGILENMEZ ONDAN DOLAYI TCP DEN DAHA HIZLIDIR. HIZIN, GUVENLIRLIK VE STABILLIKTEN DAHA ONEMLI OLDUGU BAGLANTILARDA KULLANILIR. STREAMING YAPARKEN, YANI YAYINCISINIZ VE YAYIN YAPIYORUSUNUZ, WEBCAM DE GORUNTULU GORUSURKEN DE DIYEBILIRIZ PAKETLERDEN 100 TANEDEN 3-5 I ULASMAZSA GORUNTUDEN BIRSEY KAYBEDILMEZ VE BIR SORUN YASANMAZ, EN KOTU IHTIMALLE GORUNTU BIRAZ BOZULUR AMA TEKRAR KALDGI YERDEN DEVAM EDER..EGER BU ISLEMI TCP YAPMIS OLSA IDI, GORUNTU VE SES DONDUGU YERDE KALIR TEKRAR BASLAMAZDI..CUNKU TCP DATA NIN TAM OLARAK ULASMASINI PESINI DE TAKIP ETTIGI ICIN ONU BIR SONRAKI ASAMAYA GECIRMEZDI, BOZULAN PAKETI TEKRAR GETIRILENE KADAR BEKLEMMEK ZORUNDA KALNIRDI. TCP GORUNTUYU DURDURUP BEKLETIP SONRA O VERIYI BOZULAN VERIYI GIDIP ALIP GELMEYE CALISIRDI VE CANLI GORUNTULERI CANLI GIBI IZLEYEMEZDIK, ADAM IN 10 DAKIKA ONCE YAPTIGI HAREKETLERI ANCA ALABILRDIK
+!CANLI GORUNTULU YAYINLARDA PAKETIN GIDIP GITMESINDEN ZIYADE ASIL ODAK HIZLI GITMESIDIR ONDAN DOLAYI DA GORUNTULU KONUSMALARDA UDP PROTOKOLU KULLANLIR. BIRKAZ PAKET KAYBI BUYUK SORUN DEGILDIR, YA SES AZ GIDER, YINE DE ANLASILABILIR YA GORUNTU BIRAZ BOZULURU AMA SORUN YASANMAZ YA DA KARSIDAKI BIR KEZ DAHA SORAR EN FAZLA
+!PEKI YA DOSYA TRANSFER EDIYOR OLSA IDIK , ISTE O ZAMAN DA DATA KAYBI COK KRITIKTIR, BURDA DA TCP TERCIH EDILIR...COOK ONEMLIDIR, EKSIK BILGI ILE GONDERILMESI ISTENMEZ...
+
+!PORT VE PROTOKOLU DOGRU ANLAMA!
 */
 
 
