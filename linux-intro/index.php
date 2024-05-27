@@ -15446,6 +15446,29 @@ The need for different ports is primarily about service differentiation on a ser
 Connections from different clients to the same service (like HTTP) on a server are managed through unique combinations of source and destination ports (along with IP addresses), enabling multiple, simultaneous connections on the same service port. Each client’s request is isolated and managed independently by the server, all under the same port.
 Thus, ports are crucial for defining what service is accessed, while the combination of IP addresses and port numbers are crucial for maintaining multiple, simultaneous client connections to these services
 
+!PORTLAR LA ILGILI DE DON OLARAK , BIZ HERHANGI BIR WEBSITESINE GIRDIGIMZDE, ADRES CUBUGUNDA HERHANGI BIR PORT GOREMIYOURUZ... NEDEN..BU O SERVER-IP ADRESININ PORT KULLANMADIGINI MI GOSTERIR YOKSA? 
+When you access a website like google.com without specifying a port in the URL, you are indeed using a port, but it's just not visible because it defaults to standard ports that the browser automatically assumes based on the protocol used. Here’s a breakdown of how this works and why you often don't see the port specified:
+
+Default Ports
+HTTP and HTTPS:
+HTTP (Hypertext Transfer Protocol) typically uses port 80. When you type http:// in front of a domain name, the browser automatically assumes that it should connect to port 80.
+HTTPS (HTTP Secure) uses port 443. When you type https:// in front of a domain, the browser automatically connects to port 443.
+Because these ports are defaults for their respective protocols, browsers don't require you to manually specify them when entering a URL. For instance, accessing https://google.com implicitly uses port 443.
+Why Ports Are Not Visible
+User Convenience: Hiding standard ports in the URL streamlines the web browsing experience, reducing complexity and clutter in the browser's address bar.
+Protocol Standards: The use of default ports for HTTP and HTTPS is a standardized practice understood across all web browsers and servers, which helps maintain consistency and predictability in web communications.
+Specifying Non-Standard Ports
+If a website uses a non-standard port, then you must specify it in the URL. For example, if a web server is set up to listen for HTTP traffic on port 8080, you would access it by typing http://example.com:8080 into your browser.
+Example of How Ports Are Used Implicitly
+When you enter google.com in your browser:
+The browser checks the protocol. If it’s HTTPS (which is common for most modern websites for security reasons), it defaults to port 443.
+The browser then makes a connection to the server hosting google.com on port 443.
+The server, listening on port 443, responds, and the HTTPS traffic is securely exchanged.
+Conclusion
+Every time you access a website, there is indeed a port involved in the process. The reason you don't typically need to specify or even see this port is due to the conventions and defaults established to make web browsing simpler and more streamlined. This setup allows both users and website administrators to rely on these standard ports for routine web access while still having the flexibility to use other ports when necessary.
+
+
+
 !TCP ORNEGIN SSH, HTTP, SMTP...BU SERVICE LERE DATA GETIRME GOTURME ISLEMLERI YAPARKEN, EGER PORT NUMARASI OLMAZSA, BURALARA AYNI ANDA DATA GOTUREMEZ DI ONDAN DOLAYIDIR KI PORT NUMARALARI ONEMLIDIR
 !HEM HTTP ILE WEB SAYFASINA GIRERKEN KULLANICI AYNI ANDA BIR TARAFINDAN DA MAIL INDEKI MAILLLERI GORUNTULEYIP YENI MAIL GONDEREBILIR...AYNI BROWSER IN FARKLI SAYFALARINDA BU ISLEMLERI AYNI ANDA YAPABILIR
 !BIR BILGISAYARDA 65536 ADET PORT VARDIR, 1024 TANESI IYI BILINENDIR(WELL-KNOWN)
@@ -15531,16 +15554,6 @@ NETWERKID:16  HOSTID:1.1.1  SUBNETMASK:255.0.0.0
 !AYRICA SPESIFIK IHTIYACA GORE SINIFSIZ IP DAGITIMI DIYE BIRSEY DE VARDIR, BU DA DAHA ILERI DE KARSIMIZA CIKACAKTIR
 
 !223 TEN BUYUK RAKAMLI IP LER KULLANILAMAZ. 224-255 ARASINNDAKI BU ARALIK , NETWORKSEL ISLEMLER VE OTOMATIK ILETISIMLER ICINDIR(ORNEGIN BROADCAST YAPMAK GIBI) 
-
-
-
-
-
-
-
-
-
-
 
 
 */
