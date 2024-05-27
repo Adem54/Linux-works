@@ -15216,6 +15216,333 @@ Each layer in the TCP/IP model abstracts certain details of how data is transmit
 !PEKI YA DOSYA TRANSFER EDIYOR OLSA IDIK , ISTE O ZAMAN DA DATA KAYBI COK KRITIKTIR, BURDA DA TCP TERCIH EDILIR...COOK ONEMLIDIR, EKSIK BILGI ILE GONDERILMESI ISTENMEZ...
 
 !PORT VE PROTOKOLU DOGRU ANLAMA!
+PORT U BIR APARTMAN GIBI DUSUNURSEK 
+HTTP ONUN ISMIDIR YANI PROTOKOLU, NUMARASI:80 PORT NUMARASIDIR  
+BU APARMANA GIDILEN YOLLAR ISE UDP,ICMP,TCP GIBI FARKLI YOLLARLA GIDILEBILIR 
+
+!YOLLARIN, YANI TCP,UDP,ICMP GIBI PROTOKOLLERIN PORTU OLMAZ, AMA PORTUN PROTOKOLUU VARDIR
+PROTOKOLLER PORT KULLANMAYABILIR AMA PORT LAR PROTOKOL KULLANMAK ZORUNDADIR
+APARMTANIN ISMI OLARAK DA HTTP,DNS...GIBI DUSUNEBILIRIZ
+!PROTOKOLLERI YOL OLARAK DUSUNUERSEK YOL UN UZERINDE, HTTP NO:80, FTP NO:21, POP3 NO:110 GIBI APARMTNLAR VARDIR YOLLARDA CUNKU BU UDP.TCP BUNLAR TRANFSERDEN SORUMLUDUR, HTTP,FTP BUNLAR APPLICATION LAYERDE VE GELECEK ISTEKLERI ALIP GERI DONDURURLER, VE PORTLARI VARDIR, TCP,UDP BUNLAR YOLLARDIR YOLLARDAN GIDEREK, DATLARI HTTP,FTP...GIBI PROTOKOLLERE ULASTIRIRLAR...
+
+!PORT NEDIR 
+PORTLAR BILGISYALARIN, NETWERKELERIN, SUNUCULARIN GIRIS KAPILARDIR
+TCP VEYA UPD BAGLANTILAR, VERRIYI UST KATMANLARA TASIMAK VEYA UYGULAMAYA ILETMEK ICIN(HTTP,FTP..) PORT NUMARALARI KULLANIRLAR 
+PORT NUMARALARI AYNI ANDA YAPILAN FARKLI ILETISILMLERIE AYIRTEDEBILMEK ICIN KULLANILIR
+HER APPLICATION KATMANI SERVISI, BELIRLI BIR PORTTAN SUNULUR(CUNKU SERVERLARDAN SUNULUR BUNLAR, HTTP,FTP.)
+BIR BILGISAYARDA 65536 ADET PORT VARDIR. 1024 TANESI IYI BILINENDIR
+
+APPLICATION KATMANINDA BULUNANLAR
+BUNLAR ASLINDA SERVICE DIR... 
+
+ PORT NUMBER       PROTOCOL                        APPLICATION
+  20                TCP                        FTP DATA 
+  21               TCP                        FTP CONTROL 
+  22              TCP                        SSH
+  23                TCP                        TELNET
+  25              TCP                        SMTP
+  53                UDP,TCP                        DNS
+  67.68                UDP                        DHCP
+  69                UDP                        TFTP
+  80                 TCP                        HTTP
+  110                TCP                        POP3
+  161                UDP                        SNMP
+  443                TCP                        SSL
+  16,384-32,767                UDP         RTP-BASED VOICE AND VIDEO
+
+
+  Port Numbers
+Definition: Port numbers are used by the TCP/IP protocols (TCP and UDP) to identify specific applications or services running on a networked device. Each port number identifies a specific service that can be provided by a server, with the protocol (TCP or UDP) specifying how data is transmitted.
+Protocols
+TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are core protocols of the Internet protocol suite, defining how data should be packetized, addressed, transmitted, routed, and received at the destination.
+Protocols Listed: In your list, TCP and UDP are mentioned explicitly, indicating the type of transport protocol used for the respective services.
+Applications/Services
+The terms "application" and "service" in the context of networking often refer to higher-level protocols or software that use specific port numbers and transport protocols to communicate over a network.
+Services as Protocols/Applications:
+For example, FTP (File Transfer Protocol) uses port 21 for control commands and port 20 for data transfer, operating over TCP to ensure reliable communication.
+SMTP (Simple Mail Transfer Protocol), used for email transmission, also operates over TCP on port 25, ensuring reliable delivery of email messages.
+What They Do: Each service/application listed performs a specific role in network communications, from transferring files (FTP) to handling secure web traffic (SSL on port 443).
+Clarification: Are They Services or Protocols?
+Protocols and Services: Most of the entries in your list can be considered both protocols and services. Protocols define the rules for communication, while services are the actual implementation of these protocols on network devices to perform specific functions.
+Why They Might Be Called Services: In many practical networking contexts, the implementation of a protocol to perform a specific task (like HTTP serving web pages on port 80) is referred to as a "service." This is because the protocol is in service of a particular function or application layer task.
+Example Explanation
+HTTP on Port 80: HTTP is a protocol, but when running on a web server on port 80, it is providing a web service. Thus, HTTP is both a protocol and when implemented on a server, it becomes a service that serves web pages.
+Expert Perspective
+An expert might refer to these as services particularly from an IT infrastructure point of view, where managing network services (like DNS, DHCP, FTP) involves ensuring these specific protocols are properly configured to run on their designated ports to serve network clients effectively.
+This nuanced understanding helps in various practical IT and networking tasks, from configuring firewalls and routers to setting up servers and troubleshooting network issues. Each "service" or "protocol" has a designated role, ensuring efficient and standardized communication across the internet and within private networks.
+
+When I say that protocols like FTP and SMTP operate "over TCP," it means they use TCP (Transmission Control Protocol) as the underlying transport mechanism to manage and ensure the delivery of data between devices on a network. Here's a breakdown of what it means for these protocols to operate "over TCP":
+
+TCP - Transmission Control Protocol
+TCP is one of the main protocols in the TCP/IP suite and provides reliable, ordered, and error-checked delivery of a stream of data between applications running on hosts communicating via an IP network. Protocols operating "over TCP" leverage its capabilities to ensure data is transmitted correctly. Here’s how TCP supports these protocols:
+
+Reliability: TCP manages message acknowledgment and retransmissions in case of lost or corrupted packets. When data segments are sent over the network, the sender retains a copy until the receiver sends back an acknowledgment of receipt. If an acknowledgment is not received within a certain timeframe, TCP will retransmit the data.
+
+Ordered Delivery: TCP numbers each segment with a sequence number, which is used to order segments at the receiving end. This ensures data is reconstructed in the correct order, even if it arrives out of order.
+
+Error Checking: Each TCP segment includes a checksum that is used to detect errors in the data that might occur during transmission. If a segment fails the checksum test at the destination, it is discarded, and TCP arranges for retransmission.
+
+Flow Control: TCP uses windowing and other techniques to control how much data is transmitted before requiring an acknowledgment. This prevents fast senders from overwhelming slower receivers.
+
+How FTP and SMTP Use TCP
+FTP (File Transfer Protocol): FTP uses two TCP connections to handle file transfers. One connection (on port 21) is used for sending control commands between the client and server, such as login credentials, commands to change the directory, and commands to initiate file transfer. The other connection (on port 20) is used for the actual data transfer. Using TCP ensures that commands and data are delivered reliably and in order, which is crucial for accurate and complete file transfers.
+
+SMTP (Simple Mail Transfer Protocol): SMTP uses a single TCP connection on port 25 for sending email messages from one server to another or from a client to a server. SMTP commands and responses, as well as the actual email messages, are sent over this connection. TCP’s reliability ensures that emails are correctly delivered from sender to receiver without data corruption.
+
+Summary
+Saying that these protocols operate "over TCP" highlights that they utilize the TCP transport protocol to achieve reliable, ordered, and error-free communication. This is essential for functions such as transferring files and emails, where loss or disorder can corrupt files or lose information in emails. TCP's features like connection-oriented sessions, reliable transmission, and error detection make it suitable for these tasks.
+
+!PORT NUMARALARI SAYESINDE HTTP ILE WEB SAYFASINA GIRERKEN HEM DE SMTP ILE MAILLERIMIZ ALIP GONDEREBILMEK ISTERIZ.. AYNI ANDA HTTP-SMPT YE TCP VERILERI GUVENILIR BIR SEKILDE GONDEREBILMEK ICIN FARKLI FARKLI PORTLARDAN HIZMET VERIRLER, SMTP-PORT:25, HTTP-PORT:80
+
+! Ports enable a single server to handle multiple connections from many users at the same time, each potentially requesting different pages or performing different actions, even if all those connections are using the same service, like HTTP.
+
+How Ports Enable Multiple Connections
+When discussing HTTP and web servers, port 80 is the standard port for HTTP traffic. The ability of a server to handle multiple connections simultaneously through the same port involves a combination of the port number along with the IP address of the users (source IP) and their ports (source ports). This combination is crucial and is known as a "socket."
+
+Understanding Sockets
+Socket: A socket is an endpoint of a two-way communication link between two programs running on the network. A socket is bound to a port number so that the TCP layer can identify the application that data is destined to be sent to.
+Example:
+Multiple users might be accessing http://example.com. Each user's browser will connect to example.com (which resolves to the server's IP address) on port 80. However, each user's connection is uniquely identified by their source IP and source port.
+
+Scenario:
+
+User A connects from IP 192.168.1.10 using a random source port, say 49562.
+User B connects from IP 192.168.1.15 using another random source port, say 51340.
+Although both requests are sent to the same server IP and port (server's IP and port 80), the server is able to distinguish between these two connections using the combination of source IP, source port, destination IP, and destination port. This combination allows the server to manage multiple incoming connections effectively, each potentially engaging in a different session or request.
+
+Role of the Transport Layer Protocols
+TCP (Transmission Control Protocol) is particularly well-suited for managing multiple connections because it is connection-oriented and ensures reliable delivery of data. TCP handles each unique connection (socket) as a distinct data stream, maintaining separate sessions for each user.
+Practical Implications
+Web Servers: A web server can serve thousands of clients simultaneously on the same port because of its ability to manage different sockets efficiently. Each client (browser) connects using a different socket (source IP + source port to server IP + server port).
+Load Management: Servers employ various strategies (like load balancers, multi-threading, etc.) to manage the load because, despite the capability to handle multiple connections, each connection still consumes resources.
+Conclusion
+The use of ports, particularly in combination with IP addresses and protocols like TCP, enables servers to handle multiple concurrent connections, allowing many users to use web services simultaneously without conflict. This is fundamental to the functioning of the internet as it allows for scalability and flexibility in network communications.
+
+
+How Multiple Connections Work on a Single Port
+A server listening on a port, like port 80 for HTTP, can handle many concurrent connections through the same port thanks to the combination of four key elements:
+
+Source IP Address: The IP address of the client (user's device).
+Source Port: A temporary port number automatically assigned to the client's connection by their device's operating system. This is not the same as the server's port and is chosen from a range of ephemeral ports.
+Destination IP Address: The IP address of the server.
+Destination Port: The port number on which the server is listening (e.g., 80 for HTTP).
+Each combination of these four elements creates a unique "socket" or "session," which the server uses to differentiate between each client's connection. This allows a single server port to handle connections from multiple clients, even if those clients are interacting with the server at the same time.
+
+Practical Example
+Imagine a web server configured to serve HTTP content on port 80. Here's how it can manage multiple client requests simultaneously:
+
+User 1 (IP: 192.168.1.100) uses their browser to access the server. Their operating system might assign the connection a source port of 49152. The connection is identified by the tuple (192.168.1.100, 49152, Server_IP, 80).
+User 2 (IP: 192.168.1.101) also accesses the server at the same time. Their device picks a different source port, say 49153, resulting in the tuple (192.168.1.101, 49153, Server_IP, 80).
+Multiple Users: Each new connection from a different user or even additional connections from the same user (different tabs or refreshes) will use different source ports, or combinations of IP and port, allowing the server to handle each as a unique session.
+Technical Explanation
+TCP, the protocol commonly used for services like HTTP, is designed to distinguish between these connections based on the combination of source IP, source port, destination IP, and destination port. This multiplexing allows a single server port number to support many connections without confusion.
+
+Conclusion
+You don't need additional ports for additional users; rather, you leverage the ability of network protocols to effectively manage multiple connections through the same server port. This efficient use of ports underpins much of the scalability of modern web servers and services.
+
+Scenario: Hosting Multiple Websites on a Single Server
+Imagine you are running a web hosting service where you have a single physical server, but you need to host several websites, each for a different customer. Each website is a separate HTTP service, but they all reside on the same server.
+
+Requirements:
+Each website should be accessible via the standard HTTP protocol.
+Each website might have its own security requirements, content, and even perhaps a need for different server configurations.
+Problem:
+Using the standard HTTP port (port 80) for all websites can work perfectly if you are using virtual hosts to differentiate between the sites based on the domain name. However, suppose you need to run different versions of a web server software (like different versions of Apache or a different configuration that cannot coexist on the same server instance), or you want to isolate the network traffic of each website for security and performance monitoring reasons. In these cases, running all sites on the same port is not feasible.
+
+Solution: Use Different Ports
+You decide to assign each website its unique port number along with the standard port 80. Here's how you could set it up:
+
+Website A: Standard HTTP traffic on port 80.
+Website B: Custom HTTP traffic on port 8080.
+Website C: Further custom HTTP traffic on port 8081.
+This setup allows you to run separate instances of the web server software for each site on the same physical server without interference between them. Each site can be accessed by specifying the port number in the URL, like http://websiteb.com:8080 and http://websitec.com:8081.
+
+How This Helps:
+Configuration Flexibility: Each server instance can be configured independently, allowing custom settings, different server versions, or special modules for each site.
+Security Isolation: By separating the traffic on different ports, it's easier to apply specific firewall rules or monitor traffic for each site independently, enhancing security.
+Performance Management: Traffic and performance can be monitored and optimized individually for each port, helping to troubleshoot and ensure that each website is performing optimally without affecting others.
+Practical Considerations:
+User Accessibility: Users typically expect to access websites via standard ports (80 for HTTP and 443 for HTTPS). Using non-standard ports can sometimes lead to accessibility issues, such as firewalls blocking these ports or users needing to remember to type the port number in the URL.
+SEO and Usability: Search engines and general web usability practices favor standard ports for accessibility. Non-standard ports might affect the site's visibility and user experience.
+Conclusion
+While the default scenario for HTTP services is to run everything on port 80 (or 443 for HTTPS), there are practical reasons to use different ports, particularly when dealing with complex hosting environments, security requirements, or specific performance monitoring needs. This flexibility is a powerful feature of network design, allowing administrators to tailor their setups to the specific needs of each service or client.
+
+Indeed, without port numbers, the TCP protocol would not be able to distinguish between different types of services like SMTP and HTTP. Port numbers play a crucial role in the TCP/IP networking model by allowing the correct routing of network messages to their intended application processes on a host. Here’s a more detailed explanation of why port numbers are essential:
+
+Role of Port Numbers in TCP/IP Networking
+Service Identification: Each type of network service (like SMTP for email or HTTP for web traffic) is assigned a specific port number. These port numbers are used by the operating system to direct incoming traffic to the correct application. For example, web servers typically listen on port 80 for HTTP and port 443 for HTTPS, while mail servers listen on port 25 for SMTP.
+
+Multiple Services on One Host: Port numbers allow a single server to offer multiple services simultaneously. For instance, a server could be hosting an SMTP service and an HTTP service. Without port numbers, the server wouldn’t know which service to send incoming data to, as all data would arrive with the same destination address (the IP address).
+
+Process Multiplexing and Demultiplexing: Port numbers enable a process on the network called multiplexing (sending multiple streams of data over a single connection) and demultiplexing (splitting data from a single connection into multiple streams). This process is crucial because it allows a single server to handle connections from multiple clients to the same service (like a web server handling multiple browsers) and differentiate services for each connection.
+
+Hypothetical Without Port Numbers
+Lack of Distinction: If TCP did not have port numbers, it would only be able to differentiate connections based on the IP address. This limitation would mean a device could only reliably run one network service accessible from the outside network, severely limiting the functionality and efficiency of network communications.
+
+Challenges in Managing Connections: Managing multiple client connections would be extremely problematic. For instance, if multiple users were trying to access a web service, without port numbers, the server would not be able to distinguish individual HTTP requests because all requests would appear the same.
+
+No Simultaneous Services: Running multiple services such as a web server and an email server on the same machine would be infeasible without assigning different IP addresses for each service, which would be highly inefficient and not scalable.
+
+Conclusion
+Port numbers are integral to the functioning of TCP/IP networks. They provide the necessary mechanism for servers to offer multiple types of services and for clients to connect to these services correctly. Without port numbers, modern network architectures and the internet as we know it would not function effectively, as there would be no efficient way to route traffic to the correct processes based on the type of service being requested.
+
+
+
+!PORT KULLANIIMINDA NE DEMEK ISTEMIYORUZ ASLINDA 
+
+When multiple clients send requests to the same server, even if the requests are for different URLs (like /home, /products, /categories on http://websiteb.com:8080), you do not need separate ports for each type of request. The server can handle all these requests on the same port because of the way TCP and the HTTP protocol manage connections and distinguish between different client requests. Here’s how it works:
+
+TCP Connections and HTTP Requests
+TCP Connections:
+
+Each client connecting to a server establishes a TCP connection using a unique combination of their IP address and a source port with the server’s IP address and the destination port (in this case, 8080).
+The source port is selected from an ephemeral range typically used for client connections. This source port, along with the client’s IP address, helps ensure that each TCP connection is unique.
+Multiple requests from different clients or even different requests from the same client can be distinguished and managed based on these unique connections.
+HTTP Protocol Handling:
+
+HTTP, which operates on top of TCP, handles application-level routing. When a client requests a page like /home or /products, the path is part of the HTTP request header, not the TCP segment.
+The server receives the HTTP requests on the same TCP port and reads the HTTP headers to determine which resource the client is requesting. It then processes these requests accordingly, all within the same port.
+Example of HTTP Request Handling
+When a client sends a request to http://websiteb.com:8080/home, the HTTP GET request might look like this:
+vbnet
+Kopier kode
+GET /home HTTP/1.1
+Host: websiteb.com:8080
+The server listens on port 8080, receives this request, and based on the request path (/home), it retrieves the home page and sends it back to the client.
+The same process applies for other URLs. The server uses the path specified in the HTTP headers to route the request internally to the correct resource or service.
+Why Not Different Ports?
+Using different ports for different services or pages on the same website would complicate the network architecture unnecessarily and is not supported by standard HTTP practices.
+Managing multiple ports can lead to increased administrative overhead and might complicate firewall and network configuration.
+Most web servers are capable of handling thousands of simultaneous connections on a single port through efficient use of multi-threading and connection handling mechanisms.
+Conclusion
+In conclusion, a single port can efficiently manage numerous different requests by utilizing TCP’s connection management and HTTP’s request routing capabilities. The distinction between different types of requests is handled at the application layer (HTTP) through URLs and not at the transport layer (TCP) through ports. This design keeps web communications simple and efficient across the Internet.
+
+!KAVRAMLARI DOGRU SEKILDE KAFADA OTURMAK COOK ONEMLI!
+
+So, when we say we need the ports because we need to create diffrerent connections at the same time, we mean connection from tcp or upd to http,smtp...like that, not connections from differnt clients to same http server , is it right?
+
+When discussing the need for different port numbers, it's not about creating different connections from TCP or UDP to application protocols like HTTP or SMTP, but rather about distinguishing different types of services running on a server, allowing those services to operate simultaneously without interfering with each other.
+
+Here’s a more detailed breakdown to clarify this concept:
+
+TCP/UDP and Application Protocols
+TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are transport protocols that facilitate communication between hosts on a network by managing data packets' transmission. They serve as channels through which higher-level protocols (like HTTP or SMTP) send their data.
+Each application protocol typically listens for incoming connections on a specific port, which identifies that service on the server:
+HTTP often uses port 80.
+HTTPS uses port 443.
+SMTP for sending emails uses port 25.
+FTP for file transfers uses ports 21 (control) and 20 (data).
+Different Connections on the Same Port
+When we talk about needing ports to create different connections at the same time, this usually refers to different services (like HTTP and SMTP) that might need to operate simultaneously on the same server. Each service listens on its designated port.
+Within the same service (e.g., an HTTP server on port 80), the server can handle multiple connections from different clients simultaneously on that single port. Here, TCP distinguishes between different client connections using a combination of source IP, source port, destination IP, and destination port. This allows the server to manage multiple individual sessions through the same port.
+Example Scenario
+If a server is running a web service (HTTP) and an email service (SMTP), it will use at least two ports:
+Port 80 for HTTP to handle all web traffic.
+Port 25 for SMTP to handle all email sending operations.
+Multiple Clients to Same HTTP Server:
+Numerous clients can access the server's HTTP service simultaneously on port 80. Each client connection is uniquely identified by the client’s source IP and port. This allows the server to handle each request independently, even though they are all coming through the same server port (80).
+Summary
+The need for different ports is primarily about service differentiation on a server — allowing multiple types of services (application protocols) to run concurrently without collisions in their network communications.
+Connections from different clients to the same service (like HTTP) on a server are managed through unique combinations of source and destination ports (along with IP addresses), enabling multiple, simultaneous connections on the same service port. Each client’s request is isolated and managed independently by the server, all under the same port.
+Thus, ports are crucial for defining what service is accessed, while the combination of IP addresses and port numbers are crucial for maintaining multiple, simultaneous client connections to these services
+
+!TCP ORNEGIN SSH, HTTP, SMTP...BU SERVICE LERE DATA GETIRME GOTURME ISLEMLERI YAPARKEN, EGER PORT NUMARASI OLMAZSA, BURALARA AYNI ANDA DATA GOTUREMEZ DI ONDAN DOLAYIDIR KI PORT NUMARALARI ONEMLIDIR
+!HEM HTTP ILE WEB SAYFASINA GIRERKEN KULLANICI AYNI ANDA BIR TARAFINDAN DA MAIL INDEKI MAILLLERI GORUNTULEYIP YENI MAIL GONDEREBILIR...AYNI BROWSER IN FARKLI SAYFALARINDA BU ISLEMLERI AYNI ANDA YAPABILIR
+!BIR BILGISAYARDA 65536 ADET PORT VARDIR, 1024 TANESI IYI BILINENDIR(WELL-KNOWN)
+
+!DNS- HEM TCP  HEM DE UDP KULLANIR, IP ISTEYEN IP ALAMAZSA BIR DAHA ISTEYEBILSIN DIYE..
+
+!arp -a (Cihazimizin bulundugu agdaki iletisim kurdugu cihazlarin ip adresleri)
+ARP Tablosu Girişlerini Anlamak
+IP Adresleri:
+
+"İnternet Adresi" olarak görüntülenir: Bunlar, bilgisayarınızın yerel ağınızda iletişim kurduğu cihazların IP adresleridir. Bu yalnızca diğer bilgisayarları değil, yönlendiriciler, yazıcılar, akıllı telefonlar vb. gibi ağdaki tüm cihazları da içerir.
+Bilgisayarınızın IP'sini Belirleme: Bilgisayarınızın IP adresi doğrudan arp -a çıkışında gösterilmez. Ancak ayrı bir komut çalıştırarak bilgisayarınızın IP adresini tanımlayabilirsiniz:
+Windows'ta: ipconfig
+MacOS/Linux'ta: ifconfig veya ip a
+Diğer IP Adresleri: ARP tablosunda listelenen ve bilgisayarınızın IP adresi olmayan herhangi bir IP adresi, ağdaki diğer cihazlara aittir.
+Fiziksel Adresler (MAC Adresleri):
+
+!IP ADRESLERI 
+Networklerde bilgisayarlar olmasa bile, ip ler vardir , router larin, modem lerin kendilerine ait bir ip leri vardir. 
+
+!binary-2lik 0,1 olmak uzere 2 rakamdam olusu
+Kayhan isminden ikilk(binary) duzende anladigi sudur:01001011 01111001 011010000110000001...
+!decimal-10luk
+0,1,2,3,4,5,6,7,8,9 olmak uzere 10 rakamdan olusur
+Kaynhan isminden ondalik-decimal duzende anladigi sudur: 075 097 121 104
+
+!hexadecimal-16lik :
+0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F olmak uzere 16 karakterden olusur ORN: 68:7F:74:12:34:56. Kayhan isminden onaltilik(hexadecimal) duzende anladigi sudur: 48 61 79 68 61 6E
+MAC ADRESLERINE HEXADECIMAL DERIZ CUNKU GOSTERM BU MANTIKTADIR...PHYSICAL ADDRESS-MAC ADRESININ
+
+!ALFABETIK SIRALAMA DA BINARY NIN DECIMAL DEN ONCE GELMESI 2 NIN 10 DAN ONCE GELMESIG GIBI DIR
+
+PEKI BIIZIM ICIN ANLAMLI BIR IFADENIN KARSILIKLARINI BINARY,DECIMAL VE HEXEDECIMAL OLARAK NASIL BULUYORUZ...ASCII TABLOSUNDAN TABI KI....
+!KUCUK VE BUYUK HARF E KARSILIK GELEN BINARY,DECIMAL VE HEX DEGERLERI FARKLIDIR 
+
+!IP ADRESLERI CIHAZLARIN NETWOERK DEKI YERLERINI BELIRTIR, HANGI AGDA OLDUGUNU VE AGDAKI KIMLIGINI BELIRTIR 
+!IP ADRESLERI 32 BITLIK, BINARY DUZENDE ALAN MANTIKSAL BIR SAYIDIR
+! 4 PARCA  VE 8 ER BITLIK PARCALRDAN OLUSUR VE HER BIR PARCAYA OKTET ISMII VERILIR
+
+!HER OKTET MINIMUM 0, MAXIMUM 255 DEGERI ALIR, SONOKTET 0 ALAMAZ
+
+IP LER 
+-IP ADRESLERI 2 KISIMDAN OLUSUR
+
+IP ADRESI: 192.168.1.34
+
+1.KISIM:NETWORKID- NETWORKUN KENDSIIE AIT OLAN ID DIR VE, BU IC AYNI AGDA-NETWORKDE OLAN CIHAZLARDA AYNI OLMAK ZORUNDADIR 
+2.KISIM :HOSTID:CIHAZIN AGDA KENDISINI TANIMLAYAN IDDIR. AYNI NETWORKDE OLAN CIHAZLARIN HOST ID LERI FARKLI OLMAK ZORUNDADIR.
+!HOST ID SI, YANI 4.OKTET KISMI MAKSIMUM 254 OLABILIR, MINIMUM DA 1 OLABILIR, 0 OLAMAZ..
+!NORMALDE BIR IP ADRESINDE OKTETLERI ICERISINDE 255 TEN BUYUK RAKAM OLAMAZ...AMA 4.OKTETTE ISE MINIMUM 1, MAKSIMUM 254 OLABILIR
+!HOST CIHAZIN KENDISIDIR 
+!AYNI AGDAKI-NETWERKTE OLAN, CIHAZLAR BIRBIRI ILE ILETISIM KURABILIR..NETWERK ID LERI AYNI OLMAK ZORUNDADIR
+!AYNI NETWERKTEKI CIHAZLAR DA AYNI HOST ID SINI ALAMAZLAR, IP CAKISMASI YASANIR
+
+CLASS-C
+IP ADRESI: 221.138.62.1
+NETWERKID:221.138.62 HOSTID:1 SUBNETMASK:255.255.255.0
+
+CLASS-C
+IP ADRESI: 192.168.1.34
+NETWERKID:192.168.1  HOSTID:34  SUBNETMASK:255.255.255.0
+
+CLASS-B
+IP ADRESI: 172.16.1.1
+NETWERKID:172.16  HOSTID:1.1  SUBNETMASK:255.255.0.0
+
+CLASS-A
+IP ADRESI: 16.1.1.1
+NETWERKID:16  HOSTID:1.1.1  SUBNETMASK:255.0.0.0
+
+!IP TEKBASINA BIR ISE YARAMAZ, KESINLIKLE SUBNETMASKI OLMAASI GEREKIR..
+!IP ADRESLERININ NETWERK ID VE HOST ID SINI BELIRLEYEN FAKTOR, SUBNET MASK(ALT AG MASKESIDIR)
+!SUBNET MASKI BELIRLEYEN DE IP ADRESI SINIFLARDIR 
+!HER IP NIN SUBNET MASK I VE CLASS I VARDIR
+
+!YANI NETWERKIN KAC OCTET OLACAGINI BELIRLEYEN DE SUBNET MASK OLUYOR SUBNET MASK DA EGER 1 TANE(A CLASS) 255(255.0.0.0) VAR DIGERLERI 0 ISE O ZAMAN 1. OKTET NETWERK ID SI, 2 TANE(B CLASS) 255(255.255.0.0) O ZAMAN DA ILK 2 OKTET NETWERK ID SIDIR, 3 TANE(C CLASS) 255(255.255.255.0) ISE O ZAMAN DA ILK 3 OKTET NETWERK ID SIDIR
+
+!A SINIFI IP LER - 1-126 ARASI ILE BASLAR 1.OCTET 
+!DIKKAT EDERSEK 127 YOK, SEBEBI 127 HER PC NIN LOKAL IP SI ICIN AYRILMISTIR, DAGITILAMAZ VE KULLANILAMAZ, NETWERKTE HER PC NIN KENDISINI TEMSIL ETTIGI IP DIR 
+!B SINIFI 128-191 DIR 1.OKTET B SINIFI IPI LERI ICIN
+!C SINIFI 192-223 ARSIDIR C SINIFII IP LERI ICIN 
+
+!AYRICA SPESIFIK IHTIYACA GORE SINIFSIZ IP DAGITIMI DIYE BIRSEY DE VARDIR, BU DA DAHA ILERI DE KARSIMIZA CIKACAKTIR
+
+!223 TEN BUYUK RAKAMLI IP LER KULLANILAMAZ. 224-255 ARASINNDAKI BU ARALIK , NETWORKSEL ISLEMLER VE OTOMATIK ILETISIMLER ICINDIR(ORNEGIN BROADCAST YAPMAK GIBI) 
+
+
+
+
+
+
+
+
+
+
+
+
 */
 
 
