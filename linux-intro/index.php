@@ -312,7 +312,6 @@ adem@adem:~/test/demo2$ sudo chmod +x demo2.sh
 adem@adem:~/test/demo2$ ./demo2.sh 
 
  
-
 Ama bu dosyamizi eger istedgimz her yerden calistirabilmek istersek ..ne demek istiyoruz..Normalde biz ornegin ~/test/demo/demo1.sh dosyasini executable yaptiktan sonra onu execute edebilmek icin o dosya yoluna gideriz...  ve   
 
 ~/test/demo/  ./demo2.sh deriz...ama yanlis dosya yolunda bunu yaparsak bize oyle bir dosya bulunamadi diyecektir...Iste environment path e eklersek /etc/bash.bashrc icinde o zaman bizim artik hangi dosya yolunda oldugmuz onemli degill istedgimz her yerden dogrudan demo2.sh yazarak execute edebiliriz...Tabi ki oncesinden chmod +x ile executable  yapilmis ise ve de /etc/bash.bashrc ye eklemmis ve de pc yeniden baslatilmis ise....BUNLARI UNUTMAYALIM!!!! 
