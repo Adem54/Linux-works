@@ -1047,14 +1047,14 @@ ls -hl dersek tum dosyalarin boyutlari ile birlikte getirecektir
 h parametresi human-readable demektir.. 
 
 ls -i (inode degeri ile birlikte verir)
-ls -Sl (l ile daha ayrintili listeler)-dosyalar boytularina gore buyukten kucuge siralanir
+ls -Sl (sortered-l ile daha ayrintili listeler)-dosyalar boytularina gore buyukten kucuge siralanir
 
-ls -tl () olusturulma tarihlerine gore listeliyor
+ls -tl () olusturulma tarihlerine gore listeliyor(time)
 
 ls -rl dosyalari terseten basabilirz(reverse-list)
 
 Dosyalarimzi boyut olarak kucukten buyuge dogru nasil siralariz 
-ls -Srl ile dosyalarimzi kucukten buyuge dogru siralayabiliriz
+ls -Srl ile dosyalarimzi kucukten buyuge dogru siralayabiliriz(Sortered-reverse, tersten sirala)
 
 mkdir-rm ile klasor olusturma ve silme
 make directory demektir 
@@ -1389,7 +1389,8 @@ LINUX UBUNTU TERMINAL SHELL ISLEMLERINDE DOSYA IZINLERI COK ONEMLIDIR... OZELLIK
 GEOSERVER DA ALINAN HATA..VE COZUMU!!!!											
 HTTP ERROR 503 Service Unavailable URI: /geoserver/ STATUS: 503 MESSAGE: Service Unavailable SERVLET: - in ubuntu..I have installed geoserver and I added JAVA_HOME, GEOSERVER_HOME AND GEOSERVER_DATA_DIR											
 																
-COZUM!!!!!!!!!!!					DOSYA IZINLERININ VERILMESI....COOOOK ONEMLI!!!!!!!!!!1						
+COZUM!!!!!!!!!!!					
+DOSYA IZINLERININ VERILMESI....COOOOK ONEMLI!!!!!!!!!!						
 1	Make yourself the owner of the 										
 	geoserver										
 	 folder. Type the following command in the terminal window, replacing 										
@@ -1401,7 +1402,7 @@ COZUM!!!!!!!!!!!					DOSYA IZINLERININ VERILMESI....COOOOK ONEMLI!!!!!!!!!!1
 	Ubuntu da her zaman yeni bir uygulama yuklerken bunu kendi kullanci adimiz olan /home/adem altina yukleyelim burasi cok onemli…..
 
 
-	UBUNTU DA BAZI KURULUMLAR ILE ILGILI BILINMESI GEREKENLER
+UBUNTU DA BAZI KURULUMLAR ILE ILGILI BILINMESI GEREKENLER
 
 nativescript kurulumu							
 Android Studio kurulumu 							
@@ -1410,16 +1411,7 @@ ANDROID JDD KURUP ANDROID_HOME EKLENMESI
 NODE.JS SON SURUM KURULMASI							
 PHP KURULMASI							
 MYSQL KURULMASI							
-APACHE KURULMASI							
-nativescript kurulumu							
-Android Studio kurulumu 							
-Jdk kurulumu ve JAVA_HOME ENV.VARIABLE A EKLENMESI							
-ANDROID JDD KURUP ANDROID_HOME EKLENMESI							
-NODE.JS SON SURUM KURULMASI							
-PHP KURULMASI							
-MYSQL KURULMASI							
-APACHE KURULMASI							
-
+APACHE KURULMASI													
 
 Android studio da sdk lokasyonu /opt icine kuruluyor olabilir bunu hemm android studio da hem de opt altinda inceleyelim… yani jdk ile ilgili 2 farkli adres var ama birisi dogru olanbunun birisi home/adem altinda birisi de opt altinda idi bunlari bir arastirip inceleyelim													
 													
@@ -1427,8 +1419,7 @@ Android studio da sdk lokasyonu /opt icine kuruluyor olabilir bunu hemm android 
 ANDROID JDK BULUNAMADI HATASI…..													
 ANDROID_SDK /ETC/ENVIRONMENT TE YOLU YANLIS VERILMIS DE OLABILIR…DOGRU VERILDI ISE DE O ZAMAN GOREMIYORDUR UYGULAMA ONU YENIDEN BASLATMAK GEREK													
 Sdk ve ANDROID_HOME VE JAVA_HOME U /ETC/ENVIRONMENT E YUKLMEME RAGMEN HALA JDK LAR YOK DIYE HATA ALIRSAK TNS DOCTOR U CALISTIRINCA O ZAMAN SISTEMI ACIP KAPATI ONDAN SONRA ECHO $ANDROID_HOME VE ECHO $JAVA_HOME TEST EDILMELI EGER GELIRSE ZATEN TEKRAR TNS DOCTOR ILEHATASIZ CALISACAKTIR....													
-													
-													
+																										
 BIRDE ANDROID STUDIO DA TOOLS DA EN USTTE YUKLENMIS AMA VERSIYONU SON VERSIYON OLMAYABILIYOR ONUN UZERINDEKI - YE TIKLAYIP ONU SON VERSIYONU YUKLENEREK DENENEBILIR													
 													
 MYSQL - PHP-APACHE INSTALLSJON													
@@ -1456,8 +1447,7 @@ eger password yok ise sudo mysql -u root ile dire girilebiliyor ama password var
 													
 sudo mysql_secure_installation -p yi ALTER ILE YENI PASSWORD ATAMASI YAPTIKTAN SONRA DENEMELIYIZ EGER DENEMEK ISTERSEK YOKSA ILK DEFA PASSWORD AYARLAMAYI GIDIP DE mysql_secure_installtion dan yaparsak endless bir donguye giriyor passwordu 100% secure girsek bile ondan dolayi once ALTER ILE YENI PASSWORD ATAMASI YAP ARDINDAN O PASSWORDU LOW LEVEL SECIP ORDA TEKRAR GIR EGER MYSQL_SECURE INSTALLATION DAN SECURE YAPMAK ISTERSEK AMA ZORUDNDA DEGILIZ MYSQL_SECURE INSTALLATION YAPMAYA DA BILIRIZ...AMA MUHTEMELEN EGER ALTER ILE DEGISTIRIRKEN KONFIGURASYON HATALARI VS ALIRSAK O ZAMAN MYSQL_SECURE_INSTALLTION DENIYORDUK													
 													
-													
-																						
+																									
 .sql database dosyasini nasil import ederiz linux da buna bakalim simdide….													
 uzak server dan nasil lokale indiririz nereye indigini nasil biliriz ve onu nasil kendi dataabase imize import ederiz													
 nasil database olustururuz linux de													
@@ -8223,7 +8213,7 @@ Dizine gecis yapabiliyoruz ve icerisindeki dosya ve klasorlere ayni sekilde, eri
 KLASOR VE TUM ALTKLASORLERE AYNI YETKILERIN UYGULANMASI ICIN -R(recursive) opotion i kullanilmalidir
 testfolder klasoru ve tum alt dosya ve klasorlere tum y etkileri veririiz once
 -R(recursive) option unun kullanilmasi gerekrir
-adem@adem-ThinkPad-13-2nd-Gen:~$ chmod -R 777 testfolder
+adem@adem-ThinkPad-13-2nd-Gen:~$ chmod -R 777 testfolder- chmod -R a=rwx testfolder
 adem@adem-ThinkPad-13-2nd-Gen:~$ ls -lR testfolder
 testfolder:
 total 8
