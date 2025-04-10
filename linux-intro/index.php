@@ -11475,3 +11475,4077 @@ journalctl -n 5(kayitlardan 5 tane getir)
 !NETWORK TEMEL KAVRAMLAR
 
 Ag-Network nedir?
+Ne az iki cihazin(pc) birbirleri ile veri transferi kurmak uzere aralarinda kurmus oldugmz baglantiya verdigmiz genel bir isimdir
+Iki olmak zorunda degil 3,4,5 ve daha fazla olabilir
+Host nedir?
+Ag baglantisi saglamis onlan, veri gonderen veya alan cihazlara biz host diyoruz. Yani her bir cihaz hostdur
+Yalnizca pc ler degildir host, ag baglantisi olusturan veri gonderip veri alan, mobilephone, tablet, ipad bunlar da host olabilir
+Hatta akilli tv de host olabilir...akilli buzdolabi ag baglantisi kurabiliyordur bu da host olabilir 
+
+Bu hostlarin ag uzerinde, burundukleri roller geregi verilmis isimlerdir
+Client:linuxdersler.net web sitesini ben ziyaret ederken, bu istegi sunucuya,server a gonderiyoruz, istek gonderiyoruz.. 
+Server:Talebe cevap veren, bu web sistesinnin dosyalrini client a gonderendir...
+Server-sunuclar da normal pc gibidir icerisinde cesitli yazillimlar kurularak kendilerine yapilan isteklere dogru cevaplar verilmesi saglaniyor
+Kendi pc lerimizden bile biz bir web suncusuyukleyip bir web sitesi sunabiliriz... 
+Client-server olma durumu bazen duruma gore degisebiliyor ornegin
+Bir server web sitesini sunarken, dosyalarini baska bir server a istek gondererek aliyor ve o dosyalari kullanarak web sistesini sundugu zaman, onun dosyalari almak  icin istek gonderdigi pc ile arasindaki iliskiye bakacak olursak, normal websitesi sunan sunucu o iliski de client rolu almis olurken, dosyalari gonderen file-server ise server rolundedir
+File-server da ornegin, gunbcellemleri baska bir update-server dan alabilir, bu durumda da yine update -server server olurken file-server client rolune burunecektir
+
+!LAN(Local Area Network)
+Kucuk capli, lokal capli kurulmus olan ag baglantilardir
+Bizim internetimiz olmasa bile, kendi evimizdeki pc ler, mobile cihazlari birbirine baglayip ag olusturaibliiriz. Bu sayede bu cihazlar bu ag icerisinde veri trransferi vs  yapacak sekilde birbirleri ile iletisim kurabilirler
+Benzer sekilde ofisler de bu yaklasim kullaniliyor 
+Ornegin diyelim ki bir ofis agi ve ofisteki cihazlarin hepsi yaziciya bagli, tum cihazlar internet olmasa bile, yaziciya erisebiliyor cunku lokal de tum cihazlar yaziciya bagldir
+
+!WAN - Wide Area Network
+Bu ag turu de birden fazla lokal agin birbirine baglanarak daha genis bir ag olusturulmus olma halidir. 
+Her bir lokal agdaki cihazlar, birbirleri ile iletisim kurabilmesi icin yapilir ve daha genis bir ag baglantisi olusturuluyor
+En buyuk WIDE ARE NETWORKU INTERNETTIR
+
+!IP ADRESI 
+Ip adresi cihazlarin ag uzerindeki benzersiz kimlik numaralaridir
+
+Iki cihaz birbiri ile iletisim kurarken, bir server a istek gonderirken o server in ip adresini bilmesi  gerekiyor, kafamiza gore herhangi bir cihazdan talep edilemez. Ayni sekilde iste gonderen pc nin de ip adreini server in bilmesi gerekiyor ki, o istege cevap gondersin, yani her istek gonderene dosyalarai vermez server da onun icin, istek gonderen cihazin ip adresini bilmesi gerekir 
+AG uzerinde cihzlar birbilrerini ip adresleri uzerinden ayirt ederler!
+
+Yani pc1 cihazi pc2 cihazina istek gonderdigi zaman 
+Kanyak IP:159.132.45.192 
+Hedef IP:185.199.108.153(www.linuxdersleri.net) 
+istek paketiine hem hedef ip adresini , hem de istegin kimden geldigni belirten kaynak ip adresini de belirtir ki, istek dogru adrese gitsin yerine ulassin
+
+Sunucu istege cevap verirken de response paketine yine 
+Kaynak IP:185.199.108.153(www.linuxdersleri.net) 
+Hedef IP:159.132.45.192 
+
+hedef ip adresi ve kaynak ip adreslerini ekleyecektir
+
+!IP ADRESLERI NASIL TANIMLANIR 
+Binary: 0 1(Bilgisyar dunyasinda en kucuk veri birimi bittir, o da 0 ya da 1 dir)
+Ip lerde 32 bit uzunlugunda olabiliyorlar 
+Bir ip adresi 32 bitlik deger alabiliyor. Bu 32 bitte 8 er bitlere ayrlimis oktet lerden olusuyor 
+
+Ilk deger: 00000000.00000000.00000000.00000000
+00000000-8 bittir ve bir karakteri temsil eder , 1 oktettir
+Son deger: 11111111.11111111.11111111.11111111
+11111111-8 bittir ve bir karakteri temsil eder, 1 oktettir
+
+Bir ip adresine verebilecegimiz en kucuk deger  00000000 dir yani bu 8 bit 1 karakteri temsil ediyordu
+Bir ip adresne verebilecegimz en buyuk degerde  11111111 dir
+
+Peki biz ip adreslerini normal ondalik gosterimde oldugu gibi 185.199.108.153 boyle goruyoruz, nasil bu hale donusturuluyor 
+Yani bizim ip adresi olarak okudugmz degerler 185.199.108.153 bunlar, binary(2 li sayi) den decimal(10 lu sayi sistemi) e cevrilmis halidir 
+Yani ornegin 
+10101010=> sirasi ile soldan saga dogru su sekilde hesaplariz
+0*(2 uzeri 0=1)=0
+1*(2 uzeri 1=2)=2
+0*(2 uzeri 2=4)=0
+1*(2 uzeri 3=8)=8
+0*(2 uzeri 4=16)=0
+1*(2 uzeri 5=32)=32
+0*(2 uzeri 6=64)=0
+1*(2 uzeri 7=128)=128
+Tum sonuclari topladgimzda = 170 yapiyor. 
+
+10101010 binary ifadesi yani 8bit=1byte decimal-ondalik gonsterimde = 170 e karsilik geliyor
+11111111 binary ifadesi de ayni mantiklar 8bit decimal-ondalik gostrimde 255 e karsilik geliyor
+
+!185.199.108.153 Boye bir ip adresi her 4 parcadan olusuyor ve arlarinda nokta var. Her bir parca binary olarak 8 bit e karsilik gelen 1 ve 0 lardan olusan 8 bitlk binary nin ondalik-decimal sayi birimine cevrilmis halidir....
+
+En kucuk ip adresi: Binary(ikili) = 00000000  Decimal(ondalik)=0 a karsilik gelirken 
+En buyuk ip adresi:Binary(ikili) =  11111111  Decimal(ondalik)=255 e karsilk gelir 
+
+!Bir ip adresinin alabilecegi enckucuk deger veya ilk deger : 0.0.0.0(Bu 0 lardan daha dusuk olamaz) 
+!Bir ip adresinin alabilecegi enbuyuk deger veya son deger : 255.255.255.255(Her bir bolum maks 255 olur daha buyuk olamaz...) 
+
+!Tanimlanabilir IP SAYISINA BAKACAK OLURSAK DA Ip adresi decimal-ondalik oalrak 4 bolumden olsuuyor. Her bir bolum binary-8 bitten olusan 1 ve 0 lardan olusuyor dolayisi ile her bir bolumun kendi arasindaki kombinasyondan yola cikilarak 2 uzeri 8 farkli deger alabilir 
+Tanimalnabilir IP SAYISI : 2^8 + 2^8 + 2^8 + 2^8=2^32=4.3~ milyar 
+Yetersiz IP sayisina cozum olarak, alt ag olusturma yani, subnetting yaklasimi kullaniliyor
+
+Intrenete baglanabilen her turlu telefojn,pc, akilli tv, akilli buzdolabi, nintendo(oyun),tablet, akilli saat her birisinin benzersiz ip adresi almasi gerekiyor
+
+!IP Subnetting
+Aglari daha alt aglara bolerek, ip adreslerini daha tasarruflu sekilde kullanabiliyoruz 
+Ayni lokal agda bulunan pc ler -LAN(lokal area network) birbirlerinin network numaralari ndan taniyorlar birbirlerini ve host olarak da hepsine sirasi ile 1 ,2 diye degerler ataniyor v ebirbirlerini kolayca taniyabiliyorlar 
+
+x network u once olsturulur ve LAN(LOCALAREANETWORK) kurulur ortamdaki pc ler arasinda
+pc-1= 192.168.1.2
+pc-2= 192.168.1.3
+pc-3= 192.168.1.4
+
+Bu pc ler birbirlerini network numaralarindan tanirlar = 192.168.1
+Sonra da sirasi ile host lar numarlarindirilmistir = 192.168.1.2, 192.168.1.3, 192.168.1.4...gibi
+
+Peki Local Area Network icinde olmayan yani kendi iclerinde LAN baglantisi bulunan farkli cihazlarla ise yine ip adreslerini kontrol ediyor, kendi aginda bulunmadigi icin farli bir ip adresine sahip, bu ip adresi ile iletisime gecmek istedigi zaman kendi lokal networkunde olmadigini anlayarak, dis ip adresleri ile nasil iletisime gecmesi gerekiyorsa o sekilde iletisime geciyor...
+
+Y NETWORK 
+pc-1= 192.168.5.2
+pc-2= 192.168.5.3
+pc-3= 192.168.5.4
+
+!Yani bilmemiz gereken aglari daha alt aglara bolerek, ip adreslerini daha tasarruflu sekilde kullanabiliyoruz 
+
+!Ip adresleri yalnizca cihazlarin degil, mevcut cihazlarin bulundugu agin bilgisini de verir
+!IP adresine bakinca hem network bilgisi hem de host bilgsi ogrenilmis olur!
+
+!Network ve Host Ayrimi Nasil Yapilir?
+network ve host ayrimini yapabilmek icin, subnet mask ya da alt ag maskesi olarak bilinen adrese bakilir
+
+!Bu ip adresi 192.168.1.10 agindaki 10 numarali hosta isaret ediyor
+!192.168.1 BURAYA KADAR OLAN KISMI NETWORK BILGISIDIR, YANI ARALARINDA . OLAN ILK 3 BOLUM.
+!.10 HOSTS A ISARET EDIYOR 
+Ve diyelim ki subnet Mask  degri de : 255.255.255.0 
+Subnet mask degeri 255 olan bolumler network adresini belirtiler.Geri kalan kismi host bilgisidir 
+!Burdan sunu anlayacagiz Subnet mask degerinde 255 sayisini gordugumzde tam olarak ip adresine karsilik gelen oktet in, aslinda network bilgisni verdigini, simdilik bilmemiz yeterlidir
+
+IP:192.168.1.10
+SubnetMask:255.255.255.0
+
+Ip adresi ve SubnetMaski yukardaki gibi olan bir cihazi gordugumzde ne anlariz:
+!COOOK ONEMLI BIR BILGI!!!!!
+!IP:192.168.1.10 un IP:192.168.1.0 agindaki bir cihaz oldugunu ve bu cihazin bulundugu agda 192.168.1.0 ile 192.168.1.255 degerleri arasinda hostlara-cihazlara ip tanimlanabilecegini anlamis ve ogrenmis oluyoruz!!!
+
+
+!Dikkat etmemiz gereken bir nokta var.192.168.1.0 - 192.168.1.255 arasindaki ip adreslerinin hepsinin hostlar icin kullanilamayacagi bilgisidir !!!
+192.168.1.0 bu adres network-agin kendi adresidir, ondan dolayi hostlar icin kullanilamaz, ayni sekilde 92.168.1.255 adresi de boradcast icin ayrilmis bir adrestir y ine hostlar icin kullanilamaz
+
+192.168.1.0=>Ag(Network) Adresi
+92.168.1.255=>Broadcast adresi
+
+!NETICE ITIBARI ILE:IP:192.168.1.10 BOYLE BIR IP AD RESINI GORDUGUMDE SUNU ANLAMALIYIM: 
+AG-NETWORK ADRESI:192.168.1.0
+TANIMLANABILECEK IP ADRESLERI:192.168.1.1-192.168.1.254 arasindadir 
+!192.168.1.0 aginda 192.168.1.1 ile 192.168.1.254 araliginda IP adresi tanimlanabilir
+
+!NETWORK VE HOST AYRIMININ HESAPLANMASI
+ip:192.168.1.10 
+Subnet Mask:255.255.155.0 
+Oncelikle ip adresi ve Subnet adresinin ayrimin yapabilmemiz icin ondalik gosterimden-decimal binary-ikili gosterime cevirmemiz gerekiyor
+
+!ip:192.168.1.10
+192=>11000000
+168=>10101000
+1=>00000001
+10=>00001010
+
+!Subnet Mask:255.255.155.0 
+255=>11111111
+255=>11111111
+255=>11111111
+0=>00000000
+
+!ip:192.168.1.10 NIN BINARY HALI
+11000000.10101000.00000001.00001010:IP ADRESI(BINARY)
+!Subnet Mask:255.255.155.0 IN BINARY HALI
+11111111.11111111.11111111.00000000:SUBNET MASK(BINARY)
+
+Alt alt ip-subnet in binary halini yazip, matematkte ki and-mantiginda yani programlamadaki and mantiginda 1-true 0 false diye dusunelim--Her ikisi de 1 olursa 1 yok bir tanesi 0 olursa 0 olacak sekilde bir alt alta sonuc cikaririz
+            !11000000.10101000.00000001.00001010
+            !11111111.11111111.11111111.00000000
+!SOUNUC:     11000000.10101000.00000001.00000000
+
+Elde ettigmiz sonucu binary(ikili) den tekra decimal-ondalika cevirecek olursak
+
+Sonuc olarak:
+ 11000000.10101000.00000001.00000000 = 192.168.1.0(AG ADRESI-NETWORK ADRESINI BIZE VERIR)
+
+ !Yani sonuc olarak bir pc nin ip:192.168.1.10- Subnet Mask:255.255.155.0  bu degerler ise bunun network-ag adresi:192.168.1.0 ve broadcaset adresi:192.168.1.255 oldugunu anlayabiliriz..yukardaki hesabi kafamizda dusunerek
+
+ !Ve de 192.168.1.0 aginda 192.168.1.1-192.168.1.254 araliginda IP adresi tanimlanabilir
+ 
+ !network-ag adresi:192.168.1.0 ve broadcaset adresi:192.168.1.255 -bu degerler agadres-network ve broadcast degerleri oldugu icin IP adresi olarak atanamazlar
+
+ FARKLI ORNEKLERE BAKACAK OLURSAK
+ IP:192.168.1.10
+ SUBNETMASK:255.255.0.0
+ Decimalden binary ye cevirip alt alta and- operatoru ile toplarsak...asgikdaki adres-network adresi oolarak karsimiza cikar
+!Ag-networkadressi:192.168.0.0
+!Broadcast-adresi:192.168.255.255
+
+Ag-networkadressi:192.168.0.0 aginda-networkunde ip adresi 192.168.1.10 host adresi bu olan bir cihazdir ve 
+192.168.0.0 aginda 192.168.0.1-192.168.255.254 araliginda IP adresi tanimlanabilir 
+(2bolum var 255-255 her bir bolumun 2^3 farkli alternatifi var)2^3+2^3=16
+2^16-2(network-broadcast)=65534 farkli IP ADRESI 192.168.0.0 aginda-networkunde hostlar(65534) atanabilir...
+
+
+ IP:192.168.1.10
+ SUBNETMASK:255.0.0.0
+
+!Ag-networkadressi:192.0.0.0
+!Broadcast-adresi:192.255.255.255
+192.0.0.0 aginda-networkunde 192.0.0.1-192.255.255.254 araliginda IP ADRESI TANIMLANABILIR
+
+(3bolum var 255-255-255 her bir bolumun 2^3 farkli alternatifi var)2^3+2^3+2^3=24
+Dolayisi ile 2^24-2(network-broadcast i cikar) 16777214 farkli IP ADRESI 192.0.0.0 aginda atanabilir
+
+!SUBNET MASK DEGERLERI KISACAS BITLERIN TOPLAMI SEKLINDE DE GOSTERILEBILIR 
+255.255.255.0
+
+11111111.11111111.11111111.00000000
+11111111=>8
+11111111=>8
+11111111=>8
+00000000=>0
+Toplam = 24
+
+!Subnetmask 255.255.255.0 degerini kisaca 24 degeri ile de prefix olarak temsil edebiliyoruz
+
+Ornek Submask degerleinin kisaca prefix olarak gosterimleri
+
+255.255.255.0=>24
+255.255.255.255=>32
+255.255.0.0=>16
+255.0.0.0=>8
+
+!60 HOST ICIN TANIMLANMASI GEREKEN SUBNET MASK?
+Ornegn biz bir network olusturacagiz ve bu agda sadece 60 tane ip adresi olsturabilmemiz yeterli
+O zaman network adresi ve subnet mask ve ip adresini nasil ve neye gore ayarlamaliyiz?
+
+Subnet Mask degerinde, 255 disindaki 0 olan degerler network-ag adresine karsilik deger le aralarinda AND opearatoru ile kullanildigi icin, ne kadar cok binary de 0 olursa o kadar cok, ip adresi tanimlama firsati elde ediyorduk...IP ADRES SAYISI HESPALAMADA GORMUSTUK 
+
+255.255.255.0
+255=>11111111
+255=>11111111
+255=>11111111
+0=>00000000
+
+11111111.11111111.11111111.00000000
+Kac tane ip adresi tanimlamak istiyorsam subnet mask degerinde de sondan itibaren o kadar 0 olmasi gerekiyor
+
+soldan saga dogru binary yi decimal e cevirecek olursak 
+
+1-0=>2^0=>1*0=0  ama en soldaki deger 0 degilde  1 olursa 2^0=>1*1=1 
+2-0=>2^1=>2*0=0  ama en soldaki deger 0 degilde  1 olursa 2^1=>2*1=2 
+3-0=>2^2=>4*0=0  ama en soldaki deger 0 degilde  1 olursa 2^2=>4*1=4 
+4-0=>2^3=>8*0=0  ama en soldaki deger 0 degilde  1 olursa 2^3=>8*1=8 
+5-0=>2^4=>16*0=0  ama en soldaki deger 0 degilde  1 olursa 2^4=>16*1=16 
+6-0=>2^5=>32*0=0  ama en soldaki deger 0 degilde  1 olursa 2^5=>32*1=32 (Tam buraya gelindiginde eger su ana kadar olan hepsi 1 olsa idi su anda toplamda 63(1+2+4+8+16+32) adet ip degeri uretebilecek rakama ulasmis oluyrouz!!!!)
+7-0=>2^6=>64*0=0  ama en soldaki deger 0 degilde  1 olursa 2^6=>64*1=64 
+8-0=>2^7=>128*0=0  ama en soldaki deger 0 degilde  1 olursa 2^7=>128*1=128 
+
+11111111.11111111.11111111.11000000
+!Burdan da sunu anliyoruz , biz 6.0 a geldgimzde 63 tane ip adresi tanimlayabilecek seviyeye gelmistik...Bu da su demektir, bizim bu sayiya erisebilmemiz icin, submask in en son ki 8 bitin son 6 rakamii 0 olmasi gerekiyoir ki, 60 tane daha dogrusu 63 tane ip adrsi tanimlanabilsin!!!!!!!!!!!!!!!
+!CUNKU SUBNET MASK DE 1 DEGERLERI NETWORK U TEMSIL EDERKEN, 0 LAR ISE HOST-YANI URETILECEK IP ADRESLERI ICIN AYRILMISTI BUNU ZATEN YUKARDA SOYLEMISTIK
+
+!11111111.11111111.11111111.11000000 => kISACA PREFIX OLRAK GOSTERIRSEK=> 8 + 8 + 8 + 2
+Ornegin : 192.168.1.10/26: gosterimi
+(Kisa gosterim  26 yi gorunce hemen aklimiza 8+8+8+2 seklinde gelsin ve son 2 ye 1+1 sagdan sola dogru gelecek!!)
+
+192.168.1.0 agindaki 192.168.1.10 IP adresine sahip hostu temsil eder
+192.168.1.0 agindaki hostlara 192.168.1.1 ile 192.168.1.62 araliginda IP tanimlamasi yapilabilir 
+Yani 192.168.1.0 aginda toplam 62 host icin IP tanimlamasi yapilabilir
+
+
+  inet 192.168.115.191  netmask 255.255.255.0  broadcast 192.168.115.255
+  Ornegin burda   192.168.115.191 ip adresi =>192.168.115.0 network adresi 
+  Broadcast=192.168.115.255 Toplam = 254 adet ip adresi kullanilabilir
+
+  !Burda Subnetmask calculater diye aratacak olursak eger internette nasil hesaplanacagini bulabilriz
+  !Yani ip adersi ve subnetmask adresini girerek detayli bilgileri alabiliyoruz...Kullnilabilir host-ip adeti, binary subnetmassk-vs gibi bircok bilgi gorebiliriz
+
+
+  IP:192.168.1.10
+  NETWORKADDRESS: 192.168.1.0
+
+  Network Address  Usable Host Range                   Broadcast Address
+  192.168.1.0      192.168.1.1  - 192.168.1.62          192.168.1.63
+  192.168.1.64     192.168.1.65 - 192.168.1.126         192.168.1.127 
+  192.168.1.128    192.168.1.129 - 192.168.1.190        192.168.1.191
+  192.168.1.192    192.168.1.193 - 192.168.1.254        192.168.1.255
+
+  !Genel(Public) ve Ozel(Private) Ip Adresleri Hakkinda
+  Ozel(private) ip adresleri:
+  Internet uzerinde hicbir cihaza verilmeyen, sadece lokal networklerde(LAN-LOKAL-AREA-NETWORK) kullanilabilir
+  Bu lokal-ip adrsi veirlen cihaz internet e baglanacagi zaman ona public ip adersi verilmek zorundadir
+
+  Ahmetin EV Networku
+  LAN-LOCAL-AREA-NETWORK-LAN-DA IKEN PRIVATE IP ADREESLERI VERILEBILIR
+  Cihaz-1=>ip:192.168.1.2
+  Cihaz-2=>ip:192.168.1.3
+  Cihaz-3=>ip:192.168.1.4
+
+  AMA INTERNETE BAGLANARAK, KENDI LOCAL AREA NETWORKU DISINDA, BASKA BIR NETWORKDEKI BIR CIHAZ ILE INTERNET UZERINDEN ILETIISME GECMEK ISTEDIGINDE, PUBLIC-IP-ADRESI YANI HERKESIN ERISEBILECEGI IP ADRESINE SAHIP OLACAKTIR 
+  143.32.44.12 GIBI ORNEGIN
+  
+  !INTERNET UZERINDEKI TUM CIHAZLAR HEM OZEL(PRIVATE) HEM DE GENEL(PUBLIC) OLMAK UZERE 2 TUR IP ADRESINE SAHIPTIR
+
+  !BU ARADA SUNU ANLAYALIM.. IKI FARKLI LAN(YEREL AG NETWORKUNDE) DA BAGLI OLAN FARKLI CIHAZLAR ORNEGIN AHMET IN NETWORKUNDE BAGLI OLAN BIR CIHAZ ILE AYSE NIN NETWORKUNDE BAGLI OLAN BIR CIHAZ AYNI IP ADRESI KULLANABILIR BUNUN HICBIR ONEMI YOKTUR, CUNKU PRIVATE OLDUGUINDAN DOLAYI , SADECE KENDI LOKAL AGLARINDA-LOCAL-AREA-NETWORK-LAN-LARINDA ILETISIM KURDUKLARI ICIN BU HIC SORUN DEGILDIR, CUNKU BU IP ADRESLERI ILE INTERNET ORTAMINA CIKAMIYORLAR
+
+  Internete baglanirken ornegin cihaz-1 ip adresi public bir ip adresi ile internete cikiyor ki bu cihaza veri gondermek, cihaz la iletisime gecmek isteyenler, bu public ip adresi uzerinden iletisime gecebiliyorlar
+!Ancak su nu bi lelim ki internet uzerindeki public ip adresleri tamamen benzersizdir...Yani internete baglanirken kullanilan cihazlarini ip adresleri tamamen benzersizdir!!!!!
+
+!Simdi ornegin bizim evimizde toplam 3 cihazimiz olsun, biz bu cihazlar tek bir ip adresi uzerinden internete cikiyor.Ornegin evimizde ayni internete bagli olan cihaazlarimiz ayni public ip adresi uzerinden internete cikiyorlar
+
+!Hem pc mizde , hem de telefonumuzdan interntten what is my ip adress yazarak ip adreslerimizi karsilastirabliriz
+
+
+!Ozel IP adresleri-Pviate IP Adresses
+Bunlar lokal aglarda kullanim ihtiyaclarina gore ihtiyac duyulabilecek cesitli buyukluklerde bazi IP araliklari ayrilmistir 
+
+10.0.0.0 - 10.255.255.255 = 10.0.0.0/8=>Cok buyuk sirketler icin LAN(private ip adresleri icin)
+172.16.0.0 - 172.31.255.255 = 172.16.0.0/12=>Biraz daha buyuk sirketler icinLAN(private ip adresleri icin)
+192.168.0.0 - 192.168.255.255 = 192.168.0.0/16=>Kucuk sirket ve evler icinLAN(private ip adresleri icin)
+
+Ev ve ofislermizdeki kucuk aglarda, genellikle
+
+!ip adreslerini asagidaki komutlarla windows-linux de ogrenebiliriz
+windowscommand- ipconfig
+linux- ifconfig-ia 
+
+!Loopback Adresi:(127.0.0.1):Bu dis aga cikmadan,  yani internete cikmadan, hatta lokal agimiza bile baglanmadan , bilgisayarimzdaki ag kartimizda bilgisyarimiz uzerinden iletisim kurmamizi saglayabiliyor. Ornegin kendi pc miz uzerinden bir https sucunu baslatip websitemizi test ederken, aslinda bu websitemizi kendi agimiz ile acmadan, kendi bilgisyarimiz uzeirnden test edebiliiriz
+(127.0.0.1) adresi kendi pc mizi temsil eden, internet baglantisi saglayan ara  yuzumuzun kendisini temsil eden bir ip adresidir
+!BroadCast Adresi:(255.255.255.255)
+
+!IPV4-IPV6 NEDIR?
+
+!IPV4(IP VERSION 4)
+32BIT UZUNLUK 
+2^32 YANI YAKLASIK 43 MILYAR ADRES
+ONDALIK SISTEMDE 192.168.1.10
+!IPV6(IP VERSION 6)
+IPV6 IPV4 UN EKSIKLIKLERINI GIDERMEK UZERE GELISTIRILMIS OLAN BIR COZUMDUR 
+128 BIT UZUNLUK 
+2^128 YANI YAKLASIK 3.4028237e+38 adres
+ONDALIK SISTEMDE 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+Toplam 28 bit uzunlugunda, 4 er basamakli, 16 lik gosterimde IPv6 tanimlaniyor
+
+!IPv6, IPv4 ile uyumlu calisacak sekilde  tasarlanmistir
+!Ipv6 ile artik tum cihazlara ip tanimlamak mumkun hale gelmistir..
+
+!AG AYGITLARI-AG KARTI, REPEATER, HUB, BRIDGE, SWITCH, ROUTER
+
+VERI ILETIM KANALI
+
+
+Coaxial-Veriler elektrik sinyalleri yolu ile iletilir
+Ethernet-Veriler elektrik sinyalleri yolu ile iletilir(Cat5-Cat6)
+Fiber-veriler isik yolu ile iletilir(Smf-single mode- mmf-multi mode)
+Wifi-kablosuz, verileri radyou dalgalari ile iletilir
+
+Veri Iletiminde Hangisi Tercih Edilir
+Yuksek hiz-cok maliyet-Fiber:Kitalar arasi internet baglantisni saglayan kabolar fiber kablolar
+Cok uzun mesafe ye gerek y ok - maliyetsis-Ethernet 
+Kablosuz, ve her yerden baglanmak istenirse:Wifi.. eger tracking sistemi takip edeceksek o zaman...wifi.. 
+!Yani hangi veri iletisim kaynagi tercih edilecegi:Fiziksel kisitlamalara, maliyete ve ihtiyac a gore degisiklik gosterir..... 
+
+!Network Interface Card(NIC)-Ag arayuz kartlari 
+Bu kartlar veri alma ve veri gonderme konusunda bize yardimci olan kartlardir
+Eger pc cde wifi teknolojisi yok ise network-interface-cart in usb seklinde olan aygitini alip pc mize takarak wifi teknolojinsi kullanabiliriz
+
+Repeater:Veri iletimini daha  uzun bir alanda gerceklesmesini saglarlar.
+Ornegin ethernet kablolu elektrik sinyalleri uzerinden veri iletim 100 mye kadar islev gormektedir, iste repeatar sayesinde bu mesafe daha da uzatilabiliyor
+Wifi de de gecerli olabiliyor...Repeatre kendisine iletilen sinyalleri daha guclu bir sekilde kendsine bagli olan kabloya iletebiliyor...Dogru yere konulduklarinda, verilerin cok daha uzun noktalara kadar sorunsuz gonderilmebilmesini saglarlar
+
+!Ornegin evimiz cok buyuk veya 2 katli ve biz wifi cihazi 1.kata koyuyrouz ama 2.katta internet baglnti sorunu yasama gibi durumlarda, repeater harika bir cozum sunuyor bize, uygun bir noktaya koyarak, internet in 1.katta durdugu halde 2.katta da cok verimli bir sekilde kullanilabilmesini saglar
+Radyo dalglarini tekrarlayip dah da uzaga gidebilmesin saglar
+Almis oldugu sinyalleri veya radyo dalglaarni tkerarlayarak, daha uzak mesafelerden ulasilmasini saglamak 
+
+!Hub:Agdaki cihazlarin birbirne baglamanin kolay ca cozumunu sunar bize 
+Cihazlarin Lokal baglanti kurmalarini saglar-LAN
+HUB CIHAZINA birbiri ile baglanti kuracak pc leri baglayarak cihazlarin kolay bir sekilde birbiri ile iletisim kurabilmelerini saglamis oluruz
+Her cihaz sadece 1 baglanti ile tum networke baglanmis oluyor..
+Ornegin cihazlardan birtanesi hub aracilig  i ile bagli oldugu networkteki cihazlardan bir tanesine veri gonderirken yine bu hub uzerinden yapiyor bunu. Yani hub gonderilen veri yi alir kendisine bagli olan diger tum pc ler le paylasir..
+Ama bu yaklasim son derece verimsiz bir yaklasimdir.Cunku HUB verilen veriyi kendisne bagli olan tum cihazlara gonderiyor..Ag  uzerinde gerekesiz yuk olsuturarak ag trafiginin olumsuz etkilenmesine neden olyor
+
+!Bridge
+Birden fazla lokal agi(LAN) lari birbirine baglyarak (WAN-WIDE AREA NETWORK) bu agdaki cihazlarini birbiri ile iletisim kurmasini VE verialisverisini saglar
+
+Bridge-cihazlarin birisi ornegin kendi LAN-local-area-nwtwork icindeki baska bir cihaza veri gonderiyorsa hub o veri yi o lan icindeki tum cihazlarla paylasir ayni skeilde bu veri bridge e gelir ve bridge de birbirine bagli olan tum LAN- lara icindeki cihaz ip leri var oldugu icin ve veriyi gonderen cihazin kendi lan i icindeki baska bir cihaza gonderidigi icin bridge o verileri bosu bosuna diger LAN lar ile paylasmaz.... 
+
+!Switch
+Hub cihazlarinin daha akilli versiyonlaridir
+Hub cihazlari bir cihazdan baska bir cihaza gonderilen veriyi o LAN- uzerindeki tum cihazlara ileterek , ag uzerinde gereksiz bir trafik olusturuyordu 
+Ama switch bunu yapmiyor bir cihazdan gondeirlen veri o LAN-LOCAL AREA NETWORK DEKI hangi cihaza gonderilmis ise dogrudan o cihaza gonderiyor
+Bunu basarmak icn de hangi cihazin hangi porta baglandigini bildigi icinde , cihaz1 cihaz2 ye veri gondermek istedgini switch e  soyluyor ve switch de verinin hedefindeki cihazi hangi portuna bagl i oldugu icin bu veriyi o port uzerinden iligili cihaza yonlendirerek diger cihazlari mesgul etmeden veri alisverisin hedeften hedefe, noktadan noktaya sagliyor
+
+!Switch ile olusturulmus ag lokal bir agdir, kendi lokal agimizi switch aracilgi  ile kurabiliyoruz.LAN(local area network)
+
+Lokal agda baglanan tum cihazlarin benzersiz ip adresleri oluyor
+Switch sayesinde, aglarimizi alt aglara bolebiliyoruz
+
+Ag-network: 192.168.1.X Networku  
+Cihaz1-ip: .10
+Cihaz2-ip: .20
+Cihaz3-ip: .30
+
+
+Ag-network: 192.168.2.X Networku  
+Cihaz1-ip: .10
+Cihaz2-ip: .20
+Cihaz3-ip: .30
+
+Her bir switch aracilig ile biz, ayri LAN-LOCAL AREA NETWORK ORTAMI OLUSTURABILIYORUZ
+
+!ROUTER
+Biz im ornegin 2 tane switchimiz var ise biz 2 tane LAN Olusturup her bir LAN da 3 er cihaz oldugunu dusunursek, iki switch ile iki tane LAN ortami-networku kurabiliuyoruz. Peki LAN1 denki cihaz1 LAN2 deki cihaz1 ile iletisim kurmak isterse bunu nasil yaparz, iste burda da router devreye giriyor
+Router yonlendirme gorevi ile, switch ler arasinda swictchleri bibrine yonlendirme islemi yaparak, LAN1  deki cihaz1 ile LAN2 deki cihaz1 deki araca veri gonderebilmesini sagliyor 
+
+Router 1 bolumu ile LAN1 deki bir cihaz gibi bu switche baglanarak bu LAN DAKI CIHAZLARDAN BIRI GIBI OLURKEKN AYNI ZAMANDA DA , LAN2 DEKI ORTAMADA SANKI O LAN2 DEKI CIHAZLARDAN BIRI IMIS GIBI DE BAGLANARAK, TABIR I CAIZ ISE, HER IKI LAN DAKI CIHAZLAR ARASINDA BIR GETWAY  GIBI...BIRBIRLERINE GECIS YAPABILMELERINI SAGLIYOR,....
+
+Her iki LAN a bagli olan cihazlar getway-router in default getwway adresini biliyorlar ve 
+router in LAN1 icin ornegin DEFAULT GETWAY-LAN1: 192.168.1.1 IKEN LAN2 DEFAULT GETWAY : 192.168.2.254 TUR..BU ROUTER ADRESINI BILDIKLERI ICIN GEREKLI YONLENDIRME DE MUMKUN HALE GELIYOR...ASLINDA AYNI ANDA HEM LAN1 HEM DE LAN2 DEKI NETWORKE SANKI CIHAZ GIBI, DAHIL OLMUS OLUYOR
+
+!BIZ EVLERIMIZDE LOKAL AGIMZDAN, INTERNET-DAHA GENIS BIR AGA CIKARKEN, MODEM(ASLINDA ROOTER) KULLANYORUZ.
+!BIZIM LOKAL AGIMIZIN INTERNET UZERINDEKI BIR IP-ADRESINE ULASMASI ICIN YONLENDIRMEYI YAPIYOR 
+!BU ROOTER CIHAZINA DA DEFAULT GETWAY diyoruz
+
+!IINTERNETE NASIL BAGLANIYOR!!!!!
+Windows da ipconfig ile ip bilgilerini alabiliriz 
+Bize 
+IPv4 Address.... 
+Subnet Mask 
+Default Gateway  
+
+192.168.1.1(Bu adres pc mizin internete cikmak icin kullandigi, ip adresidir, yani modem-router a ulasmak icin kullandigi ip adresini tasvir ediyor, aslinda modemin lokal agdaki adresidir... diyebiliriz..)
+!INternete cikmak icin kullanilan varsayilan-default-ag gecidi bizim modemimizin ip adresini temsil ediyor!!!!!!
+!192.168.1.1 bunu alip eger browser a yazarsak modem-rooteru imizin login sayfasina gidecektir                           
+ipconfig-windows
+ifconfig-linux
+
+!Router , bizim lokal IP adresimizi ISS tanimladigi public IP adresine NAT ile donusturuuyor(NAT:Network Address Translation)
+
+Oregin local-ip adresi:192.168.1.10 adresli cihazimiz internete baglanmak icin router(modem) a basvuruyor, rooter da internet servis saglayicimizin bize saglamis oldugu public ip adresine  149.144.39.184 lokal ip adresini donusturuyor. Bu sayede bizim lokal agimzida farkli ip adresine sahip olsa da cihazlarimiz, hepsi ayni public ip adresi uzerinden internete cikiyuorlar!!!!
+Ancak sunu unutmayalim ki, Router kendisi uzerinden internete cikan her bir cihazin hangi porttan baglandigini bildigi icin cihazlari da ayirt edebiliyor bu sayede
+Router da NAT-NETWORK ADRESS TRANSLATION-NETWORK AG-ADRESINI DONUSTURME PROTOTOLKOLU SAYESINDE LOKAL ADRESI-PRIVATE IP ADRESINI PUBLIC IP ADRESINE DONUSTUREREK, CIHAZLARIN INTERNETE CIKMASINI SAGLIYOR
+!SUNU UNUTMAYALIM...BIR ORTAMDA BULUNAN CIHAZLAR AYNI MODEM-ROUTER A BAGLI OLDUKLARI ZAMAN HEPSI AYNI PUBLIC IP UZERINDEN INTERNETE CIKARLAR, ROUTER BU CIHAZLARI PORT NUMARLARINDAN AYIRT EDER
+
+ROUTER SAYESINDE AGLAR HIYERARSIK SEKILDE ALLT AGLARA BOLUNUP YONETILEBILIYOR
+ORNEGIN ULKE GENELI BIR SIRKETIN FARKLI SEHIRLERDEKI SUBNETWORKLER KULLANABILIRIZ 
+
+SIRKET NETWORK-AGI: 10.X.X.X
+ISTANBUL SUBESI: 10.10.X.X
+SATIS:10.10.20.X 
+PAZARLAMA:10.10.30.X 
+MUHASEBE:10.10.40.X 
+
+IZMIR SUBESI:10.20.X.X 
+SATIS:10.20.20.X 
+PAZARLAMA:10.20.30.X 
+MUHASEBE:10.20.40.X 
+
+!Diger Aygitlar 
+!Access Point: Kablosuz internet baglantisi saglayan cihaz-aygittir,ve bu baglantinin surdurulmesi...Agimzi  access point ile kabolsuz hale getirerek yayin yapmasini saglayabiliriz
+!Firewall:Guvenlik duvari-agimzdaki trafigi inceleyip gerekli kurallari koyarak, belirli ip adreslerinden gelecek istekleri kabul ederi..Normalda rooter lar kendi icinde firewall sunuyor, ip adreslerini izleme ve filtreleme gibi, ama ozellikle sirket hatlari gibi guvenligin onemli oldugu kurumlarda, ve buyuk.-networklerde , firewall gorevi icin ayri cihazlar bulunyor. Bu cihazlarda cok daha fazla konfigurasyon yapilmasi ve cok daha fazla islemin ayni anda yurutulmesi gibi durumlar... 
+!Proxy:
+!Load Balancer
+!Virtual Switch
+!IDS/IPS
+
+
+!OSI - TCP-IP MODEL - TCP UDP  
+Network dedgimiz yapinin varliginin amaci, aslinda iletisimi mumkun kulacak protokol saglamak
+Protokol kavrami, ortak iletisim yolunu ifade etmek icin kullanilan bir kavramdir
+
+Network uzerinde tum cihazlarin isletim sistemi ve donanimdan bagimsiz olarak iletisimi, aradan akmis olan veriyi anlayip isleyebiliyor olmasi gerekiyor.. 
+Biz bir dili anlamamiz icn ornegin o dilin kurallarini, gramerini bilmemiz gerekiyor bu durum aynen network uzerindeki iletisim icin de gecerlidir.  iletisimin herkes tarafindan sorunsuzca ve tarafsizca anlasilabilmesi icin, bu iletisim protokollerinin onceden tanimlanmis olmasi ve iletisime katilan herkesin bu kurallara uyuyor olmasi gerekiyor
+Iste bu OSI modeli de protokol kurallarini tanimlayan basit bir modeldir
+
+OSI MODEL KATMANLARI 
+1-Layer-1 - Physical
+fIZIKSEL KATMANDIR, verileri bitler halinde cihazdan cihaza aktarilmasini saglayan, Coaxial,Ethernet,Fiber,Wifi, Repeater, Hub, gibi teknolojiler bulunuyor
+Wifi: Radyo dalgalari ile hat uzerinde veri iletimimni sagliyor
+Fiber:Isik akimi, ile...veriler iletiliyor
+Ethernet: Verileri elektrik yolu  
+
+Layer-2-Data Link 
+
+MAC media access control -
+Bu cihazlar sayesinde bilgisyarimizin fiziksel katmanlar araciligi ile gelen veriyi cihaza aktarilmasini sagliyor
+Fiziksel katmanla cihaz imiz arasinda ara birim gorevi goruyor 
+Bu cihazlarin kendilerne ozel bir mac- adresi bunlari benzersiz bir mac numarasidir, bu sayede cihazlar birbrinden farkli oluyor ve bu cihazlar bilgisayarlarda gomulu olarak geliyor 
+Bu cihazlar sayesinde cihazlar arasi(yani pc,mobile,tv,smart-clock,nintendo) arasinda veri aktarimi mumkun hale gelioyr
+
+Cihaz-1  Cihaz2 ye veri atktarirken Cihaz1 verileri uretiyor ve ag kartina aktariyor ag karti kabolda, verilerin iletilebilecegi, fiziksel katman olan ornegin ethernet te tasinabilecek hale gelmesi icin, gerekli donusumu sagliyor ve verinin Cihaz2 ye iletilmesini sagliyor ki Cihaz2 nin MAC-ag karti sayesinde verinin gidecegi cihaz olan Cihaz2 nin versini aliyor ve cihaza aktarimini sagliyor, yani ethernet araciligi ile veriyi alip cihazin onun alabilmesini sagliyor Mac-ag karti
+
+Switch cihazlari da bu katmanda sayilablir
+swich aygitlari kendilerine bagli olan cihazlarin uniq mac adreslerini bildikleri icin, mac adresleri sayesinde gelen verinin hedef pc ye dogrudan gitmesini sagliyor
+Mac uniq adresleri ag kartlarinin taninarak, cihazlar tarafindan verilerin birbirleri arasinda gonderilmesine ve verilerin hefef cihazlari bulabilmesine imkan saglamis oluyor
+
+Layer-3-Network 
+Network de artik mac adresleri yerine ip adresleri devrye giriyor 
+Yani cihazlar arasi iletisimde ip adresleri uzerinden yapiliyor
+Veriyi gonderen cihaz veriyi gonderecegi cihazin ip adresini bilir, ve veri gonderirken veri paketini icine kendi ip adresini de koyarkei verinin gittigi cihaz, veri nin kimden geldgini bilsin..
+Verinin hat uzerinde tasinmasi icin veri paketinin rooter-modem e iletilmesi gerekiyor,... 
+Veri gonderirken modem e gonderen pc veri paketi icine kendi mac-ag karti uniq-numarasini de gonderiyoir ve gonderecegi cihazin mac-uniq adersini veri paketine koyarak gonderiyor
+!Rooter-modem kendisine gelen veriyi aldigi zaman orda bu veri hangi ip adresinden gelmis hangi mac adresi ile gelmis hangi ip adresine gidecek ve hangi mac adresine gidecek bunlarin hepsini biliyor....
+Rooterlarin network kartlari vardir ve bunlar sayesinde bunlar
+MAC-media access control
+hem ip hem de mac adresini birlikte kontrol ediyor rooter gonderilen verinin gidecegi cihaza veriyi aktarmadan once ve bu adresler dogru ise eslesir ise o zamn veriyi hedef cihaza iletiyor
+
+Verinin gonderildig i cihazada gelen veriyi kontrol ederken, gelen veri paketi icnde gonderilen-hedef ip-mac adresini kontrl ederek kendisini geldigni anliyor
+IP ADRESI SAYESINDE VERIYI GONDERIYORUZ AMA, MAC UNIQ ADRESI SAYESINDE DE, AYNI IP YI KULLANAN FARKLI CIHAZLAR ARASINDAKI FARKLILKLARI AYIRT EDILEBLIYOR 
+!BIR VERI BIR CIHAZDAN FARKLI BIR CIHAZ A INTERNET YOLU ILE ILETIRKENK, REQUEST GONDERIRKEN ORNEGIN, IP ADRESI KULLANILIOR AMA MAC-ADRESI(AG ADRESI) SAYESINDE, VERI HEDEF CIHAZA ULASABILIYOR, VE HEDEFINI BULUYOR BUNLAR COOOK ONEMLIDIIR
+
+!CIHAZLAR ARASI VERI ILETILMSI ICIN MAC ADRESLERI KULLANILIRKEN, UZAK AGLAR ARSINDA VERI ILETILEBILMESI ICIN IP ADRESLERI KULLANILIYOR YANI HEM MAC HEM DE IP ADRESLERINI IHTIYAC OLUYOR
+
+LAYER-4-TRANSPORT 
+BIZ INERNETTEN AYNI ANDA, HEM FIREFOX UN INTERNET ADRESINE, HEM DISCORDA HEM DE SPOTFIYA BAGLANIYORUZ PEKI NASIL OLUYOR DA TEK HAT UZERINDEN FARKLI FAKRLI ADRESLERE AYNI ANDA BAGLANABILIOYRUZ, BUNLAR NASIL AYIRT EDILEBLIOYR 
+CEVAP, PORT ADRESLERI SAYESINDE 
+HER BIR PROGRAMIN KENDISINE OZEL OLAN STANDART BIR PORT ADRESI OLUYOR...   BU ADRES SAYESINDE, INTERNET HATTI UZERINDEN HEDEF E ULASTIRILIYOR
+
+ORNEK https://www.linuxdersleri.com adresini ziyaret etmek istedgimz zamn, dogrudan tarayicimz uzerinde rastgele bir port acilioyr
+Cihazimiz: 1.1.1.1 ip adresi ve 
+1.1.1.1 :1525(port adresi) bu gelen verinin benim cihazima iletilebilmesi icin acilmis olan port numarasidir
+Yani kisacasi demis oluyoruz ki bu ip adresi ve port numarasi uzerinden basna veri gonderebilirsiniz demis oluyoruz 
+Ornegini react ugyomasi actimgzda 
+localhost(127.0.0.1):3000 portunda aciliyor ki, bu ip adresi ve port numarasi uzerinden veri gonderilebilmesi icin, respoinse gonderilebilmesi icn
+Request gonderilirken hem clientin hem de server in ip adresnin sonnda port numarasi ile gonderiliyor
+Kaynak(Client)=>127.0.0.1:3000
+Hedef(Server)=>5.5.5.5:80
+
+!Simdi cok enteresan bir bilgi biz ornegin lokal pc mizden 3 farkli domain-ip adresine  yani bir websitesine baglaniyorsak 3 farkli sekmeden acilmis olan her bir sekme icin, farkli port numaralari kullanilacaktir lokalimzde..HATTA 3 FARKLI SEKMEDE AYNI WEBSITESINE AYNI ANDA 3 SEKMEDEN ISTEK GONDERILRSE LOKAL DE 3 SEKME ICIN DE FAKRLI PORT ADRESLERI VERILECEKTIR 
+
+1.1.1.1:1515 <--> 5.5.5.5:80(www.linuxdersleri.net)
+1.1.1.1:2515 <--> 5.5.5.5:80(www.linuxdersleri.net)
+1.1.1.1:3515 <--> 5.5.5.5:80(www.linuxdersleri.net)
+
+!Birdaha anlayalim, port numarasi ile birlikte istek gonderen cihaz in bilgisini ipadresi ve port numarasi beraber gonderiliyor ve bu sayede bu port nujamrasina gonderebilirsin diyoruz responsu....Birden fazla sekmeden ayni websitesine ait farkli sayfalarda dolasabliyoruz ve her bir sekme ayni serverdan bu portlar sayedsinde, farkli hizmetle alabiliyorlar
+
+!Bu portlar rastgele belirleniyor... 
+
+!Standart portlar
+Http:80
+Https:443 
+FTP(File Transfer Protocol):21 
+SSH(Secure shell):22
+Telnet:23
+SMTP(simple mail transfer porotocol):25
+
+Bazi konfigurasyonlari bozulmadan kulanilasi icin, bu portlar standart olarak  kullanilablioyr ama bunlar kullanilmak zorunda degil tabi ki...ama ona gore de ayarlarin duzenlenmesi gerekiyor 
+Server tarafindan da ayni server in farkli services lerinde kullanilmak icin ozellikle, farkli portlar kullanilaibilir
+
+!Neden serverlar port numarasi kullaniyor?
+Web Server and FTP Server on the Same Server:
+
+Imagine you have a single server, Server X, that hosts both a web server and an FTP server.
+The web server listens on port 80 for incoming HTTP requests, and the FTP server listens on port 21 for FTP transfers.
+When a client wants to access a webpage, it sends an HTTP request to Server X's IP address on port 80.
+When the same client wants to perform an FTP file transfer, it sends an FTP request to Server X's IP address on port 21.
+Server X, using the port number, directs the requests to the appropriate service (web or FTP) running on the same physical server.
+Mail Server with Multiple Protocols:
+
+A single mail server, Server Y, can support multiple email protocols such as SMTP (port 25 for sending emails) and IMAP (port 143 for retrieving emails).
+Clients use port 25 to send emails through SMTP to Server Y and port 143 to access their emails using IMAP.
+Server Y, based on the port number, knows which email protocol the client intends to use and processes the requests accordingly.
+In these examples, a single physical server hosts multiple services, each using a different port number. The port numbers help differentiate between the services, ensuring that incoming requests are directed to the correct service running on the same server.
+
+
+VERILERIN TASINMA YONTEMLERI 
+TCP PROTOKOLOU -TRANSMISSION CONTRL PROTOKOL 
+
+CLIENT-SERVER ARASINDAKI ILETISIMIN DAHA ONCEDEN TEST EDILIP KONTROL EDILMESI GEREKIYOR  
+CONNECTION ORIENTED-THREE WAY HANDSHAKE 
+
+1-SYN(SENK) FROM CLIENT TO SERVER
+2-RESP(SENK-ACKNOWLEDEG) FROM SERVER TO CLIENT 
+3-ACKNOWLEDGE FROM CLIENT TO SERVER 
+
+GENELLIKLE VERITBUTUNLUGUGNUN ONEMLOI OLDUGU DURUMLARDA KULLANILIR 
+GONDERLEN EPOST UN ONEMLI BILGI GONDERILDIGI ZAMAN YA DA DOSYA GONDERILME DURUMLARINDA..  
+
+UDP PROTOKOL-USER DATAGRAM PROTOCOL 
+HIZIN GEREKLI OLDUGU, GORUNTULU, VE SESLI ILETISIM DE KONUSMLAARDA...GORUNTLU KONUSMALARDA 
+ARADA DTA KAYIPLARININ COK PROBLEM OLMADIGI DURUKMLARDA BAZEN SES,GORUNTU KESILEBLIR AMA ILETISIM COK HIZLI GERCEKLESIR 
+SUNUCUUNN AYAKTA OLUP OLMADIGIA BAGKMAKSIZIN DOGRUDAN VERI GONDERILIR
+EGER KARSIDAKI SUNUCU HAZIR DEGIL ISE, ILETISIM SAGLANABMAYABILIYOR
+
+!EMAILLER TCP PROTOKOLU UZERINDEN GONDERILIR. CUNKU VERI BUTUNLUGU ONEMLI VE VERILERIN YOLDA KAYBOLMADAN EKSIKSIZ GITMESI GEREKTIGINDEN DOLAYI1!!!
+
+!Web Browsing (HTTP/HTTPS - Application Layer):
+Use Case: Accessing websites and web applications.
+HTTP (Hypertext Transfer Protocol) and its secure counterpart, HTTPS, are used for fetching and rendering web content in web browsers. When you open a web page, your browser communicates with web servers using these protocols.
+
+!Email Communication (SMTP/IMAP/POP3 - Application Layer):
+Use Case: Sending and receiving emails.
+SMTP (Simple Mail Transfer Protocol) is used for sending emails, while IMAP (Internet Message Access Protocol) and POP3 (Post Office Protocol) are used for retrieving emails from email servers.
+
+!File Transfer (FTP/SFTP - Application Layer):
+
+Use Case: Uploading and downloading files.
+FTP (File Transfer Protocol) and SFTP (SSH File Transfer Protocol) are used for secure file transfer between clients and servers. They are commonly used for website maintenance and data exchange.
+
+!Remote Access (SSH/TELNET - Application Layer):
+Use Case: Remotely accessing and managing servers and network devices.
+SSH (Secure Shell) and TELNET are used to establish secure remote connections to network devices or servers for configuration, administration, and troubleshooting.
+
+!Veriler fiziksel katman yani ethernet-fiber-wifi lerler iletilrken bitler halinde iletiliyor yani 0101100011100110101010 seklinde iletiliyor...
+
+!HOSTLAR NASIL HABERLESIR
+!AYNI AGDAKI CIHAZLAR 
+
+Host-bizim pc mizdir. Bir host-pc(mobile,smartklokke,tv..) baska bir hosta veri godnerecegi zaman veri gonderecgi hostun-cihazin IP ve MAC adreslerini bilmek zorundadir. 
+Aslinda cihazlarin ip adreslerinden once MAC(media access control) adresleri tanimlaniyor, dogru mac adres eslesmesi olmadan IP adresinin kontrolu de gerceklesmeyecegi icin, oncelikli olarak mac adresinin bilinmesi gerekiyor
+
+Ag baglantsi-Network connection network-ag karti ile gerceklesen birseydir, fiziksel katmandan bitler seklinde iletilen veriler, cihazin ag kartina gonderiliyor, dolayisi ile veri tasinirken veri ag-karti ile yani muhatap oluyor, bu ag kartinin benzersiz kimlik adresleri de MAC adresleri oldugu icin, mac adreslerini bilmmeden verileri dogru makineye-dogru ag kartina yonlendiremeyiz..iletemeyiz
+Mac-agkarti adresleri donanimlara dogrudan tanimlanirken, ip adresleri mantiksal olarak tanimlanmistir
+!Simdi buraya dikkat, duruma gore zaman icinde ayni cihaza farkli ip adresleri tanimlanabilirken, ama bu cihazin kullandigi ag-karti nin mac adresi herzaman sabittir...Bu sebeple ip adresleri ile mac adresi arasinda dogrudan organik kalici bir bag  yoktur
+!Biz ip adresi ni bildgimz bir cihaza kendi cihazimizdan veri gonderebilmemiz icin, gonderilecek cihazin mac adresni bilmemiz, ogrenmemiz gerekiyor.
+
+! Bunun icinde ARP-adress resolution protocol u kullanilabiliyor
+Broadcast yayini nedir: It is a one-to-everyone communication method, and all devices within the broadcast domain receive and process the broadcasted message.
+Bir cihaz ip adresini bildgi baska bir cihaza veri gonderirken, mac adresini ogrenmek icin once,broadcast yaparak lokal agdaki tum cihazlara bu ip adresine sahip cihazin mac adresi nedir diye soruyor, bu bir sorgu gibi dusunebilirz
+Burda ip adresinin sahipp olan cihaz bir tek broadcast yayin sorgusunu yanitliyor, yanitlarken sorgunun geldigi ip-mac adresini ogrendigi icin, o ip-mac adrsini kullanarak, ona kendi mac adresini goneriyor
+
+  Broadcast yayini ile ARP(ADDRESS RESOLUTION PROTOKOL) sorgu mesaji ni gonderiyor
+ARP paketi gonderilirken Broadcast yayin ile yani tum cihazlar hedeflenerek gonderiliyor ve  broadcast y ayini icin tanimlanmis bir mac adresi var o kullanildiginda agdaki-network deki tum cihazlar hedeflenmis oluyor
+
+Bir cihaz kendi networkunde olmayan bir cihaz i ip adresi ve submask adresi uzerinden taniyor, yani kendi agindaki cihaz ile kendi aginda olmayan cihaz i kolayca ayirt edebiliyor , diger cihaz la iletisime gecmeye calistigi zaman..
+
+Router(modem) bagli oldugu cihazlarin ip-mac adreslerini kendi tablosunda tutuyor
+Routerlar imiz internete baglanirken ki getway- cikis networkumuz...cikis agimz...rooter in ip numarasi ile public ip ile cikiyordu o rooter-modem e bagli cihazlar
+
+Rooter a bagli olan her cihaz, kendi bagli oldugu modem-rooter in ip adresi ni biliyor.... 
+
+Yani network disindaki bir cihaz la iletisime gecilecegi zaman, iletisime geclecek cihaz in ip adresi ile rooter in mac adresi gonderiliyor veri paketinde rooter a 
+
+!Rooter-modem kendine bagli olan cihazlar in ip-mac aderslerini tuttugu icin kendine bagli olan farkli networklerdeki cihazlarin da birbiri ile iletisimini sagliyor..
+
+WAN-WIDE AREAL NETWORK LERDE ORNEGIN...INTERNET BAGLANTISI DURUMUNDA 
+CIHAZ1-ROOTER A YANI MODEM E ILETISIME GECECEGI IP ADRES VE MODEM IN MAC ADRESI, YANI BU ISLEMLER ICIN KULLANDIGI ORTAK MAC ADRESI SONRA MODEM-ROUTER DA INTERNET SERVIS SAGLAYACISINI IP ADRESINE YONLENDIRIYOR VE TABI KI GONDERILEN CIHAZ DA BIR MODEM E ROOTER A BAGLI ,, ONUN ROOTER I DA PAKET BILGISNI ALIYOR HANGI IP-MAC ADRESNDEN GELDIGNI BILIYOR VE KIME GIDECEGINI DE BILIYOR 
+
+!SWITCH NASIL CALISIR
+LAN(LOCAK AREA NETWORK) AYNI AGDAKKI CIHAZLARIN HABERLESMESINI SAGLIYORDU, HUBDAN FARKLI OLARAK DA BIR CIHAZ AYNI AGDAKI DIGER CIHAZLA ILETISIME GECECEGI ZAMAN, DOGRUDAN HEDEF CIHAZA GONDERIYOR DU DATAYI...
+
+Switch aygitlari ip adresleri ile ilgilenmiyor hangi mac adresinin hangi porta bagli oldugu ile ilgilneiyor ama burdkai port fiziksel portdur
+Switch cihazi hemen baglnair baglnamz bu bilgileri almiyor, yani mac-port adreslerini
+Switch hostlar(cihazlar) arasinda iletisim gerceklestikce bu kayitlari tutmaya basliyor
+
+Port dedgimz su, her pc ethternet kabolusu araciligi ile switch e baglaniyor ya iste switch e baglanan port adresi var, yani switch girisinin numarasi...baglanti noktasina port diyoruz normalde...
+
+!Switch ler ip adresleri ile ilgilenmiyor, sadece hangi cihaz hangi port girisine baglnamis ona bakar.
+
+VLAN(VIRTUAL LAN AREA NETWORK)
+SANAL YEREL AG BAGLANTISI
+
+Fiziksel donanimin  yazilimsal olarak sanal sekilde portlara gruplanarak bu sayede snaki birden fazla switch aygitimiz var gibi, aglara-newtorklere bolup bu networklere ozel konfigurasyon tanimlamasi mumkun oluyor
+Sanal olarak bolunseler bile swtich cihazlari iki ayri agi yonettikleri icin kendi mac ve port tablolarini ayri ayri tutuyorlar
+Switch ler cihazlarin mac-port numarlarini o cihazlar switch den cikarilana kadar tutarlar
+
+!Router Nasil Calisir!
+
+!Aglar-networkler arasi veri yonlendirilmesi ni mukun kilan aygitlardir.
+!Rooter lar kendilerine ait ip adresi ve mac adresini barindiriyorlar, bu sayede cihazlarin icinde bulundugu networke sanki bir cihaz mis gibi dahil oluyorlar
+
+Rooter aygitinin sorumlulugu, kendine bir paket gelirse, bu paket kendi ip sine gonderilmemis ise  bile hangi ip adresine gondeilmis ise o ip adresine gelen paketi yonlendirme yapabiliyor, ama normal 1 cihaz baska bir normal cihaz a boyle bir paket gonderse, eger ip adresi gondeirlen cihaz in ki ile uyusmuyhorsa paketi gonderilen cihaz dusurecektir bu paket bana ait degil diye, ve de herhangi bir yonlendirme yapmayacaktir, cuku oyle bir sorumlulugu yoktur
+!Router yonlendirme islemini de sahip oldugu ip ve mac adresleri ile sagliyoir
+!Rooter lar ayni anda birden fazla aga katilabilirler ve her ag icin o aga ozel ip-mac numarasi kullanirlar, ve bu sayede aglar arasi networkler arasi veri iletisimini yapabilirler
+
+!Rooterlar kendi icinde  yonelndirme tablosu tutuyorlar...ve burda, kendisine bir ip adresi ve paket gonderildiginde bunun hangi aga bagli oldugnu biilir ve paketi o aga gonderir
+
+!Router lar ilk once dahil oldugu network ip lerini tutuyor ve kendine o agdan bir cihz paket gonderince o cihaz in ip adersinden kendisinin dahil odugu hangi networden bu paketin geldig ve hangi networkteki cihaza iletilecegini bilebiliyor
+
+!Router larin  yonlendirme tablolarinda kendi directly connected oldugu networklerin bigilis i oluuyor, dolayisi ile dogrudan bagli olmadigi networklerin bilgini tu tmuyor
+!Bu duruma cozum olarak da static routes,  yani manuel olarak elle ekledgimz ip adreslerini kullanabiliyoruz
+
+!Dynamic Routes daha kullanislidir
+
+
+!Rooterlar in kendilarine ait ARP tablolari da vardir ve burda tum cihazlarin ip adreslerinin yaninda, mac adresleri de tutulur, cunku sadece ip adresleri ile bir cihazin hanig agda oldugu bilinir ama hangi cihaz oldugu dogrudan h edef cihaz bulunamaz mac adresi olmadan....
+
+!Hem cihaz(hostlar) lar hem de router lar ayri ayri kendi arpt olabolari var onlari tutuyorlar
+
+!Network interace-agkarti varistasi ile hallediyor aslinda
+
+!Sunu da hatirlayalim ,ARP protokolu sayesinde IP adresinden mac adersinin kesfedilmesi mumkun oluyor....
+
+!ZATEN INTERNET DEDIGMZ WIDE AREA NETWORK DE BENZER SEKILDE CALISIYOR
+!INTERNET NASIL CALISIR!!!!!
+
+Cihaz1 ornegin rooter a  ip adresini paketin icnde iletiyor hangi ip adresi ile iletisime gecekse yani ornegn bir servera yani y ayinlanmis bir websitesine.. 
+Rooter(modem) da ip adersinden gonderilen paketin dis bir aga gondeildigin anliyor ve o dis ag ile de direk bir iletisimi lmadigndan dolayi, diger rooter a teslim ediyor ve rooter lar bu sekilde birbirlerine teslim ede ede en son server in bagli oldugu rooter(modem) a kadar gidiyor veri paketi ip adresine sahip olan ve mac adresiin dogrulandigi cihaza(Bu internet in 3 asamali dogrulama...araci ile mac adresi dogrulaniyor once..daha once bakmistik buna) iletilmis oluyor bu cihaz server oluyor..server da host-cihaz lardan bir tanesidir
+
+!Yani esasinda bizim internete baglnamamiz da bir network olaydiir...cok daha buyuk olcekde bir network connection dir...
+
+!Ag-networkleri router lar sayesinde alt-aglar a bolerek ornegin sirketlerde her bir departman icin bir subnetwork olusturabiliyoruz...
+!Neden alt aglara bolunmek istenir cunku, surdurulebilirlik icin, ve herhangi bir depratmanda cikabilecek bir network probleminin sadece o departmanin etkilemesi diger lerinn ondan etkilenmemesi saglanir, eger tum depratmanlar tek bir aga bagli olsa,  her hangi birinin agda yasayacagi problemden tum departmanlar etkilenecektir
+
+!Parent durumndaki routerlar, kendilerine bagli alt-routerlar ve onlara bagli olan cihazlara gelen herhangi bir data paketi, routerlar a oncelikle gelecegi icin, routerlar yonlendirme tablosunda, da  ip adrfresi olarak router in ip si tutuluyor birbirlerinde cunku oncelikel router a iletiliyor paketler
+
+
+!AG-NETWORK PROTOKOLLERI NEDIR? 
+INTERNET ARACILIGI ILE DATA ALISRVSERISLERININ PRENSIPLERI VE YAPACAGIMZ DATA ALISVERISININ TURUNE GORE FARKLI KURALLARI VARDIR....ISTE BUNLAR DIR PROTOKOLLER...
+
+1-ARP PROTOKOLU(ADRESS RESOLUTINO PROTOKOL)
+iP ADRESLERI U ZERINDEN MAC ADRESNI OGRENMEMIZI SAGLIYORDU
+MAC-AG KARTI ADRESI-KIMLIK NUMARASI- NETWORK INTERFACEID NUMBER
+
+!Iki cihaz iletisime gececegi zaman, switchler vasitasi ile vs, ip adresi ne ARP sorgusu ile o agdaki tum cihazlara broadcast  yayini ile, data paketi gonderecegi ip adresinin mac adresini sorgulayabiliyor ve o ip adresi hangi cihaza ait ise o mac adresini gonderiyor ama ilk basta ip adresine soran hangi cihaz ise o cihaz paket iicnde kendi ip -mac adresini de koydugu icin, kaynak cihaz in ip-mac adresini kendi arp tablosuna kaydediyor, bir daha ki kontak kurma duruumunda direk artik mac-ip adresi bilindigi iicn kontak kuruabliyoalr
+
+!FILE TRANSFER PROTOKOL(FTP)
+
+Lokal bir cihazimiz  uzerinden server-cihazimizdan bir dosya talep ederek bu protokol sayesinde talep ettigmz dosyayi sunucudan alabiliyoruz
+
+(client)10.168.1.10  ->request  172.32.45.55(FTP  Server)
+(client)10.168.1.10  text.txt<-request  172.32.45.55(FTP  Server)
+Tabi dosya sunucusunun dosyayi isteyn client-in ip adresine acik olmasi gerekiyor
+
+!SMTP-SIMPLE MAIL TRANSFER PROTOCOL 
+
+mail gonderme islemlerinde kullanidgimz bir protokoldur
+
+POP3-IMAP YAKLASIMLARINDAN BIR TANESI  ILE MAIL ICERIGINI GONDEIRLEN CIHAZ KENDI CIHAZINDA GORUNTULEYEBILIYORLAR
+
+email-gonder -> SMTP PROTOCOLU ARACILIGI ILE -> GMAIL SMTP SERVER 172.32.45.55 -> SMTP-INTERNET ARACILIG ILE OUTLOOK SMTP SERVER(CUNKU GONDERILEN MAIL ADRESI OUTLOOK) -> POP3 VEYA IMAP ARACILIG ILE HEDEF PC DEKI KULLANICI MAILL INI ACITGINDA KENDISINE GELEN MAIL I GORUNTULEYEBILECEKTIR VE SONRASINDA DA HER SEFERNE GELEN MAILLERINI GORECEKLERDIR HER SEFERNDE....
+
+
+!HTTP-HYPER TEXT TRANSFER PROTOCOL 
+Her turlu media icegini , RESIM, VIDEO, TEXT icerigi web-internet uzerindnen aktrmamizi  mumknun kilan bir protokoldur 
+
+CIHAZ1(10.168.1.10)
+WEB TARAYICI->REQUEST->WEBSERVER CIHAZI(2)(143.32.44.12 = www.linuxdersleri.com-DIREK TARAYICIDA BUNU ACMAK BIR REQUEST GONDERMEKTIR....)REQUEST ILE DIYORUZ KI BIZE SEN 143.32.44.12=www.linuxdersleri.com BU IP LI VE BU DOMAIN ILE SERVER OLARAK BANA WEBSITENIN ICERIGINI GONDER DIYORUZ O DA BIZE TABI KI O WEBSITESININ FRONT-END YANI CLIENT-KULLANICISININ GORTUNTULEYEBILECEGI YANI TARAYICIDA GORUNTULEYEBILECEGI DOSYALAR OLAN INDEX.HTML, CSS VE JAVASCRIPT DOSYALARINI KULLANICINN BROWSER ARACILIGI ILE GORUNTULYEBILMESINI SAGLIYOR....YANI UZAKTA KAYNAGI BULUNAN BIR WEBSITESINI SENIN UZAK WEB SITESINDEN GORUNTULYEBILMENI SAGLIYOR TARAYIC ARACILIGII ILE....
+SONRA WEBSERVER DA BU PROTOKOLUNU BILDIGI ICIN...
+Bunu saglayan http protocoludur...ag uzerinden veriyi gonderiyoruz..... 
+
+!Bir webserver a istek gonderilmesi yani bir web sayfasnin acilmasi procoess inin detayli incelnemesi
+
+When a client (typically a web browser) accesses a webpage, it engages in HTTP (Hypertext Transfer Protocol) communication with a server. This process involves several steps to display the webpage to the user. Here's a simplified overview of how it works:
+
+1. User Requests a Webpage:
+When you type a URL (like https://www.example.com) into your browser and press Enter, the browser interprets this as a request for a webpage.
+The browser first needs to find out the IP address of www.example.com. It does this through a DNS (Domain Name System) lookup. DNS translates the human-readable domain name into an IP address that computers can understand.
+2. Browser Sends HTTP Request:
+Once the browser knows the IP address of the server hosting www.example.com, it sends an HTTP request to that server. This request typically uses the GET method to ask for the content of the webpage.
+The request includes various pieces of information, like the URL, type of browser (user agent), types of content the browser can handle (accept headers), and any cookies related to the domain.
+3. Server Processes the Request:
+The server receives the HTTP request and processes it. This process can involve running server-side scripts (like PHP, Python, or JavaScript in Node.js), accessing a database, or performing other tasks to generate the requested content.
+The server then responds with an HTTP response message. This response includes a status code (like 200 for a successful response, 404 for not found, etc.), server information, content type, and the actual content, which is typically an HTML file.
+4. Browser Renders the Webpage:
+The browser receives the HTTP response and renders the webpage from the HTML it received.
+If the HTML references other resources like CSS files, JavaScript files, images, or videos, the browser makes additional HTTP requests to fetch these resources.
+Each resource is requested and fetched in a similar manner, with the browser sending an HTTP GET request and the server responding with the content.
+5. Additional Interactions:
+As you interact with the webpage (like clicking links, submitting forms, etc.), the browser may make additional HTTP requests to the server. These requests can include POST requests (often used for form submissions), AJAX requests (for dynamic content loading without reloading the whole page), and so on.
+Example Scenario:
+User Action: A user types https://www.example.com in their browser.
+DNS Lookup: The browser performs a DNS query to find the IP address of www.example.com.
+HTTP Request: The browser sends an HTTP GET request to the server's IP address.
+Server Response: The server processes the request, finds or generates the appropriate HTML content, and sends it back.
+Rendering: The browser receives the HTML and starts rendering the webpage. It requests additional resources (CSS, JS, images) as needed.
+Display: The user sees the fully loaded webpage on their screen.
+The entire process happens quite quickly, allowing users to access and interact with webpages seamlessly. Behind the scenes, a combination of networking, server-side processing, and browser rendering works together to make this possible.
+
+
+Server Response
+Processing the Request:
+
+When the server receives the HTTP request, it needs to determine what content to send back. This involves interpreting the URL and any additional data (like headers or cookies) sent by the client.
+If the request is for a dynamic page, server-side scripts (e.g., written in PHP, Python, Java, etc.) might run to generate the HTML. This could involve querying databases, processing data, and dynamically creating the HTML content based on various factors (like user data, time of day, etc.).
+Sending the Response:
+
+The server prepares an HTTP response that includes a status code (e.g., 200 OK for success), response headers (like content type, caching policies), and the body, which is usually the HTML content of the requested webpage.
+If there are errors (like the requested resource doesn't exist), the server sends an error code (e.g., 404 Not Found) and possibly an error page.
+Rendering
+HTML Parsing and Rendering:
+
+The browser receives the HTML and begins parsing it. Parsing converts the HTML (which is just text) into a Document Object Model (DOM), a tree-like structure representing all the elements of the page.
+As the browser parses the HTML, it also encounters references to external resources like CSS files, JavaScript files, images, and videos.
+Fetching Additional Resources:
+
+The browser sends additional HTTP requests to fetch these external resources. Each of these is processed by the server similarly to the initial request.
+CSS files dictate the styling of the webpage, while JavaScript files can add interactivity and dynamic content.
+Executing Scripts and Applying Styles:
+
+Once CSS is loaded, the browser applies the styles to the DOM. The visual layout of the page begins to take shape.
+JavaScript is executed, which can manipulate the DOM, alter styles, or even fetch additional data asynchronously (using AJAX).
+Display
+Rendering to the Screen:
+
+The browser combines the DOM with the CSS styles to render the page. This process involves calculating the layout of each element, applying styles, and painting the content on the screen.
+This step is computationally intensive as it involves calculating layouts, styles, and redrawing the page in the browser window.
+Dynamic Updates and User Interaction:
+
+As the user interacts with the page (clicking links, filling forms, etc.), JavaScript can respond to these interactions, making changes to the DOM and updating the page dynamically.
+The page can make further HTTP requests (like AJAX calls) to load new content without reloading the entire page.
+Final Display:
+
+The user sees the fully loaded and interactive webpage. All the content, styles, and scripts have been combined to present the final product.
+The page may continue to update dynamically as the user interacts with it or as new data is loaded.
+In summary, during the server response, the server processes the client's request and sends back the necessary data (HTML, errors, etc.). During rendering, the browser interprets this data, fetches additional resources, and builds the page visually. Finally, in the display phase, the fully formed webpage is presented to the user, where it can be interacted with and dynamically updated.
+
+When a web browser requests a webpage, like an index.html file, and receives it as a response from a server, the file is not permanently stored in a specific folder on the client's PC like a downloaded file would be. Instead, it is temporarily stored in a part of the computer's memory allocated to the browser. This process involves the following steps:
+
+Temporary Storage in Memory:
+
+The index.html file is held in the browser's memory (RAM). This is a temporary storage that allows the browser to render and display the webpage. The file exists here only as long as it is needed for display and interaction in the browser.
+Browser Cache:
+
+The browser may also store the file in its cache, which is a designated space on your hard drive. Caching helps in faster loading of the webpage when you visit it again.
+Cached files are stored according to the browser's caching policies and may be deleted when the cache is cleared, or when the browser decides to free up space.
+Rendering and Display:
+
+While in memory, the browser parses and processes the index.html file (along with any associated CSS, JavaScript, images, etc.) to render the webpage for display on your screen.
+Not a Permanent File:
+
+Unlike files that you download (like a PDF or an image), which are saved to a specific location on your hard drive, the index.html file in this context is not saved in a user-accessible folder. It is only temporarily used for rendering the webpage and is discarded after the browser tab or window is closed, or the cache is cleared.
+Privacy and Security:
+
+This temporary nature of webpage storage is also a part of privacy and security measures. It ensures that web content doesn't permanently occupy space on your computer without your explicit action (like downloading a file) and that it can be easily cleared (by clearing the cache).
+In summary, the index.html file sent from the server is stored temporarily in the browser's memory and possibly in its cache. It is used for rendering the webpage you see on your screen and does not exist as a permanent file on your PC in a specific folder.
+
+
+Parsing HTML
+HTML Parsing:
+The browser reads (or "parses") the HTML file to understand its structure and content. During this process, it converts the text of the HTML file into a structure it can use - the Document Object Model (DOM).
+The DOM represents the hierarchical structure of the webpage, making it possible for the browser to understand which HTML elements are where, and how they are nested or related.
+Processing CSS
+CSS Interpretation:
+Along with HTML, the browser also retrieves and parses CSS (Cascading Style Sheets) linked within the HTML. CSS defines how the HTML elements should be displayed visually.
+The browser combines information from the CSS with the DOM to create the Render Tree, which represents both the structure of the webpage and its visual style.
+JavaScript Execution
+Executing JavaScript:
+If the webpage includes JavaScript (linked or embedded in the HTML), the browser executes this JavaScript. This can manipulate the DOM, change styles, or even fetch additional data dynamically.
+JavaScript execution is a critical part of modern webpages, allowing for interactive and dynamic content.
+Layout Calculation
+Layout Calculation:
+The browser calculates the layout of each visible element on the webpage. This involves determining the exact size and position of each element based on the DOM and CSS rules.
+Rendering
+Rendering to the Screen:
+Finally, the browser paints the webpage on the screen. This process involves drawing the elements, text, images, etc., in their correct positions as defined by the layout calculations.
+Dynamic Updates
+Dynamic Updates (if applicable):
+After the initial rendering, the webpage can be updated dynamically. JavaScript can modify the DOM and CSS styles, leading the browser to re-calculate layout and re-paint the affected parts of the webpage.
+In summary, when a browser renders a webpage, it reads and processes the HTML, CSS, and JavaScript to construct the webpage visually. The process involves parsing the HTML to create a DOM, applying styles from CSS, executing JavaScript, calculating layout, and finally painting the webpage on the screen for the user to interact with.
+
+
+!SSL- TLS PROTOKOLLERI 
+!HTTPS(HTTP SECURE)
+SSL onceleri cok kullanilirdi ama artik daha cok TLs protokolu kullanilir
+Ag  uzerindeki iletisimin guvenli olmasi protokoller 
+Gunumuzde daha cok TLS kullanilir 
+Veriler ag da tasinirken veirler sifrlenerek, agdaki gozlemcilerin, gormeisni engellemek, cunku http protokolu kendisi bir sifreleme yapmiyor dogrudan acik bir sekilde, veriyi server a ag araciligi ile gonderiyor ... 
+Agdaki hacker veya art niyetli gozlemci ag uzerinden gonderilen data yi gortuntuleyebilir
+
+TLS sayesinde http tafigmizi sifreleyerk https haline getierek, verilerimzi sifreli sekilde network uzerinden server a gonderirirz ve bu sayede, agda bulunan hacker,gozlemci ler bu verileri okuyamazlar.. 
+Sifrelen verilerin okunabilmesini saglayan anahtar da yalnizca server da bulundugu icin, sadece server da bu clienttan gondeirlen verilerin okunmasi saglanir
+
+Server da ynitinin yine sifreli sekilde gonderiyor https ile 
+
+
+!FTP + TLS => FTPS(FTP SECURE)
+FTP TLS ILE BIRLITKE KULLANILARAK DOSYA TRANSFERININ SIFRELI BIR SEKILDE GERCEKLESTIRILMESINI SAGLIYOR 
+
+!Your connection is not private hatasi aliyorsak bir siteye baglanirken anlaamliyzi ki o sitenin-server inin tls sertifikasi yok-tls  yani o siteye girereken ki o site tarafindan kullanilan her turlu bilgimiz hacker veya gozlemciler taraifdan calinabilir....ondan dolayi da mumkunse yapmak istedgimz islemi bska bir siteden yapalim o zaman
+
+
+!SSH PROTOKOLU -  SECURE SELL 
+
+Uzaktaki bilgisyarlara-yani server a  guvenli bir sekilde herhangi bir noktadan direk olarak baglanmamizii sagliyor
+Baglantiyi ve veri alisverisini guvenli seklde  yapmamizi sagliyor
+
+SSH + FTP = SFTP(SECURE FTP) guvenli veri transferini sagliyor, dosya ttransferini sagliyor 
+
+
+DNS-DOMAIN NAME SYSTEM
+DNS SUNUCUSU - PROTOKOLU 
+
+CLIENT(153.16.119.211)==>WWW.LINUXDERSLERI.COM(185.199.108.153)
+
+!DNS BIZIM ICIN DOMAIN NAME I WWW.LINUXDERSLERI.COM BUNU , O DOMAIN NAME IN IP ADRESINE DONUSTURUYOR, 185.199.108.153....
+
+!DNS SUNUCUSU ISIM LISTESI SEKLIDNE DOMAIN-NAME KARSISINDA IP ADRESLERINI TUTUYOR...KI 
+
+HTTP ISTEGI GONDERILINCE..DNS SUNCUSUNA GELIR ORDA GONDERILEN ADRES- IN HANGI IP ADRESINE KARSILIK GELDIGI BULUNUR VE SONRA REQUEST ISTEGI O IP ADRESINE DOGRU YOLUNA DEVAM EDER...
+
+
+DEFAULT OLARAK DNS SUNUCUSU INTERNET SAGLAYCIMZ OLUYOR ZATEN, VE BU BAZEN BAZI SITELERE ERISMIMIZI SINIRLAYABILIYOR BOYLE DURUMLARDA GOOGLE IN SUNDUGU 8.8.8.8 DNS SUNUCUSUNU KULLANABILIRIZ
+
+
+!DNS SERVERLAR BIZIM INTERNET SERVIS SAGLAYACIMIZ OLUYOR DEFAULT OLARAK VE NEDEN BU DNS SERVER DEGISTIRILMEK ISTENIYOR VE ISTENDIGINDE NASIL DEGISTIRILIYOR? 
+
+Your DNS server is a crucial part of how you access the internet, but it's not necessarily provided by your internet service provider (ISP), although that's often the case by default. Let's break down what a DNS server is and why some people choose to change their DNS server settings:
+
+What is a DNS Server?
+DNS (Domain Name System) servers translate human-readable domain names (like www.openai.com) into IP addresses that computers use to communicate (like 192.0.2.1).
+ISP DNS Servers: By default, your ISP assigns DNS servers for your internet connection. These servers are responsible for resolving domain names into IP addresses when you access websites.
+Role: The DNS server is like an address book for the internet, converting easy-to-remember domain names to the numerical IP addresses needed to locate and connect to devices across the network.
+Why Some People Change Their DNS Server to Google's 8.8.8.8:
+Speed:
+
+Some users find that Google's DNS servers (8.8.8.8 and 8.8.4.4) or other third-party DNS services like Cloudflare (1.1.1.1) are faster than their ISP's DNS servers. Faster DNS resolution can speed up the time it takes to load web pages.
+Reliability:
+
+Google's DNS servers are known for their reliability. If an ISP's DNS servers are unreliable or frequently go down, switching to a more reliable DNS service can improve overall internet stability.
+Security:
+
+Some alternative DNS providers offer additional security features, such as protection against phishing attacks, malware, and other online threats.
+Privacy Concerns:
+
+ISPs can track your browsing history through their DNS servers. Some users switch to alternative DNS services to reduce this kind of tracking, although it's important to note that alternative DNS providers have their own privacy policies.
+Bypassing Censorship or Geoblocks:
+
+In some cases, changing the DNS server can help bypass regional internet restrictions or geoblocks, as the DNS request is routed through different servers that might not enforce the same restrictions.
+Content Filtering:
+
+Some DNS services offer content filtering options, which can be useful for blocking unwanted content, such as adult websites in family settings.
+Considerations:
+Trust: When you switch from your ISP's DNS to another provider like Google, you're shifting your trust from one organization to another. It's important to consider the privacy and data handling policies of the DNS provider you choose.
+Configuration: Changing DNS settings can be done on individual devices, routers, or even at the network level. Proper configuration is essential to ensure that the new DNS settings are effective and secure.
+In summary, your DNS server could be provided by your ISP, but you have the option to change it. People switch to services like Google's DNS for reasons like speed, reliability, security, privacy, and additional features. The choice of DNS server can have a noticeable impact on your internet experience.
+
+
+!NASIL DNS SERVER DEGISTIRILEBILIR?
+
+Switching from your ISP's DNS server to another provider, like Google's DNS, involves changing the DNS settings on your device or router. Here's how you can do it:
+
+Switching DNS on a Router
+Changing the DNS settings on your router will affect all devices connected to that router.
+
+Access Router Settings:
+
+Open a web browser and enter your router’s IP address in the address bar (common addresses are 192.168.1.1 or 192.168.0.1). You may need to check your router’s manual or label for the specific address.
+Login to the Router:
+
+Enter your username and password. If you haven’t changed them, the default credentials might be something like admin for both username and password, or provided in the router’s manual.
+Find DNS Settings:
+
+Look for a section named “DNS Settings,” “Network Settings,” or something similar.
+Enter DNS Server Addresses:
+
+Replace the existing DNS addresses with Google’s DNS addresses: 8.8.8.8 and 8.8.4.4.
+Save and Reboot:
+
+Save your changes and reboot the router if necessary.
+Switching DNS on Individual Devices
+You can also change the DNS settings on individual devices like computers, smartphones, or tablets.
+
+Windows
+Control Panel: Open the Control Panel and go to “Network and Sharing Center.”
+Change Adapter Settings: Click on “Change adapter settings.”
+Properties: Right-click your network connection and select “Properties.”
+Internet Protocol Version 4 (TCP/IPv4): Select it and click “Properties.”
+Use the Following DNS Server Addresses: Enter 8.8.8.8 and 8.8.4.4 as your preferred and alternate DNS servers, respectively.
+Save: Click “OK” to save your changes.
+macOS
+System Preferences: Open System Preferences and click on “Network.”
+Advanced: Select your network (Wi-Fi or Ethernet) and click “Advanced.”
+DNS: Go to the “DNS” tab.
+Add DNS Servers: Click the + button and add 8.8.8.8 and 8.8.4.4.
+Apply: Click “OK” then “Apply.”
+Android
+Settings: Go to Settings and select “Wi-Fi.”
+Modify Network: Tap and hold on your connected Wi-Fi network, then select “Modify network.”
+Advanced Options: Show advanced options and change “IP settings” to “Static.”
+DNS: Enter 8.8.8.8 and 8.8.4.4 in the DNS fields.
+Save: Save the changes.
+iOS
+Settings: Open Settings and tap on “Wi-Fi.”
+Wi-Fi Network: Tap on the i icon next to your Wi-Fi network.
+Configure DNS: Tap on “Configure DNS” and select “Manual.”
+Add Server: Tap “Add Server” and enter 8.8.8.8 and 8.8.4.4.
+Save: Tap “Save.”
+Important Notes
+After changing DNS settings, it may be necessary to restart your device or clear the DNS cache for the changes to take effect.
+Always make sure you trust the DNS provider you are switching to, as DNS plays a crucial role in your internet security and privacy.
+If you encounter connectivity issues after changing DNS settings, you can revert to the original settings or try alternative DNS servers.
+
+!DNS  SUNUCULARI FILTRELEMEK VEYA ENGELLEMEK ISTEDIKLERI IP ADRESLERINI, GECERSIZ IP ADRESI ATAYARAY YAPIYORLAR ORNEGIN WWW.EXAMPLE.COM  DOMAIN NAME ININ KARSINA 127.0.0.1 GIBI LOCAK PC NIN DEFAULT IP ADERSIN OLAN SONUCUNDA HICBIRSEY OLMAYAN IP ADRESLERI ATAMASI YAPIYORLAR...
+
+!DHCP - DYNAMIC HOST CONFIGURATION PROTOCOL
+
+INTERNET UZERINDE VERI ALISVERISI ICIN..
+
+1-IP ADRESI(CIHAZIN AG UZERINE KATILABILMESI ICIN IP OLMASI SART)
+2-SUBNET MASK DEGERI(IP ADRESLI CIHAZIN HANGI AGDA OLDUGNU BILINMESI ICN GEREKLI-AYNI AGDAKI CIHAZLAR AYNI SUBNET MASK DEGERINE SAHIP ) 
+3-DEFAULT GATEWAY BILGISI(LOKAL AGIMIZ DISINDAKI BIR HOST ILE ILETISIME GECMEK ISTEDIGMZDE KULLANIGIMZ ROUTER-MODEM-GATTEWAY IN IP ADRESI DIR)
+4-DNS SERVER IP ADRESI(DOMAIN NAME IN HANGI IP YE KARSILK GELDIGNIN BIZE VERECEK OLAN DNS SERVER HIZMETINI BILEMMIZ GEREKYOR , BU GENELLIKLE INTERNET SERVICE PROVIDER BIZE SAGLIYOR...YA DA DEGISTIRILEBILIR GOOGLE IN SUNDUG DNS:8.8.8.8 ILE )
+
+
+!DHCP DEDGIMZ YAPI BU 4 BILGIYI OTOMAITK OLARAK ADGAKI TUM CIHAZLARA UYHGUN SEKILDE TANIMLAYAN YAPIDIR
+
+!BIR CIHAZ AGA KATILDIGINDA ILK BASTA HICBIR BILGISI YOKTUR, IP,SUBNETMASK,GATEWAY,DNS AGA KATILDIGINDA DHCP SUNUCUSU NA KESIF MESAJI GONDERIYOR CIHAZ, DHCP SUNUSU DA IP,SUBNET,GATEWAY VE DNS BILGILERINI ATAMA YAPIYOR
+
+!DHCP SUNUCUSU EGER EV VEYA KUCUK OFIS TE ISEK MODEM YA DA ROTUER DIR AKSI DURUMLARDA BUYUK ISLETMELERDE DHCP SUNUCUSU KURULUUYOR AYRI OLARAK
+
+!TEMEL AG KOMUTLARI 
+!ping araci
+bu arac sayesinde agimizdaki-networkumuzdeki cihazlarin erisilebilrlgini ve tepki surelerini kontrol edebiliriz
+ping araci hedefteki cihaza kontrol paketi gonderiyor ve bu kontrol paketinin karsi tarafa ulasip ulasmadgi ve paketin ne kadar surede gidip ne kadar surede geri geldigi gibi bilgileri bize sunmasidir. 
+Bu sayede aramizda iletisimi agin kontrolunu gerceklestirebiliyoruz
+
+!ping www.linux.com  seklinde kullaniriz 
+Ve  biz CTRL-C ile durduruna kadar kontrol etmeye devam edecektir 
+
+adem@adem:~/utv/test/Linux-works$ ping www.linux.com
+PING www.linux.com (23.185.0.3) 56(84) bytes of data.
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=1 ttl=58 time=4.90 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=2 ttl=58 time=4.78 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=3 ttl=58 time=5.31 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=4 ttl=58 time=5.20 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=5 ttl=58 time=5.37 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=6 ttl=58 time=5.11 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=7 ttl=58 time=5.40 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=8 ttl=58 time=5.07 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=9 ttl=58 time=5.21 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=10 ttl=58 time=5.37 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=11 ttl=58 time=5.37 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=12 ttl=58 time=4.93 ms
+^C
+
+!https kismini yazmiyoruz ping ile bir server  kontrolu yaparken 
+adem@adem:~/utv/test/Linux-works$ ping https://www.udemy.com/
+ping: https://www.udemy.com/: Name or service not known
+
+!Onun yerine asagidaki gibi www den .com ile biten yere kadar olan kismi yazarz
+adem@adem:~/utv/test/Linux-works$ ping www.udemy.com
+
+adem@adem:~/utv/test/Linux-works$ ping www.linux.com
+Bu sekilde biz bir paket gonderiyoruz, ve www.linux.com uzerinden gidiyor ip adresini buluyor once DNS server dan ve ordan sonra da o ip adresine paketi ulastiriyor ve de o paket sayesinde biz server in calisip calismadigini, ne sureyle istege karsilik verdigini vs gorebiliyoruz
+
+!ping www.udemy.com komutunu calisitrinca bize gelen yanitlar sunucunun gonderdigi response lardir!!
+
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=1 ttl=58 time=4.90 ms
+Serverdan gelen response dan ne anlamaliyiz:
+1-64 byte lik yanitlar gelmis
+2-23.185.0.3 ip adresinden gelmis  yanitlar
+3-Baglanti kontrolu icin server a gonderdigmz data paketinin server a ulasip ulasmadigi bilgisini veriryor, icmp_seq ile , icmp_seq=1, icmp_seq=2, icmp_seq=3 bunlar sirasini veriyor gelen responslarin...Eger gonderilen request e response gelmese idi, yani server  yanit vermiyor olsa idi bu sira bozulacakti ve icmp_seq= bos gelecekti
+ttl(time to live)=56 demek bu paket 56 adet router-yonlendiriciden gecebilir daha fazlasindan gecemez... 
+Bu paketin ag uzerinde sonsuza kadar ag uzerinde yonlendirilmesin onlemek icin yapiliyor, eger konfigurasyon ayarlarinda hata yapildi ve ttl-time to live icin yasam suresi icin sinir koyulmadi ise o zaman sonsuza karar router lar arasinda gidip gelebilir  ve agi mesgul edebilir gereksiz yere..bunu onlemek icin yapilir bu
+Ve de eger router yonlendirme islemi, yonlendirme konusunda basarili olmayiyorsa, bir noktada durdurmak icin, yapilir...
+time:ilgili paketin ne kadar surede servera gidip tekrar bize response dondugugnu gosterir
+
+--- www.linux.com ping statistics ---
+21 packets transmitted, 21 received, 0% packet loss, time 20029ms
+rtt min/avg/max/mdev = 4.879/5.251/5.537/0.172 ms
+Ayrica da 21 packet gonderilmis, 21 paket alinmis...
+
+rtt:run treat time-veri paketlerinin gonderilip geri dondurulme suresidir..
+min/avg/max/mdev- minimum/ortalama/maximum/standartsampa degeri
+
+!istek sayisini -c option i ile sinirlandirabiliyoruz 
+!ping -c 3 www.linux.com
+
+adem@adem:~/utv/NSS-serviceapp$ ping -c 3 www.linux.com
+PING www.linux.com (23.185.0.3) 56(84) bytes of data.
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=1 ttl=57 time=5.41 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=2 ttl=57 time=5.19 ms
+64 bytes from 23.185.0.3 (23.185.0.3): icmp_seq=3 ttl=57 time=5.43 ms
+
+--- www.linux.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 5.188/5.342/5.425/0.109 ms
+adem@adem:~/utv/NSS-serviceapp$ 
+
+!ping -6 yazarak ipV6 uzerine calismasini sglayabiliriz Cunku default olarak ipV4 olarak calisiyor 
+
+!ip araci
+Ag-network arayuzleri hakkinda bilgi alip gerektiginde yapilandirmak icin kullaniriz
+
+!ip a  veya ip addr: VEYA ip address Sistemimize bagli bulunan network-ag arayuzleri hakkinda bilgi almak icin kullanilir
+
+adem@adem:~/utv/NSS-serviceapp$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether c8:cb:b8:0c:e7:0c brd ff:ff:ff:ff:ff:ff
+    altname enp0s25
+    inet 172.29.29.92/24 brd 172.29.29.255 scope global dynamic noprefixroute eno1
+       valid_lft 62481sec preferred_lft 62481sec
+    inet6 fe80::cacb:b8ff:fe0c:e70c/64 scope link 
+       valid_lft forever preferred_lft forever
+adem@adem:~/utv/NSS-serviceapp$ 
+
+1:lo(localhost) Mevcut pc mizi temsil eden ip adresi, burdaki lokal adresimiz sayesinde biz uzak server a internet uzerinden baglnmadan uygulamalarimzi test edebilioyruz. Kendimize ozel local sunucu ayaga kaldirarak, testlerimizi yapabiliyoruz
+
+2:eno1:Ethernet adresimzi temsil ediyor kablolu baglantimizi temsil ediyor
+Baglanti kablosuz-wifi araciligi ile olsa idi burda wlan0 network interface olacakti!!!
+ethernet baglantizm ile ilgili dikkat edecegimz bir nokta da state durumu:  state UP yan i su an aktif demektir, yani bu ag arayuzu kullaniliyor aktif mis 
+Eger 1 den fazla kablosuz baglatnimz olsa idi wlan0, wlan1 seklinde ilerleyecekti
+
+!Simdi evdeki local-pc mizde ip address diye yazarsak 
+
+adem@adem-ThinkPad-13-2nd-Gen:~/Linux-works$ ip address
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s31f6: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether a8:1e:84:76:90:7b brd ff:ff:ff:ff:ff:ff
+3: wlp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:28:f8:a6:7a:7f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.57.191/24 brd 192.168.57.255 scope global dynamic noprefixroute wlp3s0
+       valid_lft 3042sec preferred_lft 3042sec
+    inet6 2a05:9cc4:7a:57eb:999e:efb4:d7b:1417/64 scope global temporary dynamic 
+       valid_lft 3362sec preferred_lft 3362sec
+    inet6 2a05:9cc4:7a:57eb:ecc1:aa97:cc6c:b186/64 scope global dynamic mngtmpaddr noprefixroute 
+       valid_lft 3362sec preferred_lft 3362sec
+    inet6 fe80::ecd5:2d82:9941:b9ef/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+
+!PEKI BU AG-NETWORK INTERFACE-ARAYUZLERI UZERINDE NASIL ISLEM GERCEKLESTIREBILIRIZ!!!! 
+
+Ethernet baglantimiz up dan down hale cevirirsek o zaman, biz interneti de kapatmis oluruz ona dikkat edelim
+!sudo ip link set enp0s31f6 down
+(link set arayuzde bir konfigurasyon yapacagimzi belirtmek icin veriyoruz bunu), sonra ilgili araci beliritp sonra da hangi islemi gerceklestirecegimzi belirtiyoruz
+!sudo ip link set enp0s31f6 up(tekrardan ethernet arayuzunu i aktif hale getir diyoruz)
+
+!ip route(router ismlerini ogrenmek icin y apariz)
+adem@adem-ThinkPad-13-2nd-Gen:~$ ip route
+default via 192.168.57.166 dev wlp3s0 proto dhcp metric 600 
+169.254.0.0/16 dev wlp3s0 scope link metric 1000 
+192.168.57.0/24 dev wlp3s0 proto kernel scope link src 192.168.57.191 metric 600 
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+default via 192.168.57.166 dev wlp3s0 proto dhcp metric 600  =>Varsayilan ag-network gecidinin(getway) bu oldugunu belirtiyor 
+!Default dedigi pc mizin interete baglnirken baglandigi modem- in ip sidir. Hatirlarsak, modem-router pc nin internete cikarken router ip sini alarak internete cikiyordu!!! YANI BU ADRES BIZIM MODEM-ROUTER IMIZI TEMSIL EDEN IP ADRESIDIR!!!! 
+default via 192.168.57.166 dev wlp3s0 proto dhcp metric 600   wlp3s0 wiress varsayilan router-modem dir.. 
+dhcp protokolu belirtilmis protokol olarak, bu ag arayuzu uzernden otomatik olarak ip adresi alabiliyor musum
+192.168.57.0/24 ICINDE BULUNDUGMZ NETWORKU BELIRTEN SUBNET TIR...  192.168.57.191 BU MEVCUT CIHAZIN BU AGDAKI IP ADERSIMZI VERIYOR
+
+ip route dedgimz zaman default olarak gelen ip numarasi, bizim ip address, ip a , da bizim UP Olan network-ag i bizimn internete bagli oldugmz agdir
+Aktif olan ag-network interface - arayuzu bilgisine bakacak olursk.. ip a dan.. ip route da da gelen default ip adresi ile ayni
+ wlp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+ inet 192.168.57.191/24 brd 192.168.57.255
+inet 192.168.57.191/24-SUB NET DEGERI  BU DA BROADCAST-brd 192.168.57.255 YANI 192.168.57.1-192.168.57.254 ARASINDA IP ADERSLERI DAGITILMIS...
+BROADCAST ADRESI HERKESE YAYIN YAPMAK ICIN IP UZERINDEN MAC ADERSI SORGULAMAK ICIN KULLANILAN IP ADRESIDIR BU HATIRLAYACAK OLURSAK
+
+!192.168.57.191 burda sunu unutmayalim ki her bir bolum maksimum 256 olabiliyordu cunku 8 bitlik binary yi decimal-10 lu birime cevirnce 8 bitin hepsi 1 olursa o zaman 256 oluyordu ondan dolayi...
+
+!ip araci sadece bilgi almak icin degil ayni zamanda ip ve route gibi konfigurasyonlari duzenlemek icinde kullanlaibliyor
+
+!ip araci ile  yapilan hic bir islem kalici degildir, yani pc yeniden baslatildiginda yapilan deigsiklikler sifirlanacaktir. Ondan dolayi da kalici degisiklikler yapmak istersek bunu ip araci ile  yapamayiz....
+
+!nmtui & nmtui | Network Manager
+nmcli(network manager command line) araci sayesinde
+Komut satiri uzerinden network ile ilgili cesitli islemleri gerceklestirmemiz mumkun oluyor.
+Fakat genellikle nmtui(network manager terminal user interface) araci olarak bilinen arac kullaniliyor
+!nmtui(network manager terminal userinterface): Bu arac bize komut satiri uzerinde grafiksel arayuze benzer bir arayuz sunuyor
+Bu sayede bu arayuzde klavyemizde,ki yon tuslari ile islemlerimizi gerceklestirebiliyoruz
+
+Edit a connection-> bagli oldgumz network interface bilgisi yer aliyor
+Burasi cok kritiktir...Cunku burda biz, herhangi bir ethernet baglantisi veya wifi baglantisi ekleyebilioyoruz...BUNU OZELLIKLE YANLISLIKLA BAZEN  INTERNET BAGLANTISI KOPMUS OLUYOR AYARLAR KALKMIS OLUYOR BOYLE DURUMLARDA....BU ISLEMLER COK ISIMIZE YARAYACAKTIR
+BAGLANTILARIMIZDAN ORNEGIN ETHENETI TIKLAYIP UZERINE GIDIP, ACTIVATE YAZAN KISMI DEAKTIF YAPMAK ICIN ETHERNET BAGLANTISI-INTERFACE I UZERINE GIDIP ENTERE BAASARSAK DEAKTIF HALE GELIRKEN, TEKRAR BIR DAHA TIKLRASAK DA BU SEFER DE AKTIF HALE GELECEKTIR
+Activate Connection uzerinde active-deactive yapabiliyoruz 
+Birde setSystemhostname uzerinden de sistemimizn yani pc nin, hostname ini duzenleyebiliyoruz..yani hostname server hostname i ne ise onu degistirebiliyoruz....BURASI ONEMLI.....AMA HOSTNAME GIBI DEGISIKLIKLER COK HASSADTIR BUNU BILMEDEN SAKIN DEGISTIRMEYELIM... 
+!Gunluk hayatta ihtiyac duyulan temel network konfigurasyonlari icin biz nmtui(network manager terminal userinterface) aracini kolaylikla kullanabiliyoruz
+
+!nmtui in yaptigi benzer konfigurasyonlari ayri bir grafik arayuzu acmadan dogrudan komut satiri uzerinde yapmak icin ise nmcli aracini kullaniriz
+nmcli --help ile neler yapabilecegimzi gorebiliriz
+
+bURDA GERCEKLESTIRIGIMZ KONFIGURASYONLAR TAM OLARAK, ASAGIDAKI ADRESTE DUZENLENIYOR
+sudo cat /etc/NetworkManager/system-connections/Ethernet\ connection \ 1nmconnection
+
+Dikkat edelim , bizim connectionslairmiz internet de hangi router-modem isimlerine baglandi isek onlari burda goruruz
+!adem@adem-ThinkPad-13-2nd-Gen:/etc/NetworkManager/system-connections$ ls
+AndroidAPE.nmconnection  CL-guest.nmconnection  Nixus.nmconnection
+
+!MUTHIS BIR BILGI RESMEN ROUTE-MODEM ILE ILGILI HER TURLU BILGIYI VERMIS BIZE....
+adem@adem-ThinkPad-13-2nd-Gen:/etc/NetworkManager/system-connections$ sudo cat AndroidAPE.nmconnection 
+[sudo] password for adem: 
+[connection]
+id=AndroidAPE
+uuid=c5db790f-311a-40d4-a747-58493503fd82
+type=wifi
+interface-name=wlp3s0
+
+[wifi]
+mode=infrastructure
+ssid=AndroidAPE
+
+[wifi-security]
+auth-alg=open
+key-mgmt=wpa-psk
+psk=Adem12345678
+
+[ipv4]
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=auto
+
+[proxy]
+adem@adem-ThinkPad-13-2nd-Gen:/etc/NetworkManager/system-connections$ 
+
+!Bizim burda nmcli araci ile  wifi baglantisi ile, gerceklestirdgimz degisiklikler, bu adresteki dosya da degisiklik gerceklestiriyor adem@adem-ThinkPad-13-2nd-Gen:/etc/NetworkManager/system-connections$ sudo cat AndroidAPE.nmconnection  ve de bu dgeisiklikler gerceklstirilen kalici oluyor ve sistem baslangicinda, bu degisiklikler gecerli olmaya devam ediyor, ip aracindaki gibi yeniden baslatilince degisiklikler gecerliligin i yitirmiyor...  
+Demekki kalici bir degisiklik yapacagimz zaman nmcli araci ile yapariz ki degisiklilkerimiz kalici olarak gerceklestirilmis olsun...
+
+MEVCUT NETWORK ARA YUZUNU YANI INTERNET BAGLANTISINI GERCEKLESTIRIDMGZ WIFI, ETHERNET... INTERFACE LARINI ISTEDGIMZ GIBI DUZENLEYEIBLRIZ, YENI BIR CIHAZ BAGLADI ISEK BUNUN BAGLNTISINI GERCEKLESTIREBILIRIZ, KONFIGUURASYONLARI YAPABILIRZ VE SITEMIMIZIN HOSTNAME BILGINI DUZENLEYEBILIRIZ... 
+HOSTNAME BILGISI ISE BIZIM KOMUT SATIRIMZDA DEFAULT OLARAK GELEN KISIMDIR ASLINDA
+Hostname:adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+!ssh-Secure Shell protokolu 
+Bu protokol sayesinde uzaktaki server lara guvenli bir sekilde baglanti kurup yonetmemiz, ve baglnti gerceklestirmemiz mumkun oluyor  
+
+Ssh aradaki iletisimi sifreleyen guvenli hale getiren bir protokoldur
+
+ARA BIR BILGI GIRIYHORUZ BURAYA
+!DIZIN ALTINDA GREP ARACI ILE ARAMA YAPMAK ICIN
+  grep -r "bashrc" /etc/  2>/dev/null
+    "bashr" yi git /etc/ dizini altinda ara(mutlaka -r kullanmaliyiiz dizin altinda arama  yapabilmek icin )
+    Ama hatali olan sonuclari listeden cikar diyrouz 2 > dev/null(hatali sonuc-permission denied olanlari)
+    
+    grep -r(-r secenegini belirtmeden dizin altinda arama yapmaya calisirsak asagidaki sonuc elde edilir..)
+    adem@adem:~$ grep  "bashrc" /etc/
+    grep: /etc/: Is a directory
+    adem@adem:~$ 
+
+ssh in iki farkli sekilde kullanilmasi soz konusudur 
+1-ssh client- local den uzak server la baglanti kurmak icin 
+2-ssh server - uzak server veya uzak pc lerden bizim pc mize baglanti kurmak icin(bizde bu yok ondan dolayi da systemctl status ssh.service yazinca bulunamadi geliyor)
+Biz su anda sadece kendi server imiza baglandigmz icin de ssh server a  ihtiyacimz yok , cunku bizde zaten ssh client mevcut
+
+If you are already able to connect to other servers using SSH from your machine, it means you have the SSH client installed and working correctly. The confusion here seems to be between the SSH client and the SSH server, and their respective roles:
+
+SSH Client (Already Working for You)
+Your Current Situation: You have the SSH client installed on your machine (OpenSSH_8.9p1 as indicated by the ssh -V output). This client allows you to initiate SSH connections to other machines that are running an SSH server.
+Usage Example: When you run a command like ssh user@remote-server.com, you are using the SSH client on your machine to connect to a remote server.
+SSH Server (Not Currently Installed)
+Error Message: The "Unit ssh.service could not be found" error indicates that the SSH server is not installed on your machine.
+Function of SSH Server: An SSH server is used to accept incoming SSH connections. If you want other machines to be able to connect to your machine via SSH, you would need the SSH server installed and running.
+Installation: Running sudo apt-get install openssh-server installs the SSH server, which is not necessary if you only need to SSH out to other machines.
+Do You Need to Install openssh-server?
+If You Only Connect Outward: If you're only using your machine to connect to other servers and do not need to accept incoming SSH connections on your machine, you do not need to install the SSH server (openssh-server).
+If You Want to Accept Connections: If you want your machine to be accessible to others via SSH (for example, if it's a server that others need to access remotely), then you should install openssh-server.
+Summary
+Your Current Capability: You can connect to other servers using SSH (outgoing connections).
+No Need for openssh-server: If you don’t need to accept incoming SSH connections on your machine, there's no need to install openssh-server.
+Install openssh-server Only If Needed: Only if you want your machine to accept incoming SSH connections should you consider installing the SSH server.
+
+!Windows makinemizden linux makinemize baglanmak istersek eger!
+1-One baglanacagimzin pc nin ip adresi kullanici adi ve passwordunu bilmemiz gerekir 
+ip addr-ip a - ip address yazarak ip adre sini ogreneb iliriz 
+ifconfig
+
+adem@adem:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether c8:cb:b8:0c:e7:0c brd ff:ff:ff:ff:ff:ff
+    altname enp0s25
+    inet 172.29.29.92/24 brd 172.29.29.255
+
+   Burdan anliyoruz ki linux makinemiziin ip adresi :  172.29.29.92 
+
+   Biz herhangi bir telfonfdan da uzaktaki bir server-pc ye baglanabiliriz 
+   Uzak baglantilar icin ozellikle dikkat etmemiz gereken nokta, public ip adersinini kullanmlaiyiz, ip adresinin uzaktan erisilebilen bir ip adresi olmasi gerekir..
+   Yoksa uzaktan baglnamk mumkun olmayacaktir...
+!scp araci!
+secure copy protocol 
+Dosyalari guvenli bir sekilde uzak server dan kopyalamak, indirmek veya oraya dosya gondermek icin kullaniriz 
+Once IP ADRESINI BULURUZ ip addr- ip a 
+Sonra ssh servisinin aktif olmasi gerekir onu kontrol edelim 
+
+systemctl status ssh.service
+
+!adem@adem:~$ scp ~/text/my-text.txt username@example.no: .
+home altinda text klasoru altindaki my-text.txt dosyasini git httest2 serverinin nss kullanicisina login olarak ordaki login olunca girilen home directory sune kopyala diyoruz : . yazarak...
+!adem@adem:~$ scp ~/text/my-text.txt username@example.no: ~/logs/
+git server daki logs klarosu altina kopyala diyrouz burda da ...
+
+!adem@adem:~$ scp ~/text/my-text.txt nss@example.no:/home/pc/Desktop/mytest.txt 
+Eger dosya ismini istedigmz gibi girersek dosya ismin degistirerek gonderecektir...
+windows bilgisyara gonderdigmz i dusunursek de 
+
+!scp (gonderilecek dosya konumu ) username@serveripaddress:(serverdadosyanin nereyegelecegi )
+
+!UZAK SERVERDAN LOKAL IMIZE DE DOSYA GONDEREBILIRZ TABI KI
+scp  username@example.no:/logs/mytext.txt /home/adem/test/
+
+httest2 adresimde logs klarosu altindaki mytext.txt dosyasini al, mevcut lokal pc mde  onu /home/adem/test/ klasoru altina kopyala, veya indir demis oluyoruz!!
+
+!SCP ILE IKI LOKAL PC MIZI DIREK BIRBIRNE BAGLAYAMASAK BILE EGER HER IKI LOKALINDE BAGLANABILDIGI BIR SERVER VAR ISE O ZAMAN ORNEGIN MAC PC MIZDEN SERVER A ISTEDGIMZ DOSYALARI GONDERIP ONU LINUX PC MIZDEN AYNI SERVER DAN LINUX PC MIZE INDIREREK PC LER ARASINDA DOSYA ALISVERISINI DE BU SEKILDE HIZLICA YAPABILRIZ 
+
+LOKALIMZDEN DOSYA GONDERMEK ICN
+!scp *.png username@example.no:. 
+BIZIM LOKAL PC MIZDE O ANDA UZERINDE BULUNDGUMZ DIRECTORY DEKI TUM PNG DOSYALARINI AL example.no SERVER ININ USERNAME INDE GIRIS YAPARAK DIREK HOME DIRECTORYSUNE(:.) YERLESTIR BU DOSYAYI 
+
+!scp * username@example.no:.(O AN UZERINDE BULUNDGUMZU DIRECTORY DEKI TUM DOSYALARI DEMIS OLURZ) 
+
+SERVERDAN LOKALIMIZE DOSYA INDIRIRKEN 
+
+!scp username@example.no:/home/username/*.png /home/adem/
+uzak serverdaki username kullanici directory si altindaki tum png uzantili dosyalari al, lokal pc mizde adem kullanicimizin home klasoru altina at... demis oluyoruz
+
+!wget araci
+url uzerinden dosya indirmeyi mumkun kilan harika bir aractir!!!!
+Ozellikle server da ornegin geoserver vs kurarken bizim bazi indirmeler yapmamiz gerekiyor, ki server da biz im herhangi bir grafiksel arayuzumuz olmadigi icin , browser acip da indirelim deme gibi bir sansimiz yok ondan dolayi da tabi ki biz wget araci uzerinden yapariz o tarz islemlerimizi ki cok kritik oneme sahiptir
+
+Biz url su sekilde buluruz, browser da tikladgimizda indirmeyi saglayan button hangisi ise o buttona saga tiklayip o buton tiklaninca ki, link-url i kopyalariz ve gelip wget in devamina yazarak ayni islemi server uzerinde de yapabilmeyi saglariz
+
+!Yani bizim browser uzernden linux ubuntuya herhangi yeni bir program yuklelerken once o programin indirme dosyalari indirliyordu, iste bu tarz islemlerin hepsini dosya indirme islemlerinin hepsini bu wget araci yapabiliyor....BU COOOK ONEMLIDIR...
+
+!wget https://......  yapnca biz hangi dizin altinda isek oraya indirecektir dosyalari ama eger spesifik bir dizine indirmesini istersek o zaman -O(output) option i kullanarak yapariz bu islemi 
+Burda -O kullaninca biz indirilecek icerigi getir benim kendi dosyamin icine kaydet diyoruz -O ILE SADECE DIZIN DE BELIRTEBILIRZ TEK URL INDIRIRKEN......Ama TOPLU INDIRMELERDE BIRDEN FAZLA URL I DOSYA ICINDEN OKURKEN getir benim belirttigm dizin altina  indir dosyalari dersek o zaman da P secenegini kullanacagiz..
+!wget https://........ -P ~/Documents 
+
+!wget https://........  -O ~/Documents/  
+!wget https://........  -O ~/Documents/myfile   
+
+wget --help ile hangi durumlarda kullanacagmiza bakabiliriz 
+!Toplu sekilde ilgili dosyalari indirebilmemize imkan sagliyor 
+Bunu su sekilde yapiyoruz , bir dosya acip icerisine tum url leri alt alta yapistiririz ve ornegin indir.txt dosy asi icinde indirme yapilacak url ler var... 
+!wget -i(input) ~/indir.txt
+wget araci dosya icindeki linkleri tek tek taraycak ve hepsi ile ilgili indirmeyi toplu sekilde yapacaktir. Ama yine konum belirtmedigmz icin o an uzeirnde bulundgumz mevcut dizine indiriyor dosyalari 
+
+Hedef dizini toplu sekilde dizin adresini P sayesinde, belirtilen dizin adreisne indirebiliriz
+!wget -i(input) ~/indir.txt -P /Documents 
+
+
+!DNS HAKKINDA 
+Domain name -DNS sorgusu gerceklestirmek icin, bizim mevcut agimizdaki modem-rooter cihazimiza ip adresine sorgu gonderiiliyor 
+Name server lari sorgulamak icin nslookup araci kullaniliyor
+!nslookup www.google.com (Dns sunucusune bu adresin ip adresi nedir diye soruyoruz)
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ nslookup www.google.com
+Server:		127.0.0.53(Bu sorgunun hangi DNS sunucus uzerinde gerceklestirildigi cevabidir, bu bizim router-modem imize soruldugundan dolayi modem-rotuer in ip adresi dir bu)
+Address:	127.0.0.53#53(Dns sorgularini sunucular 53 numarali port uzerinden kabul ederler)
+
+Non-authoritative answer: Bu bizim verdigmz domainname e karsilik gelen, ip adresi ile ilgili cevap
+Name:	www.google.com
+Address: 142.250.74.132
+Name:	www.google.com
+Address: 2a00:1450:400f:804::2004
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Biz modem-router imizi dns sunucus olarak kullanmak zorunda degiliz 
+!DNS sunucusu aslinda /etc/resolv.conf dosyasi tarafindan gerceklesiyor
+
+nameserver 127.0.0.53
+options edns0 trust-ad
+search .
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+Burdaki adres, bizim DNS adresimizdir, bu adrese alan adlari sorularak o alan adinin ip adresine erisilebiliyor 
+
+! nslookup ve ping i kullanarak biz, domain ismini verddimgz server in ip adresine erisebiliyoruz 
+
+!Biz eger ki  /etc/resolv.conf dosyasi icindeki DNS adresinden degisiklk yapacak olursak, bu default olarak bizim modem-router imzdir, o zaman degisklik yapip router imiz yerne baska ip adresi girdikten sonra, sudo systemctl restart systemd-resolved.service diyerek bu service yi yenilemezsek yaptgimz degisiiklik uygulanmayacaktir!!!!!! Ama bu dosya uzerindeki degisklik pc yeniden baslatilinca gecerli olmayacaktir ondan dolayi... biz eger kalici degisklk yapmak istersek dns suncusu ile ilgili o zaman nmtui(network manager terminal user interface) uzerinden yapabiliriz
+
+!nmtui(network manager user interface)
+
+!HOSTNAME 
+Ag uzerinde ip alabilen cihazlara host diyoruz 
+hostname de localagimzdaki cihazlarimizin ip adresini hatirlamadan hostname ler ile ayirt etmemizi sagliyor 
+
+hostnamectl ile kullandgimz hostname bilgisini alabilirz
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ hostnamectl
+ Static hostname: adem-ThinkPad-13-2nd-Gen
+       Icon name: computer-laptop
+         Chassis: laptop
+      Machine ID: ff5025c833274718ba01a35ef3aff0a0
+         Boot ID: 6a2f1c63886d4abea64bd080827288cf
+Operating System: Ubuntu 22.04.3 LTS              
+          Kernel: Linux 6.2.0-39-generic
+    Architecture: x86-64
+ Hardware Vendor: Lenovo
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+hostname i degistirmek istersek eger: 
+!sudo hostnamectl hostname mynewhostname    diyerek hostname i degistirebiliyoruz
+hostname ismin i bu sekilde degistirdik ama birde /etc/hosts dosyasi altinda da degisiklikleri eklememiz gerekiyor. Cunku bu /etc/hosts dosyasi local olarak adres cozumlemesi saglayan konfigurasyon dosyasidir.
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	adem-ThinkPad-13-2nd-Gen
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+Bu /etc/hosts dosyasinda keni pc mizi temsil eden 127.0.1.1 ip adresi hostname adresimiz ile eslestirilmis oluyor bu sayede hostname uzerinden dogrudan ip adresi de temsil edilmis oluyor. 
+Bu hostname bilgisi de pek cok arac tarafindan kullaniliyor ondan dolayi da hostname degisiyorsa bunu hosts aracinda da uygulamamiz gerekiyor
+
+!BU COOOK KRITIK BIR NOKTADIR....UNUTMAYALIM..HOSTNAME DE BIR DEGISIKLIK OLMUS ISE BUNU GIDIP /ETC/HOSTS DOSYASINDA DA UYGULAMALIYIZ
+!HATTA SOYLE SOYLEYELIM, EGER HOSTNAME I DEGISTIRMEYI DUSUNUYORSAK ILK ONCE BUNU /ETC/HOSTS ICERISINDE YAPACAGIZ ONDAN SONRA, GIDIP HOSTNAME I DEGSTIRECEGIZ BU SEKILDE... sudo hostnamectl hostname mynewhostname 
+
+!BAZEN SUDO ARACINI DA KULLANAMAYABILIYORUZ(sudo: unable to resolve host .... TEmporary failure in name resolution-- sudo: error initializing audit plugijn sudoers_audit)....BOYLE DURUMLARDA PROBLEM I COZMEK ICIN YAPACAGIMZ ISLEM SUDUR
+ROOT KULLANICISINA GECIS YAPMAK 
+SU ROOT ILE.... duzenleyemedigmz /home/adem/etc/host dosyasini duzenleyebiliriz
+
+!DOMAINNAME 
+Ag-Network uzerinde birden fazla sunucu var ise bunu hostname ile birbirinden ayiriyoruz, hostname bilgisine ek olarak bu sunucularin ayni agda oldugunu belirtmek icin domain name de kullanabiliriz
+Ornegin: 
+web - web.linuxdersleri.net - 10.16.11.5/24
+mail - mail.linuxdersleri.net - 10.16.11.7/24 
+
+Dolayisi ile bu sayde hangi sunucunun hangi amacla kullanildigini kolaylikla buluruz ve bunlarin da ip adreslerini hatirlamamiza gerek kalmadan, cozumlmis oluruz
+Burda hem domainame hem de hostname i birlikte tanimlamaya yarayan bu yapiya FQDN(FULL QUALIFIED DOMAIN NAME)deniyor ve aralarinda nokta ile ayriliyor,  hostname.domainname 
+
+
+sudo nano /etc/hosts 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	adem-ThinkPad-13-2nd-Gen.mylocaldomain.net(hostname.domainname) seklinde duzenledikten sonra hostname bilginsi de degsitrirecek olursak 
+!hostnamectl hostname adem-ThinkPad-13-2nd-Gen.mylocaldomain.net
+seklinde degistirecek olursak eger
+!hostnamectl(ile kontrol ederiz)
+
+!dnsdomainname(diye arama yaparak da bizim etc/hosts icinde ekledgimz ve hostnamectl ile de alabildigmz domainname i alabiliriz)
+
+!BU MANTIK EGER, LOKAL AGIMIZDA-NETWORKUMUZDE BIRDEN FAZLA SUNUCU VAR ISE HER BIRISINE FARKLI HOSTNAMELER LER VERECEK SEKLILDE BU IP ADRESLERINI N DE BIRBRIDINEN AYRILMASINI VE DE DAHA ANLASILIR OLMASINI ASGLAYABILIRIZ 
+
+192.168.5.55 --> my-device.linux-dersleri.net 
+192.168.5.15 --> mail.linux-dersleri.net
+192.168.5.16 --> web.linux-dersleri.net
+
+BU ISLEMI YAPABILMEMIZ ICIN LOCALAGDAKI CIHAZLARIN AYNI DNS I KULLANIYOR OLMASI VE DNS IN DE O HOSTNAME VE IP ADRESILERNI  TANIYHOR LMASI GEREKIR, BUNUN ICINDE ROUTER DA BIR KONFIGURASYON YAPMAK GEREKIR YA DA DNS ICIN FARKLI BIR SUNUCU BILE KURULABILIR 
+NORMALDE DNS HIZMETINI ROUTER-MODEM CIHAZIMIZ SAGLIYOR, DEFUALT OLARAK..KI ROTUER UZERINDEN KONFIUGRASYON DA  YAPILABILIR
+
+! /etc/hosts
+hosts dosyamiz sistemimizdeki local dns gorevini ustlenen konfigurasyon dosyasidir
+adem@adem-ThinkPad-13-2nd-Gen:~$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	adem-ThinkPad-13-2nd-Gen
+
+Ornegin biz bir hosta gitmek istedgimz zaman ornegin adem-ThinkPad-13-2nd-Gen hostuna gitmek istedigi zaman, sistemimiz oncleikli olarak etc/hosts dosyasini kontrol ediyor, eger bu dosya icerisinde bu adem-ThinkPad-13-2nd-Gen hostu ile ilgli bilgi var ise dogurdan bu host a karsilik gelen ip adresine yonlendirme yapiyor.. Bu sayede harici olarak bir DNS sunucusuna sorulmadan once sistemimizde kayitli ise bu host ilgili adrese yonlendirm islemini zaten gerceklestiriyor
+
+em-ThinkPad-13-2nd-Gen:/etc/apache2$ sudo nano /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       adem-ThinkPad-13-2nd-Gen
+127.0.1.2       ademtest
+
+diyerek ag-networkumuz verebilecegi ip adreslerinden birine ademtest isminde bir host atamasi yaparsak o zaman, local pc miz de biz ping ile hostname i aradigmz da bize o hostname karsilik yazdigmz ip adresini verecektir
+
+!ping veya nslookup ile hostname imizin ip adresini gormek istersek asagidaki gibi gorecegimz uzere ademtest e karsilik olarak bizim /etc/hosts dosyasindaki gibi 127.0.1.2 gelecektir
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ping -c 3 ademtest
+PING ademtest (127.0.1.2) 56(84) bytes of data.
+64 bytes from ademtest (127.0.1.2): icmp_seq=1 ttl=64 time=0.069 ms
+64 bytes from ademtest (127.0.1.2): icmp_seq=2 ttl=64 time=0.069 ms
+64 bytes from ademtest (127.0.1.2): icmp_seq=3 ttl=64 time=0.074 ms
+
+--- ademtest ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2053ms
+rtt min/avg/max/mdev = 0.069/0.070/0.074/0.002 ms
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ nslookup ademtest
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Name:	ademtest
+Address: 127.0.1.2
+
+!Eger biz herhangi bir domainname i engellemek istersek, ornegin kullanicilar benim pc den google.com a gidemesin dersek, o zaman biz karsiliginda bizim pc miz e yonlendirecek, localhost un ip sini o domainname e atayarak , bazi websitelerini yasaklayabiliriz
+Ornegin: 
+
+sudo nano /etc/hosts 
+127.0.0.1       localhost
+127.0.1.1       adem-ThinkPad-13-2nd-Gen
+127.0.1.2       ademtest
+127.0.1.1       www.google.com
+
+ping www.google.com dersek bu ne yapiyor once /etc/hosts  a bakar ve burda eger ki aradgigi domain i bulursa burda, ki ip adresine gider  yok bulamazsa o zaman ne yapar gider DNS protokolune sorarak, www.google.com un ip adresini alip , o ip adrsine istek gonderir
+
+! /etc/hosts dosyamiz bir nevi lokal-dns gorevi goruyor isletim sistemimiz DNS  e gitmeden once buraya gelir burda eger aranan host var ise o zaman o hosta karsilik gelen ip adresini kullanir, eger burda o hostu bulamaz ise o zaman DNS SUNCUUSNA GIDIP ORDA ARAR IP ADRESINI
+
+!DHCP 
+DHCP agdaki tum cihzlara ip, subnet, getway ve dns bilgilerini otomatik olaran sunuyor
+Bu sayede biz, client- yani host lara ip ve diger bilgileri tanimlamala ugrasmiyoruz 
+Ama her zaman bu tanimlamalari otomatk yapilmasini istemeyebiliriz ve bazen ip adresleri sabitlemek isteyebiliriz, bazi suncularimizin surekli ip adresinin degismesi bizim isimize gelmeyebilir. DHCP  ip adrslerini otomatik atadigi icin, her seferinde uniq farkli bir ip adresi atayabilir...Biz de 
+!ip r - ip route ile sistemimizdeki route-gateway tanimlammasini gorebiliriz
+
+
+adem@adem:~/utv/NSS-hyttetjenester$ ip r
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+!ip a - ip addr - ip address - ifconfig -  ip r - ip route BIZ IP ADRESIMZI NASIL OGRENIYORUZ
+
+User
+adem@adem:~/utv/NSS-hyttetjenester$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether c8:cb:b8:0c:e7:0c brd ff:ff:ff:ff:ff:ff
+    altname enp0s25
+    inet 172.29.29.92/24 brd 172.29.29.255 scope global dynamic noprefixroute eno1
+       valid_lft 47367sec preferred_lft 47367sec
+    inet6 fe80::cacb:b8ff:fe0c:e70c/64 scope link 
+       valid_lft forever preferred_lft forever
+adem@adem:~/utv/NSS-hyttetjenester$ 
+which one is my pc 's ip address.....and when i run this command also adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+how can I know which one is right when i need to learn my pc 's ip address
+
+adem@adem:~/utv/NSS-hyttetjenester$ ifconfig
+eno1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.29.29.92  netmask 255.255.255.0  broadcast 172.29.29.255
+        inet6 fe80::cacb:b8ff:fe0c:e70c  prefixlen 64  scopeid 0x20<link>
+        ether c8:cb:b8:0c:e7:0c  txqueuelen 1000  (Ethernet)
+        RX packets 17044228  bytes 20539939764 (20.5 GB)
+        RX errors 0  dropped 3287  overruns 0  frame 0
+        TX packets 8282584  bytes 1642579047 (1.6 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 20  memory 0xf7d00000-f7d20000  
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 23363214  bytes 23293075456 (23.2 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 23363214  bytes 23293075456 (23.2 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+ChatGPT
+Based on the output of the ip a and ip route commands you ran on your Linux machine, here's how you can identify your PC's IP address:
+
+IP Address (ip a Command):
+In the output of ip a, the IP address of your machine on the network is listed under the eno1 interface (which is typically an Ethernet connection).
+The line inet 172.29.29.92/24 brd 172.29.29.255 scope global dynamic noprefixroute eno1 shows your IP address:
+IP Address: 172.29.29.92
+This is the address that your machine is using on your local network.
+Loopback Address:
+The lo interface is the loopback interface, with the IP address 127.0.0.1. This is a special address used by the system to communicate with itself and is not used for external communication.
+Default Gateway (ip route Command):
+The output of ip route shows the default gateway and routing information.
+The line default via 172.29.29.1 dev eno1 proto dhcp metric 100 indicates that your default gateway (typically your router's IP address on the local network) is 172.29.29.1.
+This is the address through which your computer accesses the internet and communicates with devices outside your local network.
+Conclusion:
+Your PC's IP address on the network is 172.29.29.92.
+The loopback address (127.0.0.1) is for internal system communication.
+Your network's gateway address is 172.29.29.1.
+When you need to know your PC's IP address for networking purposes, such as setting up an SSH connection from another machine, you'll use 172.29.29.92. This is the address that other devices on your local network will use to communicate with your machine.
+
+!DIKKAT
+172.29.29.1. Bu internet olmadigi zaman, ki lokal aglar arasinda kullanilan ip adresidir... private ip adresi
+172.29.29.92: Bu ise cihazimz internete ciktigi zaman gateway, yani route-modem in ip adresini kullanarak internete public ip adresi ile cikiyordu
+
+!127.0.0.1 - 172.29.29.92 - 172.29.29.1 can you explain me what are theier differences
+
+ChatGPT
+Certainly! Let's break down the differences between these three IP addresses: 127.0.0.1, 172.29.29.92, and 172.29.29.1.
+
+1. 127.0.0.1 - The Loopback Address
+Type: Loopback (localhost) address.
+Purpose: Used for internal testing on the local machine. When you access this address, you're communicating with the local host (your own computer) itself.
+Common Use: Testing network services on your own machine. For example, if you're running a web server on your computer, accessing http://127.0.0.1 will connect to that server. It's a way to specify "this computer" or the local system in network software.
+Accessibility: It is not accessible from outside your computer. This address is only used for communication within your own system.
+2. 172.29.29.92 - Your Computer's Local Network IP
+Type: Private network IP address.
+Purpose: This is the IP address assigned to your computer on your local network (LAN). It's used for communication over your local network.
+Common Use: If other devices on your local network (like other computers, printers, or servers) want to communicate with your computer, they would use this IP address.
+Accessibility: It's only reachable within your local network and is not directly accessible from the internet.
+3. 172.29.29.1 - Your Gateway (Router) IP
+Type: Gateway or router IP address on your local network.
+Purpose: This is the IP address of your network's gateway, typically your router. It's used by devices on your local network to send data to the internet.
+Common Use: When your computer wants to send data to the internet, it sends the data to this IP address. The router then forwards the data to the internet.
+Accessibility: Like your computer's local IP, it's accessible only within your local network and is the local address for your router.
+Summary
+127.0.0.1: Loopback address, referring to the local machine itself. Used for internal communications and testing on the same computer.
+172.29.29.92: Your specific computer’s IP address on the local network. Used for communication with other devices within the same local network.
+172.29.29.1: The gateway/router address in your local network. It's the address through which your computer communicates with the internet.
+These IP addresses represent different layers and types of network communication, from internal and local to broader network interactions.
+
+!ip route- ip r
+adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+default olarak 172.29.29.1 bunu gateway olara kullandigi soy leniyor
+Demekki, bizim kullandigmz ethernet arayuzu, aga baglnti saglayan ag karti, dhcp tarafindan tanimlanan ip adresidir otomatik olarak, 
+
+Ama ip adresimzin, bizim gateway olarak kullandigmiz router-ethernet imizin ip adresinin sabit kalmasini istersek 
+!nmtui ile ara y uzumuzu acariz
+Edit connection - enter 
+Ethernet connection 1 -  enter 
+IPV4 configuration da automatik yerine manuel i seceriz  ve
+IP ADDRESSES:  192.168.1.15/24 
+Gateway : 192.168.1.1(bu default idi ben bunun sabit olmasini istiyorum)
+Bunu yaptiktan sonra bir kez daha ip route komutunu calistirirsak eger artik dhcp  yerine static yazacak
+!ip route- ip r
+adem@adem:~/utv/NSS-hyttetjenester$ ip route
+default via 172.29.29.1 dev eno1 proto static metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+
+!BU COK HASSAS BIR DEGISIKLIKTIR , BURDA EGER DOGRU IP TANIMLAMASI YAPILMAZ, VE IP ADRESLERINDE CAKISMA GIBI VS LER OLURSA O ZAMAN INTERNET BAGLANTISINI DE KOPARABILIRIZ..ONDAN DOLAYI COK HASSAS BIR DEGISIKLIKTIR...NE YAPTIGMIZI BILMEDEN BU AYAR ILE OYNAMAMAK GEREKIYOR
+!EN KOLAYI DHCP NIN OTOMATIK OLARAK TANIMLANMASIDIR... 
+
+!ARP
+Ag  uzerindeki cihazlarin diger cihazlarla iletisim kurmak iicin ihtiyac duydugu ip-mac bilgilerini kendi arp tablolarinda tuttugunu daha once gormustuk
+Arp tablosu sayedinde her bir cihaz iletisim kurabilecegi cihazlarin ip-mac bilgilerini bildigi icin, kolayca iletisim kurabiliyor ve daha sonra kullanmak icin, bu bilgileri kendi arp tablosunda tutabiliyor 
+
+!Biz hostlar ile iletisim kurdukca arp tablosu dolduruluyor olacak 
+adem@adem:~/utv/NSS-hyttetjenester$ arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+172.29.29.228            ether   78:f8:82:d0:f9:ed   C                     eno1
+172.29.29.180            ether   80:ce:62:53:40:63   C                     eno1
+172.29.29.195            ether   f8:94:c2:79:d9:b6   C                     eno1
+172.29.29.94             ether   e4:e7:49:9e:af:bd   C                     eno1
+172.29.29.212            ether   dc:fb:48:77:17:17   C                     eno1
+172.29.29.124            ether   dc:fb:48:77:17:17   C                     eno1
+_gateway                 ether   00:1a:8c:f0:b5:e4   C                     eno1
+169.254.169.254                  (incomplete)                              eno1
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+! Address - ip veya host adresi verir 
+! HWaddress- mac a dresini verir
+
+Bu arp tablosu biz sistemizi kapatip ag baglantisini kapatana kadar tutuluyor, ve tekrar tekrar sorulmak zorunda kalinmiyor
+Normalde bildgimz gbi sadece ip adresi var ise cihazimizda bu arp tablosu o ip adresi uzerinden ip adresine sahip cihazin mac adresini ogrenip onun kaydini tutuyor ve tekrar tekrar ogrenmeye gerek k almiyor
+
+Default gateway modem-router bilgisi neden bulunuyor cunku biz internete ciktik ve internete cikarken default gateway-router iin ip adre sini kullandik..
+Modemimizdeki switch ozelligi, local pc ler kendi arsinda iletisime gercerken router ozelligi kullanilmadan iletisim saglaniyor ve o zaman da defualt-gateway  kullanilmamis oluyor
+Ama biz internetteki bir adres ile yani kendi lokal agimiz disinda bir ip adresi  ile iletisim e gecse idik o zaman biz router imiz-gateway imizin public ip si uzerinden internete cikacaktik, router da internet service saglayicisi tarafindan, ilgili ip adresine pc mizden giden paketin gonderilmesini saglamis oluyor
+
+!Sunu iyi bilelim...router imizin ve lokal cihazlarimizin ip adresleri otomatik olark dhcp tarafindan atandigi icin ip adresinin olmasi gerektigi aralikta surekli degisebilir...ip adresi olmasi gereken aralikta olduktan sonra, bu sorun teskil etmeyecektir herhangi bir cakisma vs yasanmadiktan sonra....
+
+ARP vs Routing: ARP is used for mapping IP addresses to physical network addresses within the local network (LAN). It's not used for routing internet traffic. Your internet connectivity (like pinging www.google.com or 1.1.1.1) involves routing beyond the local network, which doesn't necessarily update your local ARP table with the router's IP.
+ARP Table's Dynamic Nature: The ARP table dynamically changes based on network activity and communication with different devices on the local network.
+In summary, the absence of your router's IP address in the ARP table doesn't indicate a problem, especially if your internet connection is working fine. The ARP table's contents can vary based on recent network activities and interactions between devices on the local network.
+
+Arp tablosu netowrk interface kartina bagli biz su an ethernet kullaniyoruz, ve arp tablosu ona gore tutuluyor, ama wifi kullanirsak o zaman da wifi aracinin network interface e gore tutacaktir arp tablosunu 
+
+!EGer ethernet user interface i kapatmak istersek: sudo ip link set eno1 down
+!Etherneti tekrar acmak icin de:udo ip link set eno1 up
+!Ethernet imizin calistigin konrtol etmek icin de ip a - ip addr- ip address
+
+!ROUTE
+Kullanmakta oldugumz network-userinterface in ornegin ethernet ara yuzunun dis cihzla iletisime gecegi zaman sistemimizde var olan gateway-router bilgisini ogrnemk icin  ip r - ip route ile ogrenebiliriz 
+!ip r - ip route 
+
+adem@adem:~/utv/NSS-hyttetjenester$ ip  route
+default via 172.29.29.1 dev eno1 proto dhcp metric 100 
+169.254.0.0/16 dev eno1 scope link metric 1000 
+172.29.29.0/24 dev eno1 proto kernel scope link src 172.29.29.92 metric 100 
+adem@adem:~/utv/NSS-hyttetjenester$ 
+Lokal ag disinda bir cihaz la iletisime gecedgimz zaman, kullanacagmz varsayilan aggecidi-gateway-router ip   adresidir:172.29.29.1 
+dev eno1- device ethernet eno1 imis 
+!Dogrudan route tablosunu gormek iicin: route(komutu kullanabilirz)
+adem@adem:~/utv/NSS-hyttetjenester$ route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         _gateway        0.0.0.0         UG    100    0        0 eno1
+link-local      0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~/utv/NSS-hyttetjenester$ 
+!Ya da isim-cozumlemesi yapilmadan dogrudan sayisal adresleri gormek isterde -  route -n 
+adem@adem:~/utv/NSS-hyttetjenester$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.29.29.1     0.0.0.0         UG    100    0        0 eno1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~/utv/NSS-hyttetjenester$ 
+
+!172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, ilgili paketimiz default gateway olarak belirtilmis olan bu adresteki ciahaza 172.29.29.1, teslim ediliyor , bu cihaz da rooter aygtigmiz oldugu icin paketin hedefe ulastilrilmasi icin gerekli yonlendirmeleri y aparak internet servis saglayacimza bu paketi teslim ediyor
+2.satirdaki destination ise 172.29.29.0, bizim su an mevcut bagli oldugjmz network un sinrlarini goruyoruz 255.255.255.0 ile....
+Local area network deki pc ler veya cihazlar, birbirleri ile iletisime gecerken rooter a ugramlaarina gerek kalmiyor SWITCH VASITASI ILE DOGRUDAN ILGILI CIHAZA.AKTARILABILIYOR IP-MAC ADRES BILGILERI SAYESINDE....DEMEKTIR GATEWAY DEKI 0.0.0.0   DEGERLER ...
+
+!0.0.0.0 INTERNET GIBI GENIS BIR IP ARALGINI TEMSIL ETMEK ICIN TANIMLANAN IP ADRESIDRI, BU SAYEDE INTERNETTEKI TUM IP ADRESLERINI TEMSIL ETMIS OLUYOR...
+
+!sudo ip route add 10.0.0.0/24 via 192.168.1.2 (Eger 10.0.0.0/24(subnetmask) ip araldinda bir ip adresi hedeflenirse bunu al 192.168.1.2  bu adrese, adresteki ip li cihaza yonlendir demis oluyoruz..)
+
+Bunu ekledigmz zaman route -n yaparsak o zaman tablomuzda 
+Destination   Gatewat       Genmask
+10.0.0.0     192.168.1.2    255.255.255.0
+
+192.168.1.2 boyle birooter cihazimiz yok ama biz varsayarak yapiyoruz... 
+
+!Tekrardan eklenen root adresini silerken de 
+!sudo ip route del 10.0.0.0/24 via 192.168.1.2
+
+!Bu degisiklikler tabi ki kalici olmuyyor, bunun la ilgili kalici degisklikleri icin nmtui den router a gidip ordan destination,...next hop(yonlendirmenin yapilacagi ip) burdak i ayarlari yuaparak, kalici degisiklikler yapabiliriz
+
+!traceroute araci(komutu) 
+Peketlerin agdaki yolculugunu izlemk istersek bu komutu kullaniriz
+
+adem@adem:~$ traceroute 8.8.8.8
+traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ 1  _gateway (172.29.29.1)(ilk olarak buraya geldi router-modem ip numarasi cunku internete cikarken public ip olan router ip sini kullaniyordu)  1.045 ms  1.003 ms  0.988 ms
+ 2  79.160.72.1.static.lyse.net(internet-service saglay icis) (79.160.72.1)  2.164 ms  2.424 ms  2.412 ms
+ 3  79.160.176.161.static.lyse.net (79.160.176.161)  1.693 ms  2.390 ms  2.641 ms
+ 4  * 252.109-247-30.customer.lyse.net (109.247.30.252)  16.074 ms  15.565 ms
+ 5  108.213-167-114.customer.lyse.net (213.167.114.108)  10.634 ms  10.623 ms  10.854 ms
+ 6  72.14.204.150 (72.14.204.150)  17.484 ms  17.630 ms  17.111 ms
+ 7  * * *
+ 8  dns.google (8.8.8.8)  17.205 ms  17.194 ms  16.524 ms
+adem@adem:~$ 
+
+Zaten biz route -n komutu calistirinca, bizim gateway-ip adresimizi gorebiliyoruz 
+
+adem@adem:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.29.29.1     0.0.0.0         UG    100    0        0 eno1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.29.29.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+adem@adem:~$ 
+
+!Burda harici, bir aga, y ani internete cikarken gateway- yani router-modem in ip sinin kullanildigni da burda ispat etmis oluyhoruz bir nevi....
+
+Ama biz direk kendi pc mizin ip adresini verirsek bu kendi lokal agindaki bir ip oldugu icin, bunun icin router-gateway- ip sine basvurmayacak...dogrudan ilgili ip adresine gidecek... 
+
+adem@adem:~$ traceroute 172.29.29.92
+traceroute to 172.29.29.92 (172.29.29.92), 30 hops max, 60 byte packets
+ 1  adem (172.29.29.92)  0.038 ms  0.008 ms  0.007 ms
+adem@adem:~$ 
+
+!traceroute komutu ile router cihazi tam olarak calismaz ise, baglanti kopar ise hata nin nerden kaynaklandigini gormek icin bu araci kullanabiliriz!!!!! En azindan lokal agimizda hata nin nerden kaynaklandigini bulabiliriz...Lokal agdaki router cihazlarin calismasini takip etmek icin
+!PRTLAR HAKKINDA | ss
+ip adreslerine ek olarak, sistemimiz uzerindeki tum araclarin sorunsuz bir sekilde ayni anda veri alisverisinde bulunabilmesi icin portlar kullaniliyor
+Portlar olmasa ayni ip adresi uzerinden birden fazla araci kullanmamiz mumkun olmazdi
+Network yonetimi icin, gerektiginde portlar hakkinda teml seviye bilgi ediniyor olmamiz ve, onlari ihtiyac durumunda kontrol edior olmamiz, cok onemlidir
+
+!ss(sistemimizdeki aktif portlari sorgulamak icin kullaniriz, sistemimiz uzerindeki tum socket bilgileri)
+Burda bahsi gecen socket ler islemler arasi haberlesme icin kullanilan ozel dosyalar aslinda, linux uzerindeki socket yapiisi bu amc icin kullaniliyor
+Ayni cihaz uzerindeki islemler veya ag baglantisi bulunan farkli hostlardaki islemler arasinda, haberlesmed e socket ler kulaniliyor, bu socketler yardimi ile veri iletisimi mumkun oluyor
+!ss komutu asiri uzun bir liste getiriyor bizde gelen listeyi filtreleriz 
+!adem@adem-ThinkPad-13-2nd-Gen:~$ ss | grep "26882"
+u_str ESTAB      0      0                                            * 26882                                           * 27857         
+u_str ESTAB      0      0                  /run/dbus/system_bus_socket 27857                                           * 26882         
+
+!ss -tuln(tciport udport listening number)
+
+adem@adem-ThinkPad-13-2nd-Gen:~$ ss -tuln
+Netid                State                 Recv-Q                Send-Q                                Local Address:Port                                  Peer Address:Port                Process                
+udp                  UNCONN                0                     0                                       224.0.0.251:5353                                       0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                       224.0.0.251:5353                                       0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                           0.0.0.0:5353                                       0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                     127.0.0.53%lo:53                                         0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                           0.0.0.0:631                                        0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                           0.0.0.0:58956                                      0.0.0.0:*                                          
+udp                  UNCONN                0                     0                                              [::]:52727                                         [::]:*                                          
+udp                  UNCONN                0                     0                                              [::]:5353                                          [::]:*                                          
+tcp                  LISTEN                0                     151                                       127.0.0.1:3306                                       0.0.0.0:*                                          
+tcp                  LISTEN                0                     128                                       127.0.0.1:631                                        0.0.0.0:*                                          
+tcp                  LISTEN                0                     4096                                  127.0.0.53%lo:53                                         0.0.0.0:*                                          
+tcp                  LISTEN                0                     70                                        127.0.0.1:33060                                      0.0.0.0:*                                          
+tcp                  LISTEN                0                     244                                       127.0.0.1:5432                                       0.0.0.0:*                                          
+tcp                  LISTEN                0                     511                                               *:80                                               *:*                                          
+tcp                  LISTEN                0                     128                                           [::1]:631                                           [::]:*                                          
+adem@adem-ThinkPad-13-2nd-Gen:~$ 
+
+!ss -tuna(yalnizca listening degil, all diye dinlenen leri degil hepsini getir diyoruz)
+
+!netcat | nc  araci
+Bu arac sayesinde tcp ve udp uzerinden hedefteki sunucu uzerinden veri alisverisinde bulunaarak baglanti testlerimzi gerceklestirebiliyoruz
+
+!TCP ve UDP nedir bir hatirlayalim...
+TCP (Transmission Control Protocol)
+Connection-Oriented: TCP is a connection-oriented protocol, meaning that it establishes a connection between the sender and receiver before data is sent. This involves a handshake process to initiate a session.
+Reliable: TCP ensures the reliable delivery of data. It uses acknowledgments, retransmissions, and sequence numbers to ensure that data is received in order and without errors.
+Flow Control: TCP implements flow control mechanisms to prevent overwhelming the receiver by adjusting the rate of data transmission based on the receiver's ability to process the data.
+Congestion Control: It also incorporates congestion control algorithms to reduce the data transmission rate when the network is congested, minimizing packet loss and ensuring stable network performance.
+Use Cases: Due to its reliability and order guarantee, TCP is commonly used for applications where data integrity is critical, such as web browsing (HTTP/HTTPS), email (SMTP, IMAP, POP3), and file transfers (FTP).
+UDP (User Datagram Protocol)
+Connectionless: UDP is a connectionless protocol, which means it does not establish a connection before sending data. It sends data as independent packets known as datagrams.
+Unreliable: UDP does not guarantee the delivery of packets, their order, or their integrity. There is no acknowledgment mechanism to confirm receipt of data, and packets that fail to reach their destination are not retransmitted.
+Lightweight: It has minimal overhead, making it faster in scenarios where speed is more critical than reliability.
+No Flow or Congestion Control: UDP does not implement flow or congestion control, so it cannot adjust its data transmission rate based on network conditions or receiver capabilities.
+Use Cases: UDP is suitable for applications where speed and efficiency are more critical than reliability, such as streaming media (video and audio streaming), online gaming, and some real-time communication applications (VoIP).
+
+En temel kulanmi hedef ip ve port sayesinde baglanti kurulmasi
+!python3 -m http.server 8080
+8080 portunda calisan bir http sunucus olusturmus oluyoruz 
+
+!Test etmek icin 1 tane python sunucusu baslatalim 
+adem@adem-ThinkPad-13-2nd-Gen:~$ nc 192.168.250.191 8080
+Su anda biz kendi pc mizin sundugu server in 8080 portuna bagli bulunmaktadir...
+
+!ss -tuna ile (hangi port lar ile server imiza baglantilar var bunlari gormek istersek onu goruruz)
+Asagida gordugmz gibi baglanti saglanmis... 
+
+tcp            ESTAB               0               0                                                192.168.250.191:8080                                            192.168.250.191:43760  
+
+!nc -l(listen) -p(port) 9999 -e /bin/bash 
+
+!nc 192.168.1.15 9999(Bir pc den diger pc deki bash-shelle erisip onu kontrol edebiliyoruz..)Bu yaklasim guvenlik testlerinde sizilmis olan sisteme disardan erisilebildigini gostermek icin kullaniliyor...Bu yaklasim baglanti sorunlarinda ki hatayi bulmak icin de kullaniliyor 
+!nc -l -p 9999 -e /bin/bash ile dinleneme moduna gecip sonra dinleme modundaki hedefe nc 192.168.1.15 9999 ile baska pc den baglanmaya calisiiyoruz, eger baglanabilirsek, sorun yokktur, eger baglanamazsak aramizdaki baglanti problemdir... 
+!nc araci ile hedefteki ip adresindeki portlari tarama ve dosya gonderme islemleri de yapmak mumkundur
+
+!iptables firewalld 
+Sistemimize gelen ve sistemimizden cikan tum paketlerin istenilen kosullara gore filtrlenebilmesi icin, iptables veya firewalld araclarini kullanabiliyoruz...
+
+<<<<<<< HEAD
+!LINUX COMMANDS
+!ls -l *.png (uzantisi png olanlari listele)
+=======
+!UBUNTU KOMUTLARI..SIK KULLANILAN VE IVAR IN VE BENIM IHTIYAC HALINDE KULLANDGIMZ KOMUTLAR
+
+adem@adem:~/Android$ htop			
+adem@adem:~/Android$ ps -A			
+    PID TTY          TIME CMD			
+      1 ?        00:00:01 systemd			
+      2 ?        00:00:00 kthreadd			
+      3 ?        00:00:00 rcu_gp			
+      4 ?        00:00:00 rcu_par_gp			
+      5 ?        00:00:00 slub_flushwq			
+
+      adem@adem:~/Android$ ps -A | grep java				
+   6889 pts/2    00:03:06 java				
+adem@adem:~/Android$ sudo kill -9 6889				
+
+
+ls -la ~ | grep '\.AndroidStudio'
+find ~ -name "android-studio.desktop"
+find /usr/share/applications/ -name "android-studio.desktop"
+
+tar -xzvf example.tar.gz -C /home/adem
+
+!sudo ls -R / | grep 'pattern'
+Using ls -R piped into grep is a method to search for filenames that match a certain pattern within a directory structure, but it's not typically used to search inside the contents of files. 
+!sudo find / -type f | xargs grep -H 'search_term'
+To search for a specific word in all files under the root directory using a pipe (|), you can combine the grep command with a command that generates a list of files, like find. The pipe is used to pass the output of one command as input to another command. Here's an example using find to generate a list of files and then grep to search within those files:
+
+  sudo: Runs the command with superuser privileges, which is often necessary when searching through all files under the root directory.
+find /: Starts the search from the root directory /.
+-type f: Specifies that you want to search in files (not directories).
+|: The pipe character passes the output of the find command to the next command.
+xargs: Takes input from the previous command and uses it as arguments for the next command. In this case, it takes the list of files found by find and passes them to grep.
+grep -H 'search_term': Uses grep to search for 'search_term' in the files provided by xargs. The -H option makes grep print the filename for each match.
+
+Android studio yu acmaya calistik acilmadi, o zaman demekki arkada ki process de bir cakisma oluyor dedik ve de, arka process de studio ile ilgili calisan birsey var mi diye kontrol ettik
+!ps aux | grep studio
+
+kill 49820 50258
+# Or, if necessary
+kill -9 49820 50258
+>>>>>>> 30e2af8b8845c5536be3b8e0a6aaec5b477febdb
+
+
+!WINDOWS CMD-COMMAND PROMPT-KOMUT SATIRI
+Windows isletim sistemlerinde bulunur 
+Komutlari otomatik scriptleri veya batch tabanli islemleri cmd komut satirinda komutlar yardimici ile komut satirinda da yapabiliriz
+
+Ozetle windows isletim sisteminde, grafik araa yuzu ile yapabildigimz herseyi cmd-commandpropmt aracilig ile de  yapabiliriz
+Grafical user interfaces-grafik ara yuzleri
+
+cmd yi arama
+
+!cd-change directory
+!cd foldername(grilen foldername e giderz)
+!cd .. bir alt directory ye ilerleriz
+!dir(icinde bulundgum dizinin tum dosyalarini goruruz)
+
+ Directory of C:\Users\ae_netsense.no\utv\test\Linux-works
+
+22.03.2023  12:17    <DIR>          .
+22.03.2023  12:17    <DIR>          ..
+29.01.2024  09:35    <DIR>          linux-intro
+23.10.2023  14:57    <DIR>          test1
+               0 File(s)              0 bytes
+               4 Dir(s)  11 790 544 896 bytes free
+
+C:\Users\ae_netsense.no\utv\test\Linux-works>
+
+!dir e tam yolu vererek de alt klasor ve dosyalari gorebiliriz
+
+ Directory of C:\Users\ae_netsense.no\utv\test\Linux-works
+
+22.03.2023  12:17    <DIR>          .
+22.03.2023  12:17    <DIR>          ..
+29.01.2024  09:35    <DIR>          linux-intro
+23.10.2023  14:57    <DIR>          test1
+               0 File(s)              0 bytes
+               4 Dir(s)  11 739 303 936 bytes free
+
+C:\Users\ae_netsense.no>
+
+!C den baslarken veya herhangi bir disk den baslarken C:\Users\ae_netsense...seklinde yazarz. Birde dikkat etti isek linux un aksine ters-back-slash kullaniyoruz..windows da
+
+<DIR> bu klasor oldugunu gosterir 
+Dosyalar ise direk isimleri ile listelenir dir komutu ile
+.  Var olan dizini bize referanslar
+!C:\Users\ae_netsense.no>cd .
+C:\Users\ae_netsense.no>
+! .. ise bir alt dizini referans eder..
+C:\Users\ae_netsense.no>cd ..
+
+C:\Users>
+
+!cls-ekrani temizleyebiliriz
+
+!help dir diyerek istedigmz komutlar hakkinda bilgi alabilirz
+
+C:\Users\ae_netsense.no\Desktop>help dir
+Displays a list of files and subdirectories in a directory.=>Ne ise  yaradigndan bahseder
+
+DIR [drive:][path][filename] [/A[[:]attributes]] [/B] [/C] [/D] [/L] [/N]
+  [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]=nasil kullanilacagindan bahseder
+
+  Asagida da parmetrelerin ne ise yaradigini gosterir
+   [drive:][path][filename]
+              Specifies drive, directory, and/or files to list.
+
+  /A          Displays files with specified attributes.
+  attributes   D  Directories                R  Read-only files
+               H  Hidden files               A  Files ready for archiving
+               S  System files               I  Not content indexed files
+               L  Reparse Points             O  Offline files
+               -  Prefix meaning not
+  /B          Uses bare format (no heading information or summary).
+  /C          Display the thousand separ
+
+   /L          Uses lowercase.
+
+C:\Users\ae_netsense.no\Desktop>dir /L  tum dosya dizin isimlerini lowercase ile gosterir
+
+!C:\Users\ae_netsense.no\Desktop>dir /AD sadece klasorleri gosterir 
+!C:\Users\ae_netsense.no\Desktop>dir /AH sadece gizli klasorleri gosterir 
+
+!dir /?  yazarak da yine dir ile ilgili nasil kullanilacagi vs gibi help dir ile aldgimz sonucu aliriz
+
+!listelenen dosya ve klasorleri sort etmek icin kullanilir ve dikkat edelim O OPTION VEYA PAREMTRESININ ATTRIBUT LERI VAR
+  /O          List by files in sorted order.
+  sortorder    N  By name (alphabetic)       S  By size (smallest first)
+               E  By extension (alphabetic)  D  By date/time (oldest first)
+               G  Group directories first    -  Prefix to reverse order
+
+ C:\Users\ae_netsense.no\Desktop>dir /ON   ISME GORE SIRALAMA AZDAN COKA DOGRU... A DAN Z YE..     
+ 
+ C:\Users\ae_netsense.no\Desktop>dir /O-N  AZALAN SEKILDE-REVERSE SEKILDE SIRLAAMAK, Z-DAN A YA COKTAN AZA
+
+ !mkdir test ile, test klasoru olusturabilirz ya da arasinda bolsuk olan isimli bir klasor olusturmak istersek  mkdir "my test" seklinde olusturabiliriz
+
+!help mkdir diyerek da daha detayli nasil kullaniriz onlara bakabiliriz
+
+C:\Users>help mkdir
+Creates a directory.
+
+MKDIR [drive:]path
+MD [drive:]path
+
+If Command Extensions are enabled MKDIR changes as follows:
+
+MKDIR creates any intermediate directories in the path, if needed.
+For example, assume \a does not exist then:
+
+    mkdir \a\b\c\d
+
+is the same as:
+
+    mkdir \a
+    chdir \a
+    mkdir b
+    chdir b
+    mkdir c
+    chdir c
+    mkdir d
+  
+ !mkdir \a\b\c\d  => Gordugumz gibi ic ice recursive seklinde klasoru bu sekilde olsutrabiliyor musuz  
+
+!mkdir ile birden fazla klasoru 1 kere de olusturmak istersek
+
+!mkdir folder1 folder2 folder3 - mkdir folder1. folder2. folder3.  nokta koyunca da koymayinca da oluyor
+
+
+!rmdir - rd ile klasor ve dosyalari silme islemi yapabiliriz, ayni islemi yapiyorlar birbirlerinin alyaslaridir
+
+C:\Users\ae_netsense.no\Desktop>rmdir folder1
+
+C:\Users\ae_netsense.no\Desktop>cd folder1
+The system cannot find the path specified.
+
+C:\Users\ae_netsense.no\Desktop>rd folder2
+
+C:\Users\ae_netsense.no\Desktop>cd folder2
+The system cannot find the path specified.
+
+
+C:\Users\ae_netsense.no\Desktop>help rmdir
+Removes (deletes) a directory.
+
+RMDIR [/S] [/Q] [drive:]path
+RD [/S] [/Q] [drive:]path
+
+    /S      Removes all directories and files in the specified directory
+            in addition to the directory itself.  Used to remove a directory
+            tree.
+
+    /Q      Quiet mode, do not ask if ok to remove a directory tree with /S
+
+C:\Users\ae_netsense.no\Desktop>
+
+!Resursive sekilde tum alt klasor ve dosyalari silmek istersek...
+!rmdir /S foldername  ile recursive bir sekidle , klasorun altindaki tum dosya ve klasorler ile silinmesini saglar
+
+!C:\Users\ae_netsense.no\Desktop\test1\test11>echo . > test1.txt  => YENI BOS BIR DOSYA OLUSTURURKEN
+
+C:\Users\ae_netsense.no\Desktop\test1\test11>dir
+ Volume in drive C is Windows
+ Volume Serial Number is FC24-CDDF
+
+ Directory of C:\Users\ae_netsense.no\Desktop\test1\test11
+
+29.01.2024  10:58    <DIR>          .
+29.01.2024  10:58    <DIR>          ..
+29.01.2024  10:58                 4 test1.txt
+               1 File(s)              4 bytes
+               2 Dir(s)  10 406 330 368 bytes free
+
+!C:\Users\ae_netsense.no\Desktop>rmdir /S test1
+test1, Are you sure (Y/N)? y
+
+C:\Users\ae_netsense.no\Desktop>cd test1
+The system cannot find the path specified.
+
+C:\Users\ae_netsense.no\Desktop>
+
+YENI BOS BIR DOSYA OLUSTURMAK ICIN
+!C:\Users\ae_netsense.no\Desktop\test1\test11>echo . > test1.txt  => YENI BOS BIR DOSYA OLUSTURURKEN
+! echo "My text content" > textfile.txt daha once text var ise onu siler, yok ise zaten sifrdan yazar,boyle bir dosya yok ise de dosyayi olusturur
+! echo "is here!!!!" >> textfile.txt  seklinde... var olan text i silmeden ekleyebilir 
+!type nul > filename.txt
+
+
+!copy komutu ile bir dosyayi baska bir konuma kopyalama 
+
+!copy source destination
+
+
+!To copy a single file from one location to another:
+copy C:\path\to\file.txt D:\destination\
+
+!To copy a single file from one location to another with different name:
+C:\Users\ae_netsense.no\Desktop>copy newfile.txt C:\Users\ae_netsense.no\Desktop\newfile1.txt
+        1 file(s) copied.
+
+
+!To copy multiple files into a single destination folder:
+copy C:\path\to\file1.txt C:\path\to\file2.txt D:\destination\
+
+!To copy all text files from one directory to another:
+copy C:\source\*.txt D:\destination\
+
+!To copy a file to another place by changing file name
+copy test1.txt test2.txt
+
+!move komutu ile de bir dosyayi baska bir konuma tasima..
+move source destination
+
+!To move a file from one location to another:
+move C:\path\file.txt D:\destination\
+
+!To move a directory to a new location:
+move C:\source\folder D:\destination\
+
+!To rename a file using the move command:
+move C:\path\oldname.txt C:\path\newname.txt
+!To rename a file using the move command:
+rename test1.txt test2.txt
+!ayni islemi ren komutu ile de  yapariz
+ren test1.txt test2.txt
+
+!Asagidaki sekillerde de direk olarak sadece dosyalarin ismini degistiriyoruz
+C:\Users\ae_netsense.no\Desktop>rename newfile1.txt newfile11.txt
+C:\Users\ae_netsense.no\Desktop>ren newfile.txt newfile2.txt
+
+!Yeni bir dosya olusturmak ve silmek
+C:\Users\ae_netsense.no\Desktop>echo . > test1.txt =>Yeni dosya olustururken
+C:\Users\ae_netsense.no\Desktop>del test1.txt =>Olusturulan dosyayi silerken
+C:\Users\ae_netsense.no\Desktop>erase newfile2.txt
+
+!Iki dosyayi ayni anda silmek
+del text1.txt text2.txt
+
+!Herhangi bir dosyanin notepadde acilmasi
+C:\Users\ae_netsense.no\Desktop>notepad newfile.txt
+C:\Users\ae_netsense.no\Desktop>notepad newfile1.txt
+
+
+!Delete islemi yaparken yani silme
+del test1.txt 
+erase test1.txt
+
+!Ayni anda birden fazla dosya da silebiliriz 
+del test1.txt test2.txt
+
+!!wildcart(*) karatkterini kullanarak silme islemi
+del test1.txt test11.txt test2.txt test22.txt yerine 
+!del test*.txt yaparak kolayca silebiliriz 
+
+!dir *.txt  sadece txt dosyalarini listele demektir
+!adem@adem:~$ ls -l *.tar. aynisini linux de de kullaniriz
+!dir *.jpg sadece jpg uzantili dosyalari goster 
+
+!echo ile yazilan bir mesaji farkli bir dosya icine yazmak 
+!echo "Test test " > test1.txt 
+notepad test1.txt dersek test1.txt nin icerigini gorebiliriz 
+Ama echo "Test test " > test1.txt , bu sekilde test1.txt nin kendi icerigini silip echo ile bizim verdgimzi yazacak
+!test1.txt nin kendi icerginide koruyarak yazdirmak icin ise:
+!echo "Test test " >> test1.txt 
+
+!echo "Test test " > test11.txt
+Gidip test11.txt dosyasi arar eger bulamaz ise kendisi yeni bir dosya olusturarak, test11.txt ismini verir
+
+!Bir dosyanin icerigini gormek icin ise type komutunu kullaniriz 
+!type test1.txt(linux deki cat komutu gibi)
+
+C:\Users\ae_netsense.no\Desktop>type test1.txt 
+"TEST-test"
+"add this text message also"
+
+!Direk olarak txt dosyasinin kendisini acmak icin ise :
+direk olarak test1.txt ya da notepad test1.txt diyerek acabiliriz
+!C:\Users\ae_netsense.no\Desktop>test1.txt(Bu sekilde varsayilan olarak hangi editorle ayarlanmis lar ise o editorde acar)
+!C:\Users\ae_netsense.no\Desktop>notepad test1.txt 
+
+!dir > newfile.txt (newfile.txt icerisine o anda uzerinde bulundugmz directory de bulunan dosya ve klasor isim listesini yazariz) 
+
+!systeminfo komutu ile windows sistemimiz ile ilgili detayli bilgiyi aliriz
+!systeminfo > test1.txt(systeminfo komutu ciktisini yazdirabiliriz)(komut satirina cikti veren komutlarin ciktlarini yazdirabiliyoruz dikkat edelim)
+
+!WINDOWS TA BIR UYGULAMAYI KOMUT SATIRINDAN NASIL AYGA KALDIRIRIZ, NASIL RUN-EXECUTE EDERIZ NASIL CALISTIRIRIZ
+
+!C:\Users\ae_netsense.no\Desktop> dir 
+Visual Studio 2022.Ink  dosyasi ni ornegin acmak istiyoruz..desktop da 
+
+!C:\Users\ae_netsense.no\Desktop> "Visual Studio 2022.Ink " (enter a basarak acariz, arada bosluk oldugu icin tirnak icinde calistiriz)
+Ama bir cok uygulamanin windows ta calistirma dosyasi olan .exe uzantili dosyalar genellikle uygualmarin klasorlerinin bulundugu dosya da kisa yol oalrak bulunurlar
+Masaustundeki bir uygulama ya saga tiklayip properties deyince ordan target a bakarak o uygulamanin klsorlerinn nerde oldugunu goruruz
+Opera nun uzerine gidip saga tiklayinca, adresini goruruz target ta : C:\Users\ae_netsense.no\AppData\Local\Programs\Opera
+cd C:\Users\ae_netsense.no\AppData\Local\Programs\Opera 
+C:\Users\ae_netsense.no\AppData\Local\Programs\Opera dir *.exe 
+opera.exe 
+C:\Users\ae_netsense.no\AppData\Local\Programs\Opera  opera.exe(diyerek opearyi calistiriz, komut satiri uzerinden) 
+
+!PATH KAVRAMI....COOK ONEMLI....
+!PEKI NASIL BIZ ISTEDGIMZ HER DIRECTORY SEVIYESINDE CALISTIRMAK ISTEDGIMIZ UYGULAMALARI CALISTIRACAGIZ 
+ENVIRONMENT-VARIABLE BURDA DEVREYE GIRIYOR 
+!path komutunu yazarsak karsimiza arlarinda ; bulunan(windows da ; , linux da ;)
+Windowsda arama ya env yazarak , ya da Environment yazarsak karsimiza gelir tiklayarak gidince ustteki pencerede path basligina tiklayinca, Edit environment variable diyerek bircok path oldugunu gorebiliriz
+Yani biz windows cmd de path yazinca ekrana Environment variable da, path de bulunan liste aralarinda ; olacak seklde karsimiza cikti olarak gelir 
+!Biz ornegin  C:\Users\ae_netsense.no\Desktop  opera.exe    dedgimz zaman ilk once Desktop altinda opera.exe varmi ona bakar, eger burda bulamaz ise o zaman da Environement variable daki path listesini tek tek kontrol eder..ki aslinda Environemnt variable path demek windows da global olarak , hangi directory den olursa olsun yazildiginda direk calismasi istenilen programlarin path leri burada bulunur ki, boyle durumlarda, ozellile projeler ayaga kaldirilirken veribabani bilgieri gibi onemli konfigurasyon bilgileri enviornment variable a kaydedilip ordan okunurki global tutulusn ve ornegin proje 5 farkli pc de bulunsa bile her pc icin ayri ayri farkli yollarda tutmaya calismak yerine cunku her pc nin username i vs var kendine ozel, environemnt variabla da tutarak biz sadece pc lerde enviornemnt variable path e eklenmesi gereken path i yani dosyasinin yolunu ekkleriz sonra zaten direk olarak projede path deki dosyayi bir fonksiyon aracilgil ile okuyabiliriz...
+
+Ornegin biz opera browser ini pc de command prompt uzerinden istedgimz her yerden,  yani directory olarak nerdde olursak olalim bir komutla operayi acmak istiyorsak operanin .exe dosyasinin buludngu konumu opera ninkisa yolu uzerinde saga tklayip properties deyince gelen pencrede target ten buluruz ve sonrasinda da o opera.exe nin bulundugu yolu kopyalayip environment variable alttaki pencerede pathe tiklayip edit deriz sonra da new diyerek o yolu path olarak eklersek sonra da kaydedip cikariz ve eger acik bir command prompt var ise o command promptun yeni eklkenen pathi tanimasi icin acilip kapatilmasi gerekir ve biz o  sekilde yapip tekrar command promptu acarsak o zaman, artik nerde olursak olalim direk olarak opera veya opera.exe yazdgiimz da artik opeara acilacaktir...COOOOK ONEMLI BIR BILGIDIR BU!!!
+!Cunku biz operayi sistem degiskeni olarak pathe ekledik...
+
+!systeminfo ile calisilan pc hakkinda genel bilgiler elde ederiz
+
+!find ile bir dosya iceriginde arama yapma
+
+C:\Users\ae_netsense.no\Desktop>find "Microsoft" test1.txt		
+		
+--------- TEST1.TXT'		
+09.10.2023  11:58             2 450 Microsoft Teams classic.lnk		
+06.07.2023  11:50             1 282 Microsoft Visual Basic 6.0.lnk		
+03.07.2023  12:58             1 446 Microsoft Visual Studio 2008.lnk		
+29.03.2023  21:23                 0 New Microsoft Word Document.docx		
+		
+C:\Users\ae_netsense.no\Desktop>		
+		
+!help find
+!find /? ile hangi optionslarla birlikte kullanabiliriz bunu gorebiliriz
+
+color /?  vye help color diyerek color ile ilgili neler yapabilirz onu goruruz
+color 07(background black- foreground white default ta budur)
+Bize color cmd terminali icin kullanbilecegimz renkleri color /? diyerek gorebiliriz
+!tasklist ile calisan uygulamalari listesini alma
+!taskkill /PID 25516 diyerek ornegin notepad i kapatabiliyoruz(25516 Yi tasklist deyince gelen listede PID-processid sini aliriz)
+!taskkill /IM notepad.exe
+
+!Cmd komut satirini admin yetkileri ile birlikte acmak icin  arama kutucugunda cmd dedikten sonra cmd ye saga tiklayip run as administrator ile acariz
+
+!PROMPT KOMUTU 
+prompt $D  su anki date i verir
+prompt $T su anki time i verir 
+
+!title newtitle dieyerek cmd nin sol ustteki baslgi degistirebiliriz
+
+!ATTRIB diyerek uzerinde bulundugmuz dizindeki dosya ve klasorleri dosya larin ozellikleri ile goruruz A-ARCHIVE H-HIDDEN R-READONLY
+!ATTRIB -R python.jpg  bu sekilde hem +H dosya hidden hale getirilir hem de uzantisi degistirilmis oluyor
+!ATTRIB -H -R python.jpg hem hidden ozelligi hem de readonly ozelligi kaldirilir 
+!DOSKEY /HISTORY DIEYERK DAHA ONCE YAZLAN KOMUTLARI GOREBILIRIZ
+
+
+!OZEL SISTEM UZMANLIGI IP ADRESLERI VE BILGISYAR AGLARI-NETWERK
+IP adresleri networkun alfabesdir, cook iyi bilinmesi gerekir
+
+!IP ADRESLERI 
+Bilgisayalrin kendi aralarinda iletism kurmak icin bu ip numaralarini kullaniyorlar
+
+!IP ADRESI NEDIR:
+32 bitlik bir sayidir 
+0,1 her bir karakter 1 bittir 
+32 tane 0-1 lerden olusan sayi bir ip adresini verir
+32 lik binary-2 li (0-1) lerden olusan sisteme goredir 
+
+32 bitlik sayi daha kolay okumak icin 4 parcaya ayiriyoruz ve ikilik-binary duzenindeki sayiyi 10 luk duzene ceviriyoruz 
+
+11000000.10101000.00000001.11010110  binary sini(2lik sayi sistemi sadece 0-1 kullanabilir)
+onluk duzene cevirirsek  yani decimal e 
+192.168.1.214 olarak gelecektir ve bu parcalardan her birine 192-168-1-214 ten her birine octet denir
+Octet aslinda ayni 1 byte gibidir ve 8 bite karsilik gelir.
+192.168.1.214 ipv4 adresinin 
+1.octet:192 - 11000000=>2^7=128+2^6=64=>  192
+2.octet 168 - 10101000=>2^7+2^5 + 2^3 =>168
+3.octet 1   - 00000001 => 2^0=>1
+4.octet 214 tur diyebiliriz - 11010110 => 2^7=128+2^6=64 + 2^4=16 + 2^2=4 + 2^1=2=>214
+Ilk oktet:192
+son oktet:214 
+
+!Binary to Decimal(2 lik ten 10 luga cevirme)
+!11000000=>2^7=128+2^6=64=>  192 bu islemin adi binary to decimal dir bunlari tabi ki elle yapmayacagz, ihtiyac durumunda online-converter ler ile yapabiliriz
+
+!KULLANANABILECEGIMZ MAKSIMUM OKTET DEGERI KACTIR? 
+11111111=>255
+!BIR OKTETIN ALABILECEGI ENKUCUK DEGER NEDIR? 
+00000000=>0
+
+!IP ADRESLERINDE  
+! 1.KURAL IP AADRESI OKTET LER MAKS:255(1111111) MIN:0(00000000) OLABILIR
+
+!O ZAMAN BIR IP ADRESI YAZMAK ISTEDIMGZ ZAMAN SINIRLARIMZI BILIYORUZ...BU COOOK ONEMLIDIR, HER BIR OKTET MAKSIMUM 255 OLABILIR DAHA FAZLA OLAMAZ, BUNU COK IYI  BILMELIYIZ, CUNKU BUNA COK IHTIYACIMZ OLACAK
+
+!ASAGIDAKI IP ADRESLERINDEN HANGISI IP ADRESI FORMATINDA DEGIL SIMDI ONLARI GOZLEMLEYELIM!!!
+
+ 22.256.10.78 => bu ip adres formatina uymamaktadir ve bir ip adresi degildir cunku 2.oktet 255 degerinden buyuktur, ip adreslerinin oktetleri maksimum 255 minumum 0 olabilirler
+ 19.65.323.222 bu adres te ip adresi olarak kullanilamaz, cunku 3.oktet 323 255 den buyuktur 
+
+! 2.KURAL: HICBIR IP ADRESININ SON OKTETI 255 ILE BITEMEZ.. 
+ 98.255.10.255 =>bu ip adresi olarak kullanilamaz...bunu da bilelim, cunku son oktet 255 tir..
+
+! 3.KURAL: HICBIR IP ADRESININ SON OKTETI 0 ILE DE BITMEZ 
+ 67.21.233.0 => bu ip adersi olarak kullanilamaz cunku, son oktet 0 dir
+
+!IP ADRESLERI NEYE GORE, HANGI MANTIGA GORE PC LERE VERILIYOR...
+
+!IP ADRES SINIFLARI(Iki pc nin ortak bir netwerk kurabilmesi icin ip uzerindedn ayni adres sinfindan olmalari gerekir)
+
+!EGER IP ADRESININ ILK OKTETI:
+0-127 arasi classA, 128-191- classB, 192-223 arasi classC, 224-239 arasi classD, 240-255 arasi classE  
+RANGE FOR FIRST BYTE(ILK OKTET)
+class A 0-127
+class B 128-191
+class C 192-223 
+class D 224-239
+class E 240-255
+ 
+! D ve E sinifli IP adreslerini gunluk yasamimizda kullanmiyoruz, bu ip adresleri deneysel amaclar icin kullaniliyor , uzay arastirmalari icin ya da multicasting denilen birden fazla noktaya ayni anda iletisim saglamk icin bazi yapilari icin kullaniliyor
+
+!4.KURAL: ILK OKTETI 224 TEN BUYUK IP ADRESLERI GUNLUK YASAMIMIZDA KULLANILMAZ...DOLAYISI ILE DEMEKKI BIZIM KULLANACAGIMZ IP ADRESLERININ ILK OKTETI DE 224 TEN BUYUK OLMAMALIDIR!!!!
+!5.KURAL - BIRBIRI ILE ILETISIME GECECEK IP ADRESLERI AYNI SINIFTA OLMALIDIR, YANI ILK OKTETLERI NE BAKARAK HANGI SINIFTA OLDUKLARINI ANLIYORDUK...
+
+!Bizim kullanabilecegimz A,B ve  C class ip adresleridir ve de iki bilgisayarin iletisime gecebilmesi icin her iki pc nin de ayni class icersindeki ip adreslerine sahip olmalidir
+! Bu arada bilgisayarlarini sayisi farketmez eger ayni sifinta A,B,C siniflarindan ayni sinifta olan 2 bilgisyar veya 100 bilgisayar birbrileri ile iletisime gecebilir, ayni sinif ip lerine sahip 2 bilgisayar ile ayni sinif ip lerine sahip 100 bilgisayrin birbiri ile iletisime gecmesi ayni seydir
+
+!Asagidaki ip adresleri hangi siniflardadir ve hangileri ayni siniftadir ?
+!HATIRLAYALIM NEREYE BAKIYORUZ ILK OKTETINE BAKIYORUZ IP ADRESININ
+123.55.8.21 - 123 - A     98.255.10.155-A 
+192.168.0.200 - C   165.187.54.128-B
+34.35.129.214 -A    244.234.10.78 -D(Gunluk yasamda kullanilmaz)
+
+!NETWORK ID VE HOST ID NEDIR?
+Bir agda 2 bilgisyarin birbirleri ile iletisim kurabilmeleri icin ayni agda olmalari gerekir. Iki bilgisyarin ayni agda olmasi demek, network id lerinin esit olmasi demektir
+Network id sinin ayni olmasi ne demektir?
+Networkumuzde, agimizda A-B-C siniflarindan istedigmz bir sinif ip lerini kullanabiliriz.Ornegin ip adresi olarak, C class ip adresleri ni seciyourz pc ler iicn  yani ilk okteti 192-224 arasi olanlar. 
+!6.KURAL - Eger networkumuzde-agimizda C sinifi(ilk oktet 192-224 arasi) ip adreslerini secmis isek , iki veya daha fazla pc lerini birbiri ile iletisime gecebilmeleri icin bilgisayarlara verilen ip adreslerinin ilk 3 oktetleri esit olmalidir. Iste C sinifi bir ip adresi icin ilk 3 oktete o agin network id si diyoruz, son oktete de host id adresi diyoruz 
+
+Ornegn 
+192.168.1.76 - ilk okteti 192 oldugu icin C sinifi bir ip adresidir
+NETWORKID:192.168.1
+HOSTID:76 
+!DIKKAT EDELIM 192.168.1.76 BOYLE BIR IP ADRESI C SINIF(ILK OKTET 192- (192-224 ARASINDAIDIR)) OOLDUGU ICIN , ILK 3 OKTET SABIT TUTULUR VE NETWORK ID SIDIR ILK 3 OKTET, SON OKTET ISE HOST ID DIR..
+IP ADRESI 192.168.1.76  OLAN PC MIZ 192.168.1 NETWORK ID SINDEDIR VEYA AGIMZDAKI DIGER TUM PC LERDE 192.168.1 NETWORK ID SINE SAHIPTIR VE HOST ID:76 DIR. YANI  IP ADRESI 192.168.1.76 OLAN PC, 192.168.1 NUMARALI NETWORKUNUN 76 NUMARALI BILGISAYARDIR DIYORUZ..  
+
+!7.KURAL: SONUC OLARAK BIR IP ADRESI NIN HER ZAMAN 2 BOLUMU VARDIR, 1.BOLUM NETWORK ID BOLUMUDUR, 2.BOLUM HOST ID BOLUMUDUR VE SINIFLARA GORE DE ASGIDAKI GIBI AYRILMISTIR, ORTAK AGDA-NETWORK DE BULUNAN YANI ILETISIME GECECEK OLAN PC LERIN NETWORK ID LERI AYNI OLMALIDIR
+C SINIFI IP ADRESLERI ICIN 
+IP ADRESININI ILK 3 OKTETI NETWORKID YI SON OKTET I ISE PC NIN HOST ID SIDR  
+!BIR C SINIF IP ADRESLERININ BIRBIRLERI ILE ILETISIME GECEBILMELERI ICIN AYNI NETWORK DE -AGDA OLMALARI GEREKIR, VE BUNUN ICINDE NETWORK ID SININ ESIT OLMASI GEREKIR, BUNUN ICIN DE C SINIFI BIR IP YE SAHIP PC LERIN ILK 3 OKTET LERININ ESIT OLMALARI GEREKIR
+B SINIFI IP ADRESLERI ICIN 
+IP ADRESININ ILK 2 OKTETI NETWORKID YI SON 2 OKTET I ISE PC NIN HOST ID SIDIR 
+A SINIFI IP ADRESLERI ICIN ISE 
+IP ADRESININ ILK OKTETI NETWORKID YI SON 3 OKTETI ISE P NIN HOST ID SIDIR
+
+!C sinif ip leri kullanan birisinin 1.pc nin ip adresi ne olur? ve kac tane pc ye ip adresi dagitabilir?
+!Cevap:1- 1.ip adresi :  192.168.1.1, 192.168.1.2, 192.168.1.3 ..... 192.168.1.254 TOPLAM 254 ADET PC YE IP ADRESI VEREBILIR!!! EGER C SINIFI BIR IP ADRESI OLACAKLAR ISE BIRBRI ILE TEMASA GECECEK OLAN PC LER  
+!O ZAMAN BURDAN SUNU ANLIYORUZ KU C SINIFI IP ADRESLERI KUCUK NETWORKLER ICIN KULLANILIR...
+
+PEKI KULLANICI 254 DEN FAZLA IP ADRESI KULLANMAK ISTIYOR VE C SINIFI IP LER KULLANMAK ISTIYOR O ZAMAN YAPILACAK OLAY SUDUR 
+192.168.1.254 TEN SONRA 192.168.2.1 E ATLAYARAK NETWORK U BIR SONRAKI NETWORKE GECEREK BU SEFER IP ADRESI VERMEYE BASLIYOR DIKKAT EDELIM C SINIF IP ADRESLERI 1 NETWORK DE MAKS 254 IP ADRESI DAGITABILIYOR  
+
+!192.168.1.0 NETWORKU DIYE TANIMLANIR, NETWORKLER C SINIF IP ADRESLERINDE ILK 3 OKTET I ALINIRDI VE NETWORK OLDUGU ICIN 4.OKTET 0 OLARAK VERILIR NETWORK TANIMLANIRKEN 
+192.168.1.0 NETWORKU 192.168.1.1, 192.168.1.2, 192.168.1.3 ..... 192.168.1.254(SON OKTET LERDE 0 VE 255 KULLANILMAZ) 
+192.168.1.1 NETWORKU 192.168.2.1, 192.168.1.2, 192.168.2.3 ..... 192.168.2.254
+
+!B SINIFI IP VERILECEK PC LER ICIN IP ADRESININ ILK 2 OKTETI SABIT TUTMAK GEREKIYOR VE ILK 2 OKTETI NETWORKU TEMSIL EDIYOR...VE PC LERIN BAGLANTI KURABILMELERI ICIN B CLASS INDA OLMALARI GEREKIYOR DU ZATEN ILK ONCE SONRA DA NETWORK-AG LARININ AYNI OLMASI GEREKIYOR DOLAYISI ILE B SNIFI ICIN IP ADRESI VERILECEK BIRBRI ILE ILETISIME GECECEK PC LERIN ILK 2 OKTETI SABIT OLMALIDIR...AMA SON 2 OKTET HOST U YANI IP VERILECEK PC LERI TEMSIL EDIYOR VE SON 2 OKTET 1-254(254 DAHIL) ARASINDA ISTEDGMIZ DEGERI ALABILIR DOLAYISI ILE 254*254 FARKLI IP ADRESI DAGITABILIRIZ
+
+!B SINIIFI IP LERDE ILK 2 OKTET SABIT-VE AYNI OLAN PC LER BIBRILERINI GOREBILIRLER
+NEDEN B SINIF BIR IP KULLANIRIZ CUNKU AYNI AGDA EGER 254 TEN FAZLA PC MIZ OLLACAKSA B YA DA A SINIFI IP KULLANMAK ZORUNDAYIZ CUNKU C SINIFINDA BIR NETWORK DE MAKS 254 PC NINI BIRBINIRI GORMESI SAGLANABILIYOR, AMA B SINIFI PC DE 254*254=64516 TANE IP ADRESI TANIMLANABILIR
+!172.16.99.240 BIR B SINIF IP SIDIR CUNKU 1.OKTETI 172 DIR (128-192 ARASINDADIR), ILK 2 KISMI NETWORK, SON 2 OKTETI HOST-PC LERE VERILECEK IP ICIN
+!172.16.0.0  NETWORKUNDE 172.16.1.1, 172.16.1.2 ..... 172.16.254.254 E KADAR TOPLAM 64500 CIVARI  IP ADRESI VERILEREK BU KADAR PC NIN BIRBIRI ILE ILETISIME GECMESI SAGLANABILIR B CLASS IP LERINDE
+
+!A SINIFI IP LER IN BIRBIRNI GORMESI ICN ISE ILK OKTETLERI AYNI VE SABIT OLMALIDIR. 1.OKTET NETWORK ICIN SON 3 OKTET TE HOST- YANI PC LERE VERILECEKI IP ADRESLERI ICINDIR 
+!10.0.0.0 NETWORK ID SINDE, 10.1.1.1, 10.1.1.2, 10.1.1.3... 10.254.254.254 E KADAR 254*254*254 YANI YAKLASIK 16 MILYON CIVARI FARKLI PC LERI ,FARKLI IP ADRSINI TEK BIR NETWORK DE , BIRBIRI ILE ILETISME GECMESI SAGLANAIBLIR A CLASS IP LER ICIN
+!BILGISYARLAR ILETISIME GECINCE, DOSYA-KLASOR ALISVERISI YAPABILIRLER, BIRBIRLERINIE BAGLANABILIRLER
+!A SINIFI IP LER COK BUYUK YAPILAR ICIN KULLANILIR, TABI KI ISTERSERK KUCUK YAPILAR ICIN DE KULLANABILIRIZ
+
+!A CLASS BIR NETWORKID: 10.0.0.0 seklindedir
+!A class bir ip icin HostId gosterim ise : 10.255.255.255 tir, 255 ile gosterilen oktetlere 1-254 arasi herhangi bir deger girilebilir anlamindadir
+! A sinifi ip lerde kac adet network belirlenebilir: A sinifi ilk okteti 1-127 arasi idi , dolayisi ile 127 farkli network belirlenebilir, ve her bir network icin 254*254*254 ip-pc birbiri ile iletisime gecebilir
+
+!IP ADRESIMIZI BULMA
+ !cmd de ipconfig-WINDOWS TA - ifconfig linux de
+    Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+   172.29.29.94 ip adresimiz
+   1.oktet 172-(128-191) B SINIFI DOLAYISI ILE 172.29.255.255 HOST-PC IP YANI 255 YERINE 1-254 ARASI IP LER DAGITILABILIR DEMEKTIR
+  172.29.0.0 MODEMIMIZ--networku BU ADRESTEN IP VERMIS
+  IP LER IN HANGI ARALIKTA OLDUGUNU BIKIYORUZ AMA NEDEN BANA ORNEGIN  172.29.29.94 BU IP VERILMIS BU DA MODEMIN-NETWORKUN MARKASINA VE YAPISINA GORE DEGISIR
+
+  !internette whatis myip adres yazarsak: 
+  My IP Address is:
+IPv4: ? 79.160.72.2
+IPv6: ? Not detected
+My IP Information:
+ISP: Netsense AS
+City: Skien
+Region: Vestfold og Telemark
+Country: Norway
+
+!neden ipconfig de gelen ip adresi ile internette whatismyip yazinca gelen ip adresleri farklidir?
+
+
+The difference in IP addresses that you're seeing — one from an online "What is my IP" service (79.160.72.2) and another from your computer's ipconfig command (172.29.29.94) — can be explained by how networks and IP addresses work.
+
+Public IP Address (79.160.72.2):
+
+The IP address you see from an online service is your public IP address. This is the address assigned to your internet connection by your Internet Service Provider (ISP).
+This public IP address is what websites and online services see when you connect to them. It's used for communication over the internet.
+If you're behind a router or a modem at home or work, all devices on your local network share this public IP address when accessing the internet.
+Private IP Address (172.29.29.94):
+
+The IP address you see with the ipconfig command in the Command Prompt is your private IP address. This address is used within your local network (LAN).
+Private IP addresses are assigned by your router and are not reachable directly from the internet. They allow multiple devices to connect to your router and share the single public IP address.
+The range 172.29.29.x falls within one of the IP ranges designated for private use (others include 10.x.x.x and 192.168.x.x). These addresses are used internally on networks and are not routable on the internet.
+Why They Are Different:
+NAT (Network Address Translation): Your router uses NAT to manage the connection between your private network and the internet. It translates requests from private IP addresses (like 172.29.29.94) to your public IP address (79.160.72.2) and keeps track of these translations to ensure responses from the internet reach the correct device on your local network.
+Security and Efficiency: This system provides a layer of security, as devices on the internet cannot directly access devices on your private network. It also allows for efficient use of IP addresses, enabling multiple devices to share a single public IP.
+So, the reason you're seeing two different IP addresses is that one represents your device's address within your local network, and the other is the address your ISP assigns to your network for accessing the internet.
+
+
+
+!Public IP Address (79.160.72.2):  whatismyip diye arattirdigimzda gelen ip- DIS IP -WAN(WIDELY AREA NETWORK)
+!Private IP ADRESS (172.29.29.94) BU da lokal baglanti -LAN(LOKAL AREA NETWORK) -IC IP
+EVIMIZDE VEYA SIRKETIMIMZDE OLAN KENDI ARALRINDAKI ETKILESIM ICIN PRIVATE-ICERDEKI IP ADRESI KULLANILIR VE BUNU BIZ BELIRLERIZ, KENDIMIZE GORE AYARLAYABILIRIZ 
+AMA INTERNETE CIKTIMIZDA ISE PUBLIC IP, VE INTERNETTE KULLANDIGIMIZ IP YI BIZ BELIRLEYEMEYIZ, INTERNET SERVIS SAGLAYICIMIZ VERIR YANI MODEMIMIZ VERIR
+
+!BU ARADA BIR EVDE BULUNAN MODEM,PC,MOBILE TELEFON, TABLET, PRINTER, SMARTTV,SMARTCLOCK, ROBOTSTØVSUGER,SMARTBEYAZ ESYA, KLIMA, GUVENLIK KAMERASI,KOMBI, OYUN KONSOLLERI, NINTENDOSWITCH, PLAYSTATION,OKULLARDAKI AKILLI TAHTALAR GIBI CIHAZLARIN HEPSININ BIR IP ADRESI VARDIR VE MOBIL ETELEFON UZERINDEN TAKIP EDILMESI, BASLATILIP DURDURULMASI VE UPDATE EDILMESI AYNI INTERNETE BAGLANABILMELERINDEN DOLAYI YAPILMAKTADIR, DOLAYISI ILE IP ADRESLERI VARDIR HEPSININ VE BU IP ADRESI UZERINDEN YONETILIR
+
+!NAT(NETWORK ADDRESS TRANSLATION)=> PUBLIC IP LER VE PRIVATE IP LER
+255.255.255.255 255*255*255*255 YAKLASIK 4MILYAR KUSUR VE BU DUNYADAKI CIHAZLARA IP DAGITMAK ICIN(PUBLIC.DIS) YETERSIZ KALMIS VE BU PROBLEM NAT ILE COZULMUS
+HER BINA DA VEYA ISYERINDEE BIRCOK PC,TABLET,GIBI INTERNETE BAGLANMASI GEREKEN YANI IP  ADRESI OLMASI GEREKEN CIHAZ BULUNMAKTADIR, VE DUNYADA BU KADAR COK CIHAZA IP VERMEK MUMKUN OLMADIGI ICIN COZUM OLARAK HER MEKANA BIR IP VERELIM DENILMIS YANI BIR MODEM VERILEREK MODEMLERE OZEL IP LER VERILIYOR, VE HER MEKAN ICINDEKI CIHAZLAR INTERNETE CIKARKEN MODEM IP SINI KULLANARAK CIKARKEN YANI PUBLIC IP, KENDI ARLARINDA ISE, BENZERSIZ OLAN PRIVATE IP LER KULLANIRLAR. ISTE PRIVATE IP LERI PUBLIC IP YE 
+
+
+!Private IP ADRESS (172.29.29.94) BU da lokal baglanti -LAN(LOKAL AREA NETWORK) -IC IP
+172-B SINIFI BIR IP DIR(128-192 ARASI) VE B SINIFI IP LERDE ISE 172.29.0.0 DIR NETWORK IP SI, AMA HOST IP LERI ISE 172.29.255.255 YANI 172.29 AYNIDIR SONRASI 1-254 ARASI DEGERLER ALACAKTIR..BU COOK ONEMLI! YANI AYNI LOCAL AREA NETWORKDE BULUNANLAR BU ARALIKLARDA IP ALACAKLARDIR AMA BU SADECE ICERIYE OZEL, ICERDE YANI LOKAL AREA DA GECERLIDIR, INTERNETE GIRERKEN DEGIL TABI KI
+
+!Public IP Address (79.160.72.2):  whatismyip diye arattirdigimzda gelen ip- DIS IP -WAN(WIDELY AREA NETWORK)
+BU IP ISE BIZIM INTERNETE GIRERKEN, YANI DISARYA CIKTIGIMDA KULLANDGIMIZ IP MIZDIR, BU IP YI BIZE INTERNET SERVICE SAGLAYICMIZ OLAN ORNEGIN TELIA-TELENOR BIZE OZEL BAGLIYOR VE EVIMIZDEN INTERNETE BAGLANAN TUM IP ALABILECEK CIHAZLAR MODEM-IN IP SI OLAN PUBLIC IP YI KULLANARAK BAGLANIYOR
+VE BU PUBLIC IP NIN KIMLIK BILGILERINDE BIZIM EV IIN ADRESI HER TURLU BILGISI MEVCUTTUR. YANI BIZ INTERNETTE BIRINE MAIL GONDERDIGIMZDE, BIR TWEET AILDIGINDA, BIR POST GONDERILDIGINDE BUNUN HANGI IP DEN GONDERILDIGI BELLIDIR, VE O IP NIN BAGLI OLDUGU ADRES BIZIM EV ADRESIMIZDIR. BUNDAN DOLAYI INTERNETTE YAPTIGIMZ HERSEY ASLINDA IP ADRESMIZ UZERINDEN HANGI ADRESTEN YAPILMIS BELLIDR . NASIL KI BIR CEVAPSIZ CAGRI YAPINCA TEL NO MUZU BIRAKIYORSAK, HERHANGI BIR SITEYE GIRDIGIMZDE, POST ATTIGIMZDA, M AIL TWIT, GONDERDIGIMZ DE DE IP ADRESIMIZI BIRAKIYORUZ
+PUBLIC(DIS)-PRIVATE(IC) IP LERI SAYESINDE, IP LERIN YETMEME SORUNU COZULMUS OLUYOR NAT-NETWORK ADRESS TRANSLATION SAYESINDE  COK DAHA AZ IP KULLANARAK ISLER HALLOLMUS OLUYOR
+
+!PRIVATE IP LER(ICERDE KULLANILAN IPLER)- PUBLIC IP LER(DISARDA KULLANILAN IP LER)
+EVIMIZDE VEYA ISYERIMIZDE BIR MODEMIMIZ VAR,
+!MODEMIMIZIN BIR DIS KAPISI VARDIR(PUBLIC IPLER):
+ BIZ INTERNETE BAGLANDIGIMZ ZAMAN MODEMIMIZ IN IP ADRESI ILE DISARI CIKARIZ, AYNI EVDE VEYA ISYERINDEKI TUM CIHAZLAR MODEM IN IP SI ILE INTERNETE BAGLANIRLAR VE BU BIZIM GERCEK IP MIZDIR BUNU DA INTERNETE WHAT IS MY IP ADRESS DERSEK ORDAN GOREBILIRIZ
+BU MODEM IN IP SI. BIZ EVE INTERNET BAGLATTIGMIZDA BIZE TELIA-TELENOR TARAFINDAN VERILMIS MODEM E VERILMIS IP ADRESIDIR
+!MODEMIMIZIN BIR DE IC KAPISI VARDIR(PRIVATE IP LER):
+ICERDE DIYELIM KI IP LERIMIZI BILGISYARLARMIZA KENDIMIZ ATADIK DIYELIM KI, VE ICERDEKI CIHAZLARIN IP LERINI KENDIMIZ VERDIK DIYELIM VE LAN-LOCAL NETWORK AREA DA BIRBIRLERI ILE GORUSEBILIYORLAR PEKI BU ICERDEKI CIHAZLAR DISARI NASIL CIKACAKLAR, YANI EVIN DISINA DIYELIM YANI INTERNETE NASIL BAGLANACAK....BUNUN ICIN MEVCUT KULLANILAN LOCAL-PRIVATE-IP(ICERIYE BAKAN) LERINDEN CIKMAMIZ GEREKIR, BUNU DA MODEM IN O CIHAZLARA CIKIS KAPISI OLARAK , YANI PUBLIC-DISARIYA YANI INTERNETE BAGLANMK ICIN GOSTERMEMIZ GEREKIR
+!PEKI DISARI INTERNETE GIRMEK ISTEYEN BIRISI, MODEM DEN ICERI-PRIVATE IP YI ALMADAN INTERNETE GIREBILIR MI???????BU COKK ONEMLI
+ORNEGIN BIR ISYERINDEKI BILGISYARLARDAN INTERNETE BAGLNMAK ISTEYENLERE ILK ONCE SIRKETIN SAHIP OLDUGU MODEM IN ICERIYE BAKAN-PRIVATE IP ADRESINI VERMEK ZORUNDAYIZ, MODEM TARAFINDAN VERILMIS OLAN IP ADRESINE SAHIP OLMAYAN HIC BIR BILGISAYAR SIRKET DISINDA, DISARIYA INTERNETE CIKAMAYACAKTIR
+INTERNETE BAGLNMAK ISTEYEN TUM CIHAZLARA BINANIN MODEM ININ ICE BAKAN BACAGINI-YANI ICERDE(PRIVATE) KULLANACAGI IP SINI GOSTERMEK ZORUNDAYIZ
+MODEM IN ICE BAKAN IP SI HER NE ISE BILGISAYARLARA GIDIP DEFAULT GATEWAY DENILEN BOLUME MODEM IN IP SINI GIRMEMIZ GEREKIYOR
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+!YANI BIZ INTERNETE BAGLANACAGIMZDE ONCELIK LE MODEM IN ICERIYE BAKAN YANI PRIVATE OLARAK IP YI ALMAMIZ GEREKIYOR BUNUN ICINDE PC MIZIN DEFAULT GATEWAY KISMINDA MODEM IMIZIN IP ADRESI YAZMASI GEREKIYOR 
+
+!MODEMLERIN ICERDE BULUNAN CIHAZLARA IP DAGITMASI
+
+!BILGISAYARLARA PRIVATE IP ADRESLERINI MODEM IMIZ AKTIF OLDUGU ANDA ORTAMDA BULUNAN HER BIR CIHAZA OTOTMATIK OLARAK IP ADRESI VERECEKTIR VE BU IP LER ICERDE KULLANILACAK OLAN IP LERDEN OLACAKTIR, AYRICA MODEM KENDISINI DE BILGISAYARLARA CIKIS KAPISI OLARAK DA BILGILENDIRECEK. MODEMLER BUNU OTOMATIK OLARAK YAPIYOR BU YUZDEN EVE GELINCE TELEFONLARIMZ HEMEN INTERNETE BAGLANIYOR, BILGISYAR ACILIR ACILMAZ INTERNETE BAGLANIYOR
+MODEMLER ICERIDE BULUNAN CIHAZLARA ICERDE KULLANILMAK UZERE REZERVE EDILMIS IP LERI VERIYOR, VE IP VERDIGI CIHAZLARA DA DISARI CIKMAK ISTERSEN BENI KULLAN DIYOR
+!MODEM ICERIYE IP YI NASIL DAGITIYOR 
+CIHAZLAR ACILDIGI ANDA ORTAMA SESLENIR BENIM IP ADRESIM YOK BANA IP ADRESI VERECEK MODEM-ROUTER YOK MU DIYE, WIFI ETHERNET KARTI OLDUGU ICIN PC LERDE VE CIHAZLARDA BUNLAR KABLOSUZ OLARAK ORTAM DA CIHAZLAR ARASI KONUSULMASINI SAGLAR
+EVDE MODE MIMIZ VAR ISE BU KABLOSUZ OLARAK YAPILAN KONUSMAYI DUYAR VE IP ATANMAMIS CIHAZLARA HEMEN IP LOCAK-PRIVATE IP LERI ATAMA YAPAR VE ONLARA INTERNETE BAGLANACKLARI ZAMAN PUBLIC- 
+!MODEM IN SAHIP OLDUGU DHCP SERVISI SAYESINDE PRIVATE-PUBLIC IP ATAMASI SAGLANMIS OLUR
+YANI DISARI CIKACAKLARI ZAMAN DA ONA DIS IP VEREBILECEGINI HABER VERMIS OLUR YANI MODEM ORTAMDA BULUNAN CIHAZLARIN IHTIYAC I OLAN PRIVATE-PUBLIC IP VS NE VARSA VERIR, ISTE MODEM IN ORTAMDAKI CIHAZLARIN IHTIAYCI OLAN PRIVATE-PUBLIC IP ADRESLERINI VERDIGI SERVISIN ADI DHCP SERVISIDIR VE HER MODEM IN ICERISINDE BULUNUR, KENDI IP KONFIGURASYONUNU YAPAMAYANLAR ICIN HAZIR KONFIGURASYONLARI CIHAZLARA VERIRLER
+
+TUM PC LER, CIHAZLAR OTOMATIK OLARAK IP AL AYARINDADIR BUNDAN DOLAYI DA KENDILERI GIRDIKLER I ORTAMDAKI MODEM E HEMEN SESLENIRLER BENIM IP ADRSIM YOK BANA IP ADRESI VER DIYE
+
+!DEFAULT GATEWAY NEDIR?
+! ISP(INTERNET SERVICE PROVIDER(TELIA-TELENOR))=>MODEM(2 TANE IP ADRESI VAR 1-ICE BAKAN YANI PRIVATE(192.168.0.1), 2-DISA BAKAN PUBLIC(82.10.250.19))
+MODEMIMIZ BU SEKILDE VE EVIMZDEKI CIHAZLARIN HER BIRISINE MODEM ILK OLARAK LOCAL-AREAL-NETWORK PRIVATE IP ADRESI DAGITIR  
+ MODEMIN PRIVATE IP SI:192.168.0.1 BU OLDUGU ICIN BURDA 192.168.0.255 YANI 192.168.0.(1-254) ARASI IPLERI DAGITIR   
+!C CLASS BIR IP ADRESIDIR VE HATIRLAYALIM C CLASS IP LERDE CIHAZLARIN, IP LERININ BIRBIRINI GORMESI ICIN GEREKLI OLAN ILK SART ILK OKTETININ ESIT OLMASI IDI...
+
+PC-1 - 192.168.0.101
+PC-2 - 192.168.0.104
+PRINTER - 192.168.0.11
+NINTENDO - 192.168.0.10
+MOBILE-1 - 192.168.0.100
+MOBILE-2 - 192.168.0.102
+TABLET-1 - 192.168.0.109
+
+VE VERDIGI IP ADRESLERININ YANINDA DA DERKI BENIM IP ADRESIM DE 192.168.0.1 BU IP ADRESINI KULLLANARAK DA DISARI CIKABILIRSINIZ DER, VE MODEM BURDA NAT ISLEMIN  YAPAR YANI NETWORK ADRES TRANSLATION YAPAR, YANI ICERDE KULLANILAN IP ADRESINI ALIYOR DISARDA KULLANILACAK IP ADRESINE CEVIRIYOR, YANI MODEM DEN PRIVATE IP YI ALAN CIHAZLAR INTERNETE BAGLANACAKLARI ZAMAN MODEM IN LOKALDEKI IP SINI BULUYORLAR 192.168.0.1, SONRA MODEM BU IP ADRESINI ALIYOR NETWORK ADRESS TRANSLATIO ILE BUNU 82.10.250.19 A YAN I PUBLIC IP ADRESLERINE CEVIREREK INTERNETE CIKACAK OLAN CIHAZLARIN HEPSINE PUBLIC IP ADRESI VEREREK INTERNETE BAGLANABILMELERINI SAGLIYOR
+ISTE MODEM IN LOKAL IP ADRESINI DAGITIRKEN KI IP ADRESI OLAN : 192.168.0.1 TUM CIHAZLARIN INTERNETE CIKABILMELERI ICIN HEDEF KAPILARIDIR..YANI DEFAULT GATEAWAY
+CIHAZIN KENDI NETWORKUNDEN BASKA BIR NETWORKE CIKMAK ICIN KULLANDIGI KAPIYA DEFAULT GATEWAY DIYORUZ. YANI PC NIN LOKAL NETWORKDEN(LOKAL-AREA-NETWORK) , INTERNETE(WIDELY AREAL NETWORKE) CIKMAK ICIN KULLANDIGI KAPIYA DEFAULT GATEWAY-VARSAYILAN AG GECIDI-CIKIS KAPISI DENIYOR  
+
+!INTERNETE BAGLANABILMEK ICIN!!!!
+!DEFAULT GATEWAY MODEM IMIZIN LOKA IP ADRESIDIR VE ORTAMDA BULUNAN CIHAZLAR MODEM I TANIMALARI ICN DEFAULT GATEWAY OLARAK MODEM IN LOKAL IP SI YANI DEFULT GATEWAY I GIRMEK ZORUNDAYIZ...BU COOOK ONEMLIDIR
+MODEMIN DEFAULT GATEWAY IP ADRESI KENDISINDE BULUNAN TUM CIHAZLARI MODEM INTERNETE CIKARACAKTIR
+
+!MODEM IN ARKASINDA PORT LAR VARDIR KABLOLU BIR SEKILDE , DE KABLOSUZ BIR SEKILDE DE INTERNETE BAGLANABILMEYI SAGLAMAKTADIR
+
+!ICERDE KULLANILAN MODEM IP ARALIKLARI - DEFAULT GATEWAY .. YANI MODEM IN LOKAL IP SI 
+CLASS              PRIVATE ADDRESS RANGES 
+Class A            10.0.0.0 - 10.255.255.255(her zaman 10 la baslar ve son 3 oktet pc lere verilecek olan ip adresleri icindir)
+Class B            172.16.0.0 - 172.31.255.255(172.16.0.0- 172.17.0.0-172.18.0.0...son iki oktet host-pc ler icindir)  
+Class C            192.168.0.0(192.168.1.0- 192.168.2.0..bu sekilde network icin ip adresleri verilir 254 adet, son oktet bilgisayarlara verilen oktetir ) - 192.168.255.255(ilk 3 oktetin esit olmasi gerekiyordu ve son oktet te bilgisyarlara verilen oktetti)  
+!ISTE BU ICERISI ICIN PRIVATE ICIN REZERVE EDILMIS IP LER DISINDAKI TUM IP LER INTERNETTE KULLANILAN Y ANI PUBLIC-DISARSI ICIN KULLANILAN IP LERDIR
+
+!Bilgisyarlara verilecek bolumler 255 ile ifade ediliyor, networker ip adresi ise 0 ile  yazilir ki, bu 0 olan yerde once ip adresinin class ina bakilir ve o class a gore once kac oktetin sabit olmasi gerektigi belli edilir ve host-pc lere verilecek kisimlar alanlar disindaki 0 ise network icindir..
+
+!Loopback adresi: Fiziksel olarak hat guzergahini kontrol etmek icin kullanilir bu cok fazla kullanilmayacak
+
+!SANAL BILGISARLAR NASIL KURULUR VE AYARLARI
+BURDA PC MIZE VIRTUALBOX KURULUR, WINDOWS ISO DOSYASI INDIRLIR VE 2 TANE SANAL MAKINE KURULUMU YAPILDIKTAN SONRA, HER IKI SANAL MAKINEYE DE WINDOWS ISLETIM SISTEMI YUKLENIR
+
+
+!IKI BILGISAYARIN BIRBIRINE BAGLANMASI VE MANUEL OALRAK IP ATAMA YAPILMASI
+Dikkat edelim benim pc min ip adresine bakacak olursak 
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94-
+   !(Class B  172.16.0.0 - 172.31.255.255(172.16.0.0- 172.17.0.0-172.18.0.0...son iki oktet host-pc ler icindir)) yani network 172.16.0.0,172.17.0.0, 172.18.0.0 .... 172.31.0.0 e kadar olabilir!!!! Iste bizim ip adresimz de dikkat edersek B class bir ip den secilmistir... 
+
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+   !Biz iki pc yi birbiri ile gorusturmek istiyoruz, yani birbirleri ile dosya alisverisinde bulunabilmelerini, ya da birbirlerine uzak masaustu baglanti yapabilmelerini istiyoruz 
+   ! Iki bilgisayarin birbiri ile gorusebilmeleri icin ilk olarak bizim bu bilgisayarlara birbirleri ile gorusmeye uygun olacak IP atamalari yapmamiz gerekiyor
+   Simdi biz burda cok fazla pc ile calismayacagimz icin C sinifi bir ip atamasi  yapmak istiyoruz... O zaman C sinifi ip ler icin rezerve edilmis ip bilgiler i ne idi hemen onu hatirlayalim
+
+   !BU TABLO COOK ONEMLI IP ATAMALARINDA, BU TABLOYA GORE IP ATAYABILIRIZ..BU IP LER ICERI-PRIAVATE ATAMALAR ICIN AYRILMISTIR
+
+   CLASS              PRIVATE ADDRESS RANGES 
+Class A            10.0.0.0 - 10.255.255.255(her zaman 10 la baslar ve son 3 oktet pc lere verilecek olan ip adresleri icindir)
+Class B            172.16.0.0 - 172.31.255.255(172.16.0.0- 172.17.0.0-172.18.0.0...son iki oktet host-pc ler icindir)  
+Class C            192.168.0.0(192.168.1.0- 192.168.2.0..bu sekilde network icin ip adresleri verilir 254 adet, son oktet bilgisayarlara verilen oktetir ) - 192.168.255.255(ilk 3 oktetin esit olmasi gerekiyordu ve son oktet te bilgisyarlara verilen oktetti)  
+!ISTE BU ICERISI ICIN PRIVATE ICIN REZERVE EDILMIS IP LER DISINDAKI TUM IP LER INTERNETTE KULLANILAN Y ANI PUBLIC-DISARSI ICIN KULLANILAN IP LERDIR
+
+!Class C            192.168.0.0(192.168.1.0- 192.168.2.0..bu sekilde network icin ip adresleri verilir 254 adet, son oktet bilgisayarlara verilen oktetir ) - 192.168.255.255(ilk 3 oktetin esit olmasi gerekiyordu ve son oktet te bilgisyarlara verilen oktetti)  
+
+!C sinifi ip adreslernde ip lerin-pc lerin birbrini gorebilmeleri icin ilk 3 oktet in ayni olmasi gerekiyordu...cunku ilk 3 oktet netwerki temsil ediyordu
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+!ICERDE-PRIVATE KULLANILACAK-LAN(LOKAL AREAL NETWORK) ICIN KULLANILMASI ICIN ASAGIDAKI IP LER REZERVER EDILMISTIR, BU REZERVE EDILMIS IP LER DISINDA GERIYE KALAN TUM IP LER PUBLIC-DISARYA CIKARKEN  YANI INTERNETE BAGLANIRKEN(WIDELY AREAL NETWORK) KULLANILACAK OLAN IP ADRESLERI ICINDIR
+!Class C ise kesinlikle bu araliklar takip edilmelidir 192.168.0.0 netwerk icin ve netwerk 192.168.1.0, 192.168.2.0...ve ip icin ise  192 .168.1.1, 192.168.1.2, 192.168.1.3 ...192.168.1.254(her bir netwerkte 254 adet)    
+
+!Class B ise kesinlikle bu araliklar takip edilmelidir 172.16.0.0 - 172.31.255.255 netwerk icin ve netwerk 172.16.0.0, 172.17.0.0... 172.32.0.0 ve ip icin ise  172.32.1.0, 172.32.2.0,......172.32.254.254(her bir netwerk icin yaklasik 64.000)
+
+!Class A ise kesinlikle bu araliklar takip edilmelidir 10.0.0.0 - 10.255.255.255  netwerk icin ve netwerk her zaman 10.0.0.0 ve ip icin ise  10.1.0.0, 10.1.0.0,......10.254.254.254..olmak uzere(16 milyon...farkli ip kullanilabilir)
+
+!BU SEKILDE PRIVATE-ICERISI ICIN REZERVE
+
+!ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+!SORU CEVAP-BILGISAYAR ILK ISLETIM SISTEMI YUKLENDIGINDE HERHANGI BIR MODEM E BAGLANMADI ISE IP ADRESI NEYE GORE ATANIR..? 
+PEKI BEN 2 TANE SANAL BILGISAYAR OLUSTRDUM WINDOWS  ISLETIM SISTEMI YUKLEDIM VE HENUZ HERHANGI BIR INTERNET BAGLANTISI YOK BU 2 SANAL BILGISAYAR ACTIM VE CMD YI ACARAK IPCONFIG YAZDIGIMDA PC-1 Autoconfiguration IPv4 169.254.134.20  gelirken diger pc-2 de ise Autoconfiguration IPv4 169.254.88.28  degerlerini goruyorum..peki bizim bu bilgisayar nasil olmus da 192.168....ile baslayan bir deger almamis ve neden boyle bir deger almis..eger rezerver olan degerlerimz benim yazdigim degerler gibi ise o zaman neden bu iki pc bu private-icerisi icin rezerve edilmis ip adreslerine uymamis 
+
+
+IP adresleri 169.254.x.x aralığındaysa, bu, sanal bilgisayarların bir DHCP sunucusundan otomatik olarak geçerli bir IP adresi alamadığını gösterir. Bu tür IP adresleri, "APIPA" (Automatic Private IP Addressing) veya "Link-Local" adresleri olarak bilinir. APIPA, bir ağ cihazı DHCP sunucusundan IP adresi alamadığında ağ cihazının kendisine otomatik olarak atadığı bir IP adresidir.
+
+Neden APIPA Adresleri Kullanılır?
+DHCP Sunucusuna Erişim Yok: Eğer ağ üzerinde bir DHCP sunucusu yoksa veya sanal bilgisayar DHCP sunucusuyla iletişim kuramıyorsa, APIPA mekanizması devreye girer ve otomatik olarak bir 169.254.x.x aralığından bir IP adresi atar.
+
+Ağ Yapılandırması Sorunları: Ağ yapılandırmasında bir sorun varsa (örneğin, yanlış subnet maskesi veya ağ geçidi ayarları), sanal bilgisayarlar DHCP sunucusundan IP adresi alamayabilir ve APIPA adresleri kullanabilir.
+
+Geçici Ağ Sorunları: Ağdaki geçici sorunlar veya ağ bağlantısındaki kesintiler de DHCP adreslemenin başarısız olmasına ve APIPA adreslerinin atanmasına neden olabilir.
+
+APIPA Adreslerinin Özellikleri:
+Otomatik Atama: Cihazlar, 169.254.0.1 ile 169.254.255.254 arasında rastgele bir adres seçer (ilk ve son 256 adet adres hariçtir).
+Yerel Bağlantı: Bu adresler sadece yerel ağ içinde iletişim kurmak için kullanılabilir ve ağın dışına çıkamaz.
+Geçici Çözüm: APIPA adresleri geçici bir çözümdür. DHCP sunucusu tekrar erişilebilir hale geldiğinde, cihazlar normalde DHCP'den geçerli bir adres alır.
+Çözüm Yolları:
+DHCP Sunucusunu Kontrol Edin: Sanal ağınızda bir DHCP sunucusu olup olmadığını ve düzgün çalışıp çalışmadığını kontrol edin.
+Ağ Ayarlarını Gözden Geçirin: Sanal ağ adaptörlerinin doğru yapılandırıldığından ve sanal bilgisayarların DHCP sunucusuna ulaşabileceği bir ağda olduklarından emin olun.
+Ağ Bağlantısını Kontrol Edin: Sanal bilgisayarların ağ bağlantısının düzgün kurulduğundan ve ağ geçidi, subnet maskesi gibi diğer ağ ayarlarının doğru yapılandırıldığından emin olun.
+Manuel IP Ataması: APIPA adresleriyle ilgili sorunlar devam ederse ve DHCP sunucusuyla ilgili sorunları çözemezseniz, sanal bilgisayarlara manuel olarak bir IP adresi atayabilirsiniz. Bu durumda, 192.168.x.x, 10.x.x.x, veya 172.16.x.x - 172.31.x.x gibi özel IP aralıklarını kullanabilirsiniz.
+
+!ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+IP ADRESLERINI ETHTERNET KARTLARINA GIRIYORUZ
+
+BILGISAYAR IN AG AYARLARINA GIDERLIM-NETWORK AYARLARI INSTILLINGER FOR NETWORK OG INTERNET-ETHERNET-ENDRE KONTROLL ALTERNATIVER- GELEEN PC ICONLU ETHERNET E CIFT TIKLA-EGENSKAPER E TIKLA-INTERNET PROTOCOL VERSION 4 E TIKLA-- VE ARTIK KARSIMIZA GELEN PENCERE DE MANUEL OLARK  IP-ADRESSE:  NETWERKSMASKE(SUBNETMASK) -STANDART GATEWAY(DEFAULT GATEWAY)  AMA BU DEGERLERI MANUEL OLARAK KENDIMZ GIREBILMEK ICIN BRUK FØLGENDE IP-ADDRESSA CHECKBOX INA TIKLARIZ
+
+!ORTAM DA EGER DHCP SERVISI YOK ISE YANI MODEM YOK ISE(YA KAPALI YA DA HIC YOK) O ZAMAN, ORTAMA CIKAN PC LER BENIM IP ADRESIM YOK BANA IP ADRESI VEREEK BIRISI LAZIM DIYE ORTAMA MESAJ GONDERIYOR, ORTAMDAN MESAJINA KARSILIK ALAMAZSA YANI BU CEVABI VERECEK MODEM(DHCP SERVISI) O ZAMAN DA PC KENDI KENDINE OTOMATIK IP ATAMASI YAPIYOR
+
+ADEM PC SI NIN ATADIGI OTOMATIK IP ADRES:
+ Autoconfiguration IPv4 169.254.134.20 
+ZEYNEP PC SI NIN ATADIGI OTOMATIK IP ADRES:
+ Autoconfiguration IPv4 169.254.88.28 
+
+ !EGER IP ADRESI 169 ILE BASLIYORSA BU IP APIPA(AUTOMATIC PRIVATE IP ADDRESING) TARAFINDAN PC KENDI KENDINE ATAMISTIR, CUNKU ORTAMDA DHCP SERVISI YANI MODEM BULAMAMISTIR
+ !BU APIPA IP SI KULLANILMIYOR SADECE BIR GOSTERGEDEN IBARETTIR
+!INTERNETE BAGLANMA SORUNLARINDAN BIR TANESI DE BUDUR, BAZEN PC LER OTOMATIK YAPILANDIRMA DA OLABILIR VE MODEM I GORMUYOR OLABILIR, O ZAAMAN MODEM KONTROL EDILMELI VE MODEM IN CALISTIGINDAN EMIN OLUNMALI
+
+!ASAGIDAKI IKI CIHAZIMIZA ONCE MANUEL IP ADRESLERI ATAMASI YAPALIM
+
+IP-ADRESS KISMINA -
+Adem pc- 192.168.1.100
+Zeynep pc- 192.168.1.101
+
+BU ADRESLERI GIRIP DE OKE BASARSAK HEMEN UYARI VERECEKTIR ALT-AGMASKESI EKSIK DIYE-YA DA SUBNETMASK(NETVERKSMASKE EKSIK DIYE) 
+!BIR BILGISAYARA IP ADRESI VERIRKEN SUBNETMASK DA VERMEK ZORUNDAYIZ 
+
+!SUBNETMASK NEDIR VE NEDEN GEREKLIDIR ? 
+BIR BILGISAYAR KENDISINE VERILEN IP NIN NETWORK ID SINI BERLILEMEK ICIN SUBNETMASK A IHTIYAC DUYAR-NETWORK ID SINI HATIRLAYALIM C SINIFI IP LERDE NETWORK U ILK OKTET NETWORK ID SINI BELIRLIYORDU
+
+!IP ADRESINI VERDIKTEN SONRA BILGISAYAR OTOMATIKMEN BIR SUBNETMASK OLUSTRURUR
+
+Adem pc- 192.168.1.100
+SUBNETMASK: 255.255.255.0
+Zeynep pc- 192.168.1.101
+SUBNETMASK: 255.255.255.0
+
+!VE BILGISIAYAR O SUBNETMASK A BAKARAK, IP ADRESININ HANGI NETWORK ID DE OLDUGUNU ANLAR
+
+EGER BIZ B SINIF BIR IP ADRESI VERSE IDIK PC LERE 
+Adem pc- 172.16.1.100
+SUBNETMASK: 255.255.0.0
+Zeynep pc- 172.16.1.101
+SUBNETMASK: 255.255.0.0
+
+EGER BIZ A SINIF BIR IP ADRESI VERSE IDIK PC LERE 
+Adem pc- 10.100.100.100
+SUBNETMASK: 255.0.0.0
+Zeynep pc- 10.100.100.101
+SUBNETMASK: 255.0.0.0
+
+C sinifi icin 
+Adem pc- 192.168.1.100
+SUBNETMASK: 255.255.255.0
+Zeynep pc- 192.168.1.101
+SUBNETMASK: 255.255.255.0
+
+!SEKLINDE SUBNMET MASK ATAMASINI A-B-C CLASS IP LERINE GORE BU SEKILDE ATAYACAKTIR BIZ IP ADRESINI GIRP DE TAB TUSUNA BASITIGMZDA 
+
+DEMEKKI:
+
+C SINI IPLERDE STANDART SUBNETMASK: 255.255.255.0
+B SINI IPLERDE STANDART SUBNETMASK: 255.255.0.0
+A SINI IPLERDE STANDART SUBNETMASK: 255.0.0.0
+
+
+C sinifi icin 
+Adem pc- 192.168.1.100
+SUBNETMASK: 255.255.255.0
+Zeynep pc- 192.168.1.101
+SUBNETMASK: 255.255.255.0
+
+!Adem pc-IPADRESS- 192.168.1.100 - ILK 3 OKTET I IP ADRESININ NETWORK ADRESI DEMEKTIR...HATIRLAYALIM..192.168.1.0 - HOSTLAR ICIN ISE HATIRLAYALIM  4.OKTET YANI SON OKTET1-254 ARASI OLMALIDIR, SOK OKTET 0 VE 255 OLMAZDI
+
+!BIR IP ADRESININ SUBNETMASK UZERINDEN NETWORK ADRESI NASIL BELIRLENIYOR
+
+IP(decimal-10luk duzen)-192.168.1.100 ONLUK DUZENDEKI HALI-her bir bolume oktet diyoruz
+BINARY(2lik duzen)- 11000000.10101000.00000001.01100100
+Bilgisayarlar kendi aralarinda onluk duzende iletisime gecerler 
+
+192.168.1.100 ip adresini bunu verdikten sonra tab a basinca  subnetmask otomatik olarak 255.255.255.0 olarak geldi 
+ 255.255.255.0 bunun binary-ikilik duzendeki karsiligi- 11111111.11111111.11111111.00000000  dir    
+ Bilgisayarlar kendi iclerinde and-carpma islemi gerceklestiriyorlar ip adresine bakiyorlar binary formdaki ve subnetmaskina bakiyorlar binary form daki ve her bir basamagi  bir birleri ile carpiyor  
+
+ IP         11000000.10101000.00000001.01100100
+ SUBNETMASK 11111111.11111111.11111111.00000000
+
+ RESULT     11000000.10101000.00000001.00000000  
+ !CIKAN SONUCU ONLUK DUZENE CEVIRIRSEK NETWORK ID YI BIZE VERECEKTIR... KI BU DA  192.168.1.0 DIR-NETWORKADRESININ BULUNUSU BU SEKILDEDIR 
+
+ ! 192.168.1.0 C SINIFI BIR IP DIR VE C SNIFI BIR IP DE ILK 3 OKTET AYNI OLUR VE NETWORK ID YI BELIRLER
+
+ !SON DURUMDA ETHERNET E CIFT TIKLAYIP IP YI ACTIK VE 
+ ADEM : IP: 192.168.1.100
+ SUBNETMASK:  255.255.255.0 
+ 
+ ADEM : IP: 192.168.1.101
+ SUBNETMASK:  255.255.255.0
+
+ !LAN-LOCAL-AREAL-NETWORK ICIN NE GEREKIYORDU NETWORK ID LERI YANI C SINIFI IP LER ICIN ILK 3 OKTET NETWORKID-AYNI OLMASI GEREKIYORDU BUNU UNUTMAYALIM
+ 
+ !DEFAULTGATEWAY(STANDART GATEWAY)-VARSAYILAN AG GECIDI VERECEK MIYIZ?
+ DEFAULTGATEWAY MODEMIMIZDI HATIRLAYACAK OLURSAK 
+ SU ANDA INTERNETE CIKMAYACAGIMZ ICIN VE SADECE PC LER LOKAL AREAL NETWORK-LAN BIRBIRINE BAGLAYACAGIM ICIN DEFAULT GATEWAY E HERHANGI BIR SEY VERMIYORUM 
+ OK E BASIP CIKIYORUZ ADEM-ZEYNEP PC LERINDE
+
+ !SIMDI ADEM-ZEYNEP PC SININ BIRBIRINE BAGLANTININ ARKA PLAN DA GERCEKLESIP GERCEKLESMEDIGINI TEST EDELIM
+ ORNEGIN ELIMIZDE 2 TELEFON NUMARASI VARKEN NE YAPARIZ, TELEFONLARI BIRBIRINI ARAYIP TEST EDERIZ...ISTE AYNI MANTIGI BURDA YAPACAGIZ   
+ BU ISLEMI !PING KOMUTU ILE YAPARIZ  
+
+ !ADEM-PC DEN CMD YI ACARIZ VE ZEYNEB E BAGLANTI KURABILIYOR MU DIYE ADEM PC DEN ZEYNEP PC YE REQUEST GONDERIRIZ PING ARACILIGI ILE 
+
+ !ping 192.168.1.101  (ADEM DEN ZEYNEBE)
+
+ Result: Requested timed out diye gelir  
+ Bunun sebebi windows defender network ayar inin aktif olmasidir windows defender dan new Microsof Defender Brannmur(Firewall) i deaktif edersek o zaman bekledigmiz sonuc gelecektir  
+
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.101: bytes=32 time<1ms TTL=128 
+
+!ZEYNEP PC DEN ADEM E REQUEST GONDEREREK BAGLANTI TESTI YAPARIZ
+!ping  192.168.1.100(ZEYNEP TEN ADEM E)
+
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128
+ Reply from 192.168.1.100: bytes=32 time<1ms TTL=128 
+
+ !BU SEKILDE ADEM VE ZEYNEP PC LERININI BIRBIRLERI ILE BAGLANTILARI OLDUGUNU GORMUS OLDUK!!!
+
+ !Bir pc de ip adresini ogrenmek icin ya ipconfig ya da direk ethernet-internet ayarlarina gidip aktif ethernete cift ya da saga tikalariz properties den gorebiliriz
+
+ !PEKI BIZ ADEM PC SININ IP ADRESINDE NETWORK U DEGISTIRIRSEK 
+ !192.168.1.100 u 192.168.2.100 olarak degistirirsek eger o zaman Zeynep pc sinden ping ile Adem Pc sine request gonderirsek 
+ 
+ ping 192.168.1.100 
+ result: Reply from 192.168.1.101: Destination host unreachable 
+ boyle bir host a ulasilmaadi  
+ 
+ ping 192.168.2.100
+ PING: transmit failed. General failure.
+ !Cunku Adem Zeynep Pc lerinin network adresleri degisti Adem(192.168.2.100)Zeynep(192.168.1.101) ve artik baglanti kuramiyorlar normalde C sinif ip lerde ilk3 oktet network id idi ve 4.oktet 0 olarak gosterilirdi network id de ve biz bunu degistirdigmz icin iki pc artik baglanti kuramaz hale geldi!!!!  
+
+ !ping -t 192.168.1.101 dersek bu da sonsuza kadar istek gonderir
+ Bu komutu anlik olarak bir pc nin diger bir pc ye baglantisinin aktif pasif oldugunu takip etmek icin kullaniriz...Eger ip adresleri nde network id leri esit olursa o zaman baglanti oldugu sonucunu aliriz, yok network id leri farkli ise o zman da network id lerinin ayni olmadigni anlariz 
+ ping -t den cikmak icin CTRL-C ile cikariz
+
+ !BAGLATNTI SORUNLARINA COZUMLER
+
+ result: Reply from 192.168.1.101: Destination host unreachable 
+ Boyle bir sonuc aliyorsak ve ping request gonderdigimz ip adresinin var oldugunu biliyorsak o zaman, ulasmak istedigmz pc kapali olabilir
+ Ethernet kablosunun kablosu cimis olabilir bunu da Internet-network/Ethernet(pc iconu) uzerinde kirmizi carpi isareti gelir
+ Ip adresi nin networku farkli olabillir
+ 
+ Ethernet karti kontrol edildi, pc acik ip adresleri de ayni o zaman bir sonraki secenek Firewall dan kaynaklaniyor olabilir 
+ Denetim Masasi-Windows Guvenlik Duvari(Bilgisayarlar ilk kurulduklarinda diger pc lerden gelecek olan ping requestlere karsi kapalidirlar, bunu Windows Firewall dan Advance settings den)
+
+ Advance settings-Incomingrules-Inkommende regeer-> Fil og skriverdeling (ekkoforespørsel-yanki istegi) 4 satirda bulunan hepsi birden secilir saga tiklanarak aktivate the rule yapilarak, artik ping ile disardan gelen isteklere acmis oluruz
+ Veya windows defender firewalll diyoruz- offentlig netwerk  i pasifize ederiz..
+
+ !ping 192.168.1.100  den eger hicbir bilgi alamiyorsak hicbir sonuc gelmezse o zaman bu ethernet kartinin goremedigi anlamina gelir cunku  
+  ping 192.168.1.100 komutuna cevabi ethernet kartinin aktif olmasi ile alabiliyoruz..Zaten gidip ethernet kartina bakarsak internet ayarlarindan , renginin gri oldugunu goruruz
+  !DenetimMasasi-Ag ve Internet- Ethernet karti gri ise ssaga tiklariz etkinlestir deriz ve ethernet kartini aktiflestiririz
+
+  !Ethernet karti tanimlaniyor.... tanimlanamayan ag  gibi seyler gorursek gidip hemen ipconfig i kontrol ederiz ve orda 169.254.147.161 ip sini goruyoruz yani APIPA yani pc herhangi bir dhcp(modem-router) servisi bulup ondan ip almaya calismis ama bulamamis.. ve ne yapmis APIPA-BILGISAYAR KENDI KENDISINE IP VERMIS
+
+  !EN SON ETHERNET KART TESTI  YAPILABILIR 127 ILE BASLAYAN 127.0.0.1 IP ADRESI BIZIM PC MIZIN ETHERNET KARTIMIZI TEMSIL EDER...PING ILE KENDI ETHERNET KARTIMZI YANI KENDI LOKAL PC MIZIN IP ADRESI TEST EDILEBILIR 
+  
+  !HATIRLAYACAK OLURSAK
+  A SINIFI IP LER=>0-127 ARASI IDI 127 ILE BASLAYAN IP LER KULLANILAMAZ TEST AMACLIDIR.. 
+  B SINIFI IP LER=> 128-191 
+  C SINIFI IP LER=> 192-223 
+  D SINIFI IP LER=> 224-239 
+  E SINIFI IP LER=>240-255
+
+  !SANAL VE GERCEK BILGISAYARLARIMIZ ARASINDAKI ILETISIM 
+  KENDI PC MIZE IPCONFIG YAZARSAK BIRKAC TANE IP ADRESI GELEBILIR BUNUN NEDENI NEDIR BIZDE DEMEKKI BIRDEN FAZLA EHTERNET KARTI VAR 
+
+  1-ETHERNET(KABLOLUDUR BUNU ICON DAN ANLARIZ)
+  2-WIFI (KABLOSUZDUR BUNU DA WIFI ISMINDEN ANLARIZ)
+  3-ETHERNET 2(VIRTUALBOX HOST-ONLY NETWORK)(BU SANAL PC LERLE GECEK PC NIN ILETIISM KURABILMESI ICIN, ORTAMDA SANAL BIR EHTERNET KARTIDIR VE VIRTUALBOX KURDUGUMUZ ZAMAN GORURUZ) 
+
+  Gercek bilgsiayarimizin ip adresini gormek icin gelirsek
+  ipconfig yazinca karsimiza gelen ciktiyi inceleyecek olursak 
+
+  Tunel adapter local Area connection ..Tunel ile geliyorsa bu virtual ethernet kartidir
+!IP mizi bulmak icn nerye bakariz, internete biz eger wifi  uzerinden baglanmis isek wifi basliginin altindaki ip ye bakariz ama kablolu ethernet uzerinden baglandi isek o zaman da ehternet basligina bakariz...burdan hangisi uzerinden baglandigmzi da internet ayarlarinda gidip kontrollpanel-network-internet-internet connections altinda gorebilriz
+  Wireless LAN adapter Wi-Fi:
+  ALTINDA ip adresini gorebilriz
+
+  !Link-local IPv6 Address .....  : fe80::79b6:45f4:f117:2e51%10(bu kullanilmiyor su an)
+  !ipv4 Address: 172.29.29.102
+  SubnetMask 255 255 255.0
+  Default Gateway  172.29.29.1(bu eger internete bagli isek gelir, internete giris kapsidir)(Bu adres pc mizin internete cikmak icin kullandigi, ip adresidir, yani modem-router a ulasmak icin kullandigi ip adresini tasvir ediyor, aslinda modemin lokal agdaki adresidir... diyebiliriz..bu adres uzerinden modem e ulasir ve modem NAT islemi yaparak internete cikis ip sine cevirir)
+    
+  !yapilmasi gereken sey adem ve zeynep pc sinden bu ipv4 Addressine( 172.29.29.102) ping atmak:
+  !ping atmadan once bu ip adresi B sinifi bir ip adresi ve dikkkat edlim...B sinifi ip lerde network kismi ilk 2 oktet ti ve pc lerin lokal areal network baglantisi icin, birbirlerini tanimalari icin ilk 2 oktet in esit olmasi gerekirdi, o zaman biz adem,zeynep pc sinin ip adreslerini ona gore ayarlamamaiz gerekir, B sinifi bir ip  ve network id leri ayni olan 172.29.0.0 network id 
+  Adempc sindene 172.29.29.103 olaarak atadik ve SUBNET mask biz tab a basinca bu B snifi bir ip oldugu icin 255.255.0.0 olarak subnetmask in atamasini yapiyor normalde..ama biz yine de subnetmask i bir onceki 192.168.1.100 den kalan C sinifi ip adresi gibi biraktik.. ve de ping atiyoruz adem virtual pc sinden gercek pc mize
+
+  ping 172.29.29.102 
+  Request timed out. geliyor sonuc 
+  !Bu durumda 
+  !1-Gercek pc nin network-firewall ayarlarinda yukarda gosterdigimz ayarlarin duzenlenmesi, disardan gelen ip lerin istek atmasi izin verilmesi
+ !Virtual pc lerin settingslerinde network de host-only adapter degil, bridge adapter secilmelidir cunku host-only adapter ile sadece virtual pc ler kendi aralarinda gorusebilirler. Ama biz virtual-pc yi biz bridge adapter secersek o zaman virtual pc ler gercek pc gibi davranarak eger ortamda bir modem var ise o modem den ipalirlar...
+ !Biz adem pc sini yi bridge adapter yapmamiza ragmen, gidip ip adresini ipconfig den kontrol edince bizim atadigmz manuel ip adresini goruyoruz yine, modem den atanan ip degil neden cunku...biz ip yi static yaptik ve manuel atadik, bundan dolayi da ilk once adem inpc sini yine ip yi atadimgz yerde  automatik e almaliyiz ve de gitsin modem den ip adresi alsin, tabki burda modem e eger baglatnisi var ise o zaman ip adresi alabilir...yani daha dogrusu wifi-modem inin DHCP servisi atar ip yi, ya da kablolu baglatni ise orda da ethernet DHCP SERVISI ip yi atar, kablolu baglanti gerceklestiginde.Eger hicbir DHCP servisi ile baglnti kuramazsa o zamanda APIPA-Pc nin kendisi kendisine gecici otomatik bir ip adres atmasi yapar(169.254.x.x)
+  Bunu yapinca ademin pc den gercek pc ye ping atabildik ve sonuc alabildik 
+  !VIRTUAL BOX INTERNET BAGLANTI COZUMU!!!!!!!!!!!!
+  !Virtual box daki internet baglanti sorunu cozumu...Virtual box uzerinden Adem pc sinin settings lerine gidersek orda  Atached to Bridget Adapter yaptiktan sonra, Advanced da Promiscuous Mode ise Allow All yapmamiz gerekiyor
+  !Bunlari yapmamiza ragmen internete yine de baglanmiyor ve modemin DHCP servisinden ip adresi alamiyorsa biz automatik yapmamiza ragmen o zaman bu durumlarda, biz ip adresini elle atayacagiz, neye gore tabi ki gercek pc mizin ip sine bakarak ayni network id si olacak sekilde... 
+  Gercek pc mizin ip adresi: 172.29.29.102 biz adem pc:172.29.29.103 yaptiktan sonra subnetmask i da gercek pc nin ki gibi 255.255.255.0 yapariz ardaindan da Default Gateaway i de yine gercek pc nin ki ne ise aynisini veririz neden cunku bu ne idi iste bu modem in lokal ip si idi hatirlayalim...internete baglanilmasi icin gerekli idi ayrica yine gercek pc nin ayarlarindan orda Dns1,Dns2 degerlerini de alip yine adem pc sinde manuel olarak ayni dns1,dns2 degerlerini gireriz ve bu sekilde internet baglantisi sorunu cozulmus olacaktir 
+  BU BIR COZUM YOLU OLABILIR AMA BIZ MANTIK OLARAK VIRTUAL BOX SETTINGS AYARLARI YAPTIKTAN SONRA IP ADRESI OTOTMATIK ATA DIYE AYAR YAPARIZ SORNA WIFIMODEM I UZERINDEN IP SI OTOMATIK OLARAK ATANACAKTIR
+  !Otomatik olarak ip atamasin i ayarladiktan sonra adem pc si wifiye baglandiginda modem adem pc sine 
+  ip,subnetmask,default gateway adreslerinin hepsinin atamasini yapacaktir ve ip yi de gercek pc mizin ip si ile ayni network de ve gercek pc ip sinin devami olarak atamasini bekliyoruz... ve sonra da artik adem-zeynep pc sinden gercekpc ye baglanti gerceklestirebiliriz
+
+  !Zeynep pc yi ise 172.29.1.10 ip sini atadik B sinifi oldugu icn ilk 2 oktet i network idi ve bilgisayarlarin baglanti kurabilmeleri icin network id leri ayni olmasi gerekiyrdu B sinif ip lerde ve subnetmask icin ise tab a basark 255.255.0.0 olustrdu kendisi.. ve de bu ayari yaparak istek gonderdik gercek pc mize zeynep virtual pc sinden ve sonuc
+  ping 172.29.29.102 
+  Request timed out
+  !NEDENINI BULDUM CUNKU SUBNETMASK ILE BIZ SUNU ANLARIZ ORNEGIN IP:172.29.29.102 SUBNETMASK 255.255.255.0 BU BIZIM INTERNETE BAGLI GERCEK PC MIZI IPCONFIG DEN BAKINCA GELEN IP-SUBNETMASK INFOSU AYRICA DA DEFAULT GATEWAY:172.29.29.1 BURDAN NE ANLIYRUZ BU EVET B CLASS BIR IP ADRESI ANCAK DHCP SERVISI IP-SUBNETMASK-DEFAULTGATEWAY VERIRKEN SUBNETMASK 255.255.255.0 ILE SUNU DIYOR SENIN IP ADRESININ 172.29.29 KISMI SABIT OLACAK SEN, 4.OKTETI DEGISTIREREK AYNI NETWORK DE IP ADRESI ATAYABILIRSINL... KI BUNU ZATEN MODEMIN LOKAL IP SI OLAN DEFULTGATEWAY DEN DE ANLIYROUZ...DEFAULT-GATEWAY:172.29.29.1  
+  
+  SIMDI DE GERCEK PC MIZDEN VIRTUAL ADEM-ZEYNEP PC SINE BAGLNMAYA CALISALIM BAGLANTININ GERCEKLESTIGINI ASAGIDAKI GIBI GOREBILIRIZ
+
+  C:\Users\ae_netsense.no>ping 172.29.29.103
+
+Pinging 172.29.29.103 with 32 bytes of data:
+Reply from 172.29.29.103: bytes=32 time=95ms TTL=128
+Reply from 172.29.29.103: bytes=32 time=2ms TTL=128
+Reply from 172.29.29.103: bytes=32 time=3ms TTL=128
+Reply from 172.29.29.103: bytes=32 time=2ms TTL=128
+
+Ping statistics for 172.29.29.103:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 2ms, Maximum = 95ms, Average = 25ms
+
+C:\Users\ae_netsense.no>ping 172.29.29.104
+
+Pinging 172.29.29.104 with 32 bytes of data:
+Reply from 172.29.29.104: bytes=32 time=70ms TTL=128
+Reply from 172.29.29.104: bytes=32 time=1ms TTL=128
+Reply from 172.29.29.104: bytes=32 time=2ms TTL=128
+Reply from 172.29.29.104: bytes=32 time=2ms TTL=128
+
+Ping statistics for 172.29.29.104:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 1ms, Maximum = 70ms, Average = 18ms
+
+C:\Users\ae_netsense.no>
+
+!DHCPS SERVISI -  MODEMLE ILETISIM KURMAK...-MODEM BAGLANTI SORUNU VE COZUMU
+Biz bir bilgisayarda ip mizi ogrenirken ipconfig yazarak sadece kendi ip sini degil modem in ip sini de Default gateway e atnan deger den ogrenebilir
+    ipconfig
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+  Bu bilgiye bakarak anlamamiz gerkenler sunlardir 
+  1-Benm network id adresim: (default gateway adresine bakarak) 172.29.29.0 adresidir, neden bu onemli cunku eger ip adresi tanimlamasi yapacaksam o zaman iste bu network e gore yapmamiz gerekir...172.29.29.0 - 172.29.29.1, 172.29.29.2,... 172.29.29.254 e kadar ip tanimlamasi yapabilirz ayni networkde 
+  2-
+
+ !Hemen real hayattan ornek le daha da netlestirelim 
+ Class - lokal areal network icin atanabilecek ip adresleri siniflarina gore bu sekilde idi, YANI ICERDE KULLANILABILECEK IP LER
+ A    10.0.0.0
+ B    172.16.0.0-172.32.0.0
+ C    192.168.0.0
+
+ ISP(INTERNET SERVICE PROVIDER)TELIA-TELENOR=>MODEM E INTERNETI GONDERIR 
+ MODEM(72.141.137.29) TELIA MODEM IN DIS BACAGINA YANI INTERNETE CIKACAGI KISMINA BIR IP ADRESI ATAMASI YAPIYOR VE O MODEM E BAGLANAN TUM CIHAZLAR, PC,MOBILE,TABLET,SMARTPHONE,VSS HEPSI internete baglanirken modem in ip si ile baglanirlarki, bu modem ip sinden internete baglanan cihazlar tarafindan herhangi bir illegal islem yapilma durumunda, telia bu islemin bu modem e verilen ip den internete cikan bir cihazin bunu yaptigini bilir ve hemen adresi tespit edebilir..
+ !MODEM I PC LER NEDEN GOREMEYEBILIR!!!!
+ !ornegin 3 tane pc miz var ve 1 modemimiz var modemimizin ic-lokal-privat-ipsi:172.29.29.102 - disabakan-public ip si:72.141.137.29
+ !Ama biz geldik pc1:10.10.10.100 pc2:10.10.10.101 pc3:10.10.10.102 ip atamalarini yaparsak tamam bu 3 pc kendi aralarinda iletisime gecebilir ama internete baglanabilmek icin default gateway leri yani modem in lokal ip adresi ile ayni network de olmak zorundadirlar...ISTE KIMI ZAMAN INTERNET PROBLEMINDEN DOLAYI EGER BAGLANTI SORUNU YASANIYORSA O ZAMAN MODEM IN LOKAL IP SI KONTROL EDILMELI VE PC LERIN DEFAULT GATEWAY LERI MODEM IN LOKAL IP SI ILE AYNI MI VE DE BILGSAYARLARIN IP ADRESLERI DE MODEM IN LOKAL IP ADRESI ILE AYNI NETWORKDE MI.....COOK ONEMLI BIR BILGIDIR
+
+ !INTERNET BAGLANTISINN GERCEKLESEBILMESI ICIN....
+ !COOOOOK ONEMLI.... TUM CIHAZLARIN INTERNET BAGLANTISININ GERCKLESEBILMESI ICIN MODEM I TANIYABILMELERI ICIN MODEM ILE AYNI NETWORK DE OLMALARI GEREKIR.....MODEM IN IP ADRESI YANI INTERNET BAGLI OLDUGUNDA IPCONFIG ILE GELEN DEFAULT GATEWAY DEGERI MODEM IN LOKAL IP ADRESI, ILE AYNI NETWORK DE OLMASI GEREKIYOR MODEM E BAGLANACAK PC LERIN DOLAYISI ILE BUU COOOK ONEMLIDIR
+ CIHAZLAR A MANEL IP ATARKEN MODEM ILE ILETISIM KURACAK VE AYNI NETWORK DE IP LER ATMAK GEREKLIDIR VE BU SEKILDE CIHAZLAR MODEM I TANIDIKTAN SONRA MODEM CIHAZLARIN MAC ADRESLERI UZERINDEN CIHAZLARI TANIR VE LOKAL IP ADRESINI-PRIVATE-ICERDEKI,   PUBLIC-INTERNETE CIKMA-DISARI IP ADRESINE DONSTURUR(NAT) VE TUM KENDISI ILE LOKAL DDE AYNI NETWORK DE BULUNAN KENDISINE BAGLANABILEN CIHAZLARI INTERNETE CIKARACAKTIR 
+
+LOKAL-ipsi:172.29.29.102 OLAN MODEM E KARSILIK pc lere eger pc1:172.29.28.1 pc1:172.29.28.2 verirsek yine modem e baglanamazlar cunku ayni sinifta olmalarna ragmen, ayni network de degillerdir...BUNLARI KARISTIRMAAYLIM...COOOK ONEMLIDIR!!!
+
+!PC LERE AYNI NETWORK DEKI IP ADRESLER ATADIKTAN VE INTERNET BAGLANTISI GERCEKLESTIKTEN SONRA ORNEGIN PC1 INTERNTETTE GOOGLE.COM YAZIP ENTERE BASARAK A ISTEK GONDERDIGINDE , MODEM BU ISTEGI PC NIN LOKAL IP SI UZERINDEN ALIR VE MODEM KENDI LOKAL IP ADRESI YANI PCLERIN DEFAULTGATEWAY ADRESINI PRIVATE-IP(172.29.29.102) YI PUBLIC, INTERNETE CIKABILECEK IP(79.160.72.2) ADRESINE CEVIREREK TUM CIHAZLARI BU PUBLIC IP ADRESI UZERINDEN INTERNETE CIKARACAKTIR
+ 
+
+ DNS SERVISINI ANLAMAK
+ ping ile biz sadece ip adreslerine degil domain adreslerine de request gonderebiliriz..ki zaten 
+ 
+ ping www.google.com
+C:\Users\ae_netsense.no>ping www.google.com
+
+Pinging www.google.com [142.250.74.100] with 32 bytes of data:
+Reply from 142.250.74.100: bytes=32 time=12ms TTL=58
+Reply from 142.250.74.100: bytes=32 time=14ms TTL=58
+Reply from 142.250.74.100: bytes=32 time=12ms TTL=58
+Reply from 142.250.74.100: bytes=32 time=12ms TTL=58
+
+Ping statistics for 142.250.74.100:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 12ms, Maximum = 14ms, Average = 12ms
+
+    !Dikkat edelim google.com a ping ile request gonderdik ve bu google.com hizmet veren serverin aktif olup olmadignin kontrol etmek icin ve de ayni zamanda biz connection kurabiliyor muyuz onu gorebilmek icin ve bize google.com un ip adresini de veriyor burda dikkat edlim
+    zaten https:://www.google.com domain adresidir ve DNS serverinde bu domain adresi google.com un ip sine karsilik geldigi icin biz ping ile sorgulayinca o zaten once DNS SERVER A GIDER VE ORDA 
+    !DEMEKKI WEBSITELERINE PING ATARAK WEBSITELERININ IP ADRESLERINI OGRENEBILIYORUZ
+    !ht123.no olan kendi serverimizin domain ine ping atinca kendi serverimizin ip adresini almis oluruz
+C:\Users\ae_netsense.no>ping ht123.no
+
+Pinging ht123.no [79.160.72.43] with 32 bytes of data:
+Reply from 79.160.72.43: bytes=32 time<1ms TTL=64
+Reply from 79.160.72.43: bytes=32 time<1ms TTL=64
+Reply from 79.160.72.43: bytes=32 time<1ms TTL=64
+Reply from 79.160.72.43: bytes=32 time=1ms TTL=64
+
+Ping statistics for 79.160.72.43:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 1ms, Average = 0ms
+
+!ping ataklari
+!Bazi sitelere ping atinca request timed out gelir bunun sebebi o siteler-serverlar ping e kapatmis lar istekleri firewall uzerinden, firewall a ping istekleri gelirse ona cevap verme demis....
+!ping ataklarina maruz kalmamak icinde yapabilirler ping -t 142.250.74.100 dedigmzde biz durduruna kadar surekli olarak bu ip adresine istek gonderir duru ve bunu 1000 pc de ayni anda yaparsak ne yapar o zaman da gidip surekli olarak bu ip adresli server i mesgul ederk ona ping ataklari gerceklestirir
+
+!ip adress domain..
+Biz browser a gidip www.google.com yerine ping ile ogrendigmz google in ip adresini girdigmz zamanda (142.250.74.100) gorecegiz ki google sayfasina gidebilecegiz
+DNS IP ADRESLERINI DOMAINLERE, DOMAIN ADRESLERINI IP ADRESLERINE CEVIRIYOR...BUNU BILELIM...
+BILGISAYARLAR IP ADRESLERI UZERINDEN HABERLESEBILIRLER YANI SERVER LARDA BIR PC DIR ZATEN...DOLAYISI ILE DE TUM HIZMET VEREN WEBSITELERI ESASINDA BIR SERVER DAN BIR PC DEN HIZMET SUNARLAR VE IPI ADRESLERI UZERINDEN SUNARLAR VE DNS BIZ WWW.GOOGLE.COM YAZDIGMZ DA ONCE DNS SERVER A GIDER DNS SERVER WWW.GOOGLE.COM A KARSILK GELEN IP YI BULUR VE O IP LI SERVER A YONLENDIRIR ISTEGI VE BU SEKILDE GONDERILMIS OLAN ISTEK SERVER A GITMIS OLUR VE DE SERVER RESPONSE VEREREK BIZE GOOGLE UN SAYFASININ ONUMUZE GELMESINI SAGLAR
+!YANI KISACA IP-ADDRESS COZUMLEMESI YAPAR DNS, DOMAIN(ISIM) LERI IP ADRESLERINE, IP ADRESLERINI DE DOMAINLERE CEVRILMESINE YARAR
+
+!windows ta
+!ipconfig - ipconfig /all ile daha detayli ip bilgisi elde edebiliriz
+
+!ipconfig /all
+Ethernet adapter Ethernet:
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Intel(R) Ethernet Connection (4) I219-V
+   Physical Address. . . . . . . . . : E4-E7-49-9E-AF-BD
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8(Preferred)
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : fredag 5. april 2024 08:40:23
+   Lease Expires . . . . . . . . . . : lørdag 6. april 2024 08:40:19
+   Default Gateway . . . . . . . . . : 172.29.29.1
+   DHCP Server . . . . . . . . . . . : 172.29.29.1
+   DHCPv6 IAID . . . . . . . . . . . : 115664713
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-2A-E3-5C-02-E4-E7-49-9E-AF-BD
+   DNS Servers . . . . . . . . . . . : 172.16.3.11
+                                       172.16.3.12
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+!Ilk olarak default gateway e bakacak olursak Default Gateway . . . . . . . . . : 172.29.29.1  bu modem in lokal ip sidir ve buna bakarak biz direk network id mizin 172.29.29.0 oldugunu anlariz 
+
+!DNS SUNUCU BILGLERIMIZE BAKALIM 
+
+DNS Servers . . . . . . . . . . . : 172.16.3.11
+                                    172.16.3.12
+YANI DNS SUNUCUSU-SERVER ININ IP ADRESI DE BUDUR BU COK KRITIKTIR COK ONEMLIDIR...DOMAIN -IP COZUMLEME ISLEMINI YAPAN DNS SERVER IP SI DIR BU
+YANI DNS SERVER IP ADRESI BURDA , VE BURDAKI DNS SERVER IP UZERINDEN , BIZ HERHANGI BIR WEBSITESI ISMINI GOOGLE -CHROME DA ARADGIMZDA REQUEST GONDERDIMGZ DE ILK ONCE DEVREYE DNS SERVER GIRER DNS SERVER IP SININ BILGISAYARIMIZ MODEM DEN MODEM E BAGLANDIGINDA ALIR VE ILK OLARAK DNS SERVER A GIDER ISTEGIMZ DNS SERVER IP UZERNDEN DNS SERVER BULUNUR SONRA DA ORDA ORNEGIN WWW.GOOGLE.COM DOMAIN NAME ININ HANGI IP E KARSILK GELDIGNI BULUNR VE ORDAN DA BULUNAN WWW.GOOGLE.COM UN IP ADRESINE YONLENDIRIR
+
+!AMA BU NORMALDE DNS SERVER IP ADRESI DE MODEM IN IP ADRESI ILE AYNI OLUYOR, KI MODEM BU ISLEMMI BIZIM ICIN GERCEKLESTIRMIS OLUR....
+
+!KI BIZ KENDIMIZ IP ADRESININ MANUEL OLARAK GIRERKEN BIZ DEN 
+!IP,SUBNETMASK, DEFAULT GATEWAY, PREFERRED DNS SERVER(FORETRUKKET DNS-SERVER), ALTERNATE(ALTERNATIV) DNS SERVER
+
+! EGER IP ADRESINI ELLE VERECEKSEK KENDIMIZ MANUEL OLARAK O ZAMAN.... INTERNETE BAGLANIRKEN DIKKKKAT EDECEGIMMZ NOKTALAR 
+1-IP ADRESIMIZ MODEM ILE AYNI NETWORK DE OLMALIDIR
+2- SUBNETMASK TI TAB A BASINCA KENDISI VERIYOR 
+3-DEFAULT GATEWAY MODEM IN LOKAL IP SI OLACAK INTERNETE BIZI CIKARABILMESI IICIN
+4-DNS SERVER- MODEM BENI INTERNETE CIKARDIKTAN SONRA, INTERNETTE GEZINMEMI SAGLAYACAK OLAN IP ADRESI VE BU DA EGER AYRI BIR MODEM IP SI BULAMIYORSAK O ZAMAN MODEM IN IP SINI YINE DNS SERVERIP YE GIRERIZ KI, BIZIM INTERNETTE GEZINMEMIZI VE IP-DOMAIN COZUMLENMESINI SAGLASIN
+
+! DHCP 
+Biz ip leri manuel oalrak vermek istemezsek zaten pc miz ortama ciktiginda acildiginda hemen ip bilgilerini alabilecek bir DHCP SERVISI YANI modem arayacaktir ve BU SERVISI BULDUGUNDA TUM IP-SUBNETMASK-DEFAULT GATEWAY - DNS SERVER BILGILERINI ALACAKTIR
+!DHCP SERVISI MODEMLERIN ICINDE BULUNUR
+!HEMEN MODEMIMIZIN IP SINI BULALIM NASIL BULUYORDUK IPCONFIG /all veya ipconfig DEFAULT GATEWAY IP ADRESI MODEMIMIZIN LOKAL IP ADRESIDIR 
+
+
+Ethernet adapter Ethernet:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::2543:8bf9:3ccc:7dc%8
+   IPv4 Address. . . . . . . . . . . : 172.29.29.94
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+
+   Modem ip adresimz budur: Default Gateway . . . . . . . . . : 172.29.29.1
+   !BU BILGIYE DAYANARAK BIZ NETWORK ID SINI DE BULABILIRIZ 172.29.29.0 DIR NETWORK ID SI
+   !GENELLIKLE NETWORK ID SININ ILK IP SI MODEM E VERILIR ONDAN DOLAYI DA MODEM 172.29.29.1 BU SEKILDE GELIR BIZE...
+
+   !MODEMIMIZIN ARAYUZUNE NASIL ERIRIZI MODEMIMIZIN IP ADRESINI BROWSER A GIREREK MODEMIN ARA YUZUNE ULASIRIZ
+   172.29.29.1 BUNU GIRDIK KULLANICI ADI VE SIFFRE GELECKTIR BUNLARI MODEM IN KITAPCIGINDAN EDINEBILIRIZ, LOGIN OLURUZ
+   MENU DE DOLASAARK DHCP NIN NERDE OLDUGUNU BULABILIRIZ 
+   DHCP IP ATAMASI YAPIYORDU , IP DAGITIMI YAPIYORDU UNUTMAYALIM 
+   !asagida veirlen adres bilgileri ornek vermek icindir
+   DHCP START IP  192.168.0.10  
+   DHCP END IP  192.168.0.200  GORURSEK ANLARIZ KI BU DHCP IP LERI 192.168.0.10  DAN BASLAYARAK 192.168.0.200 A KADAR DAGITIYOR  - 190 TANE IP DAGITIYOR---AMA BUNLAR DEGISTIRILEBILIR...
+   KENDI IP ADRESINI DE PRIVATE LAN IP ADDRESS:192.168.0.1  ve Subnetmask 255.255.255.0 ORNEGI GIBI GOREBILIRIZ
+
+   !modem de verilmis olan network id sini degistirmemeliiyiz problemler yasaabiliriz buna dikkat edelim!!!
+   !Ama modem de hangi araliklarda ip dagitacagini degistirebiliyorduk onu da  diyelim ki 
+   DHCP START IP  192.168.0.10  
+   DHCP END IP  192.168.0.200 dan 
+   DHCP START IP  192.168.0.100  
+   DHCP END IP  192.168.0.200 ' e degistirip modem ara yuzunden ciktik mesela sonra ne yapariz  
+
+   ipconfig ile kendi ip mizi buluruz ve 
+   orneign kendi ipmiz 192.168.0.11 olsun 
+
+   ipconfig /release  diyerek ip yi birak deriz ve karsimiza hicbir ip adresi getirmez cunku ip adresimizi birakmis oldu 
+   ipconfig /renew diyerek de ip adresimzi yenile diyoruz yeniden ip adresi veriyor 
+
+   !Bu islemleri yapmadan once, ip verme islemini manuel den otomatige cevirmemiz gerekiyor yoksa kendisi ip atamaz, venormalde de bizim ipconif relase-ipconfig renew demesek de bilgisayar kapatip actimgzde veya yeniden baslattigimizda otomatk olarak yeni pc ip alacaktir zaten
+   !Ve aslinda eski ip yi ceek, yeni bir ip ver demis olduk 
+   
+   !YANI KISACASI DHCP NIN IP ARALAGINDA YAPTIGMZ DEGISIKLKIN PC LERI ACIP KAPATINCA YA DA IPCONFIG RELEASE-IPCONFIG RENEW YAPARAK GUNCELLENE IP ARALGININ NASIL PC LERE VERILDGINI GOREBILIRIZ
+
+   !ARTIK PC LERE IP ATAMALRI YAPARAK BIRBIRLERI ILE GORUSEBILMELERINI SAGLAYABILIYORUZ
+   
+   !UZAK MASAUSTU BAGLANTISI GERCEKLESTIRMEK 
+  
+   Baglanmak istedgimz pc nin ip adresini biliyorsak, o pc ye uzaktan baglanabiliriz
+
+   1.Baglanilmak istenen pc de uzak masaustu baglanti ayari etkin hale getirilmelidir, uzak baglanti ayarlari-izin ver(tillat eksterne tilkoblinger til denne datamaskinen(bunu arama cubugunda arayarak bulabiliriz))
+   2-Ilk yaparken, once ping ile baglanilmak istene pc ye baglanti var mi ping 172.29.29.103
+   3-Uzak masaustu baglantiya gideriz..Baslattan veya windows-r(mstsc yaz) (Tilkobling til ekstern skrivebord)
+   4-Baglanmak istenilen pc nin ip adresi yazilir ve karsimiza brukernavn-password istegi gelir..ki baglanilmak istenen pc de var olan bir kullanici adi ve password girilmesi beklenir, oraya kullanici adi Zeynep deriz kullanici adina gidip bakalim o pc de pc altina users altinda bulunan klasor isimleri kullanici adi dir...password de pc acilirken istenen paswworddur...Bu bilgiler de girilince artik baglanti gerceklesecektir ve biz Zeynebin pc sine baglandigmz icin bizi login yaparken Zeynebin kendsini otomatik olarak logout olacaktir
+   5-Uzak pc den baglandigmz bilgisyar in ip adresi baglandimgz pc de ekranin ust tarafinda gozukur ona tiklarsak pc mizin ekraninda 
+   6-Baglandgmiz uzak pc nin kullanicis kendi pc sine girerse bizim uzaktan baglanti oturumumuz sonlanacaktir, yada kendimz de oturumun x isaretine basarsak uzak-pc baglnti oturumunu sonlandirmis oluruz
+   7.Dosya tranferleri nasil uzak pc den yapabiliriz, oncelikle bizim yereldiskleri de paylasmamiz gerekiyor pc ler arasinda, uzak baglanti yaptgimz pc nin C-D yerel diskini de pc mizde gorursek o zaman uzak pc nin dosyalarini kendi pc me alabilirm
+   8.Uzak pc baglantisini gerceklestirmeden uzakpc baglantisi icin gelen ekranda (Tilkobling til ekstern skrivebord) sol altta vis alternativer-secenekelri goster e tiklariz, sonra menu elemanlarindan lokale ressurser-yerel kaynaklar, ordan da Mer(Daha fazla bolumu), Suruculer(Statsjoner) + ya  tiklariz ve ordan da C,D ne varsa seceriz OK DERIZ...SONRA UZAK PC YE BAGLANIRIZ VE ARDINDAN DA, PC YE C DISKININ OLDUGU EYRE GIDINCE ARTIK UZAK PC NIN DE DISKININ ORAYA GELDIGNI GORURUZ VE ORDAN UZAK MASAUSTU DISKINE GIRIP ISTEDGIMZ HERHANGI BIR DOSYAYI COPY YAPIP KENDI MASUSTUMUJZE YAPISTIRABILIRIZ
+  
+!SIMDI BU BAGLANTI LOCAL DE YANI PRIVATE IP LER ICINDI YANI INTERNETE CIKMAMIS, PUBLIC OLMAYAN IP LER ARASINDA PC LER ARASINDAKI BAGLANTI IDI BU BAGLANTIMZ, SIMDI DE PUBLIC IP LI PC LERE, YANI INTERNETE CIMIS PC LERE BAGLANACAGIZ 
+
+  BIZ IP LERI MANUEL OLARAK VERMISTIK AMA ZATEN BIZ MANUEL BILEREK VERDIK NORMALDE MODEM DEN ALIYORLAR IP LERI , MODEM VERIYOR IP LERI.... 
+   
+  !SIMDI DE SUNU YAPALIM... BIZ KENDI EVIMIZDEN, BASKA SEHIR DE VEYA ULKEDEKI BIR PC YE NASIL BAGLANIRIZ!!!!!!!!!
+  SIMDI BIZ NORMALDE BAGLANIRKEN WINDOS-R YE MSTSC YAZIP UZAK MASAUSTU BAGLANTISI GERCKEKLESTIRIDIGMZDE GIRILE IP ADRESINI VERDIGMZDE BIZ IP ADRESI OLARAK PRIVATE IP ADRESI VERDIGMIZDE ORNEGIN 172.29.29.103 O ZAMAN BU IP ADRESINI ICERDE, LOKALDE ARAYACAKTIR, PRIVATE IP ADRESI OLDUGU ICN, BUNU GIDIP DE DISARDA, YANI INTERNETE BAGLANAN INTERNETI OLAN PC LERDE ARAMAZ....CUNKU IP OLARAK BIZ PRIVATE --ICERDE KULLANILAN IP YI ARADIK, 
+  
+  !ASAGIDA GORDUGMZ IP ADRESLERI ICERDE KULLANILAN PRIVATE IP ADRESLERIDIR...MODEM TARAFINDAN ATANIRLAR YA DA KENDIMZ MANUEL DE ATAYABILIRIZ, ORTAM DA MODEM YOKSA NE OLUYORDU PC VEYA CIHAZ KENDISI GECICI OLARAK APIPA ATIYRDU(Autoconfiguration IPv4 169.254.134.20 169.254 ILE BASLADIGINDAN ANLARIZ ATANAN IP NIN APIPA OLDUGUNU )
+  !192.168.0.1, 192.168.0.2,...  
+  !172.16.0.1, 172.16.0.2,172.16.0.3...172.32.0.1, 172.32.0.2..., 10.0.0.1,10.0.0.2...  
+
+  ONCELIKLE BULUNDUGMZ YERDE INTERNETE BAGLANDGIMIZ ANDA O ORTAMDA BULUNAN MODEM-DHCP SERVISI BIZE BIR LOKAL-PRIVATE IP ADRESI ATAMASI YAPAR VE DISARI CIKMAK ICIN YANI INTERNETE BAGLNMAK ICINDE PUBLIC MODEM IN KENDI IP ADRESINI KULLANABILECEGIMZI SOYLER PC YE...
+  UZAK MASAUSTU BAGLANTISINI BIZ BULUNDUGUMZ YERDEN BASKA SEHIRDE BIR PC YE YAPARKENM, YANI ORNEGIN BIZ TATILE GITTIK ISPANYA YA VE ORDAN KENDI EVIMIZDEKI PC MIZE BAGLANMAMIZ GEREKTI...O ZAMAN ONCELIKLE KENDI EVIMIZIN MODEM-IP YANI DISARIYA CIKARKEN KULLANILAN PUBLIC IP SI NE ISE ONU KULLANARAK BAGLANMAYA CALISIRIZ KENDI PC MIZE...MODEM IN IP ADRESI DE INTERNET SERVIS SAGLAYCISI TARAFINDAN ATANIR KI ORNEGIN TELIA-TELENOR.. VE BU SERVIS SAGLAYICILAR DA EGER HERHANGI BIR BANKA VEYA WEBSITESINE KENDI VERDIGI IP UZERINDEN BIR YASAL OLMAYAN ISLEM YAPILMIS ISE O ADRESI BULUR VE ILGILI YERLERE BUNU ILETIR
+
+  SIMDI BIZ AYNI CATININ ALTINDA IKEN, ICERDEYIZ OK ONDAN DOLAYI LOKAL IP LER ICIN AYRILMIS IP ADRESLERI UZERINDEN BAGLANTI GERCEKLESETIREBILIYORDUK, AMA BIZ UZAK BIR  YERDEN EVIMIZE BAGLANIRKEN ONCE BIZIM EVIMIZE BAGLNMAYA CALISIRKEN BIZ EVIN MODEM ININ IP ADRESI  UZERINDEN BAGLANMAYA CALISIRIZ VE BIZ BAGLANIRKEN EV KOMPLE BIR BINA OLARAK DUSUNELIM... BIZI MODEM KARSILAR DAHA EVE GIRMEDEN....VE BIZ O MODEM IN IP ADRESINI VERIRSEK MODEM E DIYORUZ KI BEN SANA BU IP DEN GELIYORUM... DER..ISTE BURDA MODEM ONCESINDEN DISARDAN MASAUSTU BAGLANTI ISTEGI GELIRSE ONU ICERDEKI PC LERDEN ORNEGIN BENIM PC ME YONLENDIR GIBI BIR AYARLAMA YAPMAMIZ GEREKIR...BUNUN ADI PORTFORWARDING..UZAK MASAUSTU BAGLANTI ICIN PORT FORWARDING(YONLENDIRME)..NORMALDE MODEM IN DISARDAN GELEN HER ISTEK ICIN BELIRLI KAPILARI VARDIR, BU KAPILARA PORT DIYORUZ..NORMALDE MODEM DE BINLERECE KAPI VARDIR, BIZIM BASVURAAGIMZ KAPI UZAK MASAUSTU BAGLANTI ISTEKLERINI KARSILAYAN KAPIDIR..YANI PORTTUR.. BU PORTTA 3389 NUMARALI PORT OLDUGUNU VARSAYALIM MESELA..TABI KI BU AYARLAMA NASIL GERCEKLESECEK, MODEM AAYARLARINDAN BU MODEM IP SINE 3389 PORT NUMARASI ILE GELEN ISTEKLERIN BENIM PC ME YONLENDIRILMESI GEREKTIGI AYARI YAPILMALIDIR..KI MODEM DE KENDINE GELEN BU ISTEGI N PORT NUMARASINDAN NEREYE GOTURMESI GEREKTIGINI BILSIN
+  UZAK MASAUSTU BAGLANTILARI HER ZAMAN 3389 NO LU PORT U TIKLATIRLAR...
+  !The port number 3389 is commonly used for the Remote Desktop Protocol (RDP), which allows users to connect to and control another computer remotely. This functionality is often used in various environments, including corporate networks, for remote administration, and for accessing systems across the internet or within private networks.
+
+  BU KONUYU TAM OLARAK ANLAYALIM, MODEM DE BU AYARLAR YAPILMAZ ISE DISARDAN HICBIR MODEME REMOTE-CONNECTIN YAPAMAYIZ, CUNKU BU TEHLIKELIDIR...ANCAK KENDIMIZE AIT MODEM VE PC ICIN YAPABILIRIZ BOYLE SEYLERI
+  MODEMDE AYAR OLARAK SUNU DEMEMIZ GEREKIYOR SANA ISTEK 3389 PORT NO ILE YAPILMIS ISE ONU SEN BENIM SU IP LI PC ME YONLENDIR DIYECEGIZ 
+
+  !MODEMIMIIZE NASIL ERISIYORDUIK..HATIRLAYALIM...DEFAULT GATEWAY-VARSAYILAN AG GECIDI UZERINDEN ERISIYORDUK
+
+  
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   !Default Gateway . . . . . . . . . : 172.29.29.1
+    (!Default Gateway . . . . . . . . . : 172.29.29.1)ISTE BU ADRES MODEM IN IP ADRESIDIR, 
+    BUNU ADRES CUBUGUNA YAZARAK MODEM E LOGIN OLUJRUZ SONRA DA MODEM DEN PORT YONLENDIRMESINI BULURUZ-PORT FORWARDING....
+    UZAK MASAUSTU BAGLANTILARI TCP PROTOKOLUNU KULLANIR BUNU BILELIM
+    PUBLIC PORT RANGE-PRIVATE PORT RANGE BUNLMARIN IKISI DE 3389 NO
+    LOCAL IP ADRESS OLARAK DA HANGI PC YE YONLENDIRMEK ISTERSEK UZAK MASAUSTU BAGLANTI REQUESTINI ONU YAZARIZ...
+    MODEM UZERIJDEN YINE HER TURLU REMOTE ADDRESI KABUL ET DE DIYEBILIRIZ YA DA SPESIFIK DIYEREK SADECE BELLI IP ADRESLERININ GONDERECEGI ISTEKLER KABUL EDILSIN DIYEBILIRIZ
+
+    https://whatismyipaddress.com/
+    ? 79.160.72.2 GENELLIKLE DISARI CIKARKEN KULLANILAN IP ADRESI MODEM IP ADRESININ(DEFAULT GATEWAY) IN 1 FAZLASIDIR
+  
+    !BU BILGI COOOOK ONEMLI BUNU BILELIMMM.SABIT IP ADRES UYELIMIGMZ YOK ISE IP MIZ GUN VE GUN DEGISECEKTIR...
+  !MODEM LERRE INTERNET SERVIS SAGLAYICILAR TARAFINDAN VERILEN IP ADRESLERI KONUSUNDA DA SUNU BILMELIYIZ KI EGER BIZ OZELLIKLE PARA VERIP SABIT BIR IP ADRESI SATIN ALMAMIS ISEK, INTERNET SERVIS SAGLAYICIMIZ, MODEM E VERILEN IP ADRESINI GUNDEN GUNE DEGISTIRECEKTIR ONDAN DOLAYI ZATEN BIZ DISA BAKAN  IP ADRESIMIZI OGRENMEK ICIN WHAT IS MY IP ADRESS YAZARIZ INTERNETE VE ORDAN OGRENIRIZ PUBLIC-DISABAKAN, INTERNETE CIKARKEN KULLANDGIMZ IP ADRESIMIZI
+
+  !NOT : UZAK MASAUSTU BAGLANTILARA SIFRE KONULMAMIS PC LERE GERCEKLESMIYOR BU WINDOWSUN BIR PRENSIBIDIR
+
+  MODEM-POINTER-ROUTER...HEPSI AYNIDIR
+
+  IP-MODEM-VS ILE HIC UGRASMADAN UZAK PC YE BAGLANMAK- TEAMVIEWER VEYA DIGER PROGRAMLARI KULLANARAK BAGLANABILMEK!!!!!!!!!!!
+
+  !MAC ADRESLERI NEDIR NEDEN MAC ADRESLERINI BILMELIYIZ
+
+  MODEM IN 1 TANE ICERIYE BAKAN BIR DE DISARIYA BAKAN KAPISID VARDIR... DOLAYISI ILE  
+   Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1 
+
+   DEFAULT GATEWAY-DEFAULT GECIS KAPISI BU MODEM IN ICERIYE BAKAN IP ADRESIDIR...VE BU IP ADRESI SAYESINDE MODEM ORTAMDAKI CIHAZLAR KENDISINE INTERNETE BAGLANMAYA GELDIKLERINDE ONLARLI TANIR VE ONMLARI INTERNETE CIKARIR...NAT.... (NAT:Network Address Translation) ILE DONUSTURUR..
+   WHAT IS MY IP DEDGIMZ DE ISE MODEM UZERINDEN INTERNETE CIKARKEN KULLANILAN PUBLIC IP ADRESI GELECEKTIR KARSIMIZA 
+  https://whatismyipaddress.com/
+    ? 79.160.72.2 GENELLIKLE DISARI CIKARKEN KULLANILAN IP ADRESI MODEM IP ADRESININ(DEFAULT GATEWAY) IN 1 FAZLASIDIR
+
+  79.160.72.1 ISE MODE MIN DISA BASKAN IP ADRESIDIR...
+
+!TEKRAR ICDERDEKI BIR PC NIN INTERNETE BAGLANIRKEN KI SERUVENINE BAKACAK OLURSAK!!!!!!!!!!!!!!!!
+  User
+  Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1    ,   https://whatismyipaddress.com/
+     79.160.72.2  , AND modem's ip adress:79.160.72.1   But what i don't understand modem has two different ip adresss or???????
+
+ChatGPT
+Yes, what you are observing are indeed two different types of IP addresses that your modem is using, and this is completely normal. Here’s a breakdown to help clarify how your modem can have multiple IP addresses:
+
+Local/Private IP Address (172.29.29.83):
+This is the IP address assigned to your computer within your local network. It’s in the range of IP addresses reserved for private networks (172.16.0.0 - 172.31.255.255 for Class B private addresses). This type of IP is used for communication within a local network and is not routable on the internet.
+Modem’s Local IP Address (172.29.29.1):
+This is typically the default gateway for your local network, which is the IP address of your router or modem. All devices on your local network send their requests to the internet through this IP. It acts as an intermediary, routing traffic between your local network and the internet.
+Public/External IP Address (79.160.72.2):
+This is the IP address assigned to your modem by your Internet Service Provider (ISP). It is used on the internet to ensure that data reaches your network from outside and vice versa. This is the IP address that websites and other online services see when you connect from your network.
+ISP Modem’s IP Address (79.160.72.1):
+This is likely the next hop or gateway IP address provided by your ISP, which is outside of your home network. It is the ISP’s router to which your modem connects. Data from your modem is sent to this IP next before it reaches the broader internet.
+How These IPs Work Together:
+Internal Communications: Devices within your home use the private IP addresses (like 172.29.29.83 and 172.29.29.1) to talk to each other and to the modem/router, which manages local network traffic.
+External Communications: When data needs to go to the internet, it is directed from your device to the modem/router (172.29.29.1), which then sends it out via its public IP address (79.160.72.2). Incoming data from the internet follows this path in reverse.
+Routing Between ISPs and Your Network: The ISP’s infrastructure uses its own IP addresses (like 79.160.72.1) to route the data through multiple nodes in their network until it reaches your modem and then your internal device.
+
+
+!!!!!LOKAL DE KI PC LERIMIZ INTERNETE BAGLANIRKEN - DISARI CIKARKEN NELER OLUYOR BAKALIM SIMDI -----  !!!!
+
+!!!!!!!BIZ BIR OFISTE CALISIYORUZ VE BIZIM PC MIZIN LOKAL IP ADRESI 192.168.1.5  OLARAK VERILDIGINI FARZEDELIM SONRA  DEFAULT GATEWAY YANI- MODEM IN ICE BAKAN IP SI - 192.168.1.1 OLDUGUNU PC MIZIN IP SINDEN ZATEN ANLAYABILIRIZZZZ, SONRA INTERNETE CIHAZIMDAN BBAGLENIRKEN MODE MIMIZ BIZE PUBLIC IP YI VEREK BIZIINTEREE GONDERIR..ORNEGIN BU PC DEN FACEBOOK-INSTAGRAM VS GIRIP UYGUN OLMAYAN , HAKARET ICERIKLI BIR YORUM YAZILDI YANI SUC OLAN DIYELIMM.. PEKI O ZAMAN MADEM KI HERKES INTERNETE CIKARKEN MODEM IN IP SINI KULLANIRSA BIR IS YERINDE 20 TANE PC VAR ISE BUNLAR NASIL BIRBIRINDE AYIRT EDEIBLIRIZ KIM HANGI PC DEN INTERNETTE NERELERDE GEZINIYOR BUNU NASIL  ANLARIZ !!!COK ONEMLI 
+!SUNU DA BILELIM ICERDEKI IP ADRESLERI TESPIT EDILEMEZ, CUNKU GUVENILIR DEGILDIR ZATEN, CUNKU DEGISIME ACIKTIR INSAN KENDISI ICERDKEI IP ADRESINI MANUEL OLARAK DEGSTIRILEBILIR...BIRDE SUNU UNUTMAYALIM KI HER GUN PC YI TEKRAR ACARKEN MODEM PC MIZE YENI BIR IP ADRESI ATADIGI ICIN, HERGUN BIZIM PC NIN LOKAL IP SI DE DEGISECEKTIR
+
+!KIMLIK TESPTINDE MAC ADRESININ KRITIK ONEMI 
+EVET INTERNET SERVICE PROVIDER BIZIM MODEMIZE AIT IP UZERINDEN YASA DISI VEYA SUC OLAN YORUMLAR YAZILDIGNI BULDU AMA BU MODEM ALTINDA 20 TANE PC VAR, BU PC LERIN LOKAL DEKI IP ADRESLERI SUREKLI DEGISIYOR ONDAN DOLAYI LOKAL IP ADRESINE BAKILMAZ, ONUN  YERINE HER PC NIN UNIQ MAC ADRESI VARDIR, MAC ADRESI BILGISAYARLRIM ETHERNET KARTLARINDA BULUNAN UNIQ DEGERDIR, ETHERNET KARTI UZERINDE BULUNAN UNIQ SERI NUMARASI DIR VE BIR PC MODEM IP SI UZERINDEN INTERNETE CIKSA BILE, BIRAZ DETAYLI BIR INCELEMEDE INTERNETTE BAGLANILAN WEBSITGELERINDE PUBLICIIP ADRESI ILE BERABER HANGI MAC ADRESI ILE BAGLANILMIS ODA GORULUR YANI HANGI UNIQ ETHERNET KARTI MAC ADRESI ILE BAGLANILMIS, YANI HANGI PC ILE O WEBSITESINE BAGLANILMIS O HEMENCECIK TESPIT EDILEBILIR. YETKILI KISI INTERNET SERVICE SAGLAYICISINDAN GELDI, DIYELIM KI SIRKETE GELDI , CUNKU MODEM IN IP SINI BILDIGI ICIN SIRKETIN ADRESINI HEMEN BULUP GELIR VE SONRA DA ELINDE MAC ADRES NUMARASI DA OLDUGU ICIN PCLERI CHECK EDEREK MAC ADRESININ HANGI PC DEN YAPILDIGINI DA BULABILECEKTIR
+
+!BU ARADA TABI KI KABLOSUZ INTERNET BAGLANTILARDA DA, LAPTOPLARDA ETHERNET KARTI VARDIR VE BILGISYAARLARIN ARKASINDA WIFI-CARD -WIRELESS ADAPTER CARD DIR VE BU NI INCELERSEK BU WIRELESS ADAPTER CARD UZERINDE, UNIQ MAC: NUMARASINI GOREBILIRIZ, 48 BITLIK BIR ADRESTIR...2^48 ADET(COK BUYUK BIR RAKAM) MAC ADRESI VARDIR DUNYA UZERINDE HER CIHAZIN SORUNSUZ BIR SEKILDE UNIQ BIR MAC ADRESI ALABILIR. MAC ADRESI INTERNETE BAGLANAN CIHAZIN UNIQ SERINUMARASIDIR VE DOGRUDAN ISTE INTERNETE MODEM IN IP UZERINDEN INTERNTE CIKAN CIHAZ IN HANGI CIHAZ OOLDGUNUN BULUNMASI MAC ADRESI UZERINDEN GERCEKLESIR
+
+!INTERNET SERVICE SAGLAYICISININ ELINDE YASAL OMLAYAN ISLEMI IP SI VE YASAL OLMAYAN ISLEMIN YAPILDIGI MAC ADRESI BULUNUR , YASAL OLMAYAN ISLEMI YAPAN IP ADRESININ ONCE HANGI MODEME AIT OLDUGUNU BULUP  O MODEMI TESPIT EDER VE SONRA O MODEM NERDE ISE ORAYA GIDER VE ORDAN DA MAC ADRES NUMARASINDAN O MODEM UZERIDNEN INTERNETE BAGLANAN HANGI PC DEN OLDGUNU MAC ADRESINI CHECK EDEREK BULUR
+
+ARABALARDA PLAKA DEGSITIRILEBILIR ORNEGIN ARAC EGER BIZ SATIN ALMADAN ONCE BIR SUCA KARSIMIS ISE, AMA SASE NUMARASI HICBIRZAMAN DEGISTIRILEMEZ, CUNKU URETIMDEN ITITBAREN VERILMISTIR... PLAKA BURDA LOKAL IP ADRESI GIBDIR, MAC ADRESI ISE SASE NUMARASI GIBIDIR
+
+!MAC ADRESINE PCMIZDEN NASIL ULASIRIZ ONA BAKALIM
+!MAC ADRESI FABRIKADA CIHAZ URETILIRKEN CIHAZIN UZERINE DIREK BASILIR VE O CIHAZ NERYE GIDERSE GITSIN O MAC ADRESI ARTIK DEGISMEZDIR
+
+!ipconfig /all
+komutunu yazarsak cmd de 
+
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Intel(R) Dual Band Wireless-AC 8265
+   !Physical Address. . . . . . . . . : 1C-1B-B5-13-4A-84
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10(Preferred)
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : torsdag 25. april 2024 08:41:29
+   Lease Expires . . . . . . . . . . : lørdag 27. april 2024 08:41:17
+   Default Gateway . . . . . . . . . : 172.29.29.1
+   DHCP Server . . . . . . . . . . . : 172.29.29.1
+   DHCPv6 IAID . . . . . . . . . . . : 136059829
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-2A-E3-5C-02-E4-E7-49-9E-AF-BD
+   DNS Servers . . . . . . . . . . . : 172.16.3.11
+                                       172.16.3.12
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter Bluetooth Network Connection:
+
+   !Physical Address. . . . . . . . . : 1C-1B-B5-13-4A-84
+    ISTE BU ADRES BIZIM, MAC ADRESIIMZDIR, Physical Address cunku fabrika uretiminde uzerine basilmis ve degistirilemez..ONDAN DOLAYI SUNU IYI BILELIM KI BIZ ISLEM YAPRKEN KIMLIGIMZ HICBIR ZAMAN GIZLI DEGILDIR VE YAPTIGMIZ TUM ISLEMLER ARKA PLANDA BIR YERLERDE LOGLANIYOR VE ZAMANI GELDIGINDE EGER YAPTGIMZ ISLEMLERDE BIR SORUN VAR ISE BUNLAR KARSIMIZA MUTLAKA CIKACAKTIR BUNU IYI BILELIM!!!!!!!!
+    !WINDOWS ARAYUZUNDE INTERNET SETTINGS-AG VE BAGDASTIRICI AYARLARI - ETHERNET KARTINMIZE GELIP CIFT TIKLA AYRINTILARA GELIRSEK ORDA DA PHYSICAL ADDRES DIYE YAZAN MAC ADREZIMIZI GOREBILIRIZ
+
+!YA ETHERNET KARTINI YA DA WIRELESS ADAPTERKARTINI CIKARIRSINIZ KIMLIGNIZI GIZLEMEK ICIN YA DA TASINABILIR WIRELESS USB ETHERNET ANTENTLERI-KARTLARI KULLANARAK INTRNETE BAGLANIP SONRA BU KARTI YOK EDERSENIZ O ZAMAN SIZI BULAMAZLAR
+
+!PEKI INTERNET KAFE DE NASIL TESPIT EDEBILIRLER SIZI...SADECE SUNU BULURLAR SIZIN HANGI PC DE HANGI SAATTE ISLEM YAPTGIGNIZI BULURLAR VE KAMERA KAYTILARINDAN DA O PC YE O SAATTE KIM GELMIS ONU GORURLER...VE DE TELEFON SINAYLINDEN DE O SAATLARDE KIMLER VARMIS KAFE DE ONU GOREBILIRILER...VE YUZ TESPTI VS DEN COK KOLAY BIR SEKIKLDE BULABILIRLER 
+
+!BU ARADA MODEM E AIT IP ADRESINDEN YAPILAN YASAL OLMAYAN BIR ISTE SORUMULUUK O MODEM-IP ADRESI KIMIN UZERNE ISE ONA AITTIR...ONDAN DOLAYI DA BU KONU DA WIFI SIFREMIZI HERKESLE PAYLASMAMAKTA FAYDA VARDIR
+
+!OFIS AGI - OFIS NETWORKU NASIL KURULUR 
+BILGISAYAR, ETHERNET KABLOLAR, MODEM
+!Ofislerdeki bilgisayar aglarni,networklerini kurma islemini tamamen ip lerle yapiyoruz
+!Ip adreslemeyi yapabiliyorsak, bilgisayarlara ip nasil verilir bunu biliyorsak, ortamdaki modem uzerinden-(gateway) uzerinden internete cikacagiz, bunlari da biliyor sak , o zaman biz bir ofiste pc leri  birbirlerine baglayabiliriz 
+
+!Ihtiyacimz olan sey, modem, internet ve bilgisayarlar 
+
+!1-Oncelikle modem in ip adresini ogrenmeliyiz, bulmaliyiz
+!Modem in ip adresini nasil ogreniyorduk hatirlayalim
+!ipconfig yazariz pc ye 
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::ffe0:e356:e935:e989%10
+   IPv4 Address. . . . . . . . . . . : 172.29.29.83
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.29.29.1
+!Iste burdaki Default Gateway degeri modem in icerdeki ip adresidir..internete cikmadan onceki
+
+!2.Modem in ip sini ogrendigmize gore o zaman sunu anliyoruz, modem(Dhcp servisi) pc lere ip adresi atamasi yapacak su sekilde 172.29.29.2, 172.29.29.3, 172.29.29.4....
+!Peki biz modem imizin mi pc lere ip atamasi yapmasini isteriz yoksa, kendimiz manuel olarak ip atamasi mi yapacagiz
+!Eger ofiste bilgisuyar sayisi cok fazla degil ise 10-15 adet ise o zaman ip leri kendimiz vermemiz daha iyi olur...Yok cok fazla pc var ise o zaman artik modem(DHCP SERVISINE) in kendsinin atamasini saglariz.
+SIRASI ILE PC LERE IP ADRES ATAMASI YAPALIM...BUNU DA ZATEN INERTNET AYARLARINDAN YAPABILDIGMIZI BILIYOURUZ income-btn
+!PC LERE IP ATAMASI YAPARKEN AYNI NETWORKDE OLACAK SEKILDE IP ATAMASI YAPACAKTIK UNUTMAYALIM...CUNKU BIRBIRLERI ILE NETWORK-BAGLANTI OLUSTURACGIZ..
+
+PC-1
+NETWORK : 192.168.1.0 
+IP ADDRESS: 192.168.1.2 
+Subnet mask: 255.255.255.0
+Default Gateway: 192.168.1.1(modem)
+DNS:192.168.1.1(MODEMI VERIYORUZ MODEM BIZM ICIN DNS SERVER I HANDLE EDECEKKI KULLANICILAR ISTEDIKLERI WEB SITESINE BAGLANABILSIN)
+!Bildigimiz gibi ip adresini verdikten sonra tab a basinca subnetmask i kendisi atiyor zaten
+!Bilgisyarin internete cikabilmesi icin Default gateway i dogru verilmesi ve Dns in dogru verilmesi sarttir bunu unutmayalim..
+
+PC-1
+NETWORK : 192.168.1.0 
+IP ADDRESS: 192.168.1.3 
+Subnet mask: 255.255.255.0
+Default Gateway: 192.168.1.1(modem)
+DNS:192.168.1.1(MODEMI VERIYORUZ MODEM BIZM ICIN DNS SERVER I HANDLE EDECEKKI KULLANICILAR ISTEDIKLERI WEB SITESINE BAGLANABILSIN)
+
+!Bilgisyarlara ip atamalarini yaptik, peki bundan sonra pc lerin birbiri ile network baglantisi kurabilmemiz icin, bilgisayarlar arasinda bir baglnti kujrulmasi gerekiyor...Yani bilgisayarlarin 
+
+!Once sunu anlayalim, bizim sirketimizde 1 tane modemimiz var ve modem lerin 4-5 tane portu olur ethernet kablolari icin, ancak, sirkette ornegin var 15 pc , bu durumda ne yapariz peki. Boyle durumlar icin ise : 
+Netwerk kablolarinin adi Cat5 kablolaridir, bu saniyede 100 mbit veri transferi gerceklestirebilirler, Cat6 lar daha hizli olanidir ve 1 Gbit hizinda hizmet verir, yani saniyede 1 Gbit veri transferi gerceklestirebilirler
+
+!Bit denildigi anda, verinin hizindan bahsediliyor, byte denildiginde ise veri niin buuyuklugunden bahsediliyor bunu bilelim
+!Modem de yeterli port olmadigindan dolayi bir sorun ile karsilasiyoruz araya bir network cihazi koyuyoruz bunun adi switch cihazi, ve bu swtich cihazi sayesinde modem den switche swtich den de pc lere baglanti kurulmus oluyor(Eskiden swithc yerine hub kullanilirdi)
+Swtich cihazlari, her bir portuna baglanan pc nin ip adresini biliyorlar ama eskiden hub kullanildiginda hub cihazlari bilemiyorlardi
+Biz switch in bir portuna bagladgimz pc den yine swtichin diger bir portuna baglanan pc yi birbirine baglarken switch her iki pc nin ip sini bildigi icin hizli bir sekilde pc leri birbirne baglyablir.ama hub lar ise gelip port lara tek tek soruyordu cek ediuyordu, ve bu da ekstra yuk getiriyordu eskiden 
+!Modem imiz yeterli portu saglayamayacagi icin her zaman sirketlerde modem den swtiche kablo ile baglanti saglanip sonra pc ler switch portuna baglanirlar
+!Kisaca modemimiz, de pc ler de hepsi switch uzerinde toplanmis oluuyor ve burda bilgisayarlar birbirlerini gorebiliyor, bilgisyalar modem i gorebiliyorlar cunku ayni ortamdalar, tum cihazlari ayni havuzda toplayarak bize bu ortami switch cihazlari saglamis oluyor
+
+!KISACASI NE YAPTIK, 1 PC LERE AYNI NETWORDDE OLACAK SEKKILDE IP LERINI VERDIK VE DE TUM PC LERI MODEM LER BIRLITKE SWTICH CIHAZI KULLANIARAK AYNI ORTAMDA BULUSTURMUS OLDUK VE BU SEKILDEE BIZ BIR OFISTE BILGISAYAR NETWORK I NASIL KURULUR BUNU GORMUJS OOLDUK
+
+!LOCAL AREA NETWORK - LAN(TEK BIR CATI ALTINDAKI PC LER ARASINDA KURULAN NETWORKDUR)
+!WIDE AREA NETWORK -WAN(AMA BIR SIRKETIN ULKENIN FARKLI SEHIRLERINDE OFISLERI VAR VE BURALARDAKI PC LER UZAKTAN AYNI NETWORK LERI OLDUGUNU DUSUNELIM BURDA BANKALAR BUNA GUZEL BIR ORNEKTIR )
+
+!KATLI YAPILARDA NETWORK YAPILANDIRMASI 
+BURDA DA ORNEGIN 5 KATLI BIR BINANIN HER KATINA BUYUKK OFISLER VAR VE HER OFISTE 50 PC VAR VE HER KATTA BIR SWTICH VASITASIYLA PC LERI BIRBIRNE BAGLADIK VE DE HER KATTAKI PC LER AYNI NETWORK ALTINDA IP ADRESLERI ATAMASI YAPILDI... BUNU HER KAT ICIN YAPTIK, SONRA ISE BIZ BU 5 KATTAKI TOPLAM 250 PC NIN DE BIRBINE BAGLI OLMASINI ISTIYORUZ O ZAMAN NE YAPARIZ O ZMAN DA BU BINANIN BIR IT ODASI VARDIR O IT ODASINDA DA 5 FARKLI KATTA BULUNAN 5 FARKLI SWTICH CIHAZININ HEPSINI BINANIN IT ODASINA DA BIR TANE SWITCH KOYUP O SWTICH DE TOPLARIZ DIGER TUM SWITCH LERI YANI TEK BIR SWITCHE BAGLARIZ, DOLAYISI ILE TUM YAPIYI TEK BIR SWITCH UZERINDE TOPOLAMIS OLUSRUZ VE MODEM IMIZI DE BU ANA SWITCHE BAGLARIZ
+DHCP SERVISI SUNAN CIHAZ MODEM, ROOTER, INTERNET SERVIS SAGLAYICISININ SUNMUS OLDUGU FARKLI BIR CIHAZ DA OLABILIR AMA MESELE DHCP 
+
+!BIR AGDA DOSYA VE KLASORLER NASIL PAYLASTIRILIR?
+BIR SENARYO UZERINDEN KONUSALIM...
+3 ARKADAS BIR EVDE BULUSTULAR VE HER BIRININ 1 PC SI VAR VE AHMETPC SINDE FILMER VAR, AYSEPC SINDE MANZARA RESIMLERI VAR, MEHMETPC SINDE DE MUZIKLER VAR , VE BU UC ARKADAS KENDILERINDE BULUNAN DOSYALARI BIRBIRLERI ILE PAYLASMAK ISTIYORLAR, BUNU NASIL YAPACAKLAR
+!BU UC PC AYNI ORTAMDA MODEM IN OLDUGU BIR ORTAMDE ACILIYOR VE ACILDIGI ANDA ORTAMDAKI PC LERE MODEM TARAFINDAN PRIVATE IP LER, AYNI NETWORK ALTINDA PRIVATE IP LER ATANMIS OLUYOR
+!YAPMAMIZ GEREKEN TEK SEY SU, PAYLASILMAK ISTENILEN KLASORLER PAYLASIMA ACILMALIDIR, KLASOR UZERINDE SAGA TIKLANIP OZELLIKLER E GIDERIZ, MENU TAB INDA PAYLASIM-ADVANCE VE BI KKLASORU PAYLAS DERIZ VE EVERYONE E TAM YETKI VERIRIZ KI ARTIK BU KLASORU HERKES GOREBILSIN.... 
+YANI BIZ BIR PC DEN DIGER 3 PC YE UZAK-YEREL BAGLANTI TOOL UNU ARMAA YAPIP
+
+windows-r ye tiklayarak, bilgisyalar ayni network de olduklari zaman, birbirleri ile paylasilan klasor ve dosyalara erismek cok zor degildir,
+    \\(baglanmak istedgimz pc nin ip adresini gireriz)
+    girecegimz, baglanacagimzi pc nin ip adresini de ipconfig den ogrenebiliriz 
+    \\192.168.0.14 diyerek bu pc ye baglanabiliriiz 
+    pc bizden username-password isteyecek
+    !Baglanacagmiz pc de ana kullanici haricinde de bir baska kullanici olusturmak icin ise mypc-saga tiklanip yonet dendikten sonra lokal-brukere ogr upper e tiklayip ordan brukere nin uzerine tikla yuip o sayfada saga tiklayip yeni bruker olustur diyerek yeni kullanici olustururuz, kullanici adi ve password veririz
+
+    !PEKI BIZ BAGLANDGIMZ DIGER PC YE KULLANICI ADI VE SIFREYI GIRDIKTEN SONRA, YETKI SORUNU YASADIK, YANI KLASOR PAYLASILMIS AMA KLASOR ICERIISNE GIRME VE O KLASORDE BULUNAN DOSYA LARI KENDISINE ALMA YETKISI YOK, ONDAN DOLAYI KLASOR PAYLASIMA ACMANIN YANINDA BIR DE KLASORE KLASOR U OKUMA,GORUNTULEME DIGER YETKILERINDE VERILMESI GEREKIR....
+    
+    !KAYNAK PAYLASIMLARINDA YETKI VE IZINI ATAMALARI NASIL YAPILIR
+    IZIN ATAMALARI YAPILIRKEN,  KLASORUMUZE SAG TIKLAYIP PROPERTIES DEDIKTEN SONRA GELEN MENU DE GUVENLIK-SECURITY KISMI VAR , UST BOLUME KULLANICIYI EKLEMMIZ GEREKIR, IZIN VERECEGMZ KULLANICI UST KISMDA DUZENLE-EKLE DIYEREK EKLERIZ SONRA DA ALT KISM DA DA O KULLANICIYA DOSYA YETKI IZINLERINI VERIRIZ, kullanici adi windows da USERS altidna nasil isimlendirilmis ise o isimi yazariz ve zaten kendisi sonrasinda otomaik olarak getirmesi gerekir
+    DOSYA IZINLERINDE YAZMA IZNI VERDIGMIZ ZAMAN AYNI ZAMANDA YENI DOSYA VE KLASOR OLUSTURMA IZNI DE VERILMIS OLUYOR ASLINDA, YANI NORMMAL OLARAK VAR OLAN DOSYA ICERISINE YAZABILMENIN YANINDA
+    YINE IZINLERDE EXECUTE IZNI VARDIR BUDA ULASINAN KAYNKTA EGER .EXE UZANTILI DOSYA VAR ISE YANI RUN EDILEBILIR BIR DOSYA VAR ISE BU TARZ DOSYALARIN RUN EDILMESI YETKISNIN VERILMESI ANLAMINA GELIR, BIR NEVI .SH UZANTILI DOSYA GIBI LINUX-UBUNTU DAKI
+
+    DEGISTIRME IZNI ISE OKUMA, YURUTME, YAZMA, LISTELEME GIBI IZINLERIN HEPSINE SAHIP OLAN IZINDIR, EKSTRA OLARAK SILME IZNI DE VEREN IZINDIR
+
+    PAYLASMAYA ACTGIMGZ KAYNAKLARIMIZ UZERINDE BIZIM VERDGIMZ IZINLER OLCUSUNDE ISLEM YAPACAKTIR KULLANICILAR
+
+    !Tam denetim izni tehlike li bir izindir, onun icin herkese verilmez, cunku diger kullanicilarin izinlerine mudahele edilebilecek bir yetkidir
+    !Sadece klasorlerimizin kullanicinin kendi pc sine cekmesi icin verilmesi gereken izinler, sadece klasor icerigini listeleme ve okuma izni yeterlidir..Bu izinloer verilmesi ile kullanici dosyalari kendi pc sine surukle birak yontemi ile gonderebilir
+
+    ! HATIRLAYALIM WINDOWS+R YAPIP \\192.168.0.104 diye hangi ip adrsni girersek o ip adresine girebiliyorduk eger ayni network de isek.... ve klasor paylasiminda bu sekilde yapabiliyorduk hatirlayalim...
+
+
+    !IP ADRESLERININ SOUNDAKI SAYILAR NE ANLAMA GELIR
+    Bu sayilar ip adresinin CIDR degeridir, yani subnetmask ini da verir, yani alt ag maskesini vermis olur
+
+    IP: 192.168.1.100\24 :  Bu 24 bize sunu verir, Bu ip adresinin subnet maskindaki bitlerin soldan saga 24 tanesini degeri 1 dir diyor ona gore bunu sen hesapla diyor, sonuc ta subnet mask da ip adresi gibi 32 bitlik bir sayidir, 24 sayisi bize soldan saga dogru subnetmaskin 24 tanesi 1 dir geri kalani 0 dir demis oluyor
+
+    !192.168.1.100\24 
+
+    SubnetMask: 11111111.11111111.11111111.00000000(binary)=>255.255.255.0(decimal-onluk duzen) YANI DEMEKKI C SINIFI IP ADRESLERINDE, STANDART SUBNETMASK 255.255.255.0 BU IMIS
+
+    IP ADRESI: 172.16.10.100\16 => BU DA B SINIFI BIR IP ADRESIDIR VE STANDART SUBNETMASK DEGERI 255.255.0.0 DIR KI ZATEN 16 DEMEK SOLDAN SAGA DOGRU 16 TANESI 1 GERISI O DIR DEMEKTIR KI BUNUN DA ZATEN ONLUK DUZENDE KARSILIGI 255.255.0.0 OLUYOR BUNU DA MANUEL OLARAK IP AADRES ATAMASI YAPARKEN TAB A BASINCA OTOOMATIK GELECEKTIR
+    11111111.11111111.00000000.00000000=> 255.255.0.0
+
+    IP: 192.168.1.100\20 (SOLDAN SAGA DOGRU 20 ADET 1 gerisi 0  DEMEKTIR)
+    11111111.11111111.11110000.00000000=>255.255.240.0 SUBNET MASK BUDUR
+
+    !CIDR-STANDART SUBNET MASK 
+
+    C sinifi \24  255.255.255.0 
+    B Sinifi \16  255.255.0.0
+    A Sinifi \8  255.0.0.0
+
+    !Subnet mask ile ilgili 24,16,8 goruyorsak, hersey yolundadir, ama bu sayilardan farkli sayilar gorursek, o zaman ip ile oynanmis demektir o zaman da devreye subnetting girer ve bu da apayri bir konudur buna ihityacimz oldugunda ekstra ogrenmemiz gerekir 
+
+    !BAYT- BIT - BUYUKLUK VE HIZ BIRIMLERI 
+
+    !BYTE-BUYUKLUK
+    !Harddisk kapasitesi 500 gigabyt 
+    !Bu video dosyasi 50 megabayt buyuklugunde
+
+    !HIZ-BIT
+    !Internet hizim 20megabit hizinda 
+    !Fiber internete gectim 100 megabit hizim var
+
+    
+    1 bit = 1 ya da 0 dir, bilgisayarin anladigi binary ikili sayi sisteminde ki tek bir karakter 1 ya da 0 iste bu bittir 
+    1 byte = 8bit 
+    !Bizim icn 1 bit in hic bir anlami yoktur ama 8bit=1byte bizim icin bir karakteri temsil ediyor ama tabi ki 8 bit-1byte a karsilik gelen 128 tane ASCI TABLOSUNDAN BILDIGIMZ KARAKTERLER VARDIR AMA BU KARAKTERLERIN HEPSI 1 KARAKTERDEN OLUSMUYOR...BAZI 8BIT-1BYTE LAR 2 VEYA 3 KARAKTERDEN OLUSABILIYOR, AMA SAYILAR, OPERATORLER, SEMBOLLER, YANI KLAVYEDE BULUNAN SEMBOLLLER BUNLAR 1 KARAKTERDIR...  ASCCI TABLOSUNU INCELERSEK BU NU DAHA IYI ANLARIZ
+    1 kilobyte = 1024 byte
+    1 megabyte = 1024 kilobyte 
+    1 gigabyte = 1024 megabayt
+    1 terabyte = 1024 gigabyte
+
+    !bIR METIN BELGESI ACINCA O METIN BELGESINE GIDIP ISMIMIZI YAZALIM VE SONRA PROPERTIES DEN BU DOSYA BUYUKLUGUNE BAKARSAK, ADEM  YAZARSAK 4BYTE LIK YER KAPLADIKLARINI ANLARIZ 
+    A->1BYTE SPACE-BOSLUK KARAKTERI 1 BYTE DIR, ; BIR BYTE DIR.. 1 SAYISI BYTEDIR 
+
+    !100 Mbps - 779,-/md. MEGABIT PER SEKUND . BU SU DEMEK SANIYEDE 100 MEGABIT HIZINDA,  YANI SANIYEDE YAKLASIK 12 MEGABYTE LIK VERI INDIREBILIRSIN...
+
+    !CAT-5 ETHERNET KABLOSU SANIYEDE 100MEGABIT HIZ SUNARLAR- YANI 100Mbps-100 megabit per second , YANI YAKLASIK 12MEGABYTE BUYUKLUGUNDE VERI TRANSFERI VERI INDIRILEBILIR SANIYEDE 
+    !CAT-6 ISE ETHERNET KABLOSU ISE SANIYEDE 1GBPS- GIGABIT PERSECOND INTERNET SUNARLR, YANI SANIYEDE YAKLASIK 120 MEGABYTE LIK VERI TRASNFERI SAGLAR, VERI INDIRILEBILIR DEMEKTIR
+!CAT6 KABLOSUNU BIR PC DEN DIGER PC YE BAGLARSAM 1 GB LIK FILMI BIR PC DEN DIGERINE YAKLASIK 10 SANIYEDE TRANSFER EDEBILIRM DEMEKTIR, AMA CAT-5  KABLOSU KULLANIRSAM TOTAL DE 100 SANIYE SURECEKTIR YANI YAKLASIK 2 DAKIKAYI BULACAKTIR
+
+!SISTEM VE NETWORK MUHENDISLIGI
+
+BIT-0,1 DEN HERHANGI BIR TANESI 1 BITTIR, BILGISAYARIN ANLAYABILECEGI EN KUCUK VERI MIKTARIDIR
+NIBBLE- 4 BITTEN OLUSUR
+BYTE 1 KARAKTERLIK BILGIYI IFADE EDEN 8 ADET BITTEN OLUSUR, KLAVYEDE BASILAN HER TUS 1 BYTTE DIR
+WORD 16 ADET BITTEN OLUSUR
+!ORNEK VERECEK OLURSAK BIR DOSYA OLUSTURALIM .TXT DOSYASI VE ICERISINDE IKEN KLAVYEDE HERHANGI BIR KARATERE BASIP KAYDEDIP SONRA O DOSYANIN PROPERTIES LERINE BAKARSAK 1 BYTE OLDUGUNU, EGER 2 KARAKJTER GIRERSEK ONUN DA 2BYTE OLDUGUNU, BU ARADA EGER SPACE TUSUNA BASILIRSA BU BIZIM ICN BOSLUKTUR AMA PC ICIN KARAKTERI IFADE EDER ONDAN DOLAYI 1 2 YAZARSAK ARAYA BOSLUK TUSUNA BASMIS ISEK O ZAMAN DOSYA SAGA TIKLAYIP PROPERTIES DE GENERAL DAN KAPLADIGI ALANA BAKARSAK 3 BYTE OLARAK KARSIMIZA GELECEKTIR
+BU ARADA BIR SATIR A YAZDIKTAN SONRA SATIR ATLAMA EOL(END OF LINE) 2 BYTE OLARAK KABUL EDILIR
+
+!KLAVYEDE BASILAN HER HARF VEYA RAKAM 1 BYTTE DIR
+HARF VEYEA RAKAMLAR BILGISAYAR DILINDE BYTE LAR ILE IFADE EDILIR 
+
+ORNEGIN A HARFI 1 BYTE DIR 
+VE BINARY-IKILI SAYI SISTMINDE 01000001 SEKLINDE GOSTERILIR, ONLUK SAYI SISTEMINDE DECIMAL->65 E ESITTIR
+!YANI BILGISAYAR A,B,C BILMEZ TEK BILDIGI  01000001 BUDUR, BILGISAYARIN A DAN ANLADIGI BUDUR..BUNA A DIYEN BIZIZ, HUMANREADABLE KARSILIGIDIR A
+  
+?,!, ;..GIBI KARAKTERLER DE 1 BYTTE DIR TABI KI, SPACE-BOSLUK KARAKTERI DE 
+
+!ASCI,UTA STANDARTLARINDA TABI KI 01000001 KARSILIG A DIR DECIMAL KARSILIGI DA 65 TIR
+!UTF8 DE 1 KARAKTER 1 BYTTE DIR, STANDARTTA DA BU KULLANILIR
+!AMA UTF16 DA 1 KARAKTER 2 BYTTE DIR - 16BITT
+!UTF32 DE 1 KARAKTER 4BYTTE DIR-32 BITTIR
+
+!WINDOWS STANDARTLARINA BOYLEDIR AMA LINUX,MACOS..GIBI STANDART OLMAYAN BIRIMLERDE FARKLILKIKLAR OLABILIR
+
+  1BYTE=8BIT
+  1KILOBYTE-KB = 1024BYTE
+  1MEGABYTE-MG = 1024KB
+  1GIGABYTE-GB = 1024MB  
+  1TERABYTE-TB = 1024GB  
+  1PETABYTE-PB = 1024TB
+  1EKSABYTE-EB= 1024PB
+  1ZETTABYTE =  10224EB
+
+!8GBRAM 8192 MB TIR
+!1GBITLIK ETTHERNET SANIYEDE 0.125GB VERI AKTARABILIR
+!100MBIT INTERNET(8BIT 1BYTE ISE 100/8=12.5) 12.5GBITLIK VERI TRANSFER EDEBILIR SANIYEDE(100 Mbps-10 MEGABIT PER SEKUND DEMEKTIR YANI SANIYEDE 12.5MBYTE LIK BUYUKLUKTE VERI INDIREBBILIR DEMEKTIR)
+
+!COK KRITIK BILGI: bit kucuk b harfi ile;Byte buyuk B harfi ile gosterilir.
+!INTERNET HIZI, ETHERNET, WIRESS HIZI SOZ KONUSU OLDUGUNDA KESINLIKE TEK AKLMIZAZ GELECEK OLAN SEY BITTIR VE Mbps-Megabit per second, persecond, her saniyede transfer edilebilecek veri buyktugunu gosterir ama bunun bit deyince hizini anlatmak icin soylenir, byte denince buyklugunju anlatmk icin kullanilir
+
+!3 PBYTE LIK VERI 100Mbps lik internet hatti ile kac gunde cloud daki server imiza gider diye bize sorabilirler?
+!VEYA 3PETABYTE LIK VERMIZI CLOUDDAN DIGER SUBEYE 35 GUNFR  AKTARABILMEK ICIN MINUMU KAC Mbps hizda ethernet-kablo-internett hatti gereklidir?
+
+ASCII-AMERICAN STANDART CODE OF INFORMATION INTERCHANGE
+PC YE 01000001 IN KARSILIGI A HARFI OLDUGUNU SOYELEYN ISTE ASCII'DIR.
+1960-61 YILLARNDA BUNLARI PC LERE OGRETIP STANDARTLARI OLUSTURMUSLAR 
+
+ASCII METIN KARAKTERLERIN IKILI-BINARY SAYI SISTEMINDEKI DEGERLERIDIR 
+!INGILIZCE ALFABEDEKI TUM HARFLERI DE KAPSAYAN 128 KODDAN OLUSUR
+!ORNEGIN 0 KARAKTERININ ASCII KODU 00110000 DIR DECIMAL KARSILIGI DA 48
+!ORNEGIN 1 KARAKTERININ ASCII KODU 00110000 DIR DECIMAL KARSILIGI DA 49
+!ORNEGIN % KARAKTERININ ASCII KODU, 00100101 DIR DECIMAL KARSILIGI 37 DIR
+
+!ASCII TABLOSUNDA GOREBILIRIZ
+
+WINDOWS TA BIR METIN EDITORUNDE:
+ALT TUSU BASILI IKEN 49 A BASIP BIRAKIRSAK 1 KARAKTERINI GORURUZ
+ALT TUSU BASILI IKEN 48 E BASIP BIRAKIRSAK DA 0 KARAKTERINI GORURUZ
+
+!AMA BU ISLEMLERI MACOS-LINUX TE DENEMEK MANTIKSIZDIR CUNKU LINUX-MAXCOS UNICODE KULLANIYOR,ASCII KULLANMIYORLAR
+
+!VERI YOLU(DATA BUS)
+BIZ KLAVYDE DE HERHANGI BIR KARAKTERE BASINCA ORNEGIN A YA BASINCA 8 BIT LIK OLAN 01000001 BITIN TRANSFER EDILDIGI YOLLAR VAR ISTE BU YOL DATA BUS-VERI YOLUDUR. SONUCTA KLAVYEDEN BASIYORUZ EKRANA GELIYOR BURDA BIR VERI TRANSFERI GERCEKLESIYOR
+ISTE BU YOLLARIN GENISLIGI-DATA BUS IN GENISLIGI PC NIN AYNI ANDA NE KADAR VERI ILETEBILECEGINI GOSTERIR 
+
+32 BITLIK VERI YOLU AYNI ANDA 32 BIT VERI ILETEBILIRKEN(SADECE GIDIS-VERI ILETIR)
+64 BITLIK VERI YOLU AYNI ANDA 64 BIT VERI ILETEBILIR(HEM GIDIS HEM GELIS- HEM VERI ILETIR HEM VERI ALIR)
+!ISTE BUNDAN DOLAYI DIR KI 32 BITLIK ISLETIM SISTEMIK 64 BITLIK OLAN DAN DAHA YAVASTIR
+!64 BITTEN TAM VERIM ALINABILMESI ICIN ONCELKLE ISLETIM SISTEMININ BUNU DESTEKLEMESI GEREKIR KI BIZ ISLETIM SISTEMINI BILIRIZ, DONANIM LA ISIMIZ OLMAZ, AYRICA DA HEM CPU NUN, HEM ANAKARTIN VS 64 BITI DESTEKLEMESI GEREKIR TAM VERIM ALNABILMESI ICIN
+
+BILGISAYARDAKI TUM CIHAZLAR VE DONANIMLAR, BIRBIRLERI ILE VERI YOLU-BUS ILE ILETISIM KURARLAR
+VERI YOLU-DATA BUS BIRBIRINE BAGLIDIRLAR
+
+ELEKTRIK SINYALI VAR-1, ELEKTRIKSINYALI YOK-0 
+ELEKTRIK SINYALLERI VERI OLABILMESI ICIN DONUSTURULUYORDU, DATA-BUS LAR UZERINDEN AKAR ELEKTRIK SINYALLERI
+
+!VERIYI KAYDEDERSEK DISK E ALINIR KAYDETMEZSEK RAM DE KAYITLI DURUR..TABI RAM DE PC KKAPANANAN KADAR...VEYA BIZ O UYGULAMAYI KAPATANA KADAR DURUR.RAM-GECICI BELLEK
+
+!BILGISYARLARDA VERILERIN ISLEM ASAMASI 
+1-INPUT-KLAVYEDEN A' YA BASILDIGINDA(ASLINDA ILK ASAMADA BIZ ELEKTRIKSINYALI GONDERIRIZ AMA ONLAR VERIYE DONSTURULEREK ALINIR PC TARAFINDAN)
+VEYA FARE-MOUSE A TIKLANDIGINDA 
+VEYA TOUCHPAD, JOYISTICK, MIKROFONDAN KONSULDUGUNDA SES GIRISI YAPILIR 
+2-PROCESS-ISLEM- BILGISAYAR ISLEM YAPAR
+ISLEMCI, BELLEK,ANAKART,EKRANKARTI,AG KARTI
+3-OUTPUT-BILGISAYAR ISLEM SONUCUNU GOSTERIR
+MONITOR,YAZICI,HOPERLOR
+
+!IC VE DIS HER BILGISAYAR PARCASI BU 3 ASAMANIN BIRISINDE MUTLAKA GOREV ALIR
+
+!Webcam ve Tarayıcı (Scanner) için hangi aşamanın birimleri olduğunu doğru sıralamada seçiniz-INPUT-INPUT
+
+!ISLEMCI-CPU-CENTRAL PROCESSING UNIT-MERKEZI ISLEM BIRIMI-ISLEMCI VE MIKROISLEMCI BIRIMLERI 
+INTELCORE I7, INTELCORE I5, AMD RYZEN ...
+
+BILGISAYAR ACILDIGINDA HICBIRSEY YAPMASAK,DA VEYA SADECE MUZIK DINLESEK BILE, CPU-ISLEMCI BIR BEYIN GIBIDIR SUREKLI OLARAK HESAPTADIR HESAP YAPAR, KARAR MEKANIZMASI VE MATEMATIK DEHASIDIR KENDISI. ISLETIM SISTEMININ ACILMASINA DA KAPANMASINA DA O KARAR VERIR
+
+!CPU-MERKEZI ISLEM BIRMI(CPU-CENTRAL PROCESSING UNIT)
+ISLEMCI ISLEMLERI PARCALARA BOLEREK ISLER
+BU PARCALARA DONGU DENIR 
+
+ISLEMCININ BU DONGULERI ISLEMSI BIR MIKTAR VAKTINI ALIR 
+1 SANIYEDE ISLENEBILEN DONGU SAYISI, ISLEMCININ HIZINI BELIRLER
+
+ORNEGIN 3 GHZ HIZINDA CALISAN BIR ISLEMCI SANIYEDE 3 MILYAR DONGU ISLEYEBILIR 
+
+ORNEGIN BIR TOPLAMA ISLEMININ 10 DONGU GEREKTIGNI VARSYARSAK, BU ISLEMCI SANIYEDE 300 MILYON TOPLAMA ISLEMI YAPABILIR
+
+!CPU NUN KAPAGININ ALTINDA MIKROISLEMCI VARDIR VE ISLEMLER BURDA 7 ADET TEMEL BIRIM TARAFINDAN GERCEKLESTIRILIR
+SADECE MATEMATIK HESAPLAMASI YAPMAZ AMA HER YAPILAN ISLEMDE BIR MATEMATIKSEL HESAPLAMA YAPACAKTIR, ORNEGIN BIZ GOOGLE I ACMAYA CALISIRKEN BILE ONUN NEOLDUGUNU ANLAMAYA CALISIRKEN HESAPLAMA YAPACAKTIR
+
+!RAM CPU NUN DISKI GIBIDIR 
+ISLEMCI VERILERI RAM DAN ALIR VE ISLEMINI YAPTIKTAN SONRA TEKRAR ISLEMI RAM A BIRAKIR
+ISLEMCI CUNKU RAM DEN OKUR VE YAZAR
+!BUNDAN DOLAYI RAM SECERKEN BOYUT ODAKLI DEGIL PERFORMANS ODAKLI OLMAKTA FAYDA VARDIR
+
+!CL I 8 OLAN 8GB LIK RAM MI YOKSA CL I 16 I OLAN 16GB LIK OLAN RAM MI DESELER 8GB LIK OLANI SECERIMZ NEDEN CUNKU CL-I YANI GECIKME SURESI DAHA AZDIR, DAHA PEROFRMANSLI CALISACAKTIR 16GB DAN, 8GB OLMASINA RAGMEN
+
+!RAM IN EN FAZLA KULLANILABILECEGI SADECE RAM BOYUTUNA DEGIL, CPU NUN ADRES BOYUTUNA DA BAGLIDIR, RAM BOYUTU COK FAZLA OLABILIR AMA ISLEMCININ ADRES YOLU KISITLI ISE O RAM IN HEPSINI KULLANAMAYABILIIR
+
+!MAKSIMUM BELLEK BOYTU DIYE BIRSEY VARDIR..seleron islemci ornegn, ISLEMCI TARAFINDAN DESTEKLENEN MAKSIMUM BELLEK BOYUTU(BELLEK TURUNE BAGLIDIR) 8GB ISE EGER, ISLEMCI BU SEKILDE 8GB BIR RAM DESTEKLIYORSA MAKS, O ZAMAN SIZDE 16GB RAM OLMASININ ANLAMI YOKTUR ZATEN
+Adresleyebilecegi teknoloji ddr3 
+
+ama i3 islmciye bakacak olusrsak maksimum desteke digi boyut 64gb dir ve , ADRESS BU BELLEKTURU DDR4 VE HIZINI DA BAKARSAK BIRINDE 58 IKIEN DIGERINDE
+ADRESLEMEYI KULLANARAK VERILERI ISLER, CPU...RAM DA TUTULAN VERIYI ALIR ISLER SONRA RAM A GERI BIRAKIR
+
+!ANAKART-VUCUDUN SINR SISTEMI GIBIDR
+
+TUM DONANIMSLARIN, BIRBIRILERI ILE HABERLESMESIN SAGLAR O YUZDEN PC TOPLANIRKEN ANAKARTTAN BASLANIR
+
+!RAM-BIR BELLEK TURUDUR AMA BELLEK DEGILDIR-ROM
+
+HIZLI ERISIMLER, SABIT BILGIER VE ACILIS SURECLERI ICINCIR
+ISLEMCININ ICINDE KENDI CACHESI BITINCE RAM A BASVURUYORDU
+RAM LER ELEKTRIK KESINISNDE ICINDEKI BILGILERI UNUTURLAR VE 
+
+RAM-RANDOM ACESS MEMORY 
+ISLEMCI NIN KENDI CACHE LERI BITINCE RAM A BASVURUYORDU 
+RAM DE YER BITER VEYA ASIRI MESGUL OLDUGU ICIN DISKE BASVURURDU AMA DISK RAM A GORE COK YAVAS DIR
+BIOS UN GUNEL OLMASI RAM IN HIZLI CALISABILMESI ICN MUTHIS ONEMLIDIR
+!VERIYI ELEKTRIKSEL ORTAMDA GECICI OLARAK TUTABILIYOR, STATIK VE DINAMIK OLARAMAK UZERE CALISMA PRENSIBI IKIYE AYRILIRLAR 
+
+
+!MICROSOFT SERVER 2017 GIBI GORDGUMUZ IFADELER MICROSOFT ISLETIM SISTEMMININ 2017 NIN YANI SERVER DONANIMLARINDA DA KULLANILABILECEGINI IFADE EDER
+
+BOTTLENECK-PERFORMANS TERIMIDIR, SISENIN AGZI NE KADAR DAR ISE SISENIN BOSALMASI O KADAR UZUN ZAMAN ALIR...YANI PERFORMANS TIKANKLIGINI IFADE ETMEK ICINDIR, DONANIMSAL VE YAZILIMSAL MIMARILIER SERVER LARDA, BU PROBLEMI COZMEK ICIN VARDIR
+
+!SERVER DA EN ONEMLI PARAMETRELERINDEN BIRISI STABILLIKTIR, BU CIHAZLAR UZUN SURE ACIK KALMAK VE CALIMSAYA DEVAM EDEBILMEYE YONELIK YAPILMISTIR, KESINTIYE UGRAMAMSAI ICIN..DOLAYISI ILE YUKSEK ERISIRLILIK, STABILLIK(UZUN SURE VE PERFORMANSLI CALISMASI DEMEKTIR), 
+
+!AG PROTOKOLLERI VE MIMARILERI 
+NETWORKUN YARARLARI¨
+
+PROGRAM PAYLASIMI
+DOSYA PAYLASIMI
+YAZICI PAYLASIMI(MALIYET ACISINDAN ONEMLIDIR)
+GUVENLIK(kimlik dogrulamasi,kaynaklar yetkiler dahilinde kullanilmasi saglanir)
+MERKEZI YONETIM(sistem yoneticileri tarafindan tum cihazlar ve bilgisyarlar uzaktan yonetilebilir..uzaktan pc nin ekrani izlemek, yedegini almak, ve o pc kullanicisina sinirli izinler vermek, onun kullanim yetkilerini kontrol etmek)
+
+!SERVER TARAFINDAN BASKA SERVER DA BULUNAN VERITABANININ KULLANILMASI
+!KOLLEKTIF CALISMAYI SAGLAMAK, TAKIM CALISMASI
+
+!NIC-NETWORK INTERFACE CART, ETHERNETIN KULLANDIGI KARTA VERILEN ISIMDIR, ETHERNET ARAYUZDUR
+
+!AG ORTAMINDA CALISAN ISLETIM SISTEMLERI 2 FARKLI ROL USTLENIR 
+1-SERVER - AG KAYNAKLARI ELINDE TUTAN VE DIGER BILGSAYRLARA YETKILER DAHILINDE SUNAN ISLETIM SISTEMIDIR 
+2-CLIENT - SUNULAN KAYNAKLARA ERISEBILEN ISLETIM SISTEMLERIDIR 
+
+HOST-EVSAHIBI 
+SERVER LARDAN BAZEN HOST DIYE BAHSEDILEBILIR..
+!MODEM SEMBOLU USTUNDE HOST YAZABILIR, INTERNET VERDIGI VE IP DAGITTIGI ICIN 
+!AHMET IN PC SINDEN FATMA NIN PC SINE DOSYA PAYLASIP, DOSYA VERIRSE BURDA AHTMET PC SI HOST OLMUS OLUR..AMA AHMET IN PC SI SERVER DIR DIYEMEYIZ 
+
+!AG BILESENLERI VE MIMARISI 
+AG ARAYUZ KARTI-NETWORK INTERFACE CARD
+AGA BAGLNMAK ISTYEN HER CIHAZDA OLMASI ZORUNLU BIR DONANIMDIR
+!AGA GONDERILECEK VERIYI ELEKTRIK SINAYLINE DONUSTURUP KABLO VE ANTENE ILETIR 
+!GUNUMUZDE ANAKRTA TUMLESIK-ONBOARDA DE URETILIRLER 
+
+!REPEATER(TEKRARLAYICI) VE HUBMERKEZI 
+AGDA KULLANILAN KABLOLARIN MAKSIMUM ERISIM MESAFELERI VARDIR
+ORNEGIN UTP KABLO SINYALI MAX 100 METRE MESAFEYE TASIYABILIR. DAHA UZAK MESAFEYE TASINMASI ICIN ARAYA REPEATER VEYA HUB KONULMASI GEREKIR
+REPEATER VE HUB AZALAN SINYAL GUCUNU YUKSELTEREK DAHA UZAK MESAFEYE VERI ILETIMINI SAGLAR
+REPEATER TEK PORTLU
+HUB COK PORTLU
+
+!NETWORK SWITCH
+BILGISAYAR VE DIGER DONANIMLARI BIRBIRINE BAGLANMASI SAGLANIR
+
+EV MODEMLERININ ARKASINDAKI PORTLAR SWITCH GIBI DAVRANIR YAZILMSAL OLLARAK 
+SWITCHLER KOMUT ARAYUZU-CLI VEYA WEBARAYUZU HTTP UZERINDEN KONFIGURE EDILEBILIR
+
+!ROUTER-YONLENDIRICI - WAN(WIDE ARE NET)
+GENIS AGLARDA VE INTERNETTE KULLANILIR
+YAPISI BIRBIRINDEN FARKLI NETWORKLERI HABERLESTIRIR
+
+VERILERI BIR NETWORKDEN DIGERINE YONLENDIRIR 
+KENDSINE GELEN VERIYI HEDEFE EN KISA YOLDAN ERISTIRME HSAPLAMALARI YAPAR
+
+!MODEM
+ETHERNET KARTINDAN GONDERILEN VERIYI INTERNET SAGLAYICIDAN(INTERNET SERVICE PROVIDER) KIRALANAN HATTIN TURUNE GORE DONUSUM YAPAR 
+
+!FIREWALL(GUVENLIK DUVARI) VE ONEMI 
+BILGISAYARDAKI ANTIVIRUS NE YAPIYORSA NETWORKDEKI FIREWALL ONU YAPAR 
+YAZILIMSAL-DONANIMSAL OLARAK IKIYE AYRILIR 
+!YAZILIMSAL OLANLAR ISLETIM SISTEMLERI UZERINE UYGULAMA OLARAK KURULABILIRLER 
+IC VE DIS AG ARASINDA GELEN-GIDEN VERILERIN(PAKETLERIN) KONTROLUNU YAPAR.ZARARLI VERILERI VE SIBER TEHDITLERI BLOKLAR income-btn
+DOGRU YAPILANDIRILMASI GEREKIR, SISTEM YONETICISI TARAFINDAN
+WEB ARAYUZU VEYA KOMUT ARAYUZU(CLI) ILE YAPILANDIRILABILIR
+BIRDEN COK GUVENLIK ONLEMI ALABILME OZELLGIINE SAHIP PLAN FIREWALL LAR DA VARDIR 
+ROUTER GIBI DE DAVRANABILIR VERILERIN -PAKETLERIN YONLENDIIRLMESINI SAGLAYABILIR
+
+!YAZILMSAL FIREWALLAR HIRSIZ EVE GIRDIKTEN SONRA ODAYI KORUMAYA CALISIR
+!DONANIMSAL FIREWALL DA BAHCEYI, DIS KAPIYI KORUR
+
+!VERILER NETWORK ARASINDA DOLASIRKEN PAKET HALINDE DOLASIRLAR 
+!ATAKLAR HERZAMAN DISARDAN GELMEZ, GELEN BIR MAILE TIKLANMASI ILE YAYILAN BIR VIRUS ICERDEN YAYILABILIR, VEYA USB ILE
+
+!FIREWALL SUZ NETWORK YONETILMEZ...BU COOK ONEMLIDIR
+!Networkumuzu disariya karsi koruyan network cihazlari
+!Onceden belirlenmis guvenlik kurallarina gore , networke gelen giden trafigi izleyen ve kontrol eden donanim ve yazilim tabanli network sistemidir firewall
+
+!DONANIIMSAL FIREWALL LAR VE YAZILIMSAL FIREWALL LAR MEVCUTTUR 
+ORNEGIN BILGISAYARIN ISLETIM ISTEMI DE INTERNETTEN GELEBILECEK TEHDITLERE KARSI KORUMAK ICIN YAZILMISAL TABANLI GUUVENLIK DUVARLARI ICEREBILIYOR, WINDOWS,MACOS..KENDI ICERISINDE YAZILIMSAL FIREWALLAR ICERIYOR..
+!BIZIM SU AN ASAGIDA YAZDIGIMZ DONANIMSAL FIREWALL
+FIREWALL WAN-WIDER AREA NETWERK YANI INTERNET ILE LAN-LOCAL AREA NETWORK ARASINA YERLESTIRILEREK, LOCAL NETWORKUMUZ KORUMAK AMACI ILE KULLANAILABILIYOR
+LAN-SWITCH-ROUTER-FIREWALL-INTERNET SEKLKINDE YA DA 
+LAN-SWITCH-FIREWALL-ROUTER-INTERNET OLACAK SEKILDE DE YERLESTIRILEBILIYOR
+TEMEL OLARAK NETWORK UZERINDEN KENDISINE GELEN PAKETLERIN ONCEDEN KENDISINE TANIMLANMIS KURALLARA GORE GECIP GECMEYECEGINE KARAR VERIYOR
+KURALLARA UYMAYAN PAKETLERE IZIN VERMIYOR 
+BIRCOK FARKLI FILTRELEME OZELLIGI IILE NETWORKUN, GELEN VE GIDEN PAKETLERINI KONTROL ALTINDA TUTUYOR
+!IP FILTRLEME, PORT FILTRELEME, WEB FILTRELEME, ICERIK FILTRELEM GIBI FARKLI FILTRELEME YAPABILIYOR 
+1-FIRST GENERATION FIREWALL-PACKET FILTERING FIREWALL:BU SADECE PAKET BASLIGINA GORE HAREKETE EDIYOR 
+2.SECOND GENERATION FIREWALL-STATEFULL INSPECTION FIREWALL: PAKETLERIN BASLIKLARININ YANINDA ICERIKLERINI DE KONTOL EDIYOR 
+BU ILK 2 FIREWALL LAR GUNUMUZDEKI NETWERK TEHDITLERI ILE BASA CIKMAK ICIN YETERSIZ KLAMAKTADIR
+3.3.GENERATION FIREWALL:NEXT GENERATION FIREWALL(NGFW): 
+IDS:INTRUSION DETECTION SYSTEM:SALDIRILARI TESPIT EDIP LOGLAR
+IPS:INSTRUSION PREVENTION SYSTEM:SALDIRI DURDURMA VE ONLEME SISTEMI 
+
+!ORNEGIN SIRKETIMIZDE HTTP 80 PORTUNU INTERNETE ERISMEK ICIN, ERISIME ACABILIORUZ VE 80 PORTUNDAN ARTIK BAKA UYGULAMLARDA GECEBILIYOR VE 1. VE 2. GENERATION FIREWALL LAR BUNU ONLEYEMIYOR ONDAN DOLAYI 3.GENERATION FIREWALL LAR KULLANLIYOR CUNKU, 3.GENERATION FIREWALL LAR UYGULAMA KATMANININ FILTERLIYOR VE DIREK FTP, DNS, GIBI UYGULAMALARI ANLAYABILIYOR VE ISTENMEYEN UYGULAMALARI FARKEDEBILIYOR, BIR PORTUN KOTUYE KULLANILIP KULLANILAMAYCAGINI DA ANLAYABILIYORLAR 
+LOG YONETIMI,VPN, VS GIBI ISLEMLER ICIN DE KULLANILABILIIYOR 
+FIREWALL NERELERDE KULLANILIR 
+NETWORK TRAFIGININ YOGUN OLDUGU VE GUVENLIK IHTIYACI DUYULAN ISYERLERINDE KULLANILIR 
+FIREWALL OLMADAN NETWORK MIMARIS NASIL OLUYOR 
+MODEMLER NE YAPIYOR INTERNETI SERVIS SAGLAYICIDAN ALIR VE ISYERINDEKI PC LERE BIR LOCAL NETWERK OLUSTURUR GOREVI BUDUR, YA DA MODEM YERINE BU ISLEMI SWTICH LER YAPAR
+MODEM VEYA SWITCH LER GUVENLIGI YETERLI DUZEYDE SAGLAYAMADIKLARI ICIN FIREWALL A IHTIYAC DUYARIZ..
+MODEM-INTERNETI ALIR DAGITIR, IP ADRESLERINI ALIR DAGITIR, PORT ACMA ISLEMI YAPAR, IP SABITLEME VS BUNLARI YAPAR AMA PROFESYONEL BIR NETWERK ALT YAPISINI MODEM VE SWTICH ILE YAPAMAYIZ
+SWITCH YA DA MODEM FIREWALL A KABLO ILE BAGLANIYOR, VE MODEM ARTIK SORNRASINDA NETWORK ISLEVINI YITIRIYOR O ISLEVI FIREWALL A AKTARIYOR SADECE INTRNET HATTINI AYATKTA TUTUMAKLA GOREVI OLUYOR...VE NETWORKK YONETIMINI FIREWALL A BIRAKIYOR
+FIREWALL SERVER A BENZER BIR CIHAZDIR.
+FIREWALL KORUMA ISLEMINI YANINDA DAHA KAPSAMLI NETWORK YONETIMI YAPILABILMESINI SAGLIYOR
+GUVENLIK ITIBARI ILE PERSONALLERDEN BAZILARININ , YONETIMIN KULLANDIGI SERVER I KULLANMALARINI ISTEMEZ ISEK, FIREWALL VASITASI ILE,  2 BIRBIRINDEN BAGIMSZIZ NETWORK OLUSTURARAK, PERSONELIN KULLANDIGI NETOWRK I FARKLI BIR NETWORK, SERVERLARIN KULLANDIGI NETOWRKU DE FARKLI BIR NETWORK YAPABILIYORUZ,AYNI NETWORK ALTINDA OLUNMASINA RAGMEN, SANKI PERSONELIMIZ ILE SERVER LARIMZ FARKLI MODEMLERDEN FARKLI NETWERKLERE SAHIP GIBI DAVRANMASINI SAGLAYABILIOYRUZ
+
+MISAFIR AGI ICIN DE GECERLIDIR 
+MISAFIR HATTI OLMADAN WIRESS SIFRESI NI DIREK VERDIGMZ DE EGER NETWORK BILGISI IYI ISE MISAFIR SERVER A BAGLANIP ORDAN ISTEDIGI DOSYAYI CEKEBILIR...VS AMA FIREWALL SYESINDE MISAFIRE OZEL SIFRELI BIR NETWORK OLUSTURURSAK SADECE ONLARA AYRIDGIMZ NETWORKE BAGLANABILECEKLER VE BU SEKIKLDE SISTGEMIMIIZ KORUYABLMIS OLACAGIZ
+RESTARUANTTA YONETIMIN KULLANDIGI, WIRELESS VARDIR BIR DE MUSTERILERE VERILEN WIRESS VARDIR, BUNLAR AYNI DEGILDIR TABI KI, YOKSA COK GUVENLIK PROBLEMI OLACAKTIR
+!FIREWALL COK KRITIK ONEME SAHIP OLAN LOG TUTMA ISINI YAPARAK, GERIYE DONUK KONTROL EDEREK NERDE PROBLEM VAR, KIM NERDE YAPMIS...BUNU GOREBILIRIZ
+!FIREWALL ILE ERISIM KISITLAMA , FIREWALL ILE FARKLI GRUPLAR OLUSTURLUYOR PERSONEL GRUBU ORNEGIN, ONLARI ICIN MESELA FACEBOOK GIRISI KAPATILABILIYOR PERSONEL IN GIRDIGI CIHAZLARDAN VE BU SAYEEDE PERSONEL KENDI BILGISYARLARINDAN GIRIDIGNDE FIREWALL UN ONLARA SUNDUGU AYRI NETWORK DEN GIRDIKLERI ICIN, ERISIM KISITLANMIS BIR SEKILDE OLDUGUNDAN DOLAYI ARTIK ONLARA KISITLANAN SITELERE GIREMEYCEKLERDIR
+
+!INTERNET KESILME DURUMUNDA, ORNEGIN BIZ 2-3 HAT ALDIK AYRI AYRI, VE FIREWALL A DA BIR KURAL TANIMLIYORUZ EGER 1.HATTA INTERNET KESILME DURUMU OLURSA, 2.HATTI DEVREYE SOK, O DA GIDERSE 3.HATTI DEVREYE SOK DIYE KURAL YAZABILIRIZ..KI BU HARIKA BIR STABILLIK KAZANDIRIYOR BIZE..
+
+!FIREWALL CIHAZINA DIUYELIM KI, ISYERINDEKI PC LERI TANIMLADIK MAC ADRSLERINI TANIMADIK VE BU CIHZLAR DISINDA BASKA BIR PC, VE CIHAZLA NETWERKIMIZE GIRILMESIN DIYE KURAL YAZARSAK, O ZAMAN ISTE BASKA CIHAZLARDAN NETWORKUMUZ KORUMUS OLURUZ
+
+AG KABLOLARI(NETWORK CABLES)
+AG MIMARISI(NETWORK ARCHITECTURE) VE PROTOKOLLERI
+!TUM NETWORKU ANLAMAYA BASLADIGMIZ YER, PROBLEMIN GELECEGI YER BURASIDIR BURAYI COK IYI BILIRSEK, PROBLEMLERI COZEBILIRIZ
+
+Bir agin mimarisini belirleyen 2 temel ozellik vardir 
+1)Network topolojisi:Cihazlarin kablo ve baglanti yerlesim haritasi gibi dusunulebilir
+!En onemllisi Star Toplojisi
+2)Networkun buyuklugu
+1-LAN
+2-WAN(COGRAFI OLARAK BIRBIRINDEN UZAK LAN LARIN BIRLESTIRILMESI ILE OLUSAN AGDIR, ORNEGIN INTERNET NETWORK)
+!EGER BIR DAIRE LAN ISE APARTMAN WANDIR. EGER BIR APARTMAN LAN ISE , SITE WAN DIR
+!BIR SIRKETIN AYNI ULKE ICINDE FARKLI SEHIRLERDEKI OFISLERINDE BULUNAN LAN NETWORKLERI BIRBIRINE BIRLESTIREN DE WAN DIR
+
+!2 FARKLI NETWORKUN HABERLESMESINI SAGLAYAN CIHAZIN ADI ROUTER DIR, MODEMLER KIMI ZAMAN ROUTER GOREVI DE GORURLER...BUNU DA BILELIM
+!ROUTER LAR INTERNET ARACILIGI ILE FARKLI LAN NETWORKLERINI BIRLESTIREREK O CHIAZLARIN BIRBIRLERI ILE ILETISIME GERCMESINI SAGLAYABILIIR...
+!MODEM-ROUTER ARKASINDAKI PORTLARIN 4 TANESI ILE ORNEGIN 4 PC YE HIZMET VERIRKEN, 1 PORTU ILE DE WAN A HZMET VERIYOR, VE ROUTER ROLU ILE HER IKI LAN I BIRBIRI ILEBIRLESTIRIYOR
+
+!NETWORK PROTOKOLU
+Agda calisan cihazlarin iletisim kurabilmeleri icin gerekli kurallar butunudur
+Ag protokollerini dillere benzetebilriiz, insanlarin anlasabilmesi gibi bilgisyarlarinda anlasabilmeleri icin ayni protokolleri kullanip anlasabillmeleri gerekir
+!Gunumuzde en yaygin protokol TCP/IP(Transmisson Control Protocol/Internet Protocoldur).TCP/IP her turlu agda kullanilabilen esnek,gelismis ve hizli bir protokoldur 
+!Kullanilmak istenen protokolu isletim sistemleri saglar
+!Bu kurallar IETF(INTERNET ENGINEERING TASK FORCE) tarafindan RFC(Request for Comments) bildirileri ileberlilenir ve standartlasitrilir
+!ARTIK HER TURLU AGDA TCP/IP PROGOTOKOLU KULLANILIYOR...NETWORK CIHZLARINDA KENDI ICLERINDE KULLANDILARI DILLER FARKLI OLABILIR TIPKI ISLETIM SISTEMLERI GIBI NETWORKDE KULLANDIKLARI DIL AYNIDIR, BU DIL TCP/IP DIR... SADECE BU YOK, TCP/IP DEN ONCE OSI REFERANS MODELI VARDI, TCP/IP ISE ONA ALTERNATIF OLARAK GELISTIRILDI, HER TURLU AGDA KULLANILABILLEN ESNEK, HIZLI VE GELISMIS BIR PROTOKOLDUR
+
+KULLANILMAK ISTENEN PROTOKOLU ISLETIM SISTEMLERI SAGLAR
+!TCP/IP MODEL
+
+Step-by-Step Process of Streaming a Video
+1. Application Layer
+Protocols Involved: HTTP (or HTTPS for secure communication).
+What Happens: When you select a movie on Netflix, your browser or app sends an HTTP request to Netflix’s servers. This request is formatted according to the HTTP protocol’s rules, specifying what resource (video data) is being requested.
+Role in Streaming: Netflix uses adaptive bitrate streaming technology (like HLS or MPEG-DASH) which operates over HTTP. This technology divides the movie into small chunks or segments. Based on your current internet speed, it determines which quality of video to send you (low, medium, or high resolution).
+2. Transport Layer
+Protocols Involved: TCP (Transmission Control Protocol), occasionally UDP for other types of streams (like live broadcasts).
+What Happens: TCP takes the HTTP request generated by your application and breaks it down into smaller packets that are sent across the Internet. TCP ensures that these packets are reliably delivered to Netflix’s server and that the packets received back (video data) are in the correct order and without errors.
+Role in Streaming: TCP manages the flow of data packets between your device and Netflix’s servers, using mechanisms like congestion control and error correction to adjust to varying network conditions. This ensures a smooth streaming experience without interruptions.
+3. Internet Layer
+Protocol Involved: IP (Internet Protocol), including routing functionalities with protocols like ICMP (Internet Control Message Protocol) for diagnostic or error messages.
+What Happens: IP is responsible for taking the TCP packets and delivering them to the right destination. Each packet is tagged with source and destination IP addresses. Routers along the path use this information to forward packets to the destination.
+Role in Streaming: IP routes each video packet from Netflix’s servers back to your device. It handles the addressing and routing across various networks that the packets must travel through.
+4. Link Layer (Network Interface Layer)
+Protocols Involved: Ethernet, Wi-Fi (802.11 protocols), and others depending on your connection type.
+What Happens: This layer is where the physical transmission of data occurs. If you are connected via Wi-Fi, the Link Layer protocols manage how data is encoded into radio signals transmitted by your router and received by your device.
+Role in Streaming: Handles the actual data transmission over your local network, ensuring that the packets are delivered between your device and the local router/modem.
+Illustrative Example:
+Application Layer: You click "Play" on a movie. Your device sends an HTTP request to fetch the video stream.
+Transport Layer: TCP takes this request and divides it into packets, managing the data transfer to ensure all packets reach Netflix's server correctly.
+Internet Layer: The packets are sent across various network paths using IP. They travel across multiple routers and networks until they reach the server.
+Link Layer: The first and last leg of this journey involves the physical network connections, like your home Wi-Fi and Netflix’s data center infrastructure.
+Visualization
+plaintext
+Kopier kode
+[Your Device] ---HTTP Request---> [Application Layer] ---TCP Segmentation---> [Transport Layer]
+---IP Routing---> [Internet Layer] ---Physical Signals---> [Link Layer] ---> [Netflix Server]
+And the response follows the reverse path:
+
+plaintext
+Kopier kode 
+!TCP/IP TEK BIR PROTOKOL DEGILDIR, BUNYESINDE COK FAZLA PROTOKOL VARDIR, HEPSININ AYRI ISLEVLERI VARDIR
+TCP/IP PROTOKOLLERIN TOPLANMIS HALIDIR
+PEKI DIGER PROTOKOLLERDEN FARKI NEDIR?
+
+TCP/IP KULLANILAN BIR NETWERK DE CIHAZLAR UC PARAMETRE ILE TANIMLANIR
+
+1-CIHAZ ADI(PC LERE KENDI KOYDUGMZ PC ADLARI)
+2-IP ADRESI
+3-MAC ADRESI
+
+!IP ADRESI YALNIZCA TCP/IP PROTOKOLUNE OZELDIR, DIGER PROTOKOLLERDE IP ADRESI BULUNMAZ
+!NETWORK UZERINDEKI ILETISIM, YALNIZCA MAC ADRESLERI ILE GERCEKLESIR. BU YUZDEN "CIHAZ ADLARININ IP ADRESLERINE, IP ADRESLERININ DE MAC ADRESLERINE DONUSTURLMESI GEREKIYOR"
+
+!TCP/IP KULLANAN 2 PC NASILHABERLESTIGINE BAKARSAK 
+CIHAZ ADI-ADEMPC  CIHAZ ADI IP ADRESINE DONUSTURULUR,
+IP ADRESI:192.168.0.154  IP ADRESI MAC ADRESINE DONUSTURULUR
+MAC:00:46:9A:B5:2A:CB MAC ADRESI ILE DE ARTIK NETWORK UZERINDE AYNI NETWORK DE BULUNAN BASKA BIR PC ILE ILETISIME GECEBILIRIZ 
+
+CIHAZ ADI-ZEYNEPC  CIHAZ ADI IP ADRESINE DONUSTURULUR,
+IP ADRESI:192.168.0.151  IP ADRESI MAC ADRESINE DONUSTURULUR
+MAC:00:1B:63:84:45:E6
+
+!PEKI IP ADRESI BILINEN MAC ADRESI BILINMEYEN BIR CIHAV VAR ISE O ZAMANDA DEVREYE ARP-ADRESS RESOLUTION PROTOCOL DEVERYE GIRER
+SOURCEIP: GONDREN IP , YI VERIRIZ, SONRA DEST:0.0.0.0 VE ALICI, YANI IP ADRESI OLAN PC NIN IP ADRESINI VERIRIZ VE BIZE MAC ADRESNI YOLLSMASI GEREKGIGINI SOYLERIZ
+BROADCAST(TUM AGA-NETWERKE GONDERILEN MESAJLAR ICIN KULLANILIR, BROADCAST SANKI SOYLE DUSUNLEIM, BAGIRARAK KONUSRAK SESI HER TARAFA YAYILMIS, YANI TABIR I CAIZSE BAGIARARAK HOPERLORLE DUYURU YAPAN INSAN GIBI DUSUNELIM), IP ADRESI UZERINDEN BLUNAN PC DONUS OLARAK, HEDEF IP YE MAC ADRESINI GONDERIYHOR BROADCAST  YAPMIYOR BUNA DIIKKAT EDELIM
+
+!Bilgisayar bir ortama girdigi zaman ortamdaki tum cihazlara, 1-dhcp-discover paketini broadcast yapar, yani tum cihazlara gonderir ki ortamda dhcp var mi onu ogrenip ondan ipi alabilmek icin,sonra dhcp sunucusu bilgi veriyor ve ben sana ip-subnet-dns-default gateway hepsini vereblirim diye 2-dhcp-offer response gondriyor, ve sonra da pc miz dhcp yi ogrenince, direk olarak dhcp ye request gonderir 3-dchp request ve tekrardan dhcp de 4.asama da ip ve diger adresleri alabiliyor
+
+1-Source ip:0.0.0.0(ip yok) SourceMac:00:1B:63:84:45:F6(kendi mac adresini gonderir)
+Dest Ip:255.255.255.255(Broadcast yapilacagi zaman ip bu sekidle verilir)
+Dest Mac:FF:FF:FF:FF:FF:FF (Direk hedef Mac adresi bilinmeyip de broadcast atilacagi zaman bu sekilde yapilir)
+2-DHCp kendi ip ve mac adresini gonderir DestIP henuz olmaidig icin 0.0.0.0 ve des mac adresini de ip talep eden pc den geldigi icin onu da bilir,dest-mac:00:1B:63:84:45:F6
+3-
+4-
+
+
+!TCP/IP NIN 4 KATMANI VARDIR 
+1-APPLICATION(UYGULAMA)
+2-TRANSPORT(ILETISIM/TASIMA)
+3-INTERNET
+4-NETWORK
+
+
+!TCP/IP INTERNETIN DILI OLARAK ADLANDIRILIR 
+CIHAZLARA IP KATMANI, IP ADRESLERI SAGLAYARAK CIHAZLARIN BIRBIRLERI ILE KOLAYCA ILETISIMI VE KENDI ARALARINDA GUVENLI, ESNEK VE KOLAYCA PAKET ALISVERISI YAPILABILMESINI SAGLAR.
+TCP KATMANI EN USTTE BULUNUR, IP KATMANI UZERINDE BULUNUR TCP KATMANI 
+TCP KATMANI DA TUM VERILERIN, BOZULMADAN HATASIZ OLARAK TESLIM EDILMESINI SAGLAR..AYRICA GUVENLIR
+!TCP/IP protokol mimarisi, internet üzerinden iletişim ve veri aktarımı için güvenilir ve güvenli bir temel sağlar. Tüm bilgisayar sistemlerinde kullanılan, farklı ağlar ve cihazlar arasında kolay birlikte çalışabilirlik sağlayan açık ve yaygın olarak benimsenen bir standarttır. TCP/IP mimarisi güvenlik konusunda da önemli bir rol oynamaktadır
+
+!TCP/IP mimarisi aynı zamanda yönlendirme ve ağ adresleme protokolleri gibi ağlar üzerindeki bilgi ve kaynakların yönetiminden de sorumludur. Bu protokoller, her bağlantıyı manuel olarak yapılandırmak zorunda kalmadan veri ve bilgilerin bir ağ üzerinden gönderilmesini sağlar. Bu, büyük ölçekli, heterojen ağların yönetimini kolaylaştırır ve tüm verilerin güvenilir, güvenli ve hızlı bir şekilde iletilmesini sağlar. Protokoller ayrıca verilerin aktarım sırasında kaybolmamasını veya bozulmamasını ve uygulamaların farklı ağlar üzerinden birbirleriyle konuşabilmesini sağlamaya yardımcı olur.
+
+!TCP/IP modeli olmasaydı, dünyadaki tüm farklı cihazların birbirleriyle iletişim kurması imkansız olurdu. Model, bilgisayarların birbirleriyle konuşmaları için standart bir yol sağlar, bu nedenle modern ağlar için önemlidir.
+
+!Ayrıca, görevleri yönetilmesi ve anlaşılması daha kolay olan daha küçük aşamalara ayırarak iki sistem arasındaki iletişimin karmaşıklığını azaltmaya yardımcı olur. Bu, video akışı veya çevrimiçi oyun gibi daha karmaşık uygulamaların gecikme veya kesinti olmadan gerçekleştirilmesini mümkün kılar.
+
+TCP Nedir?
+ 
+
+TCP, bilgisayarlar arasındaki iletişimin, küçük paketler halinde ve kayıpsız olarak gerçekleşmesini sağlayan bir protokol olarak tanımlanabilir. TCP protokolünün en önemli özelliği kimlik doğrulaması yapması ve veriyi karşı tarafa gönderip alırken veri bütünlüğünü korumasıdır. Günlük hayatta sık sık kullanılan HTTP, HTTPS, POP3, SSH, SMTP gibi protokollerin veri aktarımı TCP aracılığı ile gerçekleşir. TCP port nedir konusu ise bu bilgiler ışığında kimlik doğrulaması sağlayan bir port türü olarak nitelendirilebilir. TCP bağlantısı nedir sorusunun cevabı ise veri bütünlüğü sağlanmış bir bağlantı türü olarak verilebilir.
+
+
+IP Nedir?
+ 
+
+İnternet protokolü olarak isimlendirilen IP, bilgisayarların birbiri ile iletişimindeki en önemli nokta olan ağ adreslemesinde kullanılan düzeni ifade eder. Bir nevi yönlendirme protokolü olan IP veri için gerekli olan yönlendirmelerin kurallarını belirler.
+
+ 
+
+TCP / IP Protokolleri Nedir?
+ 
+
+TCP / IP protokolleri nedir konusunu merak edenler için TCP ve IP protokollerinin birleşmesi ile ortaya çıkmış internet üzerindeki bir iletişim metodu olduğunu söyleyebiliriz. Bu metot sayesinde internete bağlı tüm cihazların birbiri ile haberleşmesi mümkün hale gelir. Kısacası TCP/IP protokolü bilgisayarlar arası veri iletişiminin kurallarını belirleyen bir iletişim protokolleri bütünüdür. Bilgisayarlar arası iletişim farklı protokol aileleri üzerinden gerçekleşir. Bu protokolleri birbirinden ayıran özellik ise kullanım amaçlarıdır. Örneğin FTP bir dosya iletim protokolü iken SMTP e-posta iletmek için kullanılır.  TCP IP katmanları nedir konusu ise merak edilen bir diğer nokta. Bu katmanlar “Ağ, İnternet, Taşıma ve Uygulama” olmak üzere 4 adettir. Bu katmanların her birinde farklı protokoller bulunur. Örneğin uygulama katmanında bulunan en önemli protokoller DNS protokolleridir. DNS sayesinde alan adları çözülür ve bu alan adlarına karşılık gelen IP adresleri belirlenir. Aynı zamanda HTTP ve HTTPS protokolleri de bu katmanda yer alır.
+
+TCP/IP BILGISAYARLAR ILE VERI ILETMEK/ALMA BIRIMLERI ARASINDA ORGANIZASYONU SAGLAYAN, BOYLECE BIRYERDEN DIGERINE VERI ILETISMINI OLANAKLI KILAN PEK COK VERI ILETISIM PROTOKOLUNE VERILEN GENEL ADDIR. KISACA TCP/IP PROTOKOLLERI BILGISAYARLAR ARASI VERI ILETISIMININ KURALLARINI ORTAYA KOYAR
+!TCP/IP PROTOKOL KUMESI 
+ALTI CEKIRDEK VE 5 PROTOKOLDEN OLUSUR 
+-TCP-TRANSMISSION CONTROL PROTOCOL
+-UDP-USER DATAGRAM PROTOCOL
+-IP-INTERNET PROTOCOL
+-ICMP-INTERNET CONTROL MESSAGE PROTOCOL
+-IGMP-INTERNET GROUP MANANGEMENT PROTOCOL 
+ARP-ADDRESS RESOLUTION PROTOCOL 
+
+TEMEL TCP/IP PROTOKOLLERI
+
+FTP(FILE TRANSFER PROTOCOL)
+TFTP(TRIVIAL FILE TRANSFER PROTOCOL)
+HTTP(HYPERTEXT TRANSFER PROTOCOL)
+HTTPS(SECURE HYPERTEXT TRANSFER PROTOCOL)
+SMTP(SIMPLE MAIL TRANSFER PROTOCOL)
+
+
+In the TCP/IP model, which is designed to facilitate communications across diverse networks using standard protocols, the layers are structured from the bottom up as follows:
+
+Bottom Layer: Link Layer
+Also Known As: Network Interface Layer
+Purpose: This layer handles the physical and data link aspects of network communication. It deals with the actual physical connection between the network devices and the medium over which the data travels, such as Ethernet cables, Wi-Fi signals, etc.
+Role in the Stack: It is responsible for getting data across one particular link or network segment, including addressing, framing, error detection, and more.
+Second Layer: Internet Layer
+Core Protocol: Internet Protocol (IP)
+Purpose: This layer is responsible for routing the packets of data from the source to the destination. Essentially, it moves packets across multiple networks (internetworking) and helps achieve host-to-host communication.
+Role in the Stack: It handles the logical addressing part through which it is possible to identify every device uniquely on the network through an IP address.
+Third Layer: Transport Layer
+Core Protocols: Transmission Control Protocol (TCP) and User Datagram Protocol (UDP)
+Purpose: The Transport Layer is crucial for managing the delivery of data packets between computers and hosts. It provides services such as connection-oriented data stream support, reliability, flow control, and multiplexing.
+Role in the Stack: It ensures that data are transferred from point A to point B reliably and without errors. TCP provides a connection-oriented service, and UDP provides a connectionless service.
+Top Layer: Application Layer
+Examples of Protocols: Hypertext Transfer Protocol (HTTP), File Transfer Protocol (FTP), Simple Mail Transfer Protocol (SMTP), and more.
+Purpose: This layer is where end-user software applications interact with the network stack. It defines protocols for specific data-communication services according to the application’s requirements.
+Role in the Stack: It provides process-to-process communication services for applications. It is the layer where user-intended operations like browsing the web, sending an email, or transferring files are initiated and managed.
+Hierarchical Summary:
+Top Layer: Application Layer
+Third Layer: Transport Layer
+Second Layer: Internet Layer
+Bottom Layer: Link Layer
+This structure illustrates that data handling starts at the top layer in applications, moves down through the layers gaining the necessary header information and error checking at each step, travels across the network at the bottom layers, and then moves back up through the layers on the receiving end. Each layer serves distinct roles but works collectively to ensure seamless, efficient, and reliable network communication.
+
+
+!---- TUM SURECI BASTAN SONA BURDAN OKUYABILIRIZ 
+
+ The TCP/IP model organizes network communication into layers, with each layer having specific protocols that perform distinct tasks. The entire process of data communication from one device to another involves these layers working sequentially, where each layer has a unique role in ensuring the data reaches its destination correctly and efficiently. Here’s a breakdown to reinforce your understanding:
+
+Overview of the TCP/IP Model:
+Application Layer:
+
+Role: This is where network applications operate. The application layer deals with protocol details that are specific to different types of data and applications, such as web browsing, emailing, file transfer, etc.
+Protocols: HTTP (for web browsing), SMTP (for email), FTP (for file transfers), etc.
+Function: These protocols format the data in a way that is understood by the application receiving it on the other end. For instance, HTTP structures data into web pages, while SMTP structures data into email formats.
+Transport Layer:
+
+Role: Provides communication session management between host computers. It divides the data into smaller units if needed, ensures the data segments are reliably networked, and error-checks the assembled data segments.
+Protocols: TCP (Transmission Control Protocol) and UDP (User Datagram Protocol).
+Function: TCP provides reliable, ordered, and error-checked delivery of a stream of data so that programs on the networked devices can manage data transmission smoothly. UDP, in contrast, focuses on low-latency transmission without built-in error checking and correction.
+Internet Layer:
+
+Role: Handles the packing of data into data packets known as IP datagrams, which contain source and destination address information that is used to forward the datagrams between hosts and across networks.
+Protocols: IP (Internet Protocol), ICMP (Internet Control Message Protocol), etc.
+Function: IP ensures that datagrams are routed across network boundaries from the source to the destination which may involve traversing multiple networks (routing).
+Link Layer (sometimes referred to as the Network Interface Layer):
+
+Role: Concerns itself with the media data actually travels over. This layer defines the protocol details that operate directly on the hardware itself and are specific to the hardware interface and media that are being used.
+Protocols: Ethernet, Wi-Fi, and others that operate on a more physical level, handling connections to the hardware itself and transmission across it.
+Function: Transmits the datagrams to and receives them from the network.
+How It All Works Together:
+When you send an email, play an online game, or request a web page, your request starts at the Application layer. Depending on the task, it will use protocols like HTTP, SMTP, or others.
+The request then goes down to the Transport layer where it is segmented and verified for reliability via TCP or for speed via UDP.
+It then moves to the Internet layer where it is packaged into IP datagrams and routed across various network paths to its destination.
+Finally, it reaches the Link Layer where it is actually transmitted over physical media.
+Each layer in the TCP/IP model abstracts certain details of how data is transmitted over the network, allowing each layer to perform its task independently yet interactively, supporting the layers above and below seamlessly. This abstraction makes the model not just functional but also incredibly flexible and robust for internet communications.
+
+!----
+
+
+!TCP/IP DE OSI GIBI UST USTE SIRALANMIS KATMANLARDAN OLUSUR
+!OSI MODELI 7 KATMANA, TCP/IP MODELI 4 KATMANA SAHPTIR
+
+!TCP DATA NIN SAGLIKLI ULASIP ULASMADIGINI TAKIP EDER, YAPTIGI ISIN ARKASINI TAKIP EDER. VERI ALICIYA ULASMAZ ISE VERIYI BIR DAHA GONDERIR. BAGLANTI TEMELLII GUVENILIR BIR ILETISIM PROTOKOLUDUR YANI STABILLIGI GOZETIR. VERI ILETIMINE BASLAMADAN ONCE, GONDERICI VE ALICI ARASINDA ANLASMA SAGLAR(THREE-WAY HANDSHAKE), YANI 3 LU EL SKSMA..ALICIYA ULASMAYAN VERIYI, TEKRAR GONDEREBILMEK ICIN BUNU YAPAR
+!UDP GONDERIR GECER, VERI ULASTI MI ULASMADI MI BUNLARLA ILGILENMEZ ONDAN DOLAYI TCP DEN DAHA HIZLIDIR. HIZIN, GUVENLIRLIK VE STABILLIKTEN DAHA ONEMLI OLDUGU BAGLANTILARDA KULLANILIR. STREAMING YAPARKEN, YANI YAYINCISINIZ VE YAYIN YAPIYORUSUNUZ, WEBCAM DE GORUNTULU GORUSURKEN DE DIYEBILIRIZ PAKETLERDEN 100 TANEDEN 3-5 I ULASMAZSA GORUNTUDEN BIRSEY KAYBEDILMEZ VE BIR SORUN YASANMAZ, EN KOTU IHTIMALLE GORUNTU BIRAZ BOZULUR AMA TEKRAR KALDGI YERDEN DEVAM EDER..EGER BU ISLEMI TCP YAPMIS OLSA IDI, GORUNTU VE SES DONDUGU YERDE KALIR TEKRAR BASLAMAZDI..CUNKU TCP DATA NIN TAM OLARAK ULASMASINI PESINI DE TAKIP ETTIGI ICIN ONU BIR SONRAKI ASAMAYA GECIRMEZDI, BOZULAN PAKETI TEKRAR GETIRILENE KADAR BEKLEMMEK ZORUNDA KALNIRDI. TCP GORUNTUYU DURDURUP BEKLETIP SONRA O VERIYI BOZULAN VERIYI GIDIP ALIP GELMEYE CALISIRDI VE CANLI GORUNTULERI CANLI GIBI IZLEYEMEZDIK, ADAM IN 10 DAKIKA ONCE YAPTIGI HAREKETLERI ANCA ALABILRDIK
+!CANLI GORUNTULU YAYINLARDA PAKETIN GIDIP GITMESINDEN ZIYADE ASIL ODAK HIZLI GITMESIDIR ONDAN DOLAYI DA GORUNTULU KONUSMALARDA UDP PROTOKOLU KULLANLIR. BIRKAZ PAKET KAYBI BUYUK SORUN DEGILDIR, YA SES AZ GIDER, YINE DE ANLASILABILIR YA GORUNTU BIRAZ BOZULURU AMA SORUN YASANMAZ YA DA KARSIDAKI BIR KEZ DAHA SORAR EN FAZLA
+!PEKI YA DOSYA TRANSFER EDIYOR OLSA IDIK , ISTE O ZAMAN DA DATA KAYBI COK KRITIKTIR, BURDA DA TCP TERCIH EDILIR...COOK ONEMLIDIR, EKSIK BILGI ILE GONDERILMESI ISTENMEZ...
+
+!PORT VE PROTOKOLU DOGRU ANLAMA!
+PORT U BIR APARTMAN GIBI DUSUNURSEK 
+HTTP ONUN ISMIDIR YANI PROTOKOLU, NUMARASI:80 PORT NUMARASIDIR  
+BU APARMANA GIDILEN YOLLAR ISE UDP,ICMP,TCP GIBI FARKLI YOLLARLA GIDILEBILIR 
+
+!YOLLARIN, YANI TCP,UDP,ICMP GIBI PROTOKOLLERIN PORTU OLMAZ, AMA PORTUN PROTOKOLUU VARDIR
+PROTOKOLLER PORT KULLANMAYABILIR AMA PORT LAR PROTOKOL KULLANMAK ZORUNDADIR
+APARMTANIN ISMI OLARAK DA HTTP,DNS...GIBI DUSUNEBILIRIZ
+!PROTOKOLLERI YOL OLARAK DUSUNUERSEK YOL UN UZERINDE, HTTP NO:80, FTP NO:21, POP3 NO:110 GIBI APARMTNLAR VARDIR YOLLARDA CUNKU BU UDP.TCP BUNLAR TRANFSERDEN SORUMLUDUR, HTTP,FTP BUNLAR APPLICATION LAYERDE VE GELECEK ISTEKLERI ALIP GERI DONDURURLER, VE PORTLARI VARDIR, TCP,UDP BUNLAR YOLLARDIR YOLLARDAN GIDEREK, DATLARI HTTP,FTP...GIBI PROTOKOLLERE ULASTIRIRLAR...
+
+!PORT NEDIR 
+PORTLAR BILGISYALARIN, NETWERKELERIN, SUNUCULARIN GIRIS KAPILARDIR
+TCP VEYA UPD BAGLANTILAR, VERRIYI UST KATMANLARA TASIMAK VEYA UYGULAMAYA ILETMEK ICIN(HTTP,FTP..) PORT NUMARALARI KULLANIRLAR 
+PORT NUMARALARI AYNI ANDA YAPILAN FARKLI ILETISILMLERIE AYIRTEDEBILMEK ICIN KULLANILIR
+HER APPLICATION KATMANI SERVISI, BELIRLI BIR PORTTAN SUNULUR(CUNKU SERVERLARDAN SUNULUR BUNLAR, HTTP,FTP.)
+BIR BILGISAYARDA 65536 ADET PORT VARDIR. 1024 TANESI IYI BILINENDIR
+
+APPLICATION KATMANINDA BULUNANLAR
+BUNLAR ASLINDA SERVICE DIR... 
+
+ PORT NUMBER       PROTOCOL                        APPLICATION
+  20                TCP                        FTP DATA 
+  21               TCP                        FTP CONTROL 
+  22              TCP                        SSH
+  23                TCP                        TELNET
+  25              TCP                        SMTP
+  53                UDP,TCP                        DNS
+  67.68                UDP                        DHCP
+  69                UDP                        TFTP
+  80                 TCP                        HTTP
+  110                TCP                        POP3
+  161                UDP                        SNMP
+  443                TCP                        SSL
+  16,384-32,767                UDP         RTP-BASED VOICE AND VIDEO
+
+
+  Port Numbers
+Definition: Port numbers are used by the TCP/IP protocols (TCP and UDP) to identify specific applications or services running on a networked device. Each port number identifies a specific service that can be provided by a server, with the protocol (TCP or UDP) specifying how data is transmitted.
+Protocols
+TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are core protocols of the Internet protocol suite, defining how data should be packetized, addressed, transmitted, routed, and received at the destination.
+Protocols Listed: In your list, TCP and UDP are mentioned explicitly, indicating the type of transport protocol used for the respective services.
+Applications/Services
+The terms "application" and "service" in the context of networking often refer to higher-level protocols or software that use specific port numbers and transport protocols to communicate over a network.
+Services as Protocols/Applications:
+For example, FTP (File Transfer Protocol) uses port 21 for control commands and port 20 for data transfer, operating over TCP to ensure reliable communication.
+SMTP (Simple Mail Transfer Protocol), used for email transmission, also operates over TCP on port 25, ensuring reliable delivery of email messages.
+What They Do: Each service/application listed performs a specific role in network communications, from transferring files (FTP) to handling secure web traffic (SSL on port 443).
+Clarification: Are They Services or Protocols?
+Protocols and Services: Most of the entries in your list can be considered both protocols and services. Protocols define the rules for communication, while services are the actual implementation of these protocols on network devices to perform specific functions.
+Why They Might Be Called Services: In many practical networking contexts, the implementation of a protocol to perform a specific task (like HTTP serving web pages on port 80) is referred to as a "service." This is because the protocol is in service of a particular function or application layer task.
+Example Explanation
+HTTP on Port 80: HTTP is a protocol, but when running on a web server on port 80, it is providing a web service. Thus, HTTP is both a protocol and when implemented on a server, it becomes a service that serves web pages.
+Expert Perspective
+An expert might refer to these as services particularly from an IT infrastructure point of view, where managing network services (like DNS, DHCP, FTP) involves ensuring these specific protocols are properly configured to run on their designated ports to serve network clients effectively.
+This nuanced understanding helps in various practical IT and networking tasks, from configuring firewalls and routers to setting up servers and troubleshooting network issues. Each "service" or "protocol" has a designated role, ensuring efficient and standardized communication across the internet and within private networks.
+
+When I say that protocols like FTP and SMTP operate "over TCP," it means they use TCP (Transmission Control Protocol) as the underlying transport mechanism to manage and ensure the delivery of data between devices on a network. Here's a breakdown of what it means for these protocols to operate "over TCP":
+
+TCP - Transmission Control Protocol
+TCP is one of the main protocols in the TCP/IP suite and provides reliable, ordered, and error-checked delivery of a stream of data between applications running on hosts communicating via an IP network. Protocols operating "over TCP" leverage its capabilities to ensure data is transmitted correctly. Here’s how TCP supports these protocols:
+
+Reliability: TCP manages message acknowledgment and retransmissions in case of lost or corrupted packets. When data segments are sent over the network, the sender retains a copy until the receiver sends back an acknowledgment of receipt. If an acknowledgment is not received within a certain timeframe, TCP will retransmit the data.
+
+Ordered Delivery: TCP numbers each segment with a sequence number, which is used to order segments at the receiving end. This ensures data is reconstructed in the correct order, even if it arrives out of order.
+
+Error Checking: Each TCP segment includes a checksum that is used to detect errors in the data that might occur during transmission. If a segment fails the checksum test at the destination, it is discarded, and TCP arranges for retransmission.
+
+Flow Control: TCP uses windowing and other techniques to control how much data is transmitted before requiring an acknowledgment. This prevents fast senders from overwhelming slower receivers.
+
+How FTP and SMTP Use TCP
+FTP (File Transfer Protocol): FTP uses two TCP connections to handle file transfers. One connection (on port 21) is used for sending control commands between the client and server, such as login credentials, commands to change the directory, and commands to initiate file transfer. The other connection (on port 20) is used for the actual data transfer. Using TCP ensures that commands and data are delivered reliably and in order, which is crucial for accurate and complete file transfers.
+
+SMTP (Simple Mail Transfer Protocol): SMTP uses a single TCP connection on port 25 for sending email messages from one server to another or from a client to a server. SMTP commands and responses, as well as the actual email messages, are sent over this connection. TCP’s reliability ensures that emails are correctly delivered from sender to receiver without data corruption.
+
+Summary
+Saying that these protocols operate "over TCP" highlights that they utilize the TCP transport protocol to achieve reliable, ordered, and error-free communication. This is essential for functions such as transferring files and emails, where loss or disorder can corrupt files or lose information in emails. TCP's features like connection-oriented sessions, reliable transmission, and error detection make it suitable for these tasks.
+
+!PORT NUMARALARI SAYESINDE HTTP ILE WEB SAYFASINA GIRERKEN HEM DE SMTP ILE MAILLERIMIZ ALIP GONDEREBILMEK ISTERIZ.. AYNI ANDA HTTP-SMPT YE TCP VERILERI GUVENILIR BIR SEKILDE GONDEREBILMEK ICIN FARKLI FARKLI PORTLARDAN HIZMET VERIRLER, SMTP-PORT:25, HTTP-PORT:80
+
+! Ports enable a single server to handle multiple connections from many users at the same time, each potentially requesting different pages or performing different actions, even if all those connections are using the same service, like HTTP.
+
+How Ports Enable Multiple Connections
+When discussing HTTP and web servers, port 80 is the standard port for HTTP traffic. The ability of a server to handle multiple connections simultaneously through the same port involves a combination of the port number along with the IP address of the users (source IP) and their ports (source ports). This combination is crucial and is known as a "socket."
+
+Understanding Sockets
+Socket: A socket is an endpoint of a two-way communication link between two programs running on the network. A socket is bound to a port number so that the TCP layer can identify the application that data is destined to be sent to.
+Example:
+Multiple users might be accessing http://example.com. Each user's browser will connect to example.com (which resolves to the server's IP address) on port 80. However, each user's connection is uniquely identified by their source IP and source port.
+
+Scenario:
+
+User A connects from IP 192.168.1.10 using a random source port, say 49562.
+User B connects from IP 192.168.1.15 using another random source port, say 51340.
+Although both requests are sent to the same server IP and port (server's IP and port 80), the server is able to distinguish between these two connections using the combination of source IP, source port, destination IP, and destination port. This combination allows the server to manage multiple incoming connections effectively, each potentially engaging in a different session or request.
+
+Role of the Transport Layer Protocols
+TCP (Transmission Control Protocol) is particularly well-suited for managing multiple connections because it is connection-oriented and ensures reliable delivery of data. TCP handles each unique connection (socket) as a distinct data stream, maintaining separate sessions for each user.
+Practical Implications
+Web Servers: A web server can serve thousands of clients simultaneously on the same port because of its ability to manage different sockets efficiently. Each client (browser) connects using a different socket (source IP + source port to server IP + server port).
+Load Management: Servers employ various strategies (like load balancers, multi-threading, etc.) to manage the load because, despite the capability to handle multiple connections, each connection still consumes resources.
+Conclusion
+The use of ports, particularly in combination with IP addresses and protocols like TCP, enables servers to handle multiple concurrent connections, allowing many users to use web services simultaneously without conflict. This is fundamental to the functioning of the internet as it allows for scalability and flexibility in network communications.
+
+
+How Multiple Connections Work on a Single Port
+A server listening on a port, like port 80 for HTTP, can handle many concurrent connections through the same port thanks to the combination of four key elements:
+
+Source IP Address: The IP address of the client (user's device).
+Source Port: A temporary port number automatically assigned to the client's connection by their device's operating system. This is not the same as the server's port and is chosen from a range of ephemeral ports.
+Destination IP Address: The IP address of the server.
+Destination Port: The port number on which the server is listening (e.g., 80 for HTTP).
+Each combination of these four elements creates a unique "socket" or "session," which the server uses to differentiate between each client's connection. This allows a single server port to handle connections from multiple clients, even if those clients are interacting with the server at the same time.
+
+Practical Example
+Imagine a web server configured to serve HTTP content on port 80. Here's how it can manage multiple client requests simultaneously:
+
+User 1 (IP: 192.168.1.100) uses their browser to access the server. Their operating system might assign the connection a source port of 49152. The connection is identified by the tuple (192.168.1.100, 49152, Server_IP, 80).
+User 2 (IP: 192.168.1.101) also accesses the server at the same time. Their device picks a different source port, say 49153, resulting in the tuple (192.168.1.101, 49153, Server_IP, 80).
+Multiple Users: Each new connection from a different user or even additional connections from the same user (different tabs or refreshes) will use different source ports, or combinations of IP and port, allowing the server to handle each as a unique session.
+Technical Explanation
+TCP, the protocol commonly used for services like HTTP, is designed to distinguish between these connections based on the combination of source IP, source port, destination IP, and destination port. This multiplexing allows a single server port number to support many connections without confusion.
+
+Conclusion
+You don't need additional ports for additional users; rather, you leverage the ability of network protocols to effectively manage multiple connections through the same server port. This efficient use of ports underpins much of the scalability of modern web servers and services.
+
+Scenario: Hosting Multiple Websites on a Single Server
+Imagine you are running a web hosting service where you have a single physical server, but you need to host several websites, each for a different customer. Each website is a separate HTTP service, but they all reside on the same server.
+
+Requirements:
+Each website should be accessible via the standard HTTP protocol.
+Each website might have its own security requirements, content, and even perhaps a need for different server configurations.
+Problem:
+Using the standard HTTP port (port 80) for all websites can work perfectly if you are using virtual hosts to differentiate between the sites based on the domain name. However, suppose you need to run different versions of a web server software (like different versions of Apache or a different configuration that cannot coexist on the same server instance), or you want to isolate the network traffic of each website for security and performance monitoring reasons. In these cases, running all sites on the same port is not feasible.
+
+Solution: Use Different Ports
+You decide to assign each website its unique port number along with the standard port 80. Here's how you could set it up:
+
+Website A: Standard HTTP traffic on port 80.
+Website B: Custom HTTP traffic on port 8080.
+Website C: Further custom HTTP traffic on port 8081.
+This setup allows you to run separate instances of the web server software for each site on the same physical server without interference between them. Each site can be accessed by specifying the port number in the URL, like http://websiteb.com:8080 and http://websitec.com:8081.
+
+How This Helps:
+Configuration Flexibility: Each server instance can be configured independently, allowing custom settings, different server versions, or special modules for each site.
+Security Isolation: By separating the traffic on different ports, it's easier to apply specific firewall rules or monitor traffic for each site independently, enhancing security.
+Performance Management: Traffic and performance can be monitored and optimized individually for each port, helping to troubleshoot and ensure that each website is performing optimally without affecting others.
+Practical Considerations:
+User Accessibility: Users typically expect to access websites via standard ports (80 for HTTP and 443 for HTTPS). Using non-standard ports can sometimes lead to accessibility issues, such as firewalls blocking these ports or users needing to remember to type the port number in the URL.
+SEO and Usability: Search engines and general web usability practices favor standard ports for accessibility. Non-standard ports might affect the site's visibility and user experience.
+Conclusion
+While the default scenario for HTTP services is to run everything on port 80 (or 443 for HTTPS), there are practical reasons to use different ports, particularly when dealing with complex hosting environments, security requirements, or specific performance monitoring needs. This flexibility is a powerful feature of network design, allowing administrators to tailor their setups to the specific needs of each service or client.
+
+Indeed, without port numbers, the TCP protocol would not be able to distinguish between different types of services like SMTP and HTTP. Port numbers play a crucial role in the TCP/IP networking model by allowing the correct routing of network messages to their intended application processes on a host. Here’s a more detailed explanation of why port numbers are essential:
+
+Role of Port Numbers in TCP/IP Networking
+Service Identification: Each type of network service (like SMTP for email or HTTP for web traffic) is assigned a specific port number. These port numbers are used by the operating system to direct incoming traffic to the correct application. For example, web servers typically listen on port 80 for HTTP and port 443 for HTTPS, while mail servers listen on port 25 for SMTP.
+
+Multiple Services on One Host: Port numbers allow a single server to offer multiple services simultaneously. For instance, a server could be hosting an SMTP service and an HTTP service. Without port numbers, the server wouldn’t know which service to send incoming data to, as all data would arrive with the same destination address (the IP address).
+
+Process Multiplexing and Demultiplexing: Port numbers enable a process on the network called multiplexing (sending multiple streams of data over a single connection) and demultiplexing (splitting data from a single connection into multiple streams). This process is crucial because it allows a single server to handle connections from multiple clients to the same service (like a web server handling multiple browsers) and differentiate services for each connection.
+
+Hypothetical Without Port Numbers
+Lack of Distinction: If TCP did not have port numbers, it would only be able to differentiate connections based on the IP address. This limitation would mean a device could only reliably run one network service accessible from the outside network, severely limiting the functionality and efficiency of network communications.
+
+Challenges in Managing Connections: Managing multiple client connections would be extremely problematic. For instance, if multiple users were trying to access a web service, without port numbers, the server would not be able to distinguish individual HTTP requests because all requests would appear the same.
+
+No Simultaneous Services: Running multiple services such as a web server and an email server on the same machine would be infeasible without assigning different IP addresses for each service, which would be highly inefficient and not scalable.
+
+Conclusion
+Port numbers are integral to the functioning of TCP/IP networks. They provide the necessary mechanism for servers to offer multiple types of services and for clients to connect to these services correctly. Without port numbers, modern network architectures and the internet as we know it would not function effectively, as there would be no efficient way to route traffic to the correct processes based on the type of service being requested.
+
+
+
+!PORT KULLANIIMINDA NE DEMEK ISTEMIYORUZ ASLINDA 
+
+When multiple clients send requests to the same server, even if the requests are for different URLs (like /home, /products, /categories on http://websiteb.com:8080), you do not need separate ports for each type of request. The server can handle all these requests on the same port because of the way TCP and the HTTP protocol manage connections and distinguish between different client requests. Here’s how it works:
+
+TCP Connections and HTTP Requests
+TCP Connections:
+
+Each client connecting to a server establishes a TCP connection using a unique combination of their IP address and a source port with the server’s IP address and the destination port (in this case, 8080).
+The source port is selected from an ephemeral range typically used for client connections. This source port, along with the client’s IP address, helps ensure that each TCP connection is unique.
+Multiple requests from different clients or even different requests from the same client can be distinguished and managed based on these unique connections.
+HTTP Protocol Handling:
+
+HTTP, which operates on top of TCP, handles application-level routing. When a client requests a page like /home or /products, the path is part of the HTTP request header, not the TCP segment.
+The server receives the HTTP requests on the same TCP port and reads the HTTP headers to determine which resource the client is requesting. It then processes these requests accordingly, all within the same port.
+Example of HTTP Request Handling
+When a client sends a request to http://websiteb.com:8080/home, the HTTP GET request might look like this:
+vbnet
+Kopier kode
+GET /home HTTP/1.1
+Host: websiteb.com:8080
+The server listens on port 8080, receives this request, and based on the request path (/home), it retrieves the home page and sends it back to the client.
+The same process applies for other URLs. The server uses the path specified in the HTTP headers to route the request internally to the correct resource or service.
+Why Not Different Ports?
+Using different ports for different services or pages on the same website would complicate the network architecture unnecessarily and is not supported by standard HTTP practices.
+Managing multiple ports can lead to increased administrative overhead and might complicate firewall and network configuration.
+Most web servers are capable of handling thousands of simultaneous connections on a single port through efficient use of multi-threading and connection handling mechanisms.
+Conclusion
+In conclusion, a single port can efficiently manage numerous different requests by utilizing TCP’s connection management and HTTP’s request routing capabilities. The distinction between different types of requests is handled at the application layer (HTTP) through URLs and not at the transport layer (TCP) through ports. This design keeps web communications simple and efficient across the Internet.
+
+!KAVRAMLARI DOGRU SEKILDE KAFADA OTURMAK COOK ONEMLI!
+
+So, when we say we need the ports because we need to create diffrerent connections at the same time, we mean connection from tcp or upd to http,smtp...like that, not connections from differnt clients to same http server , is it right?
+
+When discussing the need for different port numbers, it's not about creating different connections from TCP or UDP to application protocols like HTTP or SMTP, but rather about distinguishing different types of services running on a server, allowing those services to operate simultaneously without interfering with each other.
+
+Here’s a more detailed breakdown to clarify this concept:
+
+TCP/UDP and Application Protocols
+TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are transport protocols that facilitate communication between hosts on a network by managing data packets' transmission. They serve as channels through which higher-level protocols (like HTTP or SMTP) send their data.
+Each application protocol typically listens for incoming connections on a specific port, which identifies that service on the server:
+HTTP often uses port 80.
+HTTPS uses port 443.
+SMTP for sending emails uses port 25.
+FTP for file transfers uses ports 21 (control) and 20 (data).
+Different Connections on the Same Port
+When we talk about needing ports to create different connections at the same time, this usually refers to different services (like HTTP and SMTP) that might need to operate simultaneously on the same server. Each service listens on its designated port.
+Within the same service (e.g., an HTTP server on port 80), the server can handle multiple connections from different clients simultaneously on that single port. Here, TCP distinguishes between different client connections using a combination of source IP, source port, destination IP, and destination port. This allows the server to manage multiple individual sessions through the same port.
+Example Scenario
+If a server is running a web service (HTTP) and an email service (SMTP), it will use at least two ports:
+Port 80 for HTTP to handle all web traffic.
+Port 25 for SMTP to handle all email sending operations.
+Multiple Clients to Same HTTP Server:
+Numerous clients can access the server's HTTP service simultaneously on port 80. Each client connection is uniquely identified by the client’s source IP and port. This allows the server to handle each request independently, even though they are all coming through the same server port (80).
+Summary
+The need for different ports is primarily about service differentiation on a server — allowing multiple types of services (application protocols) to run concurrently without collisions in their network communications.
+Connections from different clients to the same service (like HTTP) on a server are managed through unique combinations of source and destination ports (along with IP addresses), enabling multiple, simultaneous connections on the same service port. Each client’s request is isolated and managed independently by the server, all under the same port.
+Thus, ports are crucial for defining what service is accessed, while the combination of IP addresses and port numbers are crucial for maintaining multiple, simultaneous client connections to these services
+
+!PORTLAR LA ILGILI DE DON OLARAK , BIZ HERHANGI BIR WEBSITESINE GIRDIGIMZDE, ADRES CUBUGUNDA HERHANGI BIR PORT GOREMIYOURUZ... NEDEN..BU O SERVER-IP ADRESININ PORT KULLANMADIGINI MI GOSTERIR YOKSA? 
+When you access a website like google.com without specifying a port in the URL, you are indeed using a port, but it's just not visible because it defaults to standard ports that the browser automatically assumes based on the protocol used. Here’s a breakdown of how this works and why you often don't see the port specified:
+
+Default Ports
+HTTP and HTTPS:
+HTTP (Hypertext Transfer Protocol) typically uses port 80. When you type http:// in front of a domain name, the browser automatically assumes that it should connect to port 80.
+HTTPS (HTTP Secure) uses port 443. When you type https:// in front of a domain, the browser automatically connects to port 443.
+Because these ports are defaults for their respective protocols, browsers don't require you to manually specify them when entering a URL. For instance, accessing https://google.com implicitly uses port 443.
+Why Ports Are Not Visible
+User Convenience: Hiding standard ports in the URL streamlines the web browsing experience, reducing complexity and clutter in the browser's address bar.
+Protocol Standards: The use of default ports for HTTP and HTTPS is a standardized practice understood across all web browsers and servers, which helps maintain consistency and predictability in web communications.
+Specifying Non-Standard Ports
+If a website uses a non-standard port, then you must specify it in the URL. For example, if a web server is set up to listen for HTTP traffic on port 8080, you would access it by typing http://example.com:8080 into your browser.
+Example of How Ports Are Used Implicitly
+When you enter google.com in your browser:
+The browser checks the protocol. If it’s HTTPS (which is common for most modern websites for security reasons), it defaults to port 443.
+The browser then makes a connection to the server hosting google.com on port 443.
+The server, listening on port 443, responds, and the HTTPS traffic is securely exchanged.
+Conclusion
+Every time you access a website, there is indeed a port involved in the process. The reason you don't typically need to specify or even see this port is due to the conventions and defaults established to make web browsing simpler and more streamlined. This setup allows both users and website administrators to rely on these standard ports for routine web access while still having the flexibility to use other ports when necessary.
+
+
+
+!TCP ORNEGIN SSH, HTTP, SMTP...BU SERVICE LERE DATA GETIRME GOTURME ISLEMLERI YAPARKEN, EGER PORT NUMARASI OLMAZSA, BURALARA AYNI ANDA DATA GOTUREMEZ DI ONDAN DOLAYIDIR KI PORT NUMARALARI ONEMLIDIR
+!HEM HTTP ILE WEB SAYFASINA GIRERKEN KULLANICI AYNI ANDA BIR TARAFINDAN DA MAIL INDEKI MAILLLERI GORUNTULEYIP YENI MAIL GONDEREBILIR...AYNI BROWSER IN FARKLI SAYFALARINDA BU ISLEMLERI AYNI ANDA YAPABILIR
+!BIR BILGISAYARDA 65536 ADET PORT VARDIR, 1024 TANESI IYI BILINENDIR(WELL-KNOWN)
+
+!DNS- HEM TCP  HEM DE UDP KULLANIR, IP ISTEYEN IP ALAMAZSA BIR DAHA ISTEYEBILSIN DIYE..
+
+!arp -a (Cihazimizin bulundugu agdaki iletisim kurdugu cihazlarin ip adresleri)
+ARP Tablosu Girişlerini Anlamak
+IP Adresleri:
+
+"İnternet Adresi" olarak görüntülenir: Bunlar, bilgisayarınızın yerel ağınızda iletişim kurduğu cihazların IP adresleridir. Bu yalnızca diğer bilgisayarları değil, yönlendiriciler, yazıcılar, akıllı telefonlar vb. gibi ağdaki tüm cihazları da içerir.
+Bilgisayarınızın IP'sini Belirleme: Bilgisayarınızın IP adresi doğrudan arp -a çıkışında gösterilmez. Ancak ayrı bir komut çalıştırarak bilgisayarınızın IP adresini tanımlayabilirsiniz:
+Windows'ta: ipconfig
+MacOS/Linux'ta: ifconfig veya ip a
+Diğer IP Adresleri: ARP tablosunda listelenen ve bilgisayarınızın IP adresi olmayan herhangi bir IP adresi, ağdaki diğer cihazlara aittir.
+Fiziksel Adresler (MAC Adresleri):
+
+!IP ADRESLERI 
+Networklerde bilgisayarlar olmasa bile, ip ler vardir , router larin, modem lerin kendilerine ait bir ip leri vardir. 
+
+!binary-2lik 0,1 olmak uzere 2 rakamdam olusu
+Kayhan isminden ikilk(binary) duzende anladigi sudur:01001011 01111001 011010000110000001...
+!decimal-10luk
+0,1,2,3,4,5,6,7,8,9 olmak uzere 10 rakamdan olusur
+Kaynhan isminden ondalik-decimal duzende anladigi sudur: 075 097 121 104
+
+!hexadecimal-16lik :
+0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F olmak uzere 16 karakterden olusur ORN: 68:7F:74:12:34:56. Kayhan isminden onaltilik(hexadecimal) duzende anladigi sudur: 48 61 79 68 61 6E
+MAC ADRESLERINE HEXADECIMAL DERIZ CUNKU GOSTERM BU MANTIKTADIR...PHYSICAL ADDRESS-MAC ADRESININ
+
+!ALFABETIK SIRALAMA DA BINARY NIN DECIMAL DEN ONCE GELMESI 2 NIN 10 DAN ONCE GELMESIG GIBI DIR
+
+PEKI BIIZIM ICIN ANLAMLI BIR IFADENIN KARSILIKLARINI BINARY,DECIMAL VE HEXEDECIMAL OLARAK NASIL BULUYORUZ...ASCII TABLOSUNDAN TABI KI....
+!KUCUK VE BUYUK HARF E KARSILIK GELEN BINARY,DECIMAL VE HEX DEGERLERI FARKLIDIR 
+
+!IP ADRESLERI CIHAZLARIN NETWOERK DEKI YERLERINI BELIRTIR, HANGI AGDA OLDUGUNU VE AGDAKI KIMLIGINI BELIRTIR 
+!IP ADRESLERI 32 BITLIK, BINARY DUZENDE ALAN MANTIKSAL BIR SAYIDIR
+! 4 PARCA  VE 8 ER BITLIK PARCALRDAN OLUSUR VE HER BIR PARCAYA OKTET ISMII VERILIR
+
+!HER OKTET MINIMUM 0, MAXIMUM 255 DEGERI ALIR, SONOKTET 0 ALAMAZ
+
+IP LER 
+-IP ADRESLERI 2 KISIMDAN OLUSUR
+
+IP ADRESI: 192.168.1.34
+
+1.KISIM:NETWORKID- NETWORKUN KENDSIIE AIT OLAN ID DIR VE, BU IC AYNI AGDA-NETWORKDE OLAN CIHAZLARDA AYNI OLMAK ZORUNDADIR 
+2.KISIM :HOSTID:CIHAZIN AGDA KENDISINI TANIMLAYAN IDDIR. AYNI NETWORKDE OLAN CIHAZLARIN HOST ID LERI FARKLI OLMAK ZORUNDADIR.
+!HOST ID SI, YANI 4.OKTET KISMI MAKSIMUM 254 OLABILIR, MINIMUM DA 1 OLABILIR, 0 OLAMAZ..
+!NORMALDE BIR IP ADRESINDE OKTETLERI ICERISINDE 255 TEN BUYUK RAKAM OLAMAZ...AMA 4.OKTETTE ISE MINIMUM 1, MAKSIMUM 254 OLABILIR
+!HOST CIHAZIN KENDISIDIR 
+!AYNI AGDAKI-NETWERKTE OLAN, CIHAZLAR BIRBIRI ILE ILETISIM KURABILIR..NETWERK ID LERI AYNI OLMAK ZORUNDADIR
+!AYNI NETWERKTEKI CIHAZLAR DA AYNI HOST ID SINI ALAMAZLAR, IP CAKISMASI YASANIR
+
+CLASS-C
+IP ADRESI: 221.138.62.1
+NETWERKID:221.138.62 HOSTID:1 SUBNETMASK:255.255.255.0
+
+CLASS-C
+IP ADRESI: 192.168.1.34
+NETWERKID:192.168.1  HOSTID:34  SUBNETMASK:255.255.255.0
+
+CLASS-B
+IP ADRESI: 172.16.1.1
+NETWERKID:172.16  HOSTID:1.1  SUBNETMASK:255.255.0.0
+
+CLASS-A
+IP ADRESI: 16.1.1.1
+NETWERKID:16  HOSTID:1.1.1  SUBNETMASK:255.0.0.0
+
+!IP TEKBASINA BIR ISE YARAMAZ, KESINLIKLE SUBNETMASKI OLMAASI GEREKIR..
+!IP ADRESLERININ NETWERK ID VE HOST ID SINI BELIRLEYEN FAKTOR, SUBNET MASK(ALT AG MASKESIDIR)
+!SUBNET MASKI BELIRLEYEN DE IP ADRESI SINIFLARDIR 
+!HER IP NIN SUBNET MASK I VE CLASS I VARDIR
+
+!YANI NETWERKIN KAC OCTET OLACAGINI BELIRLEYEN DE SUBNET MASK OLUYOR SUBNET MASK DA EGER 1 TANE(A CLASS) 255(255.0.0.0) VAR DIGERLERI 0 ISE O ZAMAN 1. OKTET NETWERK ID SI, 2 TANE(B CLASS) 255(255.255.0.0) O ZAMAN DA ILK 2 OKTET NETWERK ID SIDIR, 3 TANE(C CLASS) 255(255.255.255.0) ISE O ZAMAN DA ILK 3 OKTET NETWERK ID SIDIR
+
+!A SINIFI IP LER - 1-126 ARASI ILE BASLAR 1.OCTET 
+!DIKKAT EDERSEK 127 YOK, SEBEBI 127 HER PC NIN LOKAL IP SI ICIN AYRILMISTIR, DAGITILAMAZ VE KULLANILAMAZ, NETWERKTE HER PC NIN KENDISINI TEMSIL ETTIGI IP DIR 
+!B SINIFI 128-191 DIR 1.OKTET B SINIFI IPI LERI ICIN
+!C SINIFI 192-223 ARSIDIR C SINIFII IP LERI ICIN 
+
+!AYRICA SPESIFIK IHTIYACA GORE SINIFSIZ IP DAGITIMI DIYE BIRSEY DE VARDIR, BU DA DAHA ILERI DE KARSIMIZA CIKACAKTIR
+
+!223 TEN BUYUK RAKAMLI IP LER KULLANILAMAZ. 224-255 ARASINNDAKI BU ARALIK , NETWORKSEL ISLEMLER VE OTOMATIK ILETISIMLER ICINDIR(ORNEGIN BROADCAST YAPMAK GIBI) 
+
+
+*/
+
+
+?>
+
