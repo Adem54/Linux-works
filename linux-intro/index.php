@@ -12437,6 +12437,58 @@ After changing DNS settings, it may be necessary to restart your device or clear
 Always make sure you trust the DNS provider you are switching to, as DNS plays a crucial role in your internet security and privacy.
 If you encounter connectivity issues after changing DNS settings, you can revert to the original settings or try alternative DNS servers.
 
+C:\Users\ae_netsense.no>ssh ht123.no -l htuser
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the ECDSA key sent by the remote host is
+SHA256:+ZVqI8jjxGisQ6bGtV9jlPCPNnWYXWcbH8xhYLsXF7A.
+Please contact your system administrator.
+Add correct host key in C:\\Users\\ae_netsense.no/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in C:\\Users\\ae_netsense.no/.ssh/known_hosts:5
+Host key for ht123.no has changed and you have requested strict checking.
+Host key verification failed.
+
+
+C:\Users\ae_netsense.no>CD .ssh
+
+C:\Users\ae_netsense.no\.ssh>dir
+ Volume in drive C is Windows
+ Volume Serial Number is FC24-CDDF
+
+ Directory of C:\Users\ae_netsense.no\.ssh
+
+10.02.2025  13:58    <DIR>          .
+10.02.2025  13:58    <DIR>          ..
+10.02.2025  13:58             2 948 known_hosts
+10.02.2025  13:57             2 194 known_hosts.old
+               2 File(s)          5 142 bytes
+               2 Dir(s)     601 694 208 bytes free
+
+C:\Users\ae_netsense.no\.ssh>del known_hosts*
+
+C:\Users\ae_netsense.no\.ssh>xcd ..
+'xcd' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\ae_netsense.no\.ssh>cd ..
+
+C:\Users\ae_netsense.no>ssh ht123.no -l nss
+The authenticity of host 'ht123.no (213.52.16.33)' can't be established.
+ED25519 key fingerprint is SHA256:xHVoXCcVqGT1aIpcV0vdiK48wyE4IAdg8uMRY5bZ4eM.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'ht123.no' (ED25519) to the list of known hosts.
+(nss@ht123.no) Password:
+
+C:\Users\ae_netsense.no>ssh ht123.no -l htuser
+(htuser@ht123.no) Password:
+(htuser@ht123.no) Verification code:
+
+
 !DNS  SUNUCULARI FILTRELEMEK VEYA ENGELLEMEK ISTEDIKLERI IP ADRESLERINI, GECERSIZ IP ADRESI ATAYARAY YAPIYORLAR ORNEGIN WWW.EXAMPLE.COM  DOMAIN NAME ININ KARSINA 127.0.0.1 GIBI LOCAK PC NIN DEFAULT IP ADERSIN OLAN SONUCUNDA HICBIRSEY OLMAYAN IP ADRESLERI ATAMASI YAPIYORLAR...
 
 !DHCP - DYNAMIC HOST CONFIGURATION PROTOCOL
@@ -13027,9 +13079,6 @@ The loopback address (127.0.0.1) is for internal system communication.
 Your network's gateway address is 172.29.29.1.
 When you need to know your PC's IP address for networking purposes, such as setting up an SSH connection from another machine, you'll use 172.29.29.92. This is the address that other devices on your local network will use to communicate with your machine.
 
-!DIKKAT
-172.29.29.1. Bu internet olmadigi zaman, ki lokal aglar arasinda kullanilan ip adresidir... private ip adresi
-172.29.29.92: Bu ise cihazimz internete ciktigi zaman gateway, yani route-modem in ip adresini kullanarak internete public ip adresi ile cikiyordu
 
 !127.0.0.1 - 172.29.29.92 - 172.29.29.1 can you explain me what are theier differences
 
@@ -13082,6 +13131,74 @@ default via 172.29.29.1 dev eno1 proto static metric 100
 !BU COK HASSAS BIR DEGISIKLIKTIR , BURDA EGER DOGRU IP TANIMLAMASI YAPILMAZ, VE IP ADRESLERINDE CAKISMA GIBI VS LER OLURSA O ZAMAN INTERNET BAGLANTISINI DE KOPARABILIRIZ..ONDAN DOLAYI COK HASSAS BIR DEGISIKLIKTIR...NE YAPTIGMIZI BILMEDEN BU AYAR ILE OYNAMAMAK GEREKIYOR
 !EN KOLAYI DHCP NIN OTOMATIK OLARAK TANIMLANMASIDIR... 
 
+ !What is DHCP?
+DHCP = Dynamic Host Configuration Protocol
+It’s the service that automatically gives IP addresses to devices when they join a network.
+
+🔍 So where does DHCP come from?
+✅ 1. In small/home networks (Wi-Fi, router):
+The DHCP server is usually built into the router (Wi-Fi box).
+
+It’s the router that says:
+
+“Oh, a new device joined? Here’s your IP address, subnet, gateway, and DNS info.”
+
+📦 Example: You connect your laptop to Wi-Fi
+→ Your laptop says: "Hi, I need an IP!"
+→ The router (with DHCP) says: "Here’s 192.168.1.42, you’re good to go."
+
+✅ 2. In larger or company networks:
+The DHCP server might be a dedicated server, not the router.
+
+For example, a Windows Server or Linux DHCP server might be used.
+
+The router just forwards the DHCP request to the central DHCP server.
+
+🎯 This allows IT to centrally manage all IP addresses across multiple networks.
+
+🧭 How DHCP works (step by step):
+Device connects to network (cable or Wi-Fi)
+
+It sends a DHCP Discover message → "Who can give me an IP?"
+
+DHCP server replies with DHCP Offer
+
+Device responds with DHCP Request
+
+Server confirms with DHCP Acknowledgement
+
+Then the device is ready, with:
+
+IP address
+
+Subnet mask
+
+Default gateway
+
+DNS server
+
+📌 Summary
+Network type	Where is DHCP server?
+🏠 Home/Wi-Fi	Inside the router/Wi-Fi box
+🏢 Company/Enterprise	Dedicated server (e.g., Windows Server, Linux)
+🌐 Cloud/VPN	Sometimes handled by virtual routers or cloud infrastructure
+🛠️ Bonus:
+If you want to check which DHCP server gave you your IP, you can run this:
+
+On Linux:
+bash
+Copy
+Edit
+journalctl | grep DHCP
+On Windows:
+cmd
+Copy
+Edit
+ipconfig /all
+Look for: DHCP Server
+
+
+
 !ARP
 Ag  uzerindeki cihazlarin diger cihazlarla iletisim kurmak iicin ihtiyac duydugu ip-mac bilgilerini kendi arp tablolarinda tuttugunu daha once gormustuk
 Arp tablosu sayedinde her bir cihaz iletisim kurabilecegi cihazlarin ip-mac bilgilerini bildigi icin, kolayca iletisim kurabiliyor ve daha sonra kullanmak icin, bu bilgileri kendi arp tablosunda tutabiliyor 
@@ -13106,16 +13223,34 @@ Bu arp tablosu biz sistemizi kapatip ag baglantisini kapatana kadar tutuluyor, v
 Normalde bildgimz gbi sadece ip adresi var ise cihazimizda bu arp tablosu o ip adresi uzerinden ip adresine sahip cihazin mac adresini ogrenip onun kaydini tutuyor ve tekrar tekrar ogrenmeye gerek k almiyor
 
 Default gateway modem-router bilgisi neden bulunuyor cunku biz internete ciktik ve internete cikarken default gateway-router iin ip adre sini kullandik..
-Modemimizdeki switch ozelligi, local pc ler kendi arsinda iletisime gercerken router ozelligi kullanilmadan iletisim saglaniyor ve o zaman da defualt-gateway  kullanilmamis oluyor
-Ama biz internetteki bir adres ile yani kendi lokal agimiz disinda bir ip adresi  ile iletisim e gecse idik o zaman biz router imiz-gateway imizin public ip si uzerinden internete cikacaktik, router da internet service saglayicisi tarafindan, ilgili ip adresine pc mizden giden paketin gonderilmesini saglamis oluyor
+!Modemimizdeki switch ozelligi, local pc ler kendi arsinda iletisime gercerken router ozelligi kullanilmadan iletisim saglaniyor ve o zaman da defualt-gateway  kullanilmamis oluyor
+!Ama biz internetteki bir adres ile yani kendi lokal agimiz disinda bir ip adresi  ile iletisim e gecse idik o zaman biz router imiz-gateway imizin public ip si uzerinden internete cikacaktik, router da internet service saglayicisi tarafindan, ilgili ip adresine pc mizden giden paketin gonderilmesini saglamis oluyor
 
 !Sunu iyi bilelim...router imizin ve lokal cihazlarimizin ip adresleri otomatik olark dhcp tarafindan atandigi icin ip adresinin olmasi gerektigi aralikta surekli degisebilir...ip adresi olmasi gereken aralikta olduktan sonra, bu sorun teskil etmeyecektir herhangi bir cakisma vs yasanmadiktan sonra....
 
-ARP vs Routing: ARP is used for mapping IP addresses to physical network addresses within the local network (LAN). It's not used for routing internet traffic. Your internet connectivity (like pinging www.google.com or 1.1.1.1) involves routing beyond the local network, which doesn't necessarily update your local ARP table with the router's IP.
+ARP(address resolution protocol) vs Routing: ARP is used for mapping IP addresses to physical network addresses within the local network (LAN). It's not used for routing internet traffic. Your internet connectivity (like pinging www.google.com or 1.1.1.1) involves routing beyond the local network, which doesn't necessarily update your local ARP table with the router's IP.
 ARP Table's Dynamic Nature: The ARP table dynamically changes based on network activity and communication with different devices on the local network.
 In summary, the absence of your router's IP address in the ARP table doesn't indicate a problem, especially if your internet connection is working fine. The ARP table's contents can vary based on recent network activities and interactions between devices on the local network.
 
 Arp tablosu netowrk interface kartina bagli biz su an ethernet kullaniyoruz, ve arp tablosu ona gore tutuluyor, ama wifi kullanirsak o zaman da wifi aracinin network interface e gore tutacaktir arp tablosunu 
+
+! Where is ARP located on your computer?
+!ARP is a built-in function in your operating system (OS):
+It runs inside your network stack (kernel or system service)
+It monitors the local network and keeps a small table called the ARP cache
+
+adem@adem:~$ arp -a
+_gateway (172.29.29.1) at 00:1a:8c:f0:b5:e4 [ether] on eno1
+? (172.29.29.20) at 14:02:ec:04:ea:74 [ether] on eno1
+? (172.29.29.96) at ac:67:84:6c:3b:1d [ether] on eno1
+? (172.29.29.145) at 54:8d:5a:6c:c1:c7 [ether] on eno1
+? (169.254.169.254) at <incomplete> on eno1
+? (172.29.29.107) at 38:87:d5:53:2a:37 [ether] on eno1
+? (172.29.29.95) at 8c:04:ba:84:9d:df [ether] on eno1
+? (172.29.29.232) at dc:fb:48:77:17:17 [ether] on eno1
+adem@adem:~$ 
+arp -a bizim pc mizin hangi pc lerle lan- local area network de baglantiya gectginin listesini verir
+
 
 !EGer ethernet user interface i kapatmak istersek: sudo ip link set eno1 down
 !Etherneti tekrar acmak icin de:udo ip link set eno1 up
@@ -13152,6 +13287,9 @@ adem@adem:~/utv/NSS-hyttetjenester$
 !172.29.29.1   bu bizm gateway-router ip adersimzdir, ve biz bu ip adresi ile internete cikariz.. Internet uzerinde herhangi bir adres ile irtibata gececegimz zaman, ilgili paketimiz default gateway olarak belirtilmis olan bu adresteki ciahaza 172.29.29.1, teslim ediliyor , bu cihaz da rooter aygtigmiz oldugu icin paketin hedefe ulastilrilmasi icin gerekli yonlendirmeleri y aparak internet servis saglayacimza bu paketi teslim ediyor
 2.satirdaki destination ise 172.29.29.0, bizim su an mevcut bagli oldugjmz network un sinrlarini goruyoruz 255.255.255.0 ile....
 Local area network deki pc ler veya cihazlar, birbirleri ile iletisime gecerken rooter a ugramlaarina gerek kalmiyor SWITCH VASITASI ILE DOGRUDAN ILGILI CIHAZA.AKTARILABILIYOR IP-MAC ADRES BILGILERI SAYESINDE....DEMEKTIR GATEWAY DEKI 0.0.0.0   DEGERLER ...
+
+!PEKI IP ADRESI VEYA A
+
 
 !0.0.0.0 INTERNET GIBI GENIS BIR IP ARALGINI TEMSIL ETMEK ICIN TANIMLANAN IP ADRESIDRI, BU SAYEDE INTERNETTEKI TUM IP ADRESLERINI TEMSIL ETMIS OLUYOR...
 
